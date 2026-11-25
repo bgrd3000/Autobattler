@@ -1,0 +1,14 @@
+{
+  "name": "steinheer",
+  "version": "1.0.0",
+  "description": "Die Kampagne – Autobattler im Browser",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tests/run.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
