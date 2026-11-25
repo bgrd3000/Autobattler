@@ -29,7 +29,7 @@ const SCORE = { win: 3, draw: 1, loss: 0, camp: 10 }; /* gleich wie im Spiel (js
 const FACS = ['ba', 'de', 'zw', 'or', 'he'];
 const KEEP = 200,
   SHOW = 20,
-  MAXB = 16; /* Schlachten pro Feldzug */
+  MAXB = 8; /* Schlachten pro Feldzug */
 let scores = [];
 try {
   scores = JSON.parse(fs.readFileSync(FILE, 'utf8'));
@@ -55,7 +55,8 @@ function entry(b) {
     .slice(0, 20);
   if (!name || !FACS.includes(b.fac) || ![b.w, b.d, b.l].every(int)) return null;
   if (b.w + b.d + b.l > MAXB) return null;
-  const won = b.won === true && b.w >= 10;
+  const won =
+    b.won === true && b.w >= 2; /* Plausibilität: Platz 1 ganz ohne Siege ist praktisch ausgeschlossen */
   return {
     id: crypto.randomUUID(),
     name,
@@ -68,7 +69,8 @@ function entry(b) {
     t: Date.now()
   };
 }
-const last = new Map(); /* einfache Bremse: ein Eintrag pro Adresse alle 5 s (Schulklassen teilen oft eine Adresse) */
+const last =
+  new Map(); /* einfache Bremse: ein Eintrag pro Adresse alle 5 s (Schulklassen teilen oft eine Adresse) */
 
 function json(res, code, data) {
   res.writeHead(code, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
