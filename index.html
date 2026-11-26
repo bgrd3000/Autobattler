@@ -4521,7 +4521,7 @@ const fbm = (x, y) =>
 /* Autobattler · Kampfwerte (automatisch erzeugt von apply.py / fix.py – nicht von Hand ändern) */
 /*TUNE*/const HPT={"bPL":37,"bAX":34,"bSH":49,"bSW":14,"bRE":19,"bHU":27,"bBA":36,"bSC":18,"bSS":18,"bFT":21,"bGR":24,"bHG":31,"bRB":21,"bHR":29,"bMW":43,"bPB":30,"bFW":17,"bST":43,"bKX":19,"bAP":26,"ePE":14,"eMY":24,"eHO":38,"eSK":23,"eTO":10,"eHI":19,"eHT":33,"eSW":36,"eOR":17,"eAK":54,"eSP":18,"eSI":15,"eFS":14,"eON":10,"eSF":23,"eTW":40,"eKN":16,"eSN":27,"eGM":13,"eAG":32,"zDA":29,"zHB":39,"zRA":12,"zFL":17,"zRW":17,"zKA":8,"zTB":13,"zPR":32,"zLR":22,"zMO":22,"zTK":38,"zGD":32,"zGM":41,"zJS":12,"zKB":9,"zAL":21,"zGB":18,"zTI":30,"zSN":28,"zKR":12,"bWU":50,"bSM":53,"bPH":40,"bHZ":48,"bBE":40,"bFR":20,"bAR":60,"bKH":49,"ePH":41,"eSC":49,"eKS":10,"eKT":35,"ePG":30,"eHK":59,"eSS":61,"eAR":53,"zPS":32,"zDW":6,"zFB":11,"zDR":24,"zTM":45,"zES":58,"zER":36,"zDG":50,"bGH":62,"bBK":78,"bAG":57,"bBS":35,"bKW":88,"eUP":46,"eGG":45,"eTR":87,"eSV":39,"eSG":35,"eHA":46,"zJG":84,"zHD":42,"zKK":33,"zWF":90,"zSR":42,"SAL":17,"FEL":26,"PHX":27,"KOB":18,"EGO":33,"WYR":35,"IRL":12,"SGE":9,"DVO":29,"FLS":18,"WHU":26,"BGI":44,"NGE":13,"KUG":15,"LGO":27,"HWO":33,"MAM":29,"MGO":46,"oPA":59,"oHH":41,"oEW":67,"hKA":47,"hKU":45,"oRO":98,"oHB":95,"hGK":65},ATT={"bPL":2,"bAX":5,"bSH":2,"bSW":2,"bRE":5,"bHU":5,"bBA":5,"bSC":1,"bSS":2,"bFT":3,"bGR":1,"bHG":5,"bRB":2,"bHR":5,"bMW":2,"bPB":6,"bFW":3,"bST":1,"bKX":1,"bAP":2,"ePE":1,"eMY":4,"eHO":2,"eSK":6,"eTO":1,"eHI":5,"eHT":7,"eSW":5,"eOR":1,"eAK":1,"eSP":2,"eSI":1,"eFS":4,"eON":3,"eSF":2,"eTW":2,"eKN":1,"eSN":5,"eGM":2,"eAG":5,"zDA":4,"zHB":4,"zRA":1,"zFL":5,"zRW":2,"zKA":3,"zTB":2,"zPR":7,"zLR":5,"zMO":2,"zTK":2,"zGD":5,"zGM":1,"zJS":2,"zKB":3,"zAL":1,"zGB":2,"zTI":5,"zSN":2,"zKR":2,"bWU":5,"bSM":6,"bPH":4,"bHZ":7,"bBE":7,"bFR":4,"bAR":2,"bKH":6,"ePH":5,"eSC":8,"eKS":4,"eKT":7,"ePG":2,"eHK":2,"eSS":2,"eAR":8,"zPS":3,"zDW":3,"zFB":5,"zDR":6,"zTM":5,"zES":4,"zER":8,"zDG":6,"bGH":6,"bBK":9,"bAG":10,"bBS":9,"bKW":11,"eUP":8,"eGG":8,"eTR":7,"eSV":5,"eSG":7,"eHA":3,"zJG":11,"zHD":7,"zKK":5,"zWF":5,"zSR":8,"SAL":4,"FEL":5,"PHX":7,"KOB":4,"EGO":4,"WYR":8,"IRL":4,"SGE":1,"DVO":7,"FLS":3,"WHU":4,"BGI":7,"NGE":4,"KUG":15,"LGO":5,"HWO":1,"MAM":6,"MGO":4,"oPA":8,"oHH":4,"oEW":7,"hKA":5,"hKU":9,"oRO":10,"oHB":7,"hGK":7},HLT={"bSC":5,"bKX":4,"bAP":4,"eOR":4,"eSN":2,"zMO":3,"zAL":4,"zSN":3,"bAR":6,"eHK":5,"zTM":3,"bAG":3,"eGG":3,"eTR":5,"eSV":3,"zWF":3},EFT={},MULT=[0,1,1.748,2.795];/*END*/
 /* Volksausgleich: LP-Faktor je Volk, aus dem Völker-Probelauf (probeF.js) */
-const FBAL = { ba: 1.1, de: 1.5, zw: 0.94, or: 0.98, he: 0.88 };
+const FBAL = { ba: 1, de: 1, zw: 1, or: 1, he: 1 };
 
 /* Autobattler · Rohstoffe, Güteklassen, Elemente, Sammelboni, Füttern */
 const RES = {
@@ -5784,7 +5784,7 @@ const HYB = [
   ['oKP', 'oGE', 'oPZ', 'Pilgerzug', { ls: 1 }, 'fist'],
   ['oWB', 'oDB', 'oBP', 'Belagerungspark', { splash: 1 }, 'cannon'],
   ['oBG', 'oPK', 'oEW', 'Eisenwall', { ward: 1 }, 'wall'],
-  ['oBH', 'oKR', 'oHJ', 'Hetzjagd', { br: 1 }, 'wolf'],
+  ['oBH', 'oKR', 'oHJ', 'Hetzjagd', { br: 1, hunt: 2 }, 'wolf'],
   ['hPI', 'hAK', 'hKA', 'Stachelkarree', { ward: 1 }, 'wall'],
   ['hRO', 'hPI', 'hKH', 'Klingenhecke', { br: 1 }, 'lance'],
   ['hAK', 'hMU', 'hFR', 'Feuerreihe', { volley: 1 }, 'cannon'],
@@ -5855,6 +5855,26 @@ function derive(list, tier) {
 const tune = () => {
   for (const k in HPT) if (U[k]) U[k].hp = HPT[k];
   for (const k in ATT) if (U[k]) U[k].atk = ATT[k];
+  /* Handabstimmung statt pauschaler Volks-LP (FBAL = 1): einzelne Ausreißer nach Balance-Messung */
+  const ADJ = {
+    oTK: {
+      atk: 5
+    } /* Turnierritter: richtete pro Wert fast dreimal so viel Schaden an wie andere Reiterei */,
+    eSW: { atk: 6 } /* Streitwagen: Dunkelelfen-Reiterei war schwach */,
+    eHT: { atk: 8 } /* Fürstenreiter */,
+    zTI: { hunt: 1 } /* Tigerbändiger: stärkste Jäger, meistgenutzte Zwergen-Einheit */,
+    /* große Wesen der Dunkelelfen: pro Wert schwächer als Regimenter anderer Völker */
+    WYR: { atk: 9 },
+    DVO: { atk: 8 },
+    BGI: { atk: 8 },
+    SDR: { atk: 7 },
+    PHX: { atk: 8 },
+    bSH: { arm: (U.bSH ? U.bSH.arm : 0) + 1 } /* Schildträger: Schilde schützen */,
+    /* Stärken der Völker: Barbaren = Wucht und Bestien */
+    bBA: { atk: 6 } /* Höhlenbären */,
+    bAX: { atk: 6 } /* Axtkrieger */
+  };
+  for (const k in ADJ) if (U[k]) Object.assign(U[k], ADJ[k]);
   for (const k in HLT) if (U[k]) U[k].heal = HLT[k];
 };
 tune();
@@ -6371,6 +6391,13 @@ const TR = {
 /* Lebenspunkte je Modell: LP = Mann × LP je Mann (lpm). Wer stärker werden soll, bekommt mehr Mann (TRX),
    nicht einfach mehr LP. Einzelkämpfer, Wesen und Lager behalten ihre LP. */
 const TRX = {
+  /* Kerntruppen, die zu schnell zerfielen: mehr Mann */
+  eMY: 66,
+  eHO: 56,
+  bPL: 80,
+  bSH: 56,
+  zGD: 10 /* Bergkönigsgarde: zäheste Linie, meistgenutzt */,
+  oHR: 13 /* Hauerritter: Orks = schwere Reiterei, meistgenutzt */,
   ePH: 62,
   oPA: 15,
   oHH: 57,
@@ -7121,9 +7148,19 @@ const STRAT = {
     d: 'Schützen halten Abstand und weichen vor Nahkämpfern zurück, Reiterei jagt Schützen. Das Fußvolk wartet, bis der Gegner unter 75 % Stärke ist, dann greift es an.'
   }
 };
-const maxOrd = () => genLv(S.units, S.chr || []),
-  hasSpy = () => S.orders.includes('spy') || S.orders.includes('gspy') || !!actMeta(S.units).spy,
-  hasRecon = () => S.orders.includes('scout') || S.orders.includes('gspy') || !!actMeta(S.units).recon,
+/* Boni geben nur Regimenter, die auf dem Feld stehen (Reserve zählt nicht) – wie bei den KI-Heeren */
+const fieldMeta = () => actMeta(S.units.filter(u => u.pos)),
+  maxOrd = () =>
+    genLv(
+      S.units.filter(u => u.pos),
+      S.chr || []
+    ),
+  /* General vorhanden, aber sein Regiment steht in der Reserve */
+  genRes = () => !maxOrd() && genLv(S.units, S.chr || []) > 0,
+  genResTxt = () =>
+    `Dein ${genName(S.fac)} steht mit seinem Regiment in der Reserve – stell es auf, sonst gilt er als abwesend.`,
+  hasSpy = () => S.orders.includes('spy') || S.orders.includes('gspy') || !!fieldMeta().spy,
+  hasRecon = () => S.orders.includes('scout') || S.orders.includes('gspy') || !!fieldMeta().recon,
   fullView = () => hasSpy() && (S.orders.includes('scout') || S.orders.includes('gspy'));
 
 /* Autobattler · Charaktere: Unteroffiziere, Helden, Magier und Generäle schließen sich Regimentern an */
@@ -7987,6 +8024,7 @@ function addMod(o) {
 
 /* Autobattler · Kampfsimulation */
 let CTX = null;
+const MVX = { dead: 0.2, lp: 0.35 };
 const setFa = (o, a) => {
     o.fa = a;
     o.ca = Math.cos(a);
@@ -8052,6 +8090,9 @@ function turnTo(u, a, noWheel) {
     u.lastRf = t;
     return 0;
   }
+  const ox0 = u.x,
+    oy0 = u.y,
+    ovT = friendOv(u);
   const sp = Math.max(0.5, u.spd * spF(u)) * DT,
     mx =
       Math.min(
@@ -8076,20 +8117,70 @@ function turnTo(u, a, noWheel) {
       u.y = ny;
     }
   }
-  setFa(u, u.fa + dd);
+  {
+    /* Schwenken darf nicht in einen Freund hineindrehen: sonst auf der Stelle drehen, sonst gar nicht */
+    const ov0 = ovT,
+      fa0 = u.fa;
+    setFa(u, u.fa + dd);
+    if (friendOv(u) > ov0 + 0.01) {
+      u.x = ox0;
+      u.y = oy0;
+      if (friendOv(u) > ov0 + 0.01) {
+        setFa(u, fa0);
+        return 0;
+      }
+    }
+  }
   return Math.max(0, 1 - (Math.abs(dd) * u.w) / sp) * Math.max(0.3, Math.cos(d - dd));
 }
 /* Marschieren wie echte Soldaten: Ein Regiment geht nur nach vorn (in Blickrichtung); um die Richtung zu
    ändern, schwenkt es (turnTo). Steht das Ziel schräg, geht es langsamer und biegt dabei ein – so entstehen
    Bögen statt seitlichem Rutschen. Aus dem Stand braucht es etwa eine Sekunde bis zum vollen Marschtempo. */
 const ACCT = { foot: 1, heavy: 1.3, cav: 1.6, beast: 0.8, fly: 0.8, siege: 2, giant: 1.5, camp: 1 };
+/* Harte Regel: eigene Regimenter überlappen nicht. Summe der Überlappung mit Freunden (ohne Lager und Türme) */
+function friendOv(u) {
+  if (!CTX || !CTX.us || U[u.t].king || U[u.t].twr) return 0;
+  let s = 0;
+  for (const o of CTX.us) {
+    if (o === u || o.side !== u.side || o.hp <= 0 || U[o.t].king || U[o.t].twr) continue;
+    if (Math.abs(o.x - u.x) > o.r + u.r || Math.abs(o.y - u.y) > o.r + u.r) continue;
+    const g = sat(u, o).gap;
+    if (g < -0.05) s += -g;
+  }
+  return s;
+}
+/* Platz probieren: nur annehmen, wenn er stehbar ist und die Überlappung mit Freunden nicht wächst */
+function tryPos(u, x, y, ov0) {
+  if (!canStand(u.cls, x, y)) return false;
+  const ox = u.x,
+    oy = u.y;
+  u.x = x;
+  u.y = y;
+  if (friendOv(u) > ov0 + 0.01) {
+    u.x = ox;
+    u.y = oy;
+    return false;
+  }
+  return true;
+}
 function moveU(u, dx, dy, mult, back) {
   const L = Math.hypot(dx, dy);
   if (L < 0.05) return false;
-  const al = back ? 0.6 : turnTo(u, Math.atan2(dy, dx));
+  /* Gleichmäßig marschieren wie in Total War: die Sollrichtung wird geglättet und kleine Abweichungen
+     (unter ~7°, bei weitem Ziel) werden ignoriert – kein Zucken, kein Hin-und-her-Schwenken */
+  const want = Math.atan2(dy, dx);
+  if (!back && !u.sg) {
+    if (u.hd == null || CTX.t - u.hdT > DT * 1.5) u.hd = want;
+    const e = Math.atan2(Math.sin(want - u.hd), Math.cos(want - u.hd));
+    if (Math.abs(e) > 1.2) u.hd = want;
+    else if (Math.abs(e) > (L > 6 ? MVX.dead : 0.03)) u.hd += e * MVX.lp;
+    u.hdT = CTX.t;
+  }
+  const hd = back || u.sg ? want : u.hd;
+  const al = back ? 0.6 : turnTo(u, hd);
   u.acc = Math.min(1, (u.acc || 0) + DT / (ACCT[u.cls] || 1));
   /* vorwärts: Anteil der Zielrichtung, der in Blickrichtung liegt; Einzelkämpfer drehen sofort */
-  const fwd = back || u.sg ? 1 : Math.max(0, Math.cos(Math.atan2(dy, dx) - u.fa)),
+  const fwd = back || u.sg ? 1 : Math.max(0, Math.cos(hd - u.fa)),
     mvx = back || u.sg ? dx / L : u.ca,
     mvy = back || u.sg ? dy / L : u.sa,
     s = Math.min(L, u.spd * spF(u) * DT * (mult || 1) * al * (0.35 + 0.65 * u.acc)) * (fwd < 0.25 ? 0 : fwd),
@@ -8100,25 +8191,38 @@ function moveU(u, dx, dy, mult, back) {
     ox = u.x,
     oy = u.y;
   if (s <= 0) return true;
-  if (canStand(u.cls, nx, ny)) {
-    u.x = nx;
-    u.y = ny;
+  const ov0 = friendOv(u);
+  if (tryPos(u, nx, ny, ov0)) {
+    /* frei */
   } else {
     /* Hindernis (Ufer, Furtrand): seitlich versetzt weiterlaufen statt hängenzubleiben */
     const a0 = back || u.sg ? Math.atan2(dy, dx) : u.fa;
     let ok = false;
     /* nur kleine Ausweichschritte zur Seite; größere Umwege macht der Block durch Schwenken */
-    for (const da of [0.45, -0.45, 0.9, -0.9]) {
+    for (const da of [0.45, -0.45, 0.9, -0.9, 1.35, -1.35]) {
       const x2 = cx(u.x + Math.cos(a0 + da) * s * 0.7),
         y2 = cy(u.y + Math.sin(a0 + da) * s * 0.7);
-      if (canStand(u.cls, x2, y2)) {
-        u.x = x2;
-        u.y = y2;
+      if (tryPos(u, x2, y2, ov0)) {
         ok = true;
         break;
       }
     }
-    if (!ok) return false;
+    if (!ok) {
+      /* von einem Freund blockiert: an ihm vorbei – Umgehungspunkt seitlich neben ihm, kurz warten */
+      const b = (CTX.us || [])
+        .filter(o => o !== u && o.side === u.side && o.hp > 0 && !U[o.t].king && !U[o.t].twr)
+        .sort((p, q) => dist(u, p) - dist(u, q))[0];
+      if (b && dist(u, b) <= u.r + b.r + 1 && !back) {
+        const px = -b.sa,
+          py = b.ca,
+          off = b.w / 2 + u.w / 2 + 1.5,
+          sd = (u.x - b.x) * px + (u.y - b.y) * py >= 0 ? 1 : -1,
+          cand = [sd, -sd].map(k => ({ x: b.x + px * off * k, y: b.y + py * off * k })),
+          ok2 = cand.find(p => canStand(u.cls, p.x, p.y) && p.x > u.r && p.x < GW - u.r);
+        if (ok2) u.byp = { x: ok2.x, y: ok2.y, t: CTX.t + 3 };
+      }
+      return false;
+    }
   }
   u.trav = (u.trav || 0) + Math.hypot(u.x - ox, u.y - oy);
   u.run = (u.run || 0) + Math.hypot(u.x - ox, u.y - oy);
@@ -8135,44 +8239,54 @@ function moveU(u, dx, dy, mult, back) {
 }
 function separate(us) {
   const a = us.filter(o => o.hp > 0);
-  for (let i = 0; i < a.length; i++)
-    for (let j = i + 1; j < a.length; j++) {
-      const p = a[i],
-        q = a[j];
-      if (dist(p, q) > p.r + q.r) continue;
-      const S2 = sat(p, q);
-      if (S2.gap >= -0.15) continue;
-      /* eigene Regimenter überlappen nicht: wer marschiert, weicht dem Stehenden aus (sanft, damit niemand festklemmt) */
-      const fr = p.side === q.side,
-        pm = p.stl === 0,
-        qm = q.stl === 0,
-        kp = U[p.t].king
-          ? 0
-          : U[q.t].king
-            ? 1
-            : p.pin && !q.pin
-              ? 0.15
-              : q.pin && !p.pin
-                ? 0.85
-                : fr && pm !== qm
-                  ? pm
-                    ? 0.85
-                    : 0.15
-                  : 0.5,
-        kq = 1 - kp,
-        o = (S2.ov + 0.05) * (fr && (pm || qm) ? 0.6 : 1),
-        mv = (w, s) => {
-          if (!s) return;
-          const nx = Math.max(w.r, Math.min(GW - w.r, w.x + S2.mx * o * s)),
-            ny = Math.max(w.r, Math.min(GH - w.r, w.y + S2.my * o * s));
-          if (canStand(w.cls, nx, ny)) {
-            w.x = nx;
-            w.y = ny;
-          }
-        };
-      mv(p, -kp);
-      mv(q, kq);
-    }
+  for (let it = 0; it < 3; it++)
+    for (let i = 0; i < a.length; i++)
+      for (let j = i + 1; j < a.length; j++) {
+        const p = a[i],
+          q = a[j];
+        if (dist(p, q) > p.r + q.r) continue;
+        /* eigene Türme (wie das Lager) lassen die eigenen Regimenter durch */
+        if (p.side === q.side && (U[p.t].twr || U[q.t].twr)) continue;
+        const S2 = sat(p, q);
+        if (S2.gap >= (p.side === q.side ? -0.05 : -0.15)) continue;
+        /* eigene Regimenter überlappen nicht: wer marschiert, weicht dem Stehenden aus (sanft, damit niemand festklemmt) */
+        const fr = p.side === q.side,
+          pm = p.stl === 0,
+          qm = q.stl === 0,
+          kp = U[p.t].king
+            ? 0
+            : U[q.t].king
+              ? 1
+              : p.pin && !q.pin
+                ? 0.15
+                : q.pin && !p.pin
+                  ? 0.85
+                  : fr && pm !== qm
+                    ? pm
+                      ? 0.85
+                      : 0.15
+                    : 0.5,
+          kq = 1 - kp,
+          o = S2.ov + 0.05,
+          mv = (w, s) => {
+            if (!s) return false;
+            const nx = Math.max(w.r, Math.min(GW - w.r, w.x + S2.mx * o * s)),
+              ny = Math.max(w.r, Math.min(GH - w.r, w.y + S2.my * o * s));
+            if (canStand(w.cls, nx, ny)) {
+              w.x = nx;
+              w.y = ny;
+              return true;
+            }
+            return false;
+          };
+        const a1 = mv(p, -kp),
+          b1 = mv(q, kq);
+        /* eigene Regimenter: kann einer nicht weichen (Gelände, Lager), schiebt der andere den ganzen Rest */
+        if (fr && !U[p.t].king && !U[q.t].king) {
+          if (!a1 && kp) mv(q, kp);
+          if (!b1 && kq) mv(p, -kq);
+        }
+      }
 }
 function updForm(o) {
   if (o.sg || U[o.t].king) return;
@@ -8989,6 +9103,14 @@ function act(u, us, ev) {
         a.find(o => U[o.t].taunt && gap(o) <= 8) ||
         (B.snipe && (a.find(o => o.ch) || a.find(o => o.sg && !U[o.t].king))) ||
         (u.ord === 'hunt' && low(a.filter(o => isRanged(o.t) && !U[o.t].king))) ||
+        /* Schützen nach Typ: anreitende Reiterei und gebundene Feinde zuerst; Artillerie auf dichte Blöcke */
+        (isRanged(u.t) &&
+          roleOf(u) === 'siege' &&
+          a.filter(o => !U[o.t].king).sort((p, q) => (q.n || 1) - (p.n || 1))[0]) ||
+        (isRanged(u.t) &&
+          roleOf(u) !== 'siege' &&
+          (a.find(o => roleOf(o) === 'cav' && !o.pin && !o.flee && dist(u, o) < 40) ||
+            low(a.filter(o => o.pin && !U[o.t].king)))) ||
         a.find(o => U[o.t].king) ||
         low(a.slice())
       );
@@ -9027,6 +9149,24 @@ function act(u, us, ev) {
   /* Nahkampf bindet: wer Feindkontakt hat, sitzt fest (kein Ausweichen, kein Schießen, kein Rückzug) */
   const inC = B.nomelee || B.king ? [] : foesA.filter(o => gap(o) <= 1.2);
   u.pin = inC.length > 0;
+  /* Angriffszyklen der Reiterei: nach dem Einschlag nicht festbeißen – lösen, Abstand gewinnen, neu anreiten */
+  if (B.charge && roleOf(u) === 'cav') {
+    if (u.pin && !inC.some(o => o.flee)) {
+      u.mT = u.mT ?? t;
+      if (t - u.mT > 5 && u.hp < u.max * 0.9) {
+        u.disT = t + 2.5;
+        u.mT = null;
+      }
+    } else if (!u.pin) u.mT = null;
+    if (u.disT > t) {
+      const e = inC[0] || foesA.filter(o => o.hp > 0).sort((p, q) => gap(p) - gap(q))[0];
+      if (e && moveU(u, u.x - e.x, u.y - e.y, 1, 1)) {
+        u.pin = false;
+        u.stl = 0;
+        return;
+      }
+    }
+  }
   if (u.bolt && t >= (u.bT || 0)) {
     const bt = foes.filter(o => gap(o) <= 30).sort((p, q) => gap(p) - gap(q))[0];
     if (bt) {
@@ -9060,7 +9200,7 @@ function act(u, us, ev) {
       w.hp += v;
       fire();
       ev.push(E('heal', w, { v }));
-      return still();
+      /* heilt im Gehen – kein Anhalten */
     }
   }
   if (B.bomb && foes.some(o => gap(o) <= 1.5)) {
@@ -9326,11 +9466,21 @@ function act(u, us, ev) {
   } else if (u.ord === 'auto' && cmdOK(u) && taskGoal(u, foesA)) {
     /* Befehl vom General oder Offizier (nach der Strategie) */
     goal = taskGoal(u, foesA);
+    /* Entschlossen wie in Total War: ein marschierendes Regiment hält erst an, wenn der Haltebefehl
+       zwei Takte lang gilt (sonst einen Takt weiter zum alten Ziel); ein stehendes läuft erst los,
+       wenn das Ziel zwei Takte lang ruft. So verschwinden kurze Stopps und Anfahrer. */
+    const moving = u.stl === 0;
+    u.stayN = goal.stay ? (u.stayN || 0) + 1 : 0;
+    u.goN = goal.stay ? 0 : (u.goN || 0) + 1;
+    if (goal.stay && moving && u.stayN < 2 && u.lg) goal = u.lg;
+    else if (!goal.stay && !moving && u.goN < 2 && u.stl < 3) return still();
     u.holdT = goal.stay ? t + 0.6 : 0;
     if (goal.stay) return still();
+    u.lg = { x: goal.x, y: goal.y };
   } else if (u.ord === 'auto' && !cmdOK(u)) {
     /* ohne Befehl: eigenständig, nur für sich */
     goal = selfGoal(u, foes, foesA) || known();
+    if (goal && goal.stay) return still();
   } else {
     let pool = foes;
     const rf = foes.filter(o => isRanged(o.t) && !U[o.t].king);
@@ -9358,6 +9508,9 @@ function act(u, us, ev) {
     }
   }
   if (!goal || (u.bkT > t && isRanged(u.t))) return still();
+  /* Umgehung eines blockierenden Freundes hat kurz Vorrang */
+  if (u.byp && (CTX.t > u.byp.t || Math.hypot(u.byp.x - u.x, u.byp.y - u.y) < 2)) u.byp = null;
+  if (u.byp && !foesA.some(o => o.hp > 0 && !U[o.t].king && gapAB(u, o) <= 3)) goal = u.byp;
   let [dx, dy] = steer(u, goal.x, goal.y);
   /* eigenen Regimentern voraus seitlich ausweichen, statt hineinzulaufen */
   {
@@ -9366,7 +9519,7 @@ function act(u, us, ev) {
       uy = dy / L0;
     let sx = 0;
     for (const o of al) {
-      if (o === u || U[o.t].king || o.hp <= 0) continue;
+      if (o === u || U[o.t].king || U[o.t].twr || o.hp <= 0) continue;
       const rx = o.x - u.x,
         ry = o.y - u.y,
         ahead = rx * ux + ry * uy,
@@ -9375,8 +9528,11 @@ function act(u, us, ev) {
       if (ahead <= 0 || ahead > need + 6 || Math.abs(lat) >= need) continue;
       sx += (lat >= 0 ? -1 : 1) * (1 - Math.abs(lat) / need) * (1 - ahead / (need + 6));
     }
-    if (sx) {
-      const k = Math.max(-1.2, Math.min(1.2, sx * 1.5));
+    /* Ausweichen geglättet, damit der Block nicht von Takt zu Takt hin und her pendelt */
+    u.avk = (u.avk || 0) * 0.5 + Math.max(-1.2, Math.min(1.2, sx * 1.5)) * 0.5;
+    if (Math.abs(u.avk) < 0.05) u.avk = 0;
+    if (u.avk) {
+      const k = u.avk;
       dx = ux - uy * k;
       dy = uy + ux * k;
       const L1 = Math.hypot(dx, dy);
@@ -9403,7 +9559,14 @@ function act(u, us, ev) {
       updForm(u);
     }
   }
-  if (moveU(u, dx, dy, u.ord === 'auto' && !cmdOK(u) ? 0.88 : u.task && u.task.k === 'slow' ? 0.6 : 0)) {
+  if (
+    moveU(
+      u,
+      dx,
+      dy,
+      (u.ord === 'auto' && !cmdOK(u) ? 0.88 : u.task && u.task.k === 'slow' ? 0.6 : 1) * cohesion(u, foesA)
+    )
+  ) {
     u.stl = 0;
     /* Sturmangriff sichtbar machen: genug Anlauf und ein Feind kurz voraus */
     if ((B.charge || u.rchg || B.cls === 'cav') && (u.run || 0) >= 8 && foes.some(o => gap(o) <= 14))
@@ -9539,7 +9702,7 @@ function simulate(pl, en, noFrames, b0, b1, opt) {
   computeV(us);
   const frames = noFrames ? null : [snap([])];
   let lastD = 0;
-  for (let k = 0; k < 400 && alive(0) && alive(1); k++) {
+  for (let k = 0; k < 600 && alive(0) && alive(1); k++) {
     CTX.t += DT;
     computeV(us);
     if (k % 4 === 0) assess(us);
@@ -9561,24 +9724,35 @@ function simulate(pl, en, noFrames, b0, b1, opt) {
     if (us.reduce((s, o) => s + Math.max(0, o.hp), 0) < hp0) lastD = CTX.t;
     CTX.lastD = lastD;
     if (frames) frames.push(snap(ev));
-    if (CTX.t > 40 && CTX.t - lastD > 15) break;
+    if (CTX.t > 60 && CTX.t - lastD > 25) break;
   }
   const a0 = alive(0),
     a1 = alive(1);
   let out,
-    timeout = 0;
+    timeout = 0,
+    tb = 0;
   if (a0 && !a1) out = 'win';
   else if (!a0 && a1) out = 'loss';
-  else if (!a0) out = 'draw';
   else {
-    timeout = 1;
+    /* kein Unentschieden: bei Zeitablauf oder gleichzeitigem Fall entscheidet die verbliebene Kampfkraft,
+       dann der angerichtete Schaden, dann die Moral, zuletzt das Los */
+    timeout = a0 ? 1 : 0;
+    tb = 1;
     const sc = s => {
         const g = us.filter(o => o.side === s);
         return g.reduce((t, o) => t + Math.max(0, o.hp), 0) / g.reduce((t, o) => t + o.max, 0);
       },
-      p = sc(0),
-      q = sc(1);
-    out = p > q ? 'win' : p < q ? 'loss' : 'draw';
+      dmg = s => us.filter(o => o.side === s).reduce((t, o) => t + (o.dmgD || 0), 0),
+      keys = [sc, dmg, s => CTX.mor[s]];
+    for (const f of keys) {
+      const p = f(0),
+        q = f(1);
+      if (Math.abs(p - q) > 1e-9) {
+        out = p > q ? 'win' : 'loss';
+        break;
+      }
+    }
+    if (!out) out = Math.random() < 0.5 ? 'win' : 'loss';
   }
   const casN = sd =>
       us
@@ -9602,6 +9776,7 @@ function simulate(pl, en, noFrames, b0, b1, opt) {
       frames,
       out,
       timeout,
+      tb,
       kd: kd(0) ? 0 : kd(1) ? 1 : -1,
       brk: CTX.mor[0] <= 0 ? 0 : CTX.mor[1] <= 0 ? 1 : -1,
       rep: us
@@ -9698,8 +9873,59 @@ const CMDR = { 3: 30, 2: 20, 1: 15 },
     kite: 'Hält Abstand',
     slow: 'Bindet langsam',
     wing: 'Umfasst',
-    self: 'Eigenständig'
+    self: 'Eigenständig',
+    prey: 'Hetzt Beute',
+    heal: 'Heilt hinter der Front',
+    deep: 'Fliegt ins Hinterland',
+    guard: 'Deckt die Schützen',
+    lurk: 'Lauert am Flügel'
   };
+/* Jäger: schnelle Regimenter mit Hetzjagd (Bonus gegen Verwundete). Sie rennen nicht in frische Blöcke,
+   sondern suchen Fliehende, Verwundete, Vereinzelte und Schützen – und lauern sonst am Flügel. */
+const isHunter = u => !!U[u.t].hunt && ['beast', 'cav', 'fly'].includes(U[u.t].cls),
+  alone = (o, us) =>
+    !us.some(
+      a => a !== o && a.side === o.side && a.hp > 0 && !U[a.t].king && !U[a.t].twr && dist(a, o) <= 20
+    );
+function preyScore(u, f, us) {
+  let s = dist(u, f);
+  if (f.flee) s -= 60;
+  s -= (1 - f.hp / f.max) * 60;
+  if (isRanged(f.t)) s -= 25;
+  if (alone(f, us)) s -= 20;
+  if (f.pin) s -= 15;
+  if (U[f.t].pike) s += 50;
+  if (f.hp / f.max > 0.85 && !f.pin && !f.flee && !isRanged(f.t)) s += 30;
+  return s;
+}
+const bestPrey = (u, foes, us) => foes.slice().sort((a, b) => preyScore(u, a, us) - preyScore(u, b, us))[0];
+/* lohnt sich die Beute sofort, oder lieber am Flügel warten? */
+const ripe = (f, us) =>
+  !!f && (f.flee || f.pin || f.hp / f.max < 0.6 || isRanged(f.t) || alone(f, us) || CTX.t > 75);
+/* Lauerstellung: seitlich hinter der eigenen Front, außer Reichweite des Ziels */
+function lurkPt(u, g) {
+  const own = (CTX.us || []).filter(
+      o => o.side === u.side && o.hp > 0 && !U[o.t].king && !U[o.t].twr && o !== u
+    ),
+    fy = own.length ? own.reduce((a, o) => a + o.y, 0) / own.length : u.y,
+    back = u.side ? -8 : 8,
+    sd = u.x < GW / 2 ? -1 : 1,
+    x = Math.max(6, Math.min(GW - 6, (g ? g.x : u.x) + sd * 22)),
+    y = Math.max(6, Math.min(GH - 6, fy + back));
+  return arrive(u, { x, y }, 4);
+}
+/* Reiterei und Jäger gegenüber einer nahen Bedrohung: Speere meiden, alles andere angreifen */
+function cavThreat(u, foesA) {
+  const n = foesA
+    .filter(o => !U[o.t].king && o.hp > 0 && dist(u, o) <= 14)
+    .sort((a, b) => dist(u, a) - dist(u, b))[0];
+  if (!n) return null;
+  if (U[n.t].pike && !n.pin) {
+    const L = dist(u, n) || 1;
+    return { x: u.x + ((u.x - n.x) / L) * 10, y: u.y + ((u.y - n.y) / L) * 10 };
+  }
+  return n;
+}
 /* Platzhalter-Ziel „stehen bleiben“ */
 const STAY = { stay: 1 };
 
@@ -9815,6 +10041,7 @@ function plan(us, s, ev) {
     /* Strategie zuerst; was sie offen lässt, regelt die Schlachtreihe */
     if (st === 'sturm') [k, tg] = [r === 'cav' ? 'brk' : 'line', near1(u)];
     else if (st === 'stellung' && r !== 'siege') [k, tg] = [r === 'shoot' ? 'fire' : 'hold', near1(u)];
+    else if (isHunter(u)) [k, tg] = ['prey', bestPrey(u, foes, us)];
     else if (st === 'amboss' && melee) [k, tg] = ['hold', pick(u, eLine)];
     else if (st === 'amboss' && r === 'cav')
       [k, tg] = [
@@ -9838,6 +10065,11 @@ function plan(us, s, ev) {
       [k, tg] = ['flank', pick(u, eLine.length ? eLine : foes)];
     else if (st === 'zermuerben' && r === 'shoot') [k, tg] = ['kite', near1(u)];
     else if (st === 'zermuerben' && melee) [k, tg] = ['wait', pick(u, eLine)];
+    else if (kindOf(u) === 'heil') [k, tg] = ['heal', near1(u)];
+    else if (kindOf(u) === 'flieger') [k, tg] = ['deep', kindTarget(u, foes, us)];
+    else if (kindOf(u) === 'stoss') [k, tg] = ['brk', kindTarget(u, foes, us)];
+    else if (kindOf(u) === 'wall' && own.some(o => isRanged(o.t) && roleOf(o) !== 'siege'))
+      [k, tg] = ['guard', kindTarget(u, foes, us)];
     else if (r === 'pike' && eCav.length) [k, tg] = ['pike', pick(u, eCav)];
     else if (r === 'line' || r === 'pike') [k, tg] = ['line', pick(u, eLine)];
     else if (r === 'cav')
@@ -9851,7 +10083,7 @@ function plan(us, s, ev) {
               eLine.filter(f => !U[f.t].pike)
             )
           ];
-    else if (r === 'mon') [k, tg] = ['brk', pick(u, eLine)];
+    else if (r === 'mon') [k, tg] = ['brk', kindTarget(u, foes, us) || pick(u, eLine)];
     else if (r === 'skir') [k, tg] = ['screen', pick(u, eRng)];
     else if (r === 'siege') [k, tg] = ['back', pick(u, [...eLine, ...eCav])];
     else [k, tg] = ['fire', pick(u, [...eCav, ...eLine])];
@@ -9864,6 +10096,195 @@ function plan(us, s, ev) {
     const g = cms.find(c => c.gen) || cms[0];
     ev.push({ k: 'cmd', a: [g.x, g.y], b: [g.x, g.y], side: s, n });
   }
+}
+
+/* ── Verhalten nach Einheitentyp ──────────────────────────────────────────────────────────────
+   Die Strategie des Generals sagt, WAS ein Regiment tun soll; der Typ bestimmt, WIE es das tut –
+   und was es ohne Befehl tut. */
+const KINDN = {
+  line: 'Linie',
+  stoss: 'Stoßtrupp',
+  wall: 'Schildwall',
+  pike: 'Speere/Piken',
+  shoot: 'Schützen',
+  heil: 'Heiler',
+  skir: 'Plänkler',
+  siege: 'Artillerie',
+  cav: 'Reiterei',
+  jaeger: 'Jäger',
+  mon: 'Ungeheuer',
+  flieger: 'Flieger'
+};
+function kindOf(u) {
+  const B = U[u.t],
+    r = roleOf(u);
+  if (isHunter(u)) return 'jaeger';
+  if (B.heal && !B.king) return 'heil';
+  if (B.cls === 'fly' && r !== 'shoot' && r !== 'skir') return 'flieger';
+  if (r === 'line' && B.br) return 'stoss';
+  if (r === 'line' && B.ward) return 'wall';
+  return r;
+}
+/* Punkt erreicht? Mit Spielraum, damit niemand an der Grenze stehen-gehen-stehen pendelt */
+function arrive(u, p, a) {
+  const d = Math.hypot(p.x - u.x, p.y - u.y);
+  if (d < a || (u.atP && d < a * 2.5)) {
+    u.atP = true;
+    return STAY;
+  }
+  u.atP = false;
+  return p;
+}
+const meleeKind = k => k === 'line' || k === 'stoss' || k === 'wall' || k === 'pike' || k === 'mon';
+/* eigene Front: wie weit die Nahkämpfer im Schnitt vorgerückt sind (y; Seite 0 rückt nach oben vor) */
+function frontY(s, us) {
+  const m = us.filter(o => o.side === s && o.hp > 0 && !U[o.t].king && !U[o.t].twr && meleeKind(kindOf(o)));
+  if (!m.length) return null;
+  const ys = m.map(o => o.y).sort((a, b) => (s ? b - a : a - b));
+  return (
+    ys.slice(0, Math.max(1, Math.ceil(ys.length / 2))).reduce((a, y) => a + y, 0) / Math.ceil(ys.length / 2)
+  );
+}
+/* hinter der eigenen Front bleiben (Abstand d) */
+const behind = (u, y, d, us) => {
+  const f = frontY(u.side, us);
+  if (f == null) return y;
+  return u.side ? Math.min(y, f - d) : Math.max(y, f + d);
+};
+const live = (L, u) => L.filter(o => o.hp > 0 && o.side !== u.side && !U[o.t].king && !U[o.t].twr);
+/* Zielwahl nach Typ (aus sichtbaren Feinden) */
+function kindTarget(u, foes, us) {
+  const k = kindOf(u),
+    F = foes.filter(o => !U[o.t].king && !U[o.t].twr),
+    noFlee = F.filter(o => !o.flee),
+    near = L => L.slice().sort((a, b) => dist(u, a) - dist(u, b))[0],
+    best = (L, f) => L.slice().sort((a, b) => f(a) - f(b))[0];
+  if (!F.length) return null;
+  switch (k) {
+    case 'jaeger':
+      return bestPrey(u, F, us);
+    case 'stoss':
+      /* wo der Gegner schon wankt: verwundet, gebunden */
+      return best(noFlee.length ? noFlee : F, o => dist(u, o) - (1 - o.hp / o.max) * 40 - (o.pin ? 15 : 0));
+    case 'mon':
+      /* in den dichtesten Block, Speerwälle nicht frontal */
+      return best(
+        noFlee.length ? noFlee : F,
+        o => dist(u, o) - (o.n || 1) * 0.8 + (U[o.t].pike && !o.pin ? 40 : 0)
+      );
+    case 'flieger': {
+      const deep = F.filter(o => roleOf(o) === 'siege' || isRanged(o.t));
+      return deep.length ? best(deep, o => dist(u, o) - (roleOf(o) === 'siege' ? 20 : 0)) : near(F);
+    }
+    case 'pike': {
+      const cav = noFlee.filter(o => roleOf(o) === 'cav' && dist(u, o) < 70);
+      return near(cav.length ? cav : noFlee.length ? noFlee : F);
+    }
+    case 'siege':
+      /* dichte Blöcke und Ungeheuer */
+      return best(F, o => dist(u, o) * 0.3 - (o.n || 1) - (roleOf(o) === 'mon' ? 15 : 0));
+    case 'skir': {
+      const rng = F.filter(o => isRanged(o.t));
+      return near(rng.length ? rng : F);
+    }
+    case 'cav': {
+      const fl = F.filter(o => o.flee && dist(u, o) < 35);
+      if (fl.length) return near(fl);
+      return near(noFlee.filter(o => !U[o.t].pike).length ? noFlee.filter(o => !U[o.t].pike) : F);
+    }
+    default:
+      /* Linie, Schildwall, Schützen, Heiler: Fliehenden nicht hinterherlaufen */
+      return near(noFlee.length ? noFlee : F);
+  }
+}
+/* Ziel (Punkt oder Einheit) nach Typ, ausgehend vom Gegner g */
+function kindGoal(u, g, foesA) {
+  const k = kindOf(u),
+    us = CTX.us || [],
+    al = us.filter(o => o.side === u.side && o.hp > 0 && o !== u && !U[o.t].king && !U[o.t].twr),
+    melee = live(foesA, u).filter(o => !isRanged(o.t) && !U[o.t].nomelee),
+    th = melee.filter(o => !o.flee).sort((a, b) => gapAB(u, a) - gapAB(u, b))[0],
+    toCamp = d => {
+      const c = us.find(o => o.side === u.side && U[o.t].king && o.hp > 0) || CTX.camp[u.side],
+        L = Math.hypot(c.x - u.x, c.y - u.y) || 1;
+      return { x: u.x + ((c.x - u.x) / L) * d, y: u.y + ((c.y - u.y) / L) * d };
+    };
+  u.lurk = false;
+  if (!g) return g;
+  switch (k) {
+    case 'skir':
+      /* Plänkler weichen jedem Nahkampf aus und ziehen sich hinter die eigene Linie zurück */
+      if (th && !u.pin && gapAB(u, th) < 16) {
+        const p = toCamp(12);
+        return { x: p.x, y: behind(u, p.y, 6, us) };
+      }
+      return g;
+    case 'shoot': {
+      if (th && !u.pin && gapAB(u, th) < 8) return toCamp(8);
+      const y = behind(u, g.y, 6, us);
+      if (Math.abs(y - g.y) < 0.5) return g;
+      const p = { x: u.x + (g.x - u.x) * 0.5, y };
+      return arrive(u, p, 2);
+    }
+    case 'siege': {
+      const y = behind(u, g.y, 15, us);
+      if (Math.abs(y - g.y) < 0.5) return g;
+      const p = { x: u.x, y };
+      return arrive(u, p, 2);
+    }
+    case 'heil': {
+      /* zum am schwersten verwundeten Freund, dort hinter der Front bleiben */
+      if (th && !u.pin && gapAB(u, th) < 8) return toCamp(8);
+      const w = al.filter(o => o.hp < o.max * 0.9).sort((a, b) => a.hp / a.max - b.hp / b.max)[0],
+        f = w || al.filter(o => meleeKind(kindOf(o))).sort((a, b) => dist(u, a) - dist(u, b))[0];
+      if (!f) return g;
+      const y = behind(u, f.y + (u.side ? -6 : 6), 4, us),
+        p = { x: f.x, y };
+      return arrive(u, p, 3);
+    }
+    case 'wall': {
+      /* Schildwall stellt sich vor die eigenen Schützen, solange kein Feind nah ist */
+      const sh = al.filter(o => isRanged(o.t) && roleOf(o) !== 'siege');
+      if (!sh.length || (th && gapAB(u, th) < 25)) return th && gapAB(u, th) < 25 ? th : g;
+      const cx = sh.reduce((a, o) => a + o.x, 0) / sh.length,
+        cy = sh.reduce((a, o) => a + o.y, 0) / sh.length,
+        L = Math.hypot(g.x - cx, g.y - cy) || 1,
+        p = { x: cx + ((g.x - cx) / L) * 9, y: cy + ((g.y - cy) / L) * 9 };
+      return arrive(u, p, 3);
+    }
+    case 'pike': {
+      /* sich der Reiterei in den Weg stellen: zwischen sie und den bedrohten Freund */
+      if (roleOf(g) !== 'cav' || g.pin) return g;
+      const f = al.filter(o => !U[o.t].pike).sort((a, b) => dist(g, a) - dist(g, b))[0];
+      if (!f || dist(u, g) < 14) return g;
+      return { x: f.x + (g.x - f.x) * 0.35, y: f.y + (g.y - f.y) * 0.35 };
+    }
+    case 'mon':
+      return g;
+    default:
+      return g;
+  }
+}
+/* Geschlossen vorrücken: Linien laufen dem Nachbarn nicht davon (bis Feindkontakt) */
+function cohesion(u, foesA) {
+  const k = kindOf(u);
+  if (!meleeKind(k) || k === 'mon' || u.flee) return 1;
+  if (foesA.some(o => o.hp > 0 && !U[o.t].king && gapAB(u, o) <= 22)) return 1;
+  const nb = (CTX.us || []).filter(
+    o =>
+      o !== u &&
+      o.side === u.side &&
+      o.hp > 0 &&
+      !o.flee &&
+      !U[o.t].king &&
+      meleeKind(kindOf(o)) &&
+      dist(u, o) <= 30
+  );
+  if (!nb.length) return 1;
+  const prog = o => (u.side ? o.y : -o.y),
+    ahead = prog(u) - nb.reduce((a, o) => a + prog(o), 0) / nb.length;
+  const slow = Math.min(...nb.map(o => (o.spd || 1) * spF(o))) / Math.max(0.1, (u.spd || 1) * spF(u));
+  return Math.max(0.25, Math.min(1, slow, ahead > 4 ? 0.4 : 1));
 }
 
 /* Ziel für ein Regiment mit Befehl; null = kein (gültiger) Befehl */
@@ -9882,6 +10303,30 @@ function taskGoal(u, foesA) {
     u.engId = close[0].id;
   }
   const eng = !close.length && u.engT > CTX.t ? foesA.find(o => o.id === u.engId) : null;
+  u.lurk = false;
+  if (T.k === 'prey') {
+    /* Beute alle 2 s neu wählen; frische Blöcke nicht anrennen, sondern lauern */
+    const vis = foesA.filter(o => !U[o.t].king && !U[o.t].twr && CTX.V[u.side].has(o.id));
+    if (CTX.t >= (u.pT || 0) && vis.length) {
+      T.tid = bestPrey(u, vis, CTX.us || []).id;
+      u.pT = CTX.t + 2;
+    }
+    const p = foesA.find(o => o.id === T.tid) || g,
+      th = cavThreat(u, foesA);
+    if (th) return th;
+    if (ripe(p, CTX.us || [])) return p;
+    u.lurk = true;
+    return lurkPt(u, p);
+  }
+  if (T.k === 'flank' && roleOf(u) === 'cav') {
+    /* Reiterei wartet, bis das Ziel im Nahkampf gebunden ist – dann in Flanke oder Rücken */
+    const th = cavThreat(u, foesA);
+    if (th) return th;
+    if (!g.pin && !ripe(g, CTX.us || []) && dist(u, g) > 18) {
+      u.lurk = true;
+      return lurkPt(u, g);
+    }
+  }
   if (T.k === 'hold') return close.length ? close[0] : eng || STAY;
   if (T.k === 'wait')
     return close.length ? close[0] : eng || (strengthOf(CTX.us || [], 1 - u.side) < 0.75 ? g : STAY);
@@ -9906,7 +10351,7 @@ function taskGoal(u, foesA) {
       y: Math.max(4, Math.min(GH - 4, g.y + ny * sd * 18))
     };
   }
-  return g;
+  return kindGoal(u, g, foesA);
 }
 
 /* Vor dem ersten Befehl: was die Strategie bis zur Feindsichtung vorsieht (null = vorrücken) */
@@ -9924,15 +10369,42 @@ function preGoal(u) {
 function selfGoal(u, foes, foesA) {
   if (CTX.t < (u.aT || 0)) {
     const g = foesA.find(o => o.id === u.aG);
-    if (g) return g;
+    if (g) return kindGoal(u, g, foesA);
   }
   u.aT = CTX.t + 2.5;
-  const g = foes.length ? foes.slice().sort((a, b) => dist(u, a) - dist(u, b))[0] : null;
+  u.lurk = false;
+  /* auch ohne Befehl nach Art kämpfen: Jäger hetzen Beute, Reiterei lauert auf gebundene Gegner */
+  const r = roleOf(u);
+  if (foes.length && (isHunter(u) || r === 'cav')) {
+    const th = cavThreat(u, foesA);
+    if (th) {
+      u.aT = CTX.t + 0.5;
+      return th;
+    }
+    const p = isHunter(u)
+      ? bestPrey(u, foes, CTX.us || [])
+      : foes.filter(f => !U[f.t].pike).sort((a, b) => dist(u, a) - dist(u, b))[0];
+    if (p && ripe(p, CTX.us || [])) {
+      u.aG = p.id;
+      return p;
+    }
+    u.aT = CTX.t + 1;
+    u.aG = null;
+    u.lurk = true;
+    return lurkPt(u, p || foes[0]);
+  }
+  const g = kindTarget(u, foes, CTX.us || []);
   u.aG = g ? g.id : null;
-  return g;
+  return kindGoal(u, g, foesA);
 }
 const taskName = o =>
-  o.task && CTX.t >= o.task.at ? TASKN[o.task.k] : CTX.cmd && !o.inCmd ? TASKN.self : '';
+  o.lurk
+    ? TASKN.lurk
+    : o.task && CTX.t >= o.task.at
+      ? TASKN[o.task.k]
+      : CTX.cmd && !o.inCmd
+        ? TASKN.self
+        : '';
 
 /* Autobattler · Spielzustand, Rundenablauf, Draft */
 let S, timer;
@@ -10144,7 +10616,6 @@ function newRun() {
     rek: 1000,
     round: 1,
     wins: 0,
-    lives: 6,
     stash: [],
     units: [],
     chr: [],
@@ -10250,7 +10721,8 @@ function startRound() {
   S.orders = [];
   S.wx = S.mp ? S.mpWx || 'klar' : rollWx();
   S.wxUsed = false;
-  S.forts = actMeta(S.units).fort1 ? 1 : 0;
+  S.forts = 0;
+  S.fort1 = 0;
   S.phase = 'build';
   S.step = 'draft';
   S.pend = -1;
@@ -10491,7 +10963,12 @@ function build() {
   const [i, j] = S.selS;
   if (S.stash[i].type !== 'st' || S.stash[j].type !== 'st') return;
   const r0 = fromStones(S.stash[i], S.stash[j]);
-  if (!r0.t || bench().length >= BMAX) return;
+  if (!r0.t) return;
+  if (bench().length >= BMAX) {
+    S.msg = 'Reserve voll – erst Einheiten aufstellen oder entlassen.';
+    S.selS = [];
+    return;
+  }
   const c = costOf(r0.t);
   if (S.rek < c) {
     S.msg = `Zu wenig Rekruten: ${U[r0.t].n} braucht ${c}.`;
@@ -10567,12 +11044,14 @@ function goStep(st) {
       ? 'Tippe eine Einheit in der Leiste, dann eine Stelle im hellen Streifen – oder ziehe sie hinein.'
       : '';
 }
+const leadRank = u => (u.ch ? (CHR[u.ch.c].gen ? 2 : 1) : 0);
 function autoPlace() {
   const K = S.units.find(isK),
     on = onboard(),
     add = bench()
       .filter(u => !isK(u))
-      .sort((a, b) => U[b.t].val * b.s - U[a.t].val * a.s)
+      /* Regimenter mit General oder Offizier zuerst – Boni und Befehle gelten nur auf dem Feld */
+      .sort((a, b) => leadRank(b) - leadRank(a) || U[b.t].val * b.s - U[a.t].val * a.s)
       .slice(0, Math.max(0, cap() - on.length)),
     all = [K, ...on, ...add];
   place(all, 0, S.map);
@@ -10591,6 +11070,11 @@ function toCouncil() {
     return;
   }
   if (S.picks > 0) autoDraft();
+  /* Pioniere auf dem Feld: eine Gratis-Schanze je Schlacht */
+  if (fieldMeta().fort1 && S.fort1 !== S.round) {
+    S.fort1 = S.round;
+    S.forts++;
+  }
   S.step = 'council';
   S.selU = [];
   S.selS = [];
@@ -10939,7 +11423,7 @@ function setForm(k) {
       .sort((a, b) => U[b.t].val * b.s - U[a.t].val * a.s)
       .slice(0, Math.max(0, cap() - on.length)),
     all = [...on, ...add],
-    gl = genLv([...S.units], S.chr || []);
+    gl = maxOrd();
   if (!gl) {
     S.msg = `Strategien brauchen einen ${genName(S.fac)} (Fenster „Charaktere“ beim Bauen).`;
     return;
@@ -11201,7 +11685,7 @@ function aiBuild(ai, r) {
 const flipP = p => ({ ...p, x: +(GW - p.x).toFixed(2), y: +(GH - p.y).toFixed(2) });
 function mySide() {
   const O = S.orders,
-    M = actMeta(S.units),
+    M = fieldMeta(),
     b = bonus(S.col);
   if (O.includes('supply')) b.kHp += 10;
   if (M.camp) b.kHp += 10;
@@ -11224,7 +11708,7 @@ function mySide() {
     b,
     O,
     M,
-    form: genLv(S.units, S.chr || []) ? (STRAT[S.form] ? S.form : 'linie') : '',
+    form: maxOrd() ? (STRAT[S.form] ? S.form : 'linie') : '',
     gen: freeGen(S.chr),
     know: hasSpy() ? 1 : 0,
     merc
@@ -11451,7 +11935,7 @@ function next() {
   const o = S.res.out;
   if (o === 'win') {
     S.wins++;
-    const M = actMeta(S.units),
+    const M = fieldMeta(),
       add = k => {
         {
           S.stash.push({ type: 'st', k });
@@ -11465,14 +11949,10 @@ function next() {
       if (GOLD_ON) S.gold += 3;
     }
     if (M.hunt) add('l');
-  } else if (o === 'loss' && !S.mp) S.lives--;
+  }
   if (GOLD_ON) S.gold += LOOT[o] || 0;
   if (S.mp) return mpNext();
-  if (S.lives <= 0) {
-    S.phase = 'over';
-    S.won = false;
-    S.msg = `<b>Feldzug verloren.</b> Keine Leben mehr – ${S.wins} Siege in ${S.round} Schlachten.`;
-  } else if (S.round >= NBAT) {
+  if (S.round >= NBAT) {
     /* nach der letzten Schlacht entscheidet die Rangliste: Platz 1 gewinnt den Feldzug */
     S.phase = 'over';
     S.won = rankOrder()[0].n === '';
@@ -11560,7 +12040,9 @@ function ord(k) {
   if (S.orders.length >= maxOrd()) {
     S.msg = maxOrd()
       ? `Dein General erlaubt ${maxOrd()} Befehl(e).`
-      : `Ohne ${genName(S.fac)} keine Befehle – wirb einen im Fenster „Charaktere“ an.`;
+      : genRes()
+        ? genResTxt()
+        : `Ohne ${genName(S.fac)} keine Befehle – wirb einen im Fenster „Charaktere“ an.`;
     return;
   }
   if (S.gold < c) {
@@ -11984,6 +12466,8 @@ function drawLayer(list) {
     }
     if (el.dataset.sig !== sig) {
       el.dataset.sig = sig;
+      /* neuer Inhalt (z. B. Charakter angeschlossen): Modelle neu zeichnen */
+      el._mk = null;
       el.className = 'tk' + (blk ? ' blk' : '');
       const tok =
         tokSVG(o.t, o.side, o.st, o.el) +
@@ -13256,7 +13740,7 @@ function render() {
     ).join('');
   }
   $('stats').innerHTML =
-    `${GOLD_ON ? `<span>Gold <b>${S.gold}</b></span>` : ''}${REK_ON ? `<span>Rekruten <b>${S.rek}</b></span>` : ''}<span><b>${S.map.n}</b> · Schlacht ${S.round}/${NBAT}</span><span>Gegner <b>${S.opp && S.opp.fac ? FAC[S.opp.fac].n : '–'}</b></span><span>Wetter <b>${WX[S.wx].n}</b></span><span>Siege <b>${S.wins}</b></span><span>Leben <b>${S.lives}</b></span><span>Feld <b>${onboard().length}</b>/${cap()}</span>`;
+    `${GOLD_ON ? `<span>Gold <b>${S.gold}</b></span>` : ''}${REK_ON ? `<span>Rekruten <b>${S.rek}</b></span>` : ''}<span><b>${S.map.n}</b> · Schlacht ${S.round}/${NBAT}</span><span>Gegner <b>${S.opp && S.opp.fac ? FAC[S.opp.fac].n : '–'}</b></span><span>Wetter <b>${WX[S.wx].n}</b></span><span>Siege <b>${S.wins}</b></span><span>Aktuell aufgestellt <b>${onboard().length}</b>/${cap()}</span>`;
   const su = B && S.selU.length === 1 && !S.selS.length ? gu(S.selU[0]) : null,
     se = B && S.selE && S.prev && S.enemy ? S.enemy.find(u => u.uid === S.selE) : null;
   boardRender(B || S.phase === 'wait');
@@ -13275,7 +13759,7 @@ function render() {
         (f.ev || []).find(x => x.k === 'hit' || x.k === 'shot');
     st += `<span class="blog"><span class="tm">${Math.round(f.t)} s</span> ${e ? evTxt(e) : ''}</span>`;
     if (S.phase === 'result')
-      st = `<b>${{ win: 'Sieg!', loss: 'Niederlage.', draw: 'Unentschieden.' }[S.res.out]}</b> ${S.res.kd === 1 ? 'Das gegnerische Lager ist gefallen. ' : S.res.kd === 0 ? 'Dein Lager ist gefallen. ' : ''}${S.res.kd < 0 && S.res.brk === 1 ? 'Die gegnerische Armee ist gebrochen und flieht. ' : S.res.kd < 0 && S.res.brk === 0 ? 'Deine Armee ist gebrochen und flieht. ' : ''}${S.res.timeout ? 'Zeitlimit: entschieden nach verbliebener Lebenskraft. ' : ''}${S.res.out === 'loss' ? 'Du verlierst ein Leben.' : ''}${GOLD_ON && LOOT[S.res.out] ? `Beute: +${LOOT[S.res.out] + (S.res.out === 'win' && S.orders.includes('raid') ? 3 : 0)} Gold.` : ''}`;
+      st = `<b>${{ win: 'Sieg!', loss: 'Niederlage.', draw: 'Unentschieden.' }[S.res.out]}</b>${S.res.tb ? ' Knapp entschieden – nach verbliebener Kampfkraft.' : ''} ${S.res.kd === 1 ? 'Das gegnerische Lager ist gefallen. ' : S.res.kd === 0 ? 'Dein Lager ist gefallen. ' : ''}${S.res.kd < 0 && S.res.brk === 1 ? 'Die gegnerische Armee ist gebrochen und flieht. ' : S.res.kd < 0 && S.res.brk === 0 ? 'Deine Armee ist gebrochen und flieht. ' : ''}${S.res.timeout ? 'Zeitlimit: entschieden nach verbliebener Lebenskraft. ' : ''}${GOLD_ON && LOOT[S.res.out] ? `Beute: +${LOOT[S.res.out] + (S.res.out === 'win' && S.orders.includes('raid') ? 3 : 0)} Gold.` : ''}`;
   }
   if (S.phase === 'route' || S.phase === 'over' || (S.phase === 'wait' && S.mp && S.mp.wait === 'route'))
     st += rankHTML();
@@ -13406,7 +13890,7 @@ function render() {
         );
       else {
         b.push(btn('autoP', 'Automatisch aufstellen'), btn('allRes', 'Alle in Reserve'));
-        const gl = genLv([...S.units], S.chr || []),
+        const gl = maxOrd(),
           hc = gl > 0,
           cur = STRAT[S.form];
         b.push(
@@ -13417,7 +13901,7 @@ function render() {
             )
             .join(
               ''
-            )}</div><p class="odesc">${hc ? (cur ? `<b>${cur.n}</b> (Vorbild: ${cur.hist}) – ${cur.d}` : 'Wähle eine Strategie – ohne Strategie kämpft der General in Schlachtreihe.') : `Ohne ${genName(S.fac)} gibt es keine Strategie: Jedes Regiment handelt selbst, später und nur für sich (Fenster „Charaktere“ beim Bauen).`}</p>`
+            )}</div><p class="odesc">${hc ? (cur ? `<b>${cur.n}</b> (Vorbild: ${cur.hist}) – ${cur.d}` : 'Wähle eine Strategie – ohne Strategie kämpft der General in Schlachtreihe.') : genRes() ? genResTxt() : `Ohne ${genName(S.fac)} gibt es keine Strategie: Jedes Regiment handelt selbst, später und nur für sich (Fenster „Charaktere“ beim Bauen).`}</p>`
         );
       }
       pv();
@@ -13470,10 +13954,10 @@ function render() {
   }
   $('selinfo').innerHTML = su ? selCard(su, 0) : se ? selCard(se, 1) : '';
   $('enemyP').hidden = !(B && S.enemy && hasSpy());
-  const AM = actMeta(S.units);
+  const AM = fieldMeta();
   $('council').hidden = !(B && S.step === 'council');
   $('council').innerHTML = B
-    ? `<h2>Kriegsrat <span>${S.orders.length}/${maxOrd()} Befehle${GOLD_ON ? ` · ${S.gold} Gold` : ''}</span></h2><p class="note">${maxOrd() ? `Dein ${genName(S.fac)} (Stufe ${maxOrd()}) erlaubt ${maxOrd()} Befehl(e).` : `<b>Ohne ${genName(S.fac)} keine Befehle.</b> Wirb beim Bauen einen im Fenster „Charaktere“ an (Silber + Eisen). Seine Stufe = Zahl der Befehle.`} Antippen nimmt einen Befehl zurück.</p><p class="note"><b>Strategie deines Generals:</b> ${genLv(S.units, S.chr || []) ? (STRAT[S.form] ? `${STRAT[S.form].n} – ${STRAT[S.form].d}` : 'keine gewählt – er kämpft in Schlachtreihe (wählen beim Aufstellen)') : 'keine – ohne General handelt jedes Regiment selbst'}<br><b>Strategie des Gegners:</b> ${S.opp && S.opp.human ? 'unbekannt – ein Mensch wählt sie selbst' : S.opp && STRAT[S.opp.form] ? (hasSpy() ? STRAT[S.opp.form].n : 'unbekannt – zeigt sich zu Schlachtbeginn (Späher verraten sie vorher)') : 'keine (kein General)'}</p><p class="note">Gegner ${S.ename}: ${S.enemy ? (hasSpy() ? `${S.enemy.length - 1} Einheiten, Lager-Ausbauten: ${(S.opp.king.ins || []).map(i => INSI[i].n).join(', ') || 'keine'}` : `${S.enemy.length - 1} Einheiten im Nebel`) : S.opp && S.opp.human ? 'stellt selbst auf – sein Heer siehst du erst in der Schlacht' : 'stellt sich nach dem Draft auf'}. Wetter: ${WX[S.wx].n} – ${WX[S.wx].d}.</p>${AM.weather && !S.wxUsed ? '<button class="btn" data-a="wx">Wetterkunde: Wetter neu bestimmen</button>' : ''}<div class="ords">${Object.entries(
+    ? `<h2>Kriegsrat <span>${S.orders.length}/${maxOrd()} Befehle${GOLD_ON ? ` · ${S.gold} Gold` : ''}</span></h2><p class="note">${maxOrd() ? `Dein ${genName(S.fac)} (Stufe ${maxOrd()}) erlaubt ${maxOrd()} Befehl(e).` : genRes() ? `<b>Keine Befehle.</b> ${genResTxt()}` : `<b>Ohne ${genName(S.fac)} keine Befehle.</b> Wirb beim Bauen einen im Fenster „Charaktere“ an (Silber + Eisen). Seine Stufe = Zahl der Befehle.`} Antippen nimmt einen Befehl zurück.</p><p class="note"><b>Strategie deines Generals:</b> ${maxOrd() ? (STRAT[S.form] ? `${STRAT[S.form].n} – ${STRAT[S.form].d}` : 'keine gewählt – er kämpft in Schlachtreihe (wählen beim Aufstellen)') : 'keine – ohne General handelt jedes Regiment selbst'}<br><b>Strategie des Gegners:</b> ${S.opp && S.opp.human ? 'unbekannt – ein Mensch wählt sie selbst' : S.opp && STRAT[S.opp.form] ? (hasSpy() ? STRAT[S.opp.form].n : 'unbekannt – zeigt sich zu Schlachtbeginn (Späher verraten sie vorher)') : 'keine (kein General)'}</p><p class="note">Gegner ${S.ename}: ${S.enemy ? (hasSpy() ? `${S.enemy.length - 1} Einheiten, Lager-Ausbauten: ${(S.opp.king.ins || []).map(i => INSI[i].n).join(', ') || 'keine'}` : `${S.enemy.length - 1} Einheiten im Nebel`) : S.opp && S.opp.human ? 'stellt selbst auf – sein Heer siehst du erst in der Schlacht' : 'stellt sich nach dem Draft auf'}. Wetter: ${WX[S.wx].n} – ${WX[S.wx].d}.</p>${AM.weather && !S.wxUsed ? '<button class="btn" data-a="wx">Wetterkunde: Wetter neu bestimmen</button>' : ''}<div class="ords">${Object.entries(
         ORD
       )
         .filter(([, o]) => !o.fac || o.fac === S.fac)
@@ -13483,7 +13967,7 @@ function render() {
         })
         .join(
           ''
-        )}</div>${S.forts ? `<p class="note">Noch ${S.forts} Schanze(n): eine Stelle in deinem Aufstellungsstreifen antippen.</p>` : ''}<details class="cdet"><summary>Feldlager & Moral</summary><h3>Feldlager</h3><p class="note">Fähigkeiten deiner Einheiten außerhalb des Kampfs. Jede wirkt einmal, egal wie viele Einheiten sie haben.</p><div class="metas">${
+        )}</div>${S.forts ? `<p class="note">Noch ${S.forts} Schanze(n): eine Stelle in deinem Aufstellungsstreifen antippen.</p>` : ''}<details class="cdet"><summary>Feldlager & Moral</summary><h3>Feldlager</h3><p class="note">Fähigkeiten deiner aufgestellten Regimenter (Reserve zählt nicht). Jede wirkt einmal, egal wie viele sie haben.</p><div class="metas">${
         Object.keys(META)
           .filter(k => AM[k])
           .map(
@@ -13606,7 +14090,7 @@ function render() {
     op = [
       ...[...bq].map(
         ([t, [q, i, j]]) =>
-          `<button class="opt" data-a="pk" data-v="s${i},${j}">${oiT(t)}<span>${U[t].cre ? 'Beschwören' : 'Bauen'}: ${U[t].n} <em>${sn(S.stash[i])} + ${sn(S.stash[j])}${costOf(t) ? ' + ' + costOf(t) + ' Rekruten' : ''}</em><em class="pv">→ ${prevBuild(t, q)}</em></span></button>`
+          `<button class="opt" data-a="pkb" data-v="${i},${j}">${oiT(t)}<span>${U[t].cre ? 'Beschwören' : 'Bauen'}: ${U[t].n} <em>${sn(S.stash[i])} + ${sn(S.stash[j])}${costOf(t) ? ' + ' + costOf(t) + ' Rekruten' : ''}</em><em class="pv">→ ${prevBuild(t, q)}</em></span></button>`
       ),
       ...op
     ];
@@ -13635,7 +14119,7 @@ function render() {
       if (seen.has(key)) return;
       seen.add(key);
       op.push(
-        `<button class="opt" data-a="pk" data-v="u${p.a.uid},${p.c.uid}">${oiT(p.res)}<span>${p.k === 'm' ? 'Verschmelzen' : 'Kombinieren'}: ${U[p.res].n} ${'★'.repeat(p.s)}${p.k === 'c' ? ` <em>${U[p.res].cre ? 'Mischwesen' : 'Stufe ' + U[p.res].tier} · ${U[p.a.t].n} + ${U[p.c.t].n}${GOLD_ON ? ` · ${combGold(p.res)} Gold` : ''}</em>` : ''}<em class="pv">→ ${p.k === 'm' ? prevMerge(p.a) : prevComb(p.a, p.c, p.res)}</em></span></button>`
+        `<button class="opt" data-a="pku" data-v="${p.k}${p.a.uid},${p.c.uid}">${oiT(p.res)}<span>${p.k === 'm' ? 'Verschmelzen' : 'Kombinieren'}: ${U[p.res].n} ${'★'.repeat(p.s)}${p.k === 'c' ? ` <em>${U[p.res].cre ? 'Mischwesen' : 'Stufe ' + U[p.res].tier} · ${U[p.a.t].n} + ${U[p.c.t].n}${GOLD_ON ? ` · ${combGold(p.res)} Gold` : ''}</em>` : ''}<em class="pv">→ ${p.k === 'm' ? prevMerge(p.a) : prevComb(p.a, p.c, p.res)}</em></span></button>`
       );
     });
   }
@@ -13672,7 +14156,7 @@ function render() {
     of = OK[S.ofl] && ocnt(S.ofl) ? S.ofl : 'all',
     shown = of === 'all' ? op : op.filter(x => OK[of].test(x));
   $('opts').innerHTML = op.length
-    ? `<div class="ofl"><span class="lbl">Jetzt möglich</span>${[
+    ? `<div class="ofl"><span class="lbl">Jetzt möglich – antippen baut sofort</span>${[
         ['all', 'Alle', op.length],
         ['b', 'Bauen', ocnt('b')],
         ['v', 'Verschmelzen', ocnt('v')],
@@ -14050,7 +14534,7 @@ function rulesHTML() {
       'ziel',
       'Ziel und Ablauf',
       ul([
-        `Ein Feldzug hat ${NBAT} Schlachten. Wer danach Platz 1 der Rangliste hält, gewinnt den Feldzug. Jede Niederlage kostet ein Leben; sind alle 6 weg, ist der Feldzug vorbei.`,
+        `Ein Feldzug hat ${NBAT} Schlachten. Wer danach Platz 1 der Rangliste hält, gewinnt den Feldzug.`,
         `<b>Plaketten:</b> Die Form zeigt das Volk – Barbaren gezackt, Dunkelelfen Raute, Zwerge Achteck, Orks Wappenschild, Hochelfen Tropfen; Wesen sind rund. Hell = deine, rot = gegnerische Einheiten. Der Rand zeigt die Stufe (Bronze, Silber, Gold), kleine Zeichen unten rechts die zweite Einheit einer Kombination. Jedes Volk hat sein eigenes Lager.`,
         `<b>Heer und Feld:</b> Deine Armee ist unbegrenzt. Aufs Feld dürfen in Schlacht 1 drei Regimenter, danach je Schlacht eines mehr (höchstens 10). Der Rest wartet in der Reserve.`,
         `Jede Runde hat vier Schritte: <b>Kaufen</b> (Draft, nur vor Schlacht 1, 3, 5, 7), <b>Bauen</b>, <b>Aufstellen</b>, <b>Kriegsrat</b> – dann folgt die Schlacht.`,
@@ -14182,7 +14666,7 @@ function rulesHTML() {
       'schlacht',
       'Schlacht',
       ul([
-        `<b>Ablauf:</b> Echtzeit, höchstens 200 s. Die Schlacht endet, wenn ein Lager fällt, eine Armee gebrochen oder vernichtet ist; sonst entscheidet die verbliebene Lebenskraft. Ohne eigene Einheiten ergibt sich das Lager.`,
+        `<b>Ablauf:</b> Echtzeit, höchstens 300 s (oder bis 25 s lang niemand mehr Schaden nimmt). Die Schlacht endet, wenn ein Lager fällt, eine Armee gebrochen oder vernichtet ist; sonst entscheidet die verbliebene Kampfkraft. Unentschieden gibt es nicht: Bei Gleichstand zählt der angerichtete Schaden, dann die Moral. Ohne eigene Einheiten ergibt sich das Lager.`,
         `<b>Bewegung:</b> Regimenter laufen auf den nächsten Feind zu, den ihre Seite sieht; das feindliche Lager kennen sie erst, wenn jemand es gesehen hat (sonst rücken sie vor). Zu tiefes Wasser umgehen sie über Furten; im Wasser und auf Umwegen ziehen sie sich zur Marschkolonne zusammen.`,
         `<b>Disziplin</b> (1–10) bestimmt, wie schnell ein Regiment schwenkt und umformt. Große Wendungen erzwingen ein Umformen (bis 5 s), Drehen auf der Stelle ist besonders langsam.`,
         `<b>Sicht:</b> ein Kegel nach vorn (90°) mit der Sichtweite des Regiments, dazu 8 Schritt rundum; das Lager sieht rundum. Wald verbirgt (Schattenläufer bis auf 3 Schritt), Dunkelheit verbirgt bis auf 15 Schritt, Hügel verdecken, was dahinter liegt, und erhöhen die eigene Sicht.`,
@@ -15275,7 +15759,7 @@ document.addEventListener('click', e => {
     equipA,
     ord: () => ord(v),
     wx: () => {
-      if (actMeta(S.units).weather && !S.wxUsed) {
+      if (fieldMeta().weather && !S.wxUsed) {
         S.wx = rollWx();
         S.wxUsed = true;
         S.msg = `Wetterkunde: neues Wetter ${WX[S.wx].n} – ${WX[S.wx].d}.`;
@@ -15319,6 +15803,22 @@ document.addEventListener('click', e => {
         u.ordT = +v;
         if (+v && !u.ord2) u.ord2 = 'auto';
       }
+    },
+    /* Vorschlag antippen = sofort bauen bzw. verschmelzen/kombinieren */
+    pkb: () => {
+      if (S.phase !== 'build') return;
+      S.selS = v.split(',').map(Number);
+      S.selU = [];
+      S.selE = null;
+      build();
+    },
+    pku: () => {
+      if (S.phase !== 'build') return;
+      S.selU = v.slice(1).split(',').map(Number);
+      S.selS = [];
+      S.selE = null;
+      if (v[0] === 'm') mergeA();
+      else combineA();
     },
     pk: () => {
       if (S.phase !== 'build') return;
