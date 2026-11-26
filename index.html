@@ -2667,6 +2667,112 @@ div.urow {
   aspect-ratio: 40 / 56;
 }
 
+[hidden] {
+  display: none !important;
+}
+
+/* Reiter-Zähler: Möglichkeiten im Reiter */
+.btabs button {
+  position: relative;
+}
+.tbn {
+  position: absolute;
+  top: -6px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: #f2c64c;
+  color: #2a1216;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
+  box-shadow: 0 1px 3px #0008;
+}
+/* Routenwahl: lange Knöpfe untereinander, mit Geländeangabe */
+#navb.stack {
+  flex-direction: column;
+  align-items: stretch;
+}
+#navb.stack .btn {
+  width: 100%;
+  height: auto;
+  min-height: 52px;
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  row-gap: 1px;
+  align-items: center;
+  justify-items: start;
+  text-align: left;
+  padding: 8px 14px;
+}
+#navb.stack .btn .bico {
+  grid-row: 1 / 3;
+}
+#navb.stack .btn .rsub {
+  grid-column: 2;
+}
+#navb .rsub {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+/* Sturmangriff: Staubfahne hinter dem Regiment, Leuchten am Feldzeichen */
+.tk.chg .bk {
+  box-shadow:
+    0 0 0 2px #fff0b0,
+    0 0 14px 4px #ffd27a99;
+}
+.tk.chg::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 120%;
+  height: 90%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at top, #c8b08ccc, #c8b08c00 70%);
+  pointer-events: none;
+  animation: dust 0.6s linear infinite;
+}
+@keyframes dust {
+  from {
+    opacity: 0.9;
+  }
+  to {
+    opacity: 0.4;
+  }
+}
+.num.cg {
+  color: #fff0b0;
+  font-weight: 900;
+  font-size: 13px;
+  text-shadow: 0 1px 3px #000;
+  white-space: nowrap;
+}
+.num.cmd {
+  color: #f2c64c;
+  font-weight: 800;
+  font-size: 11px;
+  white-space: nowrap;
+  text-shadow: 0 1px 3px #000;
+}
+.bss {
+  font-size: 11px;
+  color: var(--mut);
+  margin: -2px 0 4px;
+}
+.bss b {
+  color: var(--br);
+}
+
 </style>
   </head>
   <body>
@@ -3764,8 +3870,8 @@ div.urow {
         <div id="fbar" class="fbar"></div>
         <div class="panel side" id="resP">
           <div class="btabs" id="btabs"></div>
-          <h2>Gold <span id="gld" class="rekn"></span></h2>
-          <h2>Rekruten <span id="rek" class="rekn"></span></h2>
+          <h2 id="gldH">Gold <span id="gld" class="rekn"></span></h2>
+          <h2 id="rekH">Rekruten <span id="rek" class="rekn"></span></h2>
           <h2>Rohstoffe <span id="stc"></span></h2>
           <div id="stash" class="gems xs"></div>
           <div id="opts" class="opts"></div>
@@ -3836,9 +3942,9 @@ const fbm = (x, y) =>
   vn(x, y) * 0.6 + vn(x * 2.1 + 7, y * 2.1 + 3) * 0.3 + vn(x * 4.3 + 1, y * 4.3 + 9) * 0.1;
 
 /* Autobattler · Kampfwerte (automatisch erzeugt von apply.py / fix.py – nicht von Hand ändern) */
-/*TUNE*/const HPT={"bPL":37,"bAX":34,"bSH":49,"bSW":14,"bRE":19,"bHU":27,"bBA":36,"bSC":18,"bSS":18,"bFT":21,"bGR":24,"bHG":31,"bRB":21,"bHR":29,"bMW":43,"bPB":30,"bFW":17,"bST":43,"bKX":19,"bAP":26,"ePE":14,"eMY":24,"eHO":38,"eSK":23,"eTO":10,"eHI":19,"eHT":33,"eSW":36,"eOR":17,"eAK":54,"eSP":18,"eSI":15,"eFS":14,"eON":10,"eSF":23,"eTW":40,"eKN":16,"eSN":27,"eGM":13,"eAG":32,"zDA":29,"zHB":39,"zRA":12,"zFL":17,"zRW":17,"zKA":8,"zTB":13,"zPR":32,"zLR":22,"zMO":22,"zTK":38,"zGD":32,"zGM":41,"zJS":12,"zKB":9,"zAL":21,"zGB":18,"zTI":30,"zSN":28,"zKR":12,"bWU":50,"bSM":53,"bPH":40,"bHZ":48,"bBE":40,"bFR":20,"bAR":60,"bKH":49,"ePH":41,"eSC":49,"eKS":10,"eKT":35,"ePG":30,"eHK":59,"eSS":61,"eAR":53,"zPS":32,"zDW":6,"zFB":11,"zDR":24,"zTM":45,"zES":58,"zER":36,"zDG":50,"bGH":62,"bBK":78,"bAG":57,"bBS":35,"bKW":88,"eUP":46,"eGG":45,"eTR":87,"eSV":39,"eSG":35,"eHA":46,"zJG":84,"zHD":42,"zKK":33,"zWF":90,"zSR":42,"SAL":17,"FEL":26,"PHX":27,"KOB":18,"EGO":33,"WYR":35,"IRL":12,"SGE":9,"DVO":29,"FLS":18,"WHU":26,"BGI":44,"NGE":13,"KUG":15,"LGO":27,"HWO":33,"MAM":29,"MGO":46},ATT={"bPL":2,"bAX":5,"bSH":2,"bSW":2,"bRE":5,"bHU":5,"bBA":5,"bSC":1,"bSS":2,"bFT":3,"bGR":1,"bHG":5,"bRB":2,"bHR":5,"bMW":2,"bPB":6,"bFW":3,"bST":1,"bKX":1,"bAP":2,"ePE":1,"eMY":4,"eHO":2,"eSK":6,"eTO":1,"eHI":5,"eHT":7,"eSW":5,"eOR":1,"eAK":1,"eSP":2,"eSI":1,"eFS":4,"eON":3,"eSF":2,"eTW":2,"eKN":1,"eSN":5,"eGM":2,"eAG":5,"zDA":4,"zHB":4,"zRA":1,"zFL":5,"zRW":2,"zKA":3,"zTB":2,"zPR":7,"zLR":5,"zMO":2,"zTK":2,"zGD":5,"zGM":1,"zJS":2,"zKB":3,"zAL":1,"zGB":2,"zTI":5,"zSN":2,"zKR":2,"bWU":5,"bSM":6,"bPH":4,"bHZ":7,"bBE":7,"bFR":4,"bAR":2,"bKH":6,"ePH":2,"eSC":8,"eKS":4,"eKT":7,"ePG":2,"eHK":2,"eSS":2,"eAR":8,"zPS":3,"zDW":3,"zFB":4,"zDR":6,"zTM":5,"zES":4,"zER":8,"zDG":6,"bGH":5,"bBK":8,"bAG":6,"bBS":5,"bKW":11,"eUP":6,"eGG":4,"eTR":6,"eSV":5,"eSG":6,"eHA":3,"zJG":11,"zHD":7,"zKK":5,"zWF":5,"zSR":7,"SAL":4,"FEL":5,"PHX":7,"KOB":4,"EGO":4,"WYR":8,"IRL":4,"SGE":1,"DVO":7,"FLS":3,"WHU":4,"BGI":7,"NGE":4,"KUG":15,"LGO":5,"HWO":1,"MAM":6,"MGO":4},HLT={"bSC":5,"bKX":4,"bAP":4,"eOR":4,"eSN":2,"zMO":3,"zAL":4,"zSN":3,"bAR":6,"eHK":5,"zTM":3,"bAG":3,"eGG":3,"eTR":5,"eSV":3,"zWF":3},EFT={},MULT=[0,1,1.748,2.795];/*END*/
+/*TUNE*/const HPT={"bPL":37,"bAX":34,"bSH":49,"bSW":14,"bRE":19,"bHU":27,"bBA":36,"bSC":18,"bSS":18,"bFT":21,"bGR":24,"bHG":31,"bRB":21,"bHR":29,"bMW":43,"bPB":30,"bFW":17,"bST":43,"bKX":19,"bAP":26,"ePE":14,"eMY":24,"eHO":38,"eSK":23,"eTO":10,"eHI":19,"eHT":33,"eSW":36,"eOR":17,"eAK":54,"eSP":18,"eSI":15,"eFS":14,"eON":10,"eSF":23,"eTW":40,"eKN":16,"eSN":27,"eGM":13,"eAG":32,"zDA":29,"zHB":39,"zRA":12,"zFL":17,"zRW":17,"zKA":8,"zTB":13,"zPR":32,"zLR":22,"zMO":22,"zTK":38,"zGD":32,"zGM":41,"zJS":12,"zKB":9,"zAL":21,"zGB":18,"zTI":30,"zSN":28,"zKR":12,"bWU":50,"bSM":53,"bPH":40,"bHZ":48,"bBE":40,"bFR":20,"bAR":60,"bKH":49,"ePH":41,"eSC":49,"eKS":10,"eKT":35,"ePG":30,"eHK":59,"eSS":61,"eAR":53,"zPS":32,"zDW":6,"zFB":11,"zDR":24,"zTM":45,"zES":58,"zER":36,"zDG":50,"bGH":62,"bBK":78,"bAG":57,"bBS":35,"bKW":88,"eUP":46,"eGG":45,"eTR":87,"eSV":39,"eSG":35,"eHA":46,"zJG":84,"zHD":42,"zKK":33,"zWF":90,"zSR":42,"SAL":17,"FEL":26,"PHX":27,"KOB":18,"EGO":33,"WYR":35,"IRL":12,"SGE":9,"DVO":29,"FLS":18,"WHU":26,"BGI":44,"NGE":13,"KUG":15,"LGO":27,"HWO":33,"MAM":29,"MGO":46,"oPA":59,"oHH":41,"oEW":67,"hKA":47,"hKU":45,"oRO":98,"oHB":95,"hGK":65},ATT={"bPL":2,"bAX":5,"bSH":2,"bSW":2,"bRE":5,"bHU":5,"bBA":5,"bSC":1,"bSS":2,"bFT":3,"bGR":1,"bHG":5,"bRB":2,"bHR":5,"bMW":2,"bPB":6,"bFW":3,"bST":1,"bKX":1,"bAP":2,"ePE":1,"eMY":4,"eHO":2,"eSK":6,"eTO":1,"eHI":5,"eHT":7,"eSW":5,"eOR":1,"eAK":1,"eSP":2,"eSI":1,"eFS":4,"eON":3,"eSF":2,"eTW":2,"eKN":1,"eSN":5,"eGM":2,"eAG":5,"zDA":4,"zHB":4,"zRA":1,"zFL":5,"zRW":2,"zKA":3,"zTB":2,"zPR":7,"zLR":5,"zMO":2,"zTK":2,"zGD":5,"zGM":1,"zJS":2,"zKB":3,"zAL":1,"zGB":2,"zTI":5,"zSN":2,"zKR":2,"bWU":5,"bSM":6,"bPH":4,"bHZ":7,"bBE":7,"bFR":4,"bAR":2,"bKH":6,"ePH":5,"eSC":8,"eKS":4,"eKT":7,"ePG":2,"eHK":2,"eSS":2,"eAR":8,"zPS":3,"zDW":3,"zFB":5,"zDR":6,"zTM":5,"zES":4,"zER":8,"zDG":6,"bGH":6,"bBK":9,"bAG":10,"bBS":9,"bKW":11,"eUP":8,"eGG":8,"eTR":7,"eSV":5,"eSG":7,"eHA":3,"zJG":11,"zHD":7,"zKK":5,"zWF":5,"zSR":8,"SAL":4,"FEL":5,"PHX":7,"KOB":4,"EGO":4,"WYR":8,"IRL":4,"SGE":1,"DVO":7,"FLS":3,"WHU":4,"BGI":7,"NGE":4,"KUG":15,"LGO":5,"HWO":1,"MAM":6,"MGO":4,"oPA":8,"oHH":4,"oEW":7,"hKA":5,"hKU":9,"oRO":10,"oHB":7,"hGK":7},HLT={"bSC":5,"bKX":4,"bAP":4,"eOR":4,"eSN":2,"zMO":3,"zAL":4,"zSN":3,"bAR":6,"eHK":5,"zTM":3,"bAG":3,"eGG":3,"eTR":5,"eSV":3,"zWF":3},EFT={},MULT=[0,1,1.748,2.795];/*END*/
 /* Volksausgleich: LP-Faktor je Volk, aus dem Völker-Probelauf (probeF.js) */
-const FBAL = { ba: 1.1, de: 1.5, zw: 0.94, or: 1.02, he: 0.78 };
+const FBAL = { ba: 1.1, de: 1.5, zw: 0.94, or: 0.98, he: 0.88 };
 
 /* Autobattler · Rohstoffe, Güteklassen, Elemente, Sammelboni, Füttern */
 const RES = {
@@ -5630,6 +5736,10 @@ function setProps() {
   }
   for (const t in U) if (U[t].fly) U[t].cls = 'fly';
 }
+/* Munition je Schlacht: Geschütze 8, Büchsen/Kanonen (Schuss) 10, Plänkler 10, Bogen/Armbrust 15; Türme unbegrenzt */
+const ammoB = B =>
+    !B || B.twr || B.king || !(B.rng || B.line) ? 0 : B.cls === 'siege' ? 18 : B.line ? 20 : B.skir ? 20 : 28,
+  ammoOf = t => ammoB(U[t]);
 const isRanged = t => {
   const B = U[t];
   return B.rng || B.line || B.heal || B.king || B.hail;
@@ -5680,6 +5790,51 @@ const TR = {
   }
   U.KNG.tr = 1;
   U.KNG.rk = 1;
+})();
+/* Lebenspunkte je Modell: LP = Mann × LP je Mann (lpm). Wer stärker werden soll, bekommt mehr Mann (TRX),
+   nicht einfach mehr LP. Einzelkämpfer, Wesen und Lager behalten ihre LP. */
+const TRX = {
+  ePH: 62,
+  oPA: 15,
+  oHH: 57,
+  oEW: 29,
+  hKA: 45,
+  hKU: 18,
+  bGH: 51,
+  bBK: 22,
+  bAG: 46,
+  bBS: 38,
+  eUP: 47,
+  eGG: 42,
+  eTR: 10,
+  eSG: 22,
+  oRO: 18,
+  oHB: 50,
+  hGK: 38,
+  zSR: 21
+};
+(function () {
+  for (const t in U) {
+    const T = U[t];
+    if (T.king || T.twr || !T.tr || T.tr <= 2) continue;
+    T.lpm = Math.max(0.05, Math.round((T.hp / T.tr) * 100) / 100);
+    if (TRX[t]) {
+      T.tr = TRX[t];
+      T.rk =
+        T.cls === 'siege'
+          ? 1
+          : T.cls === 'cav' || T.cls === 'fly'
+            ? 2
+            : T.rng || T.line
+              ? 3
+              : T.tr >= 20
+                ? 4
+                : T.tr >= 8
+                  ? 3
+                  : 2;
+    }
+    T.hp = Math.max(1, Math.round(T.tr * T.lpm));
+  }
 })();
 /* Sonderfähigkeiten (keine reinen Wertboni) */
 const SPF = {
@@ -5855,9 +6010,11 @@ function formOf(t, n, fmax) {
 }
 const curTroops = u => Math.max(1, troopsOf(u) - (u.lost || 0)),
   uForm = u => formOf(u.t, curTroops(u)),
-  costOf = t => (U[t].cre ? 0 : U[t].tr);
+  costOf = t => (REK_ON && !U[t].cre ? U[t].tr : 0);
 
 /* Autobattler · Rezepte, Werkstätten, Gegenstände, Lager-Ausbauten, Verzauberung */
+/* Gegenstände (Herstellen aus zwei Rohstoffen) sind vorerst abgeschaltet – zum Wiedereinschalten auf true setzen */
+const ITEMS_ON = false;
 /* f = Volk; ohne Angabe das Volk des Spielers */
 const facOf = f => f || (S && S.fac) || 'ba';
 function fromStones(a, b, f) {
@@ -5908,7 +6065,7 @@ const campIns = () => {
     return (K && K.ins) || [];
   },
   craftOf = (a, b, ins, f) => {
-    if (a.type !== 'st' || b.type !== 'st') return null;
+    if (!ITEMS_ON || a.type !== 'st' || b.type !== 'st') return null;
     const k = rkey(a.k, b.k),
       c = CRAFT[k] || (facOf(f) === 'zw' && CRAFTZ[k]);
     return c && (ins || campIns()).includes(c[0]) ? c[1] : null;
@@ -6111,7 +6268,7 @@ const ORD = {
     q: 'Nimm dem Feind, was er hat',
     c: 2,
     fac: 'ba',
-    d: 'Barbaren: Moral +10. Bei Sieg erbeutest du 2 Rohstoffe und 3 Gold.'
+    d: 'Barbaren: Moral +10. Bei Sieg erbeutest du 2 Rohstoffe.'
   },
   ambush: {
     ic: 'u-hood',
@@ -6327,6 +6484,66 @@ const FORM = {
   }
 };
 const FLV = { linie: 1, keil: 2, igel: 2, hammer: 3 };
+/* Strategien des Generals – nach historischen Vorbildern. place = Aufstellung (FORM), lv = nötige Stufe des Generals.
+   Die Strategie bestimmt, welche Aufgaben der General im Kampf verteilt (22-command.js). */
+const STRAT = {
+  linie: {
+    place: 'linie',
+    lv: 1,
+    ic: 'b-lines',
+    n: 'Schlachtreihe',
+    hist: 'Grundform von der Phalanx bis zur Lineartaktik',
+    d: 'Linie gegen Linie: Fußvolk bindet die feindliche Front, Reiterei jagt Schützen oder greift in die Flanke, Schützen halten Feuerstellung. +10 Moral.'
+  },
+  sturm: {
+    place: 'keil',
+    lv: 1,
+    ic: 'b-wedge',
+    n: 'Ansturm',
+    hist: 'Highland Charge, Killiecrankie 1689',
+    d: 'Alles stürmt sofort auf den nächsten Feind, ohne Rücksicht auf die Ordnung. +1 Angriff in den ersten 20 s.'
+  },
+  stellung: {
+    place: 'igel',
+    lv: 1,
+    ic: 'b-spikes',
+    n: 'Feste Stellung',
+    hist: 'Crécy 1346, Azincourt 1415',
+    d: 'Alle halten ihre Stellung und lassen den Feind kommen. Schützen schießen, Nahkämpfer greifen nur an, wer bis auf 18 Schritt heranrückt. Die Regimenter brechen nicht aus, um Schützen zu jagen – Beschuss im Stillstand kostet deshalb Moral. Gegenmittel: Zermürben.'
+  },
+  amboss: {
+    place: 'hammer',
+    lv: 2,
+    ic: 'b-pincer',
+    n: 'Hammer und Amboss',
+    hist: 'Alexander bei Gaugamela 331 v. Chr.',
+    d: 'Das Fußvolk hält die Mitte (Amboss), die Reiterei schlägt in Flanke und Rücken (Hammer). Flankenangriffe ×1,75.'
+  },
+  schief: {
+    place: 'linie',
+    lv: 2,
+    ic: 'b-wedge',
+    n: 'Schiefe Schlachtordnung',
+    hist: 'Epaminondas bei Leuktra 371 v. Chr., Friedrich II. bei Leuthen 1757',
+    d: 'Der stärkere Flügel greift zuerst an, der schwächere folgt gestaffelt und langsam nach.'
+  },
+  umfassung: {
+    place: 'linie',
+    lv: 3,
+    ic: 'b-pincer',
+    n: 'Doppelte Umfassung',
+    hist: 'Hannibal bei Cannae 216 v. Chr.',
+    d: 'Die Mitte rückt langsam vor und bindet, die Flügel ziehen außen herum und fassen den Gegner von beiden Seiten.'
+  },
+  zermuerben: {
+    place: 'linie',
+    lv: 3,
+    ic: 'b-target',
+    n: 'Zermürben',
+    hist: 'Mongolen bei Liegnitz 1241, Parther bei Carrhae 53 v. Chr.',
+    d: 'Schützen halten Abstand und weichen vor Nahkämpfern zurück, Reiterei jagt Schützen. Das Fußvolk wartet, bis der Gegner unter 75 % Stärke ist, dann greift es an.'
+  }
+};
 const maxOrd = () => genLv(S.units, S.chr || []),
   hasSpy = () => S.orders.includes('spy') || S.orders.includes('gspy') || !!actMeta(S.units).spy,
   hasRecon = () => S.orders.includes('scout') || S.orders.includes('gspy') || !!actMeta(S.units).recon,
@@ -6423,10 +6640,12 @@ const chTxt = ch =>
         .filter(ch => CHR[ch.c].gen)
         .map(ch => ch.lv)
     ),
+  /* Stufe des besten Generals ohne Regiment (führt in der Schlacht vom Lager aus) */
+  freeGen = L => Math.max(0, ...(L || []).filter(ch => CHR[ch.c].gen).map(ch => ch.lv)),
   isCmd = u => !!(u.ch && CHR[u.ch.c].gen),
   hasCmd = us => genLv(us.filter(u => u.pos)) > 0,
   canLead = u => u && !U[u.t].king && !U[u.t].cre,
-  ordOK = (u, k) => (ORDU[k].rk || 0) <= chRank(u);
+  ordOK = (u, k) => (ORDU[k].rk || 0) <= chRank(u); /* nur noch für alte Spielstände */
 
 /* Klartext: was ein Charakter je Stufe bewirkt und was er freischaltet */
 function chExplain(c, lvNow) {
@@ -6434,16 +6653,13 @@ function chExplain(c, lvNow) {
     lv = [1, 2, 3]
       .map(l => `<span class="${l === lvNow ? 'on' : ''}"><b>Stufe ${l}</b> ${chTxt({ c, lv: l })}</span>`)
       .join(''),
-    unl = Object.values(ORDU)
-      .filter(o => o.rk && o.rk <= C.rk)
-      .map(o => o.n);
-  if (C.rk >= 2) unl.push('Zeitbefehl');
-  return `<div class="chx"><p><b>Wirkt auf sein Regiment:</b></p><div class="chlv">${lv}</div><p><b>Schaltet für das Regiment frei:</b> ${unl.join(', ')} · Disziplin +${C.rk}.</p>${
+    rad = (CMDR[C.rk] || 15) + 5 * ((lvNow || 1) - 1);
+  return `<div class="chx"><p><b>Wirkt auf sein Regiment:</b></p><div class="chlv">${lv}</div><p><b>Befehlsradius:</b> ${rad} Schritt (+5 je Stufe) – Regimenter darin führt er nach dem Plan des Generals. Disziplin +${C.rk}.</p>${
     C.gen
-      ? `<p><b>Als General:</b> Kriegsrat mit so vielen Befehlen pro Schlacht wie seine Stufe; Formationen ${Object.entries(
-          FLV
+      ? `<p><b>Als General:</b> Kriegsrat mit so vielen Befehlen pro Schlacht wie seine Stufe; Strategien ${Object.values(
+          STRAT
         )
-          .map(([k, l]) => `${FORM[k].n} ab Stufe ${l}`)
+          .map(f => `${f.n} ab Stufe ${f.lv}`)
           .join(', ')}. Nur einer im Heer.</p>`
       : ''
   }</div>`;
@@ -7033,38 +7249,57 @@ function passArr(cls) {
   CTX.ff.set(k, P);
   return P;
 }
+/* Strömungsfeld zum Ziel g: Kosten je Zelle 10, im Wasser teurer (bis +40 bei tiefem Wasser), Diagonale ×1,4.
+   Dial-Algorithmus mit Eimern – damit Regimenter Furtmitte und trockenes Land dem Watdurchgang vorziehen. */
 function flow(cls, g) {
   const k = cls + g;
   if (CTX.ff.has(k)) return CTX.ff.get(k);
   const N = NX * NY,
     f = new Float32Array(N).fill(1e9),
     P = passArr(cls),
-    q = new Int32Array(N);
-  let a = 0,
-    b = 0;
+    W = wetArr(),
+    B = [];
   f[g] = 0;
-  q[b++] = g;
-  while (a < b) {
-    const i = q[a++],
-      x = i % NX,
-      y = (i - x) / NX,
-      d = f[i] + 1;
-    for (let dy = -1; dy <= 1; dy++)
-      for (let dx = -1; dx <= 1; dx++) {
-        if (!dx && !dy) continue;
-        const c = x + dx,
-          r = y + dy;
-        if (c < 0 || r < 0 || c >= NX || r >= NY) continue;
-        const j = r * NX + c;
-        if (!P[j] || f[j] <= d) continue;
-        if (dx && dy && (!P[y * NX + c] || !P[r * NX + x])) continue;
-        f[j] = d;
-        q[b++] = j;
-      }
+  B[0] = [g];
+  for (let d = 0; d < B.length; d++) {
+    const L = B[d];
+    if (!L) continue;
+    for (const i of L) {
+      if (f[i] < d) continue;
+      const x = i % NX,
+        y = (i - x) / NX;
+      for (let dy = -1; dy <= 1; dy++)
+        for (let dx = -1; dx <= 1; dx++) {
+          if (!dx && !dy) continue;
+          const c = x + dx,
+            r = y + dy;
+          if (c < 0 || r < 0 || c >= NX || r >= NY) continue;
+          const j = r * NX + c;
+          if (!P[j]) continue;
+          if (dx && dy && (!P[y * NX + c] || !P[r * NX + x])) continue;
+          const nd = d + Math.round((10 + W[j]) * (dx && dy ? 1.4 : 1));
+          if (nd >= f[j]) continue;
+          f[j] = nd;
+          (B[nd] || (B[nd] = [])).push(j);
+        }
+    }
   }
+  for (let i = 0; i < N; i++) if (f[i] < 1e9) f[i] /= 10;
   if (CTX.ff.size > 300) CTX.ff.clear();
   CTX.ff.set(k, f);
   return f;
+}
+/* Zusatzkosten Wasser je Navigationszelle (0 trocken … 40 tief) */
+function wetArr() {
+  if (CTX.ff.has('wet')) return CTX.ff.get('wet');
+  const W = new Uint8Array(NX * NY);
+  if (RX())
+    for (let i = 0; i < NX * NY; i++) {
+      const d = dR(CTX.R, ((i % NX) + 0.5) * NC, (Math.floor(i / NX) + 0.5) * NC);
+      W[i] = d > 0.05 ? Math.min(40, Math.round(d * 30)) : 0;
+    }
+  CTX.ff.set('wet', W);
+  return W;
 }
 const nI = (x, y) =>
   Math.max(0, Math.min(NY - 1, Math.floor(y / NC))) * NX + Math.max(0, Math.min(NX - 1, Math.floor(x / NC)));
@@ -7077,38 +7312,70 @@ function clearLine(cls, x1, y1, x2, y2) {
   }
   return true;
 }
+/* Wegfindung: freie Sicht zum Ziel → geradeaus. Sonst dem Strömungsfeld bis zu 10 Zellen voraus folgen und den
+   entferntesten Punkt dieses Weges anpeilen, der noch in gerader Linie erreichbar ist (Weg glätten).
+   Ein angepeilter Wegpunkt wird gehalten, solange er erreichbar ist und näher am Ziel liegt – das verhindert Zickzack. */
 function steer(u, tx, ty) {
-  if (clearLine(u.cls, u.x, u.y, tx, ty)) return [tx - u.x, ty - u.y];
-  const f = flow(u.cls, nI(tx, ty)),
-    P = passArr(u.cls),
-    c = nI(u.x, u.y),
-    x = c % NX,
-    y = (c - x) / NX;
-  let b = -1,
-    bd = f[c] + 0.01 * Math.hypot(u.x - tx, u.y - ty);
-  for (let dy = -1; dy <= 1; dy++)
-    for (let dx = -1; dx <= 1; dx++) {
-      const a = x + dx,
-        q = y + dy;
-      if ((!dx && !dy) || a < 0 || q < 0 || a >= NX || q >= NY) continue;
-      /* Richtung beibehalten (Bonus), damit Regimenter nicht zwischen zwei Furten pendeln */
-      const j = q * NX + a,
-        sc =
-          f[j] +
-          0.01 * Math.hypot((a + 0.5) * NC - tx, (q + 0.5) * NC - ty) -
-          (u.sdx === dx && u.sdy === dy ? 0.6 : 0);
-      if (P[j] && sc < bd) {
-        bd = sc;
-        b = j;
-        u.ndx = dx;
-        u.ndy = dy;
-      }
-    }
-  if (b >= 0) {
-    u.sdx = u.ndx;
-    u.sdy = u.ndy;
+  if (clearLine(u.cls, u.x, u.y, tx, ty)) {
+    u.wp = null;
+    return [tx - u.x, ty - u.y];
   }
-  return b < 0 ? [tx - u.x, ty - u.y] : [((b % NX) + 0.5) * NC - u.x, (Math.floor(b / NX) + 0.5) * NC - u.y];
+  const g = nI(tx, ty),
+    f = flow(u.cls, g),
+    P = passArr(u.cls),
+    c0 = nI(u.x, u.y);
+  const ctr = j => [((j % NX) + 0.5) * NC, (Math.floor(j / NX) + 0.5) * NC];
+  /* alten Wegpunkt behalten? */
+  if (u.wp && u.wp.g === g && f[u.wp.j] < f[c0] && Math.hypot(u.wp.x - u.x, u.wp.y - u.y) > NC * 0.8) {
+    if (clearLine(u.cls, u.x, u.y, u.wp.x, u.wp.y)) return [u.wp.x - u.x, u.wp.y - u.y];
+  }
+  const path = [];
+  let c = c0;
+  for (let k = 0; k < 10; k++) {
+    const x = c % NX,
+      y = (c - x) / NX;
+    let b = -1,
+      bd = f[c];
+    for (let dy = -1; dy <= 1; dy++)
+      for (let dx = -1; dx <= 1; dx++) {
+        const a = x + dx,
+          q = y + dy;
+        if ((!dx && !dy) || a < 0 || q < 0 || a >= NX || q >= NY) continue;
+        const j = q * NX + a;
+        if (!P[j] || (dx && dy && (!P[y * NX + a] || !P[q * NX + x]))) continue;
+        const sc = f[j] + (dx && dy ? 0.05 : 0);
+        if (sc < bd) {
+          bd = sc;
+          b = j;
+        }
+      }
+    if (b < 0) break;
+    path.push(b);
+    c = b;
+    if (c === g) break;
+  }
+  if (!path.length) return [tx - u.x, ty - u.y];
+  let pick = path[0];
+  const W = wetArr(),
+    wmax = [];
+  path.forEach((j, k) => (wmax[k] = Math.max(k ? wmax[k - 1] : W[c0], W[j])));
+  /* gerade Linie nur, wenn sie nicht tiefer ins Wasser führt als der Weg selbst */
+  const dryLine = (px, py, lim) => {
+    const n = Math.ceil(Math.hypot(px - u.x, py - u.y) / 1.2);
+    for (let q = 1; q <= n; q++)
+      if (W[nI(u.x + ((px - u.x) * q) / n, u.y + ((py - u.y) * q) / n)] > lim + 2) return false;
+    return true;
+  };
+  for (let k = path.length - 1; k >= 0; k--) {
+    const [px, py] = ctr(path[k]);
+    if (clearLine(u.cls, u.x, u.y, px, py) && dryLine(px, py, wmax[k])) {
+      pick = path[k];
+      break;
+    }
+  }
+  const [px, py] = ctr(pick);
+  u.wp = { x: px, y: py, j: pick, g };
+  return [px - u.x, py - u.y];
 }
 function spF(u) {
   if (u.cls === 'fly') return 1;
@@ -7290,13 +7557,27 @@ function separate(us) {
       const p = a[i],
         q = a[j];
       if (dist(p, q) > p.r + q.r) continue;
-      /* eigene Regimenter, die gerade marschieren, ziehen durcheinander hindurch */
-      if (p.side === q.side && (p.stl === 0 || q.stl === 0 || p.col || q.col) && !p.pin && !q.pin) continue;
       const S2 = sat(p, q);
       if (S2.gap >= -0.15) continue;
-      const kp = U[p.t].king ? 0 : U[q.t].king ? 1 : p.pin && !q.pin ? 0.15 : q.pin && !p.pin ? 0.85 : 0.5,
+      /* eigene Regimenter überlappen nicht: wer marschiert, weicht dem Stehenden aus (sanft, damit niemand festklemmt) */
+      const fr = p.side === q.side,
+        pm = p.stl === 0,
+        qm = q.stl === 0,
+        kp = U[p.t].king
+          ? 0
+          : U[q.t].king
+            ? 1
+            : p.pin && !q.pin
+              ? 0.15
+              : q.pin && !p.pin
+                ? 0.85
+                : fr && pm !== qm
+                  ? pm
+                    ? 0.85
+                    : 0.15
+                  : 0.5,
         kq = 1 - kp,
-        o = S2.ov + 0.05,
+        o = (S2.ov + 0.05) * (fr && (pm || qm) ? 0.6 : 1),
         mv = (w, s) => {
           if (!s) return;
           const nx = Math.max(w.r, Math.min(GW - w.r, w.x + S2.mx * o * s)),
@@ -7456,10 +7737,14 @@ function bu(u, side, bn) {
     side,
     t: u.t,
     st: u.s,
-    ord: u.ord || 'auto',
-    ord2: u.ordT ? u.ord2 || 'auto' : '',
-    ordT: u.ordT || 0,
+    ord: 'auto' /* Befehle gibt nur noch der General (Strategie) */,
+    ord2: '',
+    ordT: 0,
     ch: u.ch ? u.ch.c : '',
+    chl: u.ch ? u.ch.lv || 1 : 0,
+    /* Munition: Schüsse bzw. Salven je Schlacht; danach kämpft das Regiment im Nahkampf oder zieht sich zurück */
+    am: U[u.t].twr ? 1e9 : ammoOf(u.t),
+    am0: ammoOf(u.t),
     sta: u.sta || '',
     dis: Math.min(10, (B.dis || 5) + (u.ch ? CHR[u.ch.c].rk : 0)),
     den: (B.den || 2) + (u.sta === 'tight' ? 1 : u.sta === 'loose' ? -2 : 0),
@@ -7563,6 +7848,9 @@ function hurt(t, v, us, src) {
   if (src && t.hp > 0 && t.hp - v <= 0 && !U[t.t].king && src.side !== t.side) src.kl = (src.kl || 0) + 1;
   t.hp -= v;
   t.dmgW = (t.dmgW || 0) + v;
+  /* Wer in fester Stellung stillhält und beschossen wird, verliert Moral (30 je voller LP-Leiste) */
+  if (CTX && src && isRanged(src.t) && t.holdT > CTX.t && CTX.form[t.side] === 'stellung')
+    CTX.mor[t.side] = Math.max(0, CTX.mor[t.side] - (30 * real) / (t.max || 1));
   updForm(t);
   const T = U[t.t];
   if (t.hp <= 0 && T.rebirth && !t.reb) {
@@ -7613,7 +7901,7 @@ function hurt(t, v, us, src) {
 }
 const effIni = o => o.ini - (inSwamp(o) ? 2 : 0);
 /* Fernkampf: bis zur halben Reichweite voller Schaden, danach fällt er bis auf RFMIN an der Grenze; RBASE dämpft allgemein */
-const RBASE = 0.7,
+const RBASE = 0.8,
   RFMIN = 0.4,
   rFall = (d, R) => RBASE * (1 - (1 - RFMIN) * Math.max(0, Math.min(1, (d / R - 0.5) / 0.5)));
 function hit(u, t, us, pierce, ev, ranged, mult) {
@@ -7668,7 +7956,13 @@ function hit(u, t, us, pierce, ev, ranged, mult) {
   if (!ranged && (u.run || 0) >= 8 && (B.charge || u.rchg || B.cls === 'cav') && noChg) u.run = 0;
   if (!ranged && (u.run || 0) >= 8 && (B.charge || u.rchg || B.cls === 'cav') && !noChg) {
     u.run = 0;
-    if (!T.pike) {
+    /* Speere wirken nur von vorn: dort heben sie den Sturmangriff auf und treffen die anstürmende Reiterei */
+    const pikeFront = T.pike && !t.flee && angD(Math.atan2(u.y - t.y, u.x - t.x), t.fa) <= 1.0;
+    if (pikeFront && B.cls === 'cav') {
+      hurt(u, T.pike * 3 * (t.st || 1), us, t);
+      if (ev) ev.pikes = 1;
+    }
+    if (!pikeFront) {
       const base = (B.charge || u.rchg ? 2 : 1.5) + (u.sta === 'wedge' ? 0.4 : 0) + (od('joust') ? 0.5 : 0),
         f = Math.max(0.5, Math.min(1.6, 1 + 0.15 * ((u.den || 2) - tDen)));
       a = Math.round(a * base * f);
@@ -7681,12 +7975,12 @@ function hit(u, t, us, pierce, ev, ranged, mult) {
     u.wcU = 1;
     if (!t.flee) t.mtq = t.mtq || 'fear';
   }
-  if (CTX && CTX.form[u.side] === 'keil' && CTX.t < 20) a += 1;
+  if (CTX && CTX.form[u.side] === 'sturm' && CTX.t < 20) a += 1;
   /* Flanke ×1,5 (Hammer und Amboss ×1,75), Rücken ×2 */
   if (!ranged && !T.king && angD(Math.atan2(u.y - t.y, u.x - t.x), t.fa) > 1.4) {
     const rear = angD(Math.atan2(u.y - t.y, u.x - t.x), t.fa) > 2.4;
     a = Math.round(
-      a * (rear ? 2 : CTX && CTX.form[u.side] === 'hammer' ? 1.75 : 1.5) * (t.sta === 'wedge' ? 1.25 : 1)
+      a * (rear ? 2 : CTX && CTX.form[u.side] === 'amboss' ? 1.75 : 1.5) * (t.sta === 'wedge' ? 1.25 : 1)
     );
     if (ev) ev[rear ? 'rear' : 'flank'] = 1;
     if (!t.flee && CTX && CTX.t >= (t.fT || 0)) {
@@ -7707,7 +8001,6 @@ function hit(u, t, us, pierce, ev, ranged, mult) {
         Math.ceil(a / 2),
         a -
           t.arm -
-          (CTX && CTX.form[t.side] === 'igel' ? 1 : 0) -
           ward -
           (banN(t.side, 'r', t) ? 1 : 0) -
           (T.dig && t.stl >= 1 ? 2 : 0) -
@@ -8005,6 +8298,8 @@ function flankGoal(u, g, al) {
   u.flk = { id: g.id, k: c.k, go: dist(u, c) <= 4 };
   return u.flk.go ? g : c;
 }
+/* hat das Regiment gerade Befehlsverbindung (General auf seiner Seite und im Befehlsradius)? */
+const cmdOK = u => !!(CTX.cmd && CTX.cmd[u.side].gen && u.inCmd);
 function act(u, us, ev) {
   const B = U[u.t],
     t = CTX.t;
@@ -8226,12 +8521,13 @@ function act(u, us, ev) {
       return still();
     }
   }
-  if (B.rng && !u.pin) {
+  if (B.rng && !u.pin && u.am > 0) {
     const RR = B.rng * 10 + rb + (u.rngB || 0),
       inR = foes.filter(o => gap(o) <= RR && los(u, o));
     if (inR.length) {
       if (ready && !aim(pickS(inR))) return still();
       if (ready) {
+        u.am--;
         const tt = pickS(inR),
           e = shoot(tt, B.pierce, (B.volley ? 0.55 : 1) * rFall(gap(tt), RR));
         if (B.volley) {
@@ -8253,18 +8549,20 @@ function act(u, us, ev) {
       if (th && u.ord !== 'halt' && u.root <= t && !B.king) {
         if (moveU(u, u.x - th.x, u.y - th.y, B.skir ? 1 : 0.8, 1)) {
           u.stl = 0;
+          /* nach dem Zurückweichen 2 s nicht wieder vorrücken – sonst pendeln Schützen vor und zurück */
           return;
         }
       }
       return still();
     }
   }
-  if (B.line && !u.pin) {
+  if (B.line && !u.pin && u.am > 0) {
     const LR = B.line * 10 + rb,
       inR = foes.filter(o => gap(o) <= LR && los(u, o));
     if (inR.length) {
       if (ready && !aim(pickS(inR))) return still();
       if (ready) {
+        u.am--;
         const tt = pickS(inR),
           e = shoot(tt, 1, rFall(gap(tt), LR));
         if (B.thru) {
@@ -8400,7 +8698,9 @@ function act(u, us, ev) {
   let goal = null;
   /* Lage der eigenen Seite: ausgeschossen (CTX.ag) → Leibwachen geben das Lager frei und alle rücken vor */
   const ag = CTX.ag[u.side];
-  if (shooter && !meleeNear) goal = shooter;
+  /* Feste Stellung: diszipliniert – die Regimenter brechen nicht aus, um Schützen zu jagen (dafür kostet Beschuss Moral) */
+  const dug = CTX.form && CTX.form[u.side] === 'stellung' && cmdOK(u);
+  if (shooter && !meleeNear && !dug) goal = shooter;
   else if (
     u.ord === 'guard' &&
     !ag &&
@@ -8414,8 +8714,17 @@ function act(u, us, ev) {
     if (u.gRet) goal = myC;
     else {
       const th = foes.filter(o => dist(o, myC) <= 50);
-      if (!th.length && !shooter) return still();
-      goal = th.length ? nearS(th) : shooter;
+      if (!th.length && !shooter && isRanged(u.t)) {
+        /* Schützen als Lagerwache: bis 35 Schritt vor das Lager in Richtung Feind, damit sie mitschießen */
+        const f = foes.length ? near(foes) : known();
+        if (!f) return still();
+        const d = dist(myC, f) || 1,
+          k = Math.min(35, d) / d,
+          pt = { x: myC.x + (f.x - myC.x) * k, y: myC.y + (f.y - myC.y) * k };
+        if (Math.hypot(u.x - pt.x, u.y - pt.y) < 4) return still();
+        goal = pt;
+      } else if (!th.length && !shooter) return still();
+      else goal = th.length ? nearS(th) : shooter;
     }
   } else if (u.ord === 'raid') goal = known();
   else if (u.ord === 'hill' && hillPt(u)) goal = hillPt(u);
@@ -8431,6 +8740,14 @@ function act(u, us, ev) {
       return false;
     })()
   ) {
+  } else if (u.ord === 'auto' && cmdOK(u) && taskGoal(u, foesA)) {
+    /* Befehl vom General oder Offizier (nach der Strategie) */
+    goal = taskGoal(u, foesA);
+    u.holdT = goal.stay ? t + 0.6 : 0;
+    if (goal.stay) return still();
+  } else if (u.ord === 'auto' && !cmdOK(u)) {
+    /* ohne Befehl: eigenständig, nur für sich */
+    goal = selfGoal(u, foes, foesA) || known();
   } else {
     let pool = foes;
     const rf = foes.filter(o => isRanged(o.t) && !U[o.t].king);
@@ -8457,8 +8774,33 @@ function act(u, us, ev) {
       };
     }
   }
-  if (!goal) return still();
-  const [dx, dy] = steer(u, goal.x, goal.y);
+  if (!goal || (u.bkT > t && isRanged(u.t))) return still();
+  let [dx, dy] = steer(u, goal.x, goal.y);
+  /* eigenen Regimentern voraus seitlich ausweichen, statt hineinzulaufen */
+  {
+    const L0 = Math.hypot(dx, dy) || 1,
+      ux = dx / L0,
+      uy = dy / L0;
+    let sx = 0;
+    for (const o of al) {
+      if (o === u || U[o.t].king || o.hp <= 0) continue;
+      const rx = o.x - u.x,
+        ry = o.y - u.y,
+        ahead = rx * ux + ry * uy,
+        lat = -rx * uy + ry * ux,
+        need = (u.r + o.r) * 0.85;
+      if (ahead <= 0 || ahead > need + 6 || Math.abs(lat) >= need) continue;
+      sx += (lat >= 0 ? -1 : 1) * (1 - Math.abs(lat) / need) * (1 - ahead / (need + 6));
+    }
+    if (sx) {
+      const k = Math.max(-1.2, Math.min(1.2, sx * 1.5));
+      dx = ux - uy * k;
+      dy = uy + ux * k;
+      const L1 = Math.hypot(dx, dy);
+      dx = (dx / L1) * L0;
+      dy = (dy / L1) * L0;
+    }
+  }
   /* Marschkolonne (4 Mann breit) nur, wenn Wasser oder ein Hindernis direkt voraus liegt; Wechsel mit Verzögerung,
      damit Regimenter nicht ständig umformen: in Kolonne nach 1 s Bedarf, zurück in Linie nach 3 s ohne Bedarf */
   if (!u.sg) {
@@ -8478,8 +8820,11 @@ function act(u, us, ev) {
       updForm(u);
     }
   }
-  if (moveU(u, dx, dy)) {
+  if (moveU(u, dx, dy, u.ord === 'auto' && !cmdOK(u) ? 0.88 : u.task && u.task.k === 'slow' ? 0.6 : 0)) {
     u.stl = 0;
+    /* Sturmangriff sichtbar machen: genug Anlauf und ein Feind kurz voraus */
+    if ((B.charge || u.rchg || B.cls === 'cav') && (u.run || 0) >= 8 && foes.some(o => gap(o) <= 14))
+      u.cgT = t + 0.8;
     if (B.thunder && t >= (u.thc || 0)) {
       const hl = foesA.filter(o => gapAB(o, u) <= 3);
       if (hl.length) {
@@ -8514,6 +8859,9 @@ function simulate(pl, en, noFrames, b0, b1, opt) {
     vb: opt.vb || [0, 0],
     /* Arkane Augen je Seite: [{x, y, r}] – alles im Kreis ist sichtbar */
     eyes: opt.eyes || [[], []],
+    /* Stufe eines Generals ohne Regiment (führt vom Lager aus) */
+    genFree: opt.genFree || [0, 0],
+    cmd: null,
     ag: [false, false],
     /* Gehärteter Stahl (Eisen III): Durchschlag gegen diese Seite wirkt nur halb */
     hard: [!!(b0 && b0.sp && b0.sp.includes('e')), !!(b1 && b1.sp && b1.sp.includes('e'))],
@@ -8533,6 +8881,7 @@ function simulate(pl, en, noFrames, b0, b1, opt) {
     }
     o.n1 = o.sg ? 0 : Math.ceil(o.hp / o.hpp);
   });
+  CTX.us = us;
   CTX.ml = [0, 1].map(s =>
     Math.max(4, Math.round(72 / Math.max(1, us.filter(o => o.side === s && !U[o.t].king).length)))
   );
@@ -8592,6 +8941,10 @@ function simulate(pl, en, noFrames, b0, b1, opt) {
           atk: o.atk,
           arm: o.arm,
           ac: actOf(o),
+          tk: U[o.t].king || U[o.t].twr ? '' : taskName(o),
+          am: o.am0 ? o.am : -1,
+          am0: o.am0,
+          cg: o.cgT > CTX.t ? 1 : 0,
           sx: (o.burnT > 0 ? 'b' : '') + (o.frz > CTX.t ? 'z' : '') + (o.root > CTX.t ? 'r' : '')
         })),
       ev,
@@ -8608,6 +8961,7 @@ function simulate(pl, en, noFrames, b0, b1, opt) {
     if (k % 4 === 0) assess(us);
     const ev = [];
     CTX.ev = ev;
+    commandTick(us, ev);
     const hp0 = us.reduce((s, o) => s + Math.max(0, o.hp), 0);
     for (const u of us.filter(o => o.hp > 0).sort(() => Math.random() - 0.5)) {
       if (u.hp <= 0) continue;
@@ -8729,6 +9083,264 @@ function place(us, side, m) {
     });
 }
 
+/* Autobattler · Befehlsführung: General und Offiziere geben Befehle, sobald neue Feinde sichtbar werden.
+   Regimenter im Befehlsradius eines Befehlshabers bekommen eine Aufgabe nach ihrer Rolle.
+   Alle anderen handeln selbst: sie reagieren später, wählen nur alle 2,5 s ein Ziel (meist den nächsten Feind)
+   und marschieren etwas langsamer. Ohne General gibt es keinen Plan – dann handelt jeder selbst. */
+
+/* Befehlsradius: General 30, Held/Spezialist 20, Unteroffizier 15 – je Stufe +5 */
+const CMDR = { 3: 30, 2: 20, 1: 15 },
+  /* Aufgaben, wie sie in der Seitenleiste stehen */
+  TASKN = {
+    line: 'Linie',
+    pike: 'Speere vor',
+    flank: 'Flanke',
+    hunt: 'Jagt Schützen',
+    fire: 'Feuerstellung',
+    screen: 'Plänkelt vor',
+    back: 'Bleibt zurück',
+    brk: 'Durchbruch',
+    hold: 'Hält Stellung',
+    wait: 'Wartet ab',
+    kite: 'Hält Abstand',
+    slow: 'Bindet langsam',
+    wing: 'Umfasst',
+    self: 'Eigenständig'
+  };
+/* Platzhalter-Ziel „stehen bleiben“ */
+const STAY = { stay: 1 };
+
+/* Rolle eines Regiments aus seinen Eigenschaften */
+function roleOf(o) {
+  const B = U[o.t],
+    c = B.cls;
+  /* Munition verschossen: Schützen werden zur Linie, reine Fernkämpfer bleiben zurück */
+  if (o.am0 && o.am <= 0) return B.nomelee ? 'siege' : 'line';
+  if (B.skir) return 'skir';
+  if (c === 'siege') return 'siege';
+  if (isRanged(o.t) && !B.king) return 'shoot';
+  if (c === 'cav' || c === 'fly') return 'cav';
+  if (c === 'beast' || c === 'giant') return 'mon';
+  if (B.pike) return 'pike';
+  return 'line';
+}
+
+/* Befehlshaber einer Seite: Regimenter mit Charakter; ein General ohne Regiment führt vom Lager aus */
+function commanders(us, s) {
+  const L = [];
+  for (const o of us) {
+    if (o.hp <= 0 || o.side !== s) continue;
+    if (o.ch && CHR[o.ch]) {
+      const C = CHR[o.ch];
+      L.push({ x: o.x, y: o.y, id: o.id, gen: !!C.gen, r: (CMDR[C.rk] || 15) + 5 * ((o.chl || 1) - 1) });
+    }
+  }
+  const fg = (CTX.genFree || [0, 0])[s],
+    camp = us.find(o => o.side === s && U[o.t].king && o.hp > 0);
+  if (fg && camp) L.push({ x: camp.x, y: camp.y, id: camp.id, gen: true, r: CMDR[3] + 5 * (fg - 1) });
+  return L;
+}
+const hasGeneral = (us, s) => commanders(us, s).some(c => c.gen);
+
+const powerOf = o => o.hp * (o.atk + 0.5 * (o.arm || 0));
+function cmdInit(us) {
+  CTX.cmd = [0, 1].map(s => {
+    const own = us.filter(o => o.side === s && !U[o.t].king && !U[o.t].twr),
+      cx = own.reduce((a, o) => a + o.x, 0) / (own.length || 1);
+    own.forEach(o => (o.wing = o.x < cx - 8 ? 'L' : o.x > cx + 8 ? 'R' : 'C'));
+    const cms = commanders(us, s);
+    own.forEach(o => (o.inCmd = cms.some(c => c.id === o.id || dist(c, o) <= c.r)));
+    const pw = w => own.filter(o => o.wing === w).reduce((a, o) => a + powerOf(o), 0);
+    return {
+      seen: new Set(),
+      due: -1,
+      next: 0,
+      gen: hasGeneral(us, s),
+      strong: pw('L') >= pw('R') ? 'L' : 'R',
+      str0: own.reduce((a, o) => a + o.hp, 0) || 1
+    };
+  });
+}
+/* aktuelle Stärke einer Seite im Verhältnis zum Beginn (für „Zermürben“) */
+const strengthOf = (us, s) =>
+  us.filter(o => o.side === s && o.hp > 0 && !U[o.t].king && !U[o.t].twr).reduce((a, o) => a + o.hp, 0) /
+  CTX.cmd[s].str0;
+
+/* jede Runde: neue Feinde gesichtet → nach kurzer Bedenkzeit neuer Plan; sonst alle 6 s nachsteuern */
+function commandTick(us, ev) {
+  if (!CTX.cmd) cmdInit(us);
+  for (const s of [0, 1]) {
+    const C = CTX.cmd[s];
+    C.gen = hasGeneral(us, s);
+    let fresh = 0;
+    for (const id of CTX.V[s])
+      if (!C.seen.has(id)) {
+        C.seen.add(id);
+        fresh++;
+      }
+    if (!C.gen) continue;
+    if (fresh && C.due < 0) C.due = CTX.t + 0.5;
+    if ((C.due >= 0 && CTX.t >= C.due) || (C.next && CTX.t >= C.next)) {
+      C.due = -1;
+      C.next = CTX.t + 6;
+      plan(us, s, ev);
+    }
+  }
+}
+
+/* Der Plan: jedes Regiment in Befehlsweite bekommt Aufgabe und Ziel nach seiner Rolle.
+   Höchstens zwei eigene Regimenter auf dasselbe Ziel, damit nicht alle das erste sichtbare jagen. */
+function plan(us, s, ev) {
+  const cms = commanders(us, s),
+    V = CTX.V[s],
+    foes = us.filter(o => o.hp > 0 && o.side !== s && V.has(o.id) && !U[o.t].king && !U[o.t].twr),
+    own = us.filter(o => o.hp > 0 && o.side === s && !U[o.t].king && !U[o.t].twr && !o.flee);
+  if (!foes.length) return;
+  const by = r => foes.filter(f => roleOf(f) === r),
+    eRng = [...by('shoot'), ...by('siege'), ...by('skir')],
+    eCav = by('cav'),
+    eLine = [...by('line'), ...by('pike'), ...by('mon')],
+    load = new Map(),
+    pick = (u, L) => {
+      const c = (L.length ? L : foes)
+        .filter(f => (load.get(f.id) || 0) < 2)
+        .sort((a, b) => dist(u, a) - dist(u, b))[0];
+      const g = c || (L.length ? L : foes).sort((a, b) => dist(u, a) - dist(u, b))[0];
+      load.set(g.id, (load.get(g.id) || 0) + 1);
+      return g;
+    };
+  let n = 0;
+  const st = (CTX.form && CTX.form[s]) || 'linie',
+    near1 = u => foes.slice().sort((a, b) => dist(u, a) - dist(u, b))[0];
+  for (const u of own) {
+    const cmd = cms.find(c => c.id === u.id || dist(c, u) <= c.r);
+    u.inCmd = !!cmd;
+    if (!cmd || u.ord !== 'auto') continue;
+    const r = roleOf(u),
+      melee = r === 'line' || r === 'pike' || r === 'mon';
+    let k, tg;
+    /* Strategie zuerst; was sie offen lässt, regelt die Schlachtreihe */
+    if (st === 'sturm') [k, tg] = [r === 'cav' ? 'brk' : 'line', near1(u)];
+    else if (st === 'stellung' && r !== 'siege') [k, tg] = [r === 'shoot' ? 'fire' : 'hold', near1(u)];
+    else if (st === 'amboss' && melee) [k, tg] = ['hold', pick(u, eLine)];
+    else if (st === 'amboss' && r === 'cav')
+      [k, tg] = [
+        'flank',
+        pick(
+          u,
+          eLine.filter(f => !U[f.t].pike)
+        )
+      ];
+    else if (
+      st === 'schief' &&
+      u.wing !== CTX.cmd[s].strong &&
+      u.wing !== 'C' &&
+      r !== 'shoot' &&
+      r !== 'siege'
+    )
+      /* versagter Flügel: rückt gestaffelt und langsam nach */
+      [k, tg] = ['slow', pick(u, eLine.length ? eLine : foes)];
+    else if (st === 'umfassung' && melee && u.wing === 'C') [k, tg] = ['slow', pick(u, eLine)];
+    else if (st === 'umfassung' && (melee || r === 'cav'))
+      [k, tg] = ['flank', pick(u, eLine.length ? eLine : foes)];
+    else if (st === 'zermuerben' && r === 'shoot') [k, tg] = ['kite', near1(u)];
+    else if (st === 'zermuerben' && melee) [k, tg] = ['wait', pick(u, eLine)];
+    else if (r === 'pike' && eCav.length) [k, tg] = ['pike', pick(u, eCav)];
+    else if (r === 'line' || r === 'pike') [k, tg] = ['line', pick(u, eLine)];
+    else if (r === 'cav')
+      /* Reiterei: zuerst Schützen und Gerät, sonst in die Flanke – nie frontal in Speere */
+      [k, tg] = eRng.length
+        ? ['hunt', pick(u, eRng)]
+        : [
+            'flank',
+            pick(
+              u,
+              eLine.filter(f => !U[f.t].pike)
+            )
+          ];
+    else if (r === 'mon') [k, tg] = ['brk', pick(u, eLine)];
+    else if (r === 'skir') [k, tg] = ['screen', pick(u, eRng)];
+    else if (r === 'siege') [k, tg] = ['back', pick(u, [...eLine, ...eCav])];
+    else [k, tg] = ['fire', pick(u, [...eCav, ...eLine])];
+    if (!tg) continue;
+    /* Befehle brauchen Zeit: je weiter vom Befehlshaber, desto später */
+    u.task = { k, tid: tg.id, at: CTX.t + 0.3 + dist(cmd, u) / 60 };
+    n++;
+  }
+  if (n && ev) {
+    const g = cms.find(c => c.gen) || cms[0];
+    ev.push({ k: 'cmd', a: [g.x, g.y], b: [g.x, g.y], side: s, n });
+  }
+}
+
+/* Ziel für ein Regiment mit Befehl; null = kein (gültiger) Befehl */
+function taskGoal(u, foesA) {
+  const T = u.task;
+  if (!T || CTX.t < T.at) return preGoal(u);
+  const g = foesA.find(o => o.id === T.tid);
+  if (!g) {
+    u.task = null;
+    return preGoal(u);
+  }
+  /* Halten mit Nachlauf: wer einmal angreift, bleibt 3 s dabei – kein Stop-and-go an der 18-Schritt-Grenze */
+  const close = foesA.filter(o => !U[o.t].king && dist(u, o) <= 18 + (o.r || 0) + (u.r || 0));
+  if (close.length) {
+    u.engT = CTX.t + 3;
+    u.engId = close[0].id;
+  }
+  const eng = !close.length && u.engT > CTX.t ? foesA.find(o => o.id === u.engId) : null;
+  if (T.k === 'hold') return close.length ? close[0] : eng || STAY;
+  if (T.k === 'wait')
+    return close.length ? close[0] : eng || (strengthOf(CTX.us || [], 1 - u.side) < 0.75 ? g : STAY);
+  if (T.k === 'kite') {
+    /* Abstand halten: vor Nahkämpfern zum eigenen Lager zurückweichen */
+    const m = foesA.find(o => !isRanged(o.t) && !U[o.t].king && dist(u, o) <= 22);
+    /* keine Gefahr: bis knapp in Schussweite an das Ziel heran, dann stehen und schießen */
+    if (!m) return dist(u, g) > (U[u.t].rng || U[u.t].line || 3) * 10 * 0.9 ? g : STAY;
+    const camp = (CTX.us || []).find(o => o.side === u.side && U[o.t].king);
+    const ax = camp ? camp.x - u.x : u.x - m.x,
+      ay = camp ? camp.y - u.y : u.y - m.y,
+      L = Math.hypot(ax, ay) || 1;
+    return { x: u.x + (ax / L) * 10, y: u.y + (ay / L) * 10 };
+  }
+  if (T.k === 'flank' && g.fa != null && dist(u, g) > 16) {
+    /* seitlich an das Ziel heran: Punkt 18 Schritt neben seiner Front */
+    const nx = -Math.sin(g.fa),
+      ny = Math.cos(g.fa),
+      sd = Math.sign((u.x - g.x) * nx + (u.y - g.y) * ny) || 1;
+    return {
+      x: Math.max(4, Math.min(GW - 4, g.x + nx * sd * 18)),
+      y: Math.max(4, Math.min(GH - 4, g.y + ny * sd * 18))
+    };
+  }
+  return g;
+}
+
+/* Vor dem ersten Befehl: was die Strategie bis zur Feindsichtung vorsieht (null = vorrücken) */
+function preGoal(u) {
+  if (!CTX.cmd || !CTX.cmd[u.side].gen) return null;
+  const st = (CTX.form && CTX.form[u.side]) || 'linie',
+    r = roleOf(u),
+    melee = r === 'line' || r === 'pike' || r === 'mon';
+  if (st === 'stellung') return STAY;
+  if (st === 'amboss' && melee) return STAY;
+  if (st === 'zermuerben' && (melee || r === 'shoot')) return STAY;
+  return null;
+}
+/* Ohne Befehl: Ziel nur alle 2,5 s neu wählen – der nächste sichtbare Feind, sonst das zuletzt gewählte */
+function selfGoal(u, foes, foesA) {
+  if (CTX.t < (u.aT || 0)) {
+    const g = foesA.find(o => o.id === u.aG);
+    if (g) return g;
+  }
+  u.aT = CTX.t + 2.5;
+  const g = foes.length ? foes.slice().sort((a, b) => dist(u, a) - dist(u, b))[0] : null;
+  u.aG = g ? g.id : null;
+  return g;
+}
+const taskName = o =>
+  o.task && CTX.t >= o.task.at ? TASKN[o.task.k] : CTX.cmd && !o.inCmd ? TASKN.self : '';
+
 /* Autobattler · Spielzustand, Rundenablauf, Draft */
 let S, timer;
 function roll(r) {
@@ -8750,6 +9362,12 @@ function roll(r) {
     n = 1;
   return { type: 'st', k, q, n };
 }
+/* Gold und Rekruten sind vorerst abgeschaltet: alles kostet nur Rohstoffe, Regimenter sind vor jeder Schlacht wieder voll.
+   Zum Wiedereinschalten GOLD_ON / REK_ON auf true setzen. */
+const GOLD_ON = false,
+  REK_ON = false,
+  gCost = g => (GOLD_ON ? g : 0),
+  gTxt = g => (GOLD_ON && g ? ` (${g} Gold)` : '');
 /* Gold gibt es nur als Beute nach der Schlacht */
 const LOOT = { win: 8, draw: 3, loss: 0 };
 const rollItem = r => roll(r);
@@ -9050,21 +9668,24 @@ function startRound() {
   S.selE = null;
   S.aiOrd = [];
   if (S.fac) aiOrders();
-  const inc = 50 + (S.prisoners || 0);
-  S.rek += inc;
+  let inc = 0,
+    fill = 0;
+  if (REK_ON) {
+    inc = 50 + (S.prisoners || 0);
+    S.rek += inc;
+    S.units.forEach(u => {
+      if (u.lost && S.rek > 0) {
+        const k = Math.min(u.lost, S.rek);
+        u.lost -= k;
+        S.rek -= k;
+        fill += k;
+      }
+    });
+  } else S.units.forEach(u => (u.lost = 0)); /* ohne Rekruten: vor jeder Schlacht wieder volle Stärke */
   S.prisoners = 0;
-  let fill = 0;
-  S.units.forEach(u => {
-    if (u.lost && S.rek > 0) {
-      const k = Math.min(u.lost, S.rek);
-      u.lost -= k;
-      S.rek -= k;
-      fill += k;
-    }
-  });
   S.msg0 =
-    (S.lostLast ? `${S.lostLast} Gefallene sind dauerhaft verloren. ` : '') +
-    `Zulauf: +${inc} Rekruten. ` +
+    (REK_ON && S.lostLast ? `${S.lostLast} Gefallene sind dauerhaft verloren. ` : '') +
+    (REK_ON ? `Zulauf: +${inc} Rekruten. ` : '') +
     (fill ? `${fill} Rekruten füllen die Lücken. ` : '') +
     `Schlacht ${S.round}/${NBAT} auf ${S.map.n} gegen ${S.ename}. Wetter: ${WX[S.wx].n} (${WX[S.wx].d}). ` +
     (dr
@@ -9386,7 +10007,7 @@ function combineA() {
   const [a, b] = S.selU.map(gu),
     k = comboOf(a, b);
   if (!k) return;
-  const g = combGold(k);
+  const g = gCost(combGold(k));
   if (S.gold < g) {
     S.msg = `Zu wenig Gold (${g} nötig).`;
     return;
@@ -9407,12 +10028,15 @@ function dismiss() {
   if (!u || isK(u)) return;
   const back = U[u.t].cre ? 0 : curTroops(u);
   if (u.ch) S.chr.push(u.ch);
-  S.rek += back;
+  if (REK_ON) S.rek += back;
   S.units = S.units.filter(x => x !== u);
   S.selU = [];
-  S.msg = back ? `Einheit entlassen – ${back} Rekruten kehren in den Pool zurück.` : 'Wesen entlassen.';
+  S.msg =
+    REK_ON && back
+      ? `Einheit entlassen – ${back} Rekruten kehren in den Pool zurück.`
+      : `${U[u.t].n} entlassen.`;
 }
-/* Charaktere: anwerben (2–4 Rohstoffe + Gold), befördern, anschließen, lösen, ausrüsten */
+/* Charaktere: anwerben (2–4 Rohstoffe, Gold falls GOLD_ON), befördern, anschließen, lösen, ausrüsten */
 function chCheck(c, idx) {
   const C = CHR[c],
     st = idx.map(i => S.stash[i]);
@@ -9424,7 +10048,11 @@ function chCheck(c, idx) {
     ks.splice(j, 1);
   }
   const lv = st.length - 1;
-  return { lv, q: Math.min(10, st.reduce((a, s) => a + stQ(s), 0) - st.length), gold: CHG[C.rk][lv - 1] };
+  return {
+    lv,
+    q: Math.min(10, st.reduce((a, s) => a + stQ(s), 0) - st.length),
+    gold: gCost(CHG[C.rk][lv - 1])
+  };
 }
 const allCh = () => [...S.chr, ...S.units.filter(u => u.ch).map(u => u.ch)],
   chHost = ch => S.units.find(u => u.ch === ch),
@@ -9489,7 +10117,7 @@ function promote(id) {
   const ch = gch(id),
     st = S.stash[S.selS[0]];
   if (!ch || S.selS.length !== 1 || !st || st.type !== 'st' || RES[st.k].el || ch.lv >= 3) return;
-  const g = CHG[CHR[ch.c].rk][ch.lv];
+  const g = gCost(CHG[CHR[ch.c].rk][ch.lv]);
   if (S.gold < g) {
     S.msg = `Zu wenig Gold (${g} nötig).`;
     return;
@@ -9684,27 +10312,30 @@ function formPos(us, side, m, k) {
   }
   if (k === 'igel') rest.forEach(u => (u.ord = 'guard'));
 }
+/* Strategie des Generals wählen: stellt passend auf; Befehle für einzelne Regimenter gibt es nicht mehr */
 function setForm(k) {
-  if (!FORM[k]) return;
+  if (!STRAT[k]) return;
   const K = S.units.find(isK),
     on = onboard(),
     add = bench()
       .filter(u => !isK(u))
       .sort((a, b) => U[b.t].val * b.s - U[a.t].val * a.s)
       .slice(0, Math.max(0, cap() - on.length)),
-    all = [...on, ...add];
-  if (!all.some(isCmd)) {
-    S.msg = `Formationen brauchen einen ${genName(S.fac)}, der ein Regiment auf dem Feld führt (Charaktere).`;
+    all = [...on, ...add],
+    gl = genLv([...S.units], S.chr || []);
+  if (!gl) {
+    S.msg = `Strategien brauchen einen ${genName(S.fac)} (Fenster „Charaktere“ beim Bauen).`;
     return;
   }
-  if (FLV[k] > genLv(all)) {
-    S.msg = `${FORM[k].n} braucht einen ${genName(S.fac)} der Stufe ${FLV[k]}.`;
+  if (STRAT[k].lv > gl) {
+    S.msg = `${STRAT[k].n} braucht einen ${genName(S.fac)} der Stufe ${STRAT[k].lv}.`;
     return;
   }
   all.forEach(u => (u.pos = u.pos || { x: 0, y: 0 }));
-  formPos([K, ...all], 0, S.map, k);
+  formPos([K, ...all], 0, S.map, STRAT[k].place);
+  S.units.forEach(u => (u.ord = 'auto'));
   S.form = k;
-  S.msg = `Formation: ${FORM[k].n} – ${FORM[k].d}`;
+  S.msg = `Strategie: ${STRAT[k].n} – ${STRAT[k].d}`;
 }
 function clear() {
   S.selC = null;
@@ -9933,15 +10564,16 @@ function aiBuild(ai, r) {
   });
   place(ai.army, 1, S.map);
   ai.form = '';
-  if (ai.army.some(isCmd)) {
-    const lv = genLv(ai.army),
-      ks = Object.keys(FORM).filter(k => FLV[k] <= lv);
+  const lv = genLv(ai.army, ai.chr || []);
+  if (lv) {
+    const ks = Object.keys(STRAT).filter(k => STRAT[k].lv <= lv);
     ai.form = ks[rnd(ks.length)];
     ai.army.forEach(u => {
       if (!isK(u)) u.pos = u.pos || { x: 0, y: 0 };
     });
-    formPos(ai.army, 1, S.map, ai.form);
+    formPos(ai.army, 1, S.map, STRAT[ai.form].place);
   }
+  ai.army.forEach(u => (u.ord = 'auto'));
 }
 
 /* Autobattler · Schlacht, Ergebnis, Feldzug */
@@ -10029,9 +10661,15 @@ function fight() {
   S.eyes = [eyeList(S.pieces, lvl(S.col, 'a')), eyeList(aiP, lvl(S.opp.col, 'a'))];
   const myT = towerUnits(S.pieces),
     foeT = towerUnits(aiP);
+  /* Strategien der Schlacht: mit General gilt die gewählte, sonst Schlachtreihe; ohne General keine */
+  S.bf = [
+    genLv(S.units, S.chr || []) ? (STRAT[S.form] ? S.form : 'linie') : '',
+    STRAT[S.opp.form] ? S.opp.form : ''
+  ];
   const r = simulate([...fielded(), ...extra, ...myT], [...foes, ...foeT], false, b0, b1, {
     eyes: S.eyes,
-    form: [S.form && hasCmd(S.units) ? S.form : '', S.opp.form || ''],
+    genFree: [freeGen(S.chr), freeGen(S.opp.chr)],
+    form: S.bf,
     map: S.map,
     w: S.wx,
     drill: [M0.drill ? 1 : 0, M1.drill ? 1 : 0],
@@ -10110,11 +10748,11 @@ function next() {
     if (S.orders.includes('raid')) {
       add(RK[rnd(RK.length)]);
       add(RK[rnd(RK.length)]);
-      S.gold += 3;
+      if (GOLD_ON) S.gold += 3;
     }
     if (M.hunt) add('l');
   } else if (o === 'loss') S.lives--;
-  S.gold += (LOOT[o] || 0) + (lvl(S.col, 's') >= 3 ? 3 : 0);
+  if (GOLD_ON) S.gold += LOOT[o] || 0;
   if (S.lives <= 0) {
     S.phase = 'over';
     S.won = false;
@@ -10190,7 +10828,7 @@ function ord(k) {
     S.msg = `${ORD[k].n} braucht Silber Stufe ${ORD[k].sil} (Sammelbonus).`;
     return;
   }
-  const c = ORD[k].c;
+  const c = gCost(ORD[k].c);
   if (S.orders.includes(k)) {
     if (k === 'fort' && S.forts < 3) {
       S.msg = 'Schanzen stehen schon – der Befehl lässt sich nicht mehr zurücknehmen.';
@@ -10200,7 +10838,7 @@ function ord(k) {
     S.gold += c;
     if (k === 'fort') S.forts -= 3;
     if (k === 'march') S.extra = 0;
-    S.msg = `${ORD[k].n} zurückgenommen (+${c} Gold).`;
+    S.msg = `${ORD[k].n} zurückgenommen${c ? ` (+${c} Gold)` : ''}.`;
     return;
   }
   if (S.orders.length >= maxOrd()) {
@@ -10544,6 +11182,7 @@ function drawLayer(list) {
     el.classList.toggle('s1', o.side === 1);
     el.classList.toggle('sel', !!o.sel);
     el.classList.toggle('ghost', !!o.ghost);
+    el.classList.toggle('chg', !!o.cg);
     el.classList.toggle('flee', !!o.fl);
     /* Verzauberung oder Banner: farbiger Schein in den Elementfarben */
     const mg = o.en || o.bn || '';
@@ -10795,6 +11434,18 @@ function fx(f) {
       volley(ev, f, ev.side ? '#ffd2c4' : '#fff3c4');
       setTimeout(() => pulse(tEl, 'hurt'), 260);
       num(tx, ty, '−' + ev.v);
+    }
+    if (ev.k === 'cmd') {
+      fxRing(ev.a[0], ev.a[1], 10, ev.side ? '#ff9a8a' : '#f2c64c');
+      num(ev.a[0], ev.a[1] - 3, `Befehle an ${ev.n}`, 'cmd');
+    }
+    if (ev.k === 'hit' && ev.charge) {
+      fxRing(tx, ty, 8, '#fff0b0');
+      num(tx, ty - 4, 'Sturmangriff!', 'cg');
+    }
+    if (ev.k === 'hit' && ev.pikes) {
+      fxRing(tx, ty, 6, '#c8d8ff');
+      num(tx, ty - 4, 'Speerwall!', 'cg');
     }
     if (ev.k === 'hit') {
       if (aEl && !ev.kill) {
@@ -11222,7 +11873,7 @@ function boardRender(B) {
       },
       list = fielded().map(u => ({
         k: 'p' + u.uid,
-        ob: !isK(u) && u.ord && u.ord !== 'auto' ? ORDU[u.ord].s : '',
+        ob: '',
         ch: u.ch ? u.ch.c : '',
         t: u.t,
         side: 0,
@@ -11301,6 +11952,7 @@ function boardRender(B) {
         sg: u.sg,
         en: u.en,
         bn: u.bn,
+        cg: u.cg,
         sel: S.selB === u.id
       }))
     );
@@ -11357,8 +12009,9 @@ function abilList(B) {
   const r = [];
   if (B.fs && B.fac) r.push(`Volksstein ${RES[FST[B.fac]].n}: +${FSTB.hp * 100} % LP, +${FSTB.atk} Angriff`);
   if (B.par && !B.cre) r.push(`Kombi-Bonus: +${CMBB[B.tier] * 100} % LP, +1 Angriff`);
-  if (B.rng) r.push(`Fernkampf: schießt bis ${B.rng * 10} weit`);
-  if (B.line) r.push(`Schuss: Kugel bis ${B.line * 10} weit, ignoriert Rüstung`);
+  if (B.rng) r.push(`Fernkampf: schießt bis ${B.rng * 10} weit, ${ammoB(B)} Schuss je Schlacht`);
+  if (B.line)
+    r.push(`Schuss: Kugel bis ${B.line * 10} weit, ignoriert Rüstung, ${ammoB(B)} Schuss je Schlacht`);
   if (B.pierce) r.push('Panzerbrechend: ignoriert Rüstung');
   if (B.heal) r.push(`Heiler: heilt Verbündete um ${B.heal} LP je Stern, Reichweite ${(B.hr || 2) * 10}`);
   if (B.splash) r.push('Flächenschaden: halber Schaden an Gegnern dicht beim Ziel');
@@ -11398,7 +12051,10 @@ function abilList(B) {
   if (B.snipe) r.push('Scharfschützen: zielen zuerst auf Charaktere und Einzelkämpfer');
   if (B.cls === 'cav')
     r.push('Reiterei: Sturmangriff nach Anlauf (×1,5), im Wald −30 % Angriff und kein Sturmangriff');
-  if (B.pike) r.push(`Lanzenwall: +${B.pike} Schaden gegen Reiterei, kein Ansturm-Bonus gegen sie`);
+  if (B.pike)
+    r.push(
+      `Lanzenwall: +${B.pike} Schaden gegen Reiterei; von vorn kein Sturmangriff gegen sie, anstürmende Reiterei erleidet ${B.pike * 3} Schaden`
+    );
   return r.map(x => {
     const i = x.indexOf(':');
     return i > 0 ? [x.slice(0, i).trim(), x.slice(i + 1).trim()] : [x, ''];
@@ -11472,39 +12128,21 @@ function repPage() {
   return `<div class="repin"><div class="reph"><h2>Schlachtbericht: ${out}</h2>${btn('report', 'Schließen', false, 'main')}</div><p class="note">${why} Dauer ${Math.round(R.dur)} s · Moral am Ende: du ${Math.round(R.mor[0])}, ${S.ename} ${Math.round(R.mor[1])}.${best ? ` Stärkstes Regiment: <b>${U[best.t].n}</b> (${best.dd} Schaden).` : ''}</p><h3>Dein Heer</h3>${tab(0)}<h3>Feindliches Heer: ${S.ename}</h3>${tab(1)}</div>`;
 }
 /* Befehlsknöpfe eines Regiments: Grundbefehle, Manöver je Rang des Charakters, Zeitbefehl ab Rang 2 */
+/* Stellung eines Regiments (Befehle gibt der General über seine Strategie) */
 function ordUI(u, cls) {
-  const rk = chRank(u),
-    row = (a, cur) =>
-      Object.entries(ORDU)
-        .filter(([k]) => ordOK(u, k))
-        .map(
-          ([k, o]) =>
-            `<button class="btn ${cls} ib${cur === k ? ' on' : ''}" data-a="${a}" data-v="${k}" title="${o.d}">${ico(o.ic)}${o.n}</button>`
-        )
-        .join('');
-  let h = row('uo', u.ord || 'auto');
   const so = staOpts(u);
-  if (so.length)
-    h += `<span class="olab">Stellung:</span>${so
-      .map(
-        k =>
-          `<button class="btn ${cls}${(u.sta || '') === k ? ' on' : ''}${STA[k].ic ? ' ib' : ''}" data-a="sta" data-v="${k}" title="${STA[k].d}">${STA[k].ic ? ico(STA[k].ic) : ''}${STA[k].n}</button>`
-      )
-      .join('')}`;
-  if (rk >= 2)
-    h += `<span class="olab">Zeitbefehl:</span>${ORDT.map(
-      t =>
-        `<button class="btn ${cls}${(u.ordT || 0) === t ? ' on' : ''}" data-a="uoT" data-v="${t}">${t ? 'ab ' + t + ' s' : 'aus'}</button>`
-    ).join(
-      ''
-    )}${u.ordT ? `<span class="olab">ab ${u.ordT} s dann:</span>${row('uo2', u.ord2 || 'auto')}` : ''}`;
+  const h = so.length
+    ? `<span class="olab">Stellung:</span>${so
+        .map(
+          k =>
+            `<button class="btn ${cls}${(u.sta || '') === k ? ' on' : ''}${STA[k].ic ? ' ib' : ''}" data-a="sta" data-v="${k}" title="${STA[k].d}">${STA[k].ic ? ico(STA[k].ic) : ''}${STA[k].n}</button>`
+        )
+        .join('')}`
+    : '';
   const lead = u.ch
-    ? `Geführt von ${CHR[u.ch.c].n} (${RKN[CHR[u.ch.c].rk]}, Stufe ${u.ch.lv}).`
-    : 'Ohne Charakter nur Grundbefehle – Manöver gibt es, wenn ein Charakter das Regiment führt.';
-  return {
-    h,
-    d: `${u.sta ? STA[u.sta].n + ': ' + STA[u.sta].d + ' ' : ''}${ORDU[u.ord || 'auto'].d}${u.ordT ? ` Ab ${u.ordT} s: ${ORDU[u.ord2 || 'auto'].n}.` : ''} ${lead}`
-  };
+    ? `Geführt von ${CHR[u.ch.c].n} (${RKN[CHR[u.ch.c].rk]}, Stufe ${u.ch.lv}) – immer in Befehlsweite.`
+    : 'Folgt dem Plan des Generals, wenn es in Befehlsweite steht – sonst handelt es selbst.';
+  return { h, d: `${u.sta ? STA[u.sta].n + ': ' + STA[u.sta].d + ' ' : ''}${lead}` };
 }
 function chPanel() {
   const sel = S.selS,
@@ -11515,11 +12153,11 @@ function chPanel() {
   const card = ch => {
     const C = CHR[ch.c],
       h = chHost(ch),
-      g = ch.lv < 3 ? CHG[C.rk][ch.lv] : 0;
-    return `<div class="offu${S.selC === ch.id ? ' on' : ''}"><span class="ti">${chSVG(ch.c)}</span><div><strong>${C.n}</strong> <span class="tag">${RKN[C.rk]} · Stufe ${ch.lv}</span>${chExplain(ch.c, ch.lv)}${ch.rel ? `<p>Trägt ${RELI[ch.rel].n}.</p>` : ''}<p class="hint2">${h ? `Führt: <b>${U[h.t].n}</b>` : 'Im Stab – noch keinem Regiment angeschlossen'}</p><div class="cbt">${btn('chsel', S.selC === ch.id ? 'Regiment antippen …' : h ? 'Umsetzen' : 'Anschließen', false, S.selC === ch.id ? 'on' : '').replace('data-a="chsel"', `data-a="chsel" data-v="${ch.id}"`)}${h ? btn('detach', 'Lösen').replace('data-a="detach"', `data-a="detach" data-v="${ch.id}"`) : ''}${ch.lv < 3 ? btn('promote', `Befördern (${g} Gold, 1 Rohstoff)`, !stOne || S.gold < g).replace('data-a="promote"', `data-a="promote" data-v="${ch.id}"`) : ''}${relOne ? btn('equipC', `Tragen: ${RELI[one.r].n}`).replace('data-a="equipC"', `data-a="equipC" data-v="${ch.id}"`) : ''}</div></div></div>`;
+      g = ch.lv < 3 ? gCost(CHG[C.rk][ch.lv]) : 0;
+    return `<div class="offu${S.selC === ch.id ? ' on' : ''}"><span class="ti">${chSVG(ch.c)}</span><div><strong>${C.n}</strong> <span class="tag">${RKN[C.rk]} · Stufe ${ch.lv}</span>${chExplain(ch.c, ch.lv)}${ch.rel ? `<p>Trägt ${RELI[ch.rel].n}.</p>` : ''}<p class="hint2">${h ? `Führt: <b>${U[h.t].n}</b>` : 'Im Stab – noch keinem Regiment angeschlossen'}</p><div class="cbt">${btn('chsel', S.selC === ch.id ? 'Regiment antippen …' : h ? 'Umsetzen' : 'Anschließen', false, S.selC === ch.id ? 'on' : '').replace('data-a="chsel"', `data-a="chsel" data-v="${ch.id}"`)}${h ? btn('detach', 'Lösen').replace('data-a="detach"', `data-a="detach" data-v="${ch.id}"`) : ''}${ch.lv < 3 ? btn('promote', `Befördern (${GOLD_ON ? g + ' Gold, ' : ''}1 Rohstoff)`, !stOne || S.gold < g).replace('data-a="promote"', `data-a="promote" data-v="${ch.id}"`) : ''}${relOne ? btn('equipC', `Tragen: ${RELI[one.r].n}`).replace('data-a="equipC"', `data-a="equipC" data-v="${ch.id}"`) : ''}</div></div></div>`;
   };
   return (
-    `<h2>Charaktere</h2><p class="hint2">Charaktere schließen sich einem Regiment an: Werte-Bonus, Fähigkeit und neue Befehle (Rang 1: Manöver, Rang 2: dazu Flankieren, Waldüberfall und Zeitbefehl, Rang 3: dazu Durch das Wasser und Kriegsrat). Anwerben: oben steht, wen du mit deinen Rohstoffen und deinem Gold jetzt anwerben kannst – ein Tipp genügt, die Steine werden automatisch gewählt. Stufe = Zahl der Steine − 1.</p>` +
+    `<h2>Charaktere</h2><p class="hint2">Charaktere schließen sich einem Regiment an: Werte-Bonus, Fähigkeit und neue Befehle (Rang 1: Manöver, Rang 2: dazu Flankieren, Waldüberfall und Zeitbefehl, Rang 3: dazu Durch das Wasser und Kriegsrat). Anwerben: oben steht, wen du mit deinen Rohstoffen jetzt anwerben kannst – ein Tipp genügt, die Steine werden automatisch gewählt. Stufe = Zahl der Steine − 1.</p>` +
     (mine.length ? `<h3>Dein Stab</h3>${mine.map(card).join('')}` : '') +
     chRecruitList(sel)
   );
@@ -11599,7 +12237,7 @@ function selCard(u, side) {
     s = stats(u),
     ob =
       !side && !isK(u) && S.phase === 'build'
-        ? `<div class="uos"><b>Befehl:</b> ${ordUI(u, 'sm').h}<small>${ordUI(u, 'sm').d}</small></div>`
+        ? `<div class="uos">${ordUI(u, 'sm').h}<small>${ordUI(u, 'sm').d}</small></div>`
         : '';
   return `<div class="scard"><div class="txt">${abT()}<strong>${uname(u.t, u.el)}${qStr(u)}</strong> <span class="tag">Stufe ${T.tier}</span>${side ? ' <span class="tag">Gegner</span>' : ''}${statBlock(u)}${magicTags(u).length ? `<p class="mtags">${tagsHTML(magicTags(u))}</p>` : ''}${abilH(T, u)}${u.ch ? `<p><b>${CHR[u.ch.c].n}</b> (${RKN[CHR[u.ch.c].rk]}, Stufe ${u.ch.lv}): ${chTxt(u.ch)}</p>` : ''}${ABS ? '' : propBox(u.t, u, true)}${u.ins && u.ins.length ? `<p><b>Ausbauten:</b> ${u.ins.map(i => INSI[i].n).join(', ')}</p>` : ''}
 </div><div class="full">${ob}${side ? '' : cmbHint(u)}${ABS ? '' : `<p>${isK(u) ? 'Steht still.' : 'Bewegt sich frei mit seinem Tempo, sucht Furten, wenn das Wasser zu tief ist, und greift an, was in Reichweite kommt.'}${T.rng ? ' Weicht Nahkämpfern aus, solange er nachlädt.' : ''}${T.heal ? ` Heilt Verbündete im Umkreis von ${(T.hr || 2) * 10}.` : ''}</p>`}</div></div>`;
@@ -11713,10 +12351,43 @@ function sbStrip() {
       : '')
   );
 }
+/* Kurzbeschreibung einer Karte für die Routenwahl */
+const MSUM = {
+  rivers: 'Fluss',
+  lakes: 'See',
+  hills: 'Hügel',
+  forest: 'Wald',
+  swamp: 'Sumpf',
+  rubble: 'Geröll',
+  ruins: 'Ruinen',
+  village: 'Dorf',
+  fields: 'Felder',
+  hedges: 'Hecken',
+  lava: 'Lava'
+};
+const mapSum = M =>
+  Object.keys(MSUM)
+    .filter(k => M[k] && M[k].length)
+    .map(k => MSUM[k])
+    .join(' · ');
+/* Neue Ansicht: nach oben; Schlachtbeginn: Schlachtfeld in die Mitte */
+let lastView = '';
+function scrollView() {
+  const v = S.phase + '/' + S.step;
+  if (v === lastView || typeof window === 'undefined' || !window.scrollTo) return;
+  const was = lastView;
+  lastView = v;
+  if (!was) return;
+  requestAnimationFrame(() => {
+    if (S.phase === 'battle') $('board').scrollIntoView({ block: 'center', behavior: 'smooth' });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
 function render() {
   const B = S.phase === 'build',
     ST = B ? S.step : S.phase;
   if (document.body && document.body.dataset) document.body.dataset.st = ST;
+  scrollView();
   {
     const L = [
         ['draft', 'Kaufen'],
@@ -11739,7 +12410,7 @@ function render() {
     ).join('');
   }
   $('stats').innerHTML =
-    `<span>Gold <b>${S.gold}</b></span><span>Rekruten <b>${S.rek}</b></span><span><b>${S.map.n}</b> · Schlacht ${S.round}/${NBAT}</span><span>Gegner <b>${S.opp && S.opp.fac ? FAC[S.opp.fac].n : '–'}</b></span><span>Wetter <b>${WX[S.wx].n}</b></span><span>Siege <b>${S.wins}</b></span><span>Leben <b>${S.lives}</b></span><span>Feld <b>${onboard().length}</b>/${cap()}</span>`;
+    `${GOLD_ON ? `<span>Gold <b>${S.gold}</b></span>` : ''}${REK_ON ? `<span>Rekruten <b>${S.rek}</b></span>` : ''}<span><b>${S.map.n}</b> · Schlacht ${S.round}/${NBAT}</span><span>Gegner <b>${S.opp && S.opp.fac ? FAC[S.opp.fac].n : '–'}</b></span><span>Wetter <b>${WX[S.wx].n}</b></span><span>Siege <b>${S.wins}</b></span><span>Leben <b>${S.lives}</b></span><span>Feld <b>${onboard().length}</b>/${cap()}</span>`;
   const su = B && S.selU.length === 1 && !S.selS.length ? gu(S.selU[0]) : null,
     se = B && S.selE && S.prev && S.enemy ? S.enemy.find(u => u.uid === S.selE) : null;
   boardRender(B);
@@ -11758,7 +12429,7 @@ function render() {
         (f.ev || []).find(x => x.k === 'hit' || x.k === 'shot');
     st += `<span class="blog"><span class="tm">${Math.round(f.t)} s</span> ${e ? evTxt(e) : ''}</span>`;
     if (S.phase === 'result')
-      st = `<b>${{ win: 'Sieg!', loss: 'Niederlage.', draw: 'Unentschieden.' }[S.res.out]}</b> ${S.res.kd === 1 ? 'Das gegnerische Lager ist gefallen. ' : S.res.kd === 0 ? 'Dein Lager ist gefallen. ' : ''}${S.res.kd < 0 && S.res.brk === 1 ? 'Die gegnerische Armee ist gebrochen und flieht. ' : S.res.kd < 0 && S.res.brk === 0 ? 'Deine Armee ist gebrochen und flieht. ' : ''}${S.res.timeout ? 'Zeitlimit: entschieden nach verbliebener Lebenskraft. ' : ''}${S.res.out === 'loss' ? 'Du verlierst ein Leben.' : ''}${LOOT[S.res.out] ? `Beute: +${LOOT[S.res.out] + (S.res.out === 'win' && S.orders.includes('raid') ? 3 : 0)} Gold.` : ''}`;
+      st = `<b>${{ win: 'Sieg!', loss: 'Niederlage.', draw: 'Unentschieden.' }[S.res.out]}</b> ${S.res.kd === 1 ? 'Das gegnerische Lager ist gefallen. ' : S.res.kd === 0 ? 'Dein Lager ist gefallen. ' : ''}${S.res.kd < 0 && S.res.brk === 1 ? 'Die gegnerische Armee ist gebrochen und flieht. ' : S.res.kd < 0 && S.res.brk === 0 ? 'Deine Armee ist gebrochen und flieht. ' : ''}${S.res.timeout ? 'Zeitlimit: entschieden nach verbliebener Lebenskraft. ' : ''}${S.res.out === 'loss' ? 'Du verlierst ein Leben.' : ''}${GOLD_ON && LOOT[S.res.out] ? `Beute: +${LOOT[S.res.out] + (S.res.out === 'win' && S.orders.includes('raid') ? 3 : 0)} Gold.` : ''}`;
   }
   if (S.phase === 'route' || S.phase === 'over') st += rankHTML();
   if (S.phase === 'over') st += lbOver();
@@ -11801,10 +12472,10 @@ function render() {
             'build',
             bench().length >= BMAX
               ? 'Reserve voll'
-              : S.rek < c
+              : c && S.rek < c
                 ? `${U[r0.t].n}: ${c} Rekruten nötig`
                 : `${U[r0.t].cre ? 'Beschwören' : 'Bauen'}: ${U[r0.t].n}${c ? ` (${c} Rekruten)` : ''}`,
-            bench().length >= BMAX || S.rek < c
+            bench().length >= BMAX || (c && S.rek < c)
           ),
           `<p class="prev">→ ${prevBuild(r0.t, qOf(s0, s1))}</p>`
         );
@@ -11846,13 +12517,9 @@ function render() {
         );
       const k = comboOf(a, c);
       if (k) {
-        const g = combGold(k);
+        const g = gCost(combGold(k));
         b.push(
-          btn(
-            'combineA',
-            `Kombinieren → ${U[k].n} ${'★'.repeat(Math.min(a.s, c.s))} (${g} Gold)`,
-            S.gold < g
-          ),
+          btn('combineA', `Kombinieren → ${U[k].n} ${'★'.repeat(Math.min(a.s, c.s))}${gTxt(g)}`, S.gold < g),
           `<p class="prev">→ ${prevComb(a, c, k)}. Eigene Fähigkeit: ${ownAb(k)}</p>`
         );
       } else if (a.t !== c.t) b.push(btn('x', 'Keine Kombination', true));
@@ -11887,17 +12554,18 @@ function render() {
         );
       else {
         b.push(btn('autoP', 'Automatisch aufstellen'), btn('allRes', 'Alle in Reserve'));
-        const gl = genLv([...onboard(), ...bench()]),
-          hc = gl > 0;
+        const gl = genLv([...S.units], S.chr || []),
+          hc = gl > 0,
+          cur = STRAT[S.form];
         b.push(
-          `<div class="obar"><span class="oname">Formation</span>${Object.entries(FORM)
+          `<div class="obar"><span class="oname">Strategie des Generals</span>${Object.entries(STRAT)
             .map(
               ([k, f]) =>
-                `<button class="btn ob2 ib${S.form === k ? ' on' : ''}" data-a="form" data-v="${k}"${FLV[k] <= gl ? '' : ' disabled'} title="${f.d}">${ico(f.ic)}${f.n}</button>`
+                `<button class="btn ob2 ib${S.form === k ? ' on' : ''}" data-a="form" data-v="${k}"${f.lv <= gl ? '' : ' disabled'} title="${f.d}">${ico(f.ic)}${f.n}${f.lv > gl ? ` <small>St. ${f.lv}</small>` : ''}</button>`
             )
             .join(
               ''
-            )}</div><p class="odesc">${hc ? (S.form ? FORM[S.form].d : 'Wähle eine Formation – oder stelle frei auf.') : `Formationen gibt es nur, wenn ein ${genName(S.fac)} ein Regiment auf dem Feld führt (Fenster „Charaktere“ beim Bauen).`}</p>`
+            )}</div><p class="odesc">${hc ? (cur ? `<b>${cur.n}</b> (Vorbild: ${cur.hist}) – ${cur.d}` : 'Wähle eine Strategie – ohne Strategie kämpft der General in Schlachtreihe.') : `Ohne ${genName(S.fac)} gibt es keine Strategie: Jedes Regiment handelt selbst, später und nur für sich (Fenster „Charaktere“ beim Bauen).`}</p>`
         );
       }
       pv();
@@ -11920,7 +12588,14 @@ function render() {
   else if (S.phase === 'result')
     b.push(btn('report', 'Schlachtbericht'), btn('next', 'Weiter', false, 'main'));
   else if (S.phase === 'route')
-    S.ropts.forEach(i => b.push(btn('route' + i, `Nach ${MAPS[i].n}`, false, 'main')));
+    S.ropts.forEach(i =>
+      b.push(
+        btn('route' + i, `Nach ${MAPS[i].n}`, false, 'main').replace(
+          '</button>',
+          `<small class="rsub">${mapSum(MAPS[i])}</small></button>`
+        )
+      )
+    );
   else b.push(btn('restart', 'Neuer Lauf', false, 'main'));
   {
     const nv = b.filter(x => / main"|data-v="(build|deploy)"|data-a="speed"/.test(x)),
@@ -11934,19 +12609,20 @@ function render() {
     $('acts').innerHTML = ot.join('');
     $('selinfo').classList.toggle('dep', S.step === 'deploy' && !!su);
     $('navb').innerHTML = nv.join('');
+    $('navb').classList.toggle('stack', S.phase === 'route');
   }
   $('selinfo').innerHTML = su ? selCard(su, 0) : se ? selCard(se, 1) : '';
   $('enemyP').hidden = !(B && S.enemy && hasSpy());
   const AM = actMeta(S.units);
   $('council').hidden = !(B && S.step === 'council');
   $('council').innerHTML = B
-    ? `<h2>Kriegsrat <span>${S.orders.length}/${maxOrd()} Befehle · ${S.gold} Gold</span></h2><p class="note">${maxOrd() ? `Dein ${genName(S.fac)} (Stufe ${maxOrd()}) erlaubt ${maxOrd()} Befehl(e).` : `<b>Ohne ${genName(S.fac)} keine Befehle.</b> Wirb beim Bauen einen im Fenster „Charaktere“ an (Silber + Eisen).`} Antippen nimmt einen Befehl zurück.</p><p class="note"><b>Formation:</b> ${S.form && hasCmd(S.units) ? FORM[S.form].n + ' – ' + FORM[S.form].d : 'keine (frei aufgestellt)'}${S.opp && S.opp.form && hasSpy() ? ` · <b>Gegner:</b> ${FORM[S.opp.form].n}` : ''}</p><p class="note">Gegner ${S.ename}: ${S.enemy ? (hasSpy() ? `${S.enemy.length - 1} Einheiten, Lager-Ausbauten: ${(S.opp.king.ins || []).map(i => INSI[i].n).join(', ') || 'keine'}` : `${S.enemy.length - 1} Einheiten im Nebel`) : 'stellt sich nach dem Draft auf'}. Wetter: ${WX[S.wx].n} – ${WX[S.wx].d}.</p>${AM.weather && !S.wxUsed ? '<button class="btn" data-a="wx">Wetterkunde: Wetter neu bestimmen</button>' : ''}<div class="ords">${Object.entries(
+    ? `<h2>Kriegsrat <span>${S.orders.length}/${maxOrd()} Befehle${GOLD_ON ? ` · ${S.gold} Gold` : ''}</span></h2><p class="note">${maxOrd() ? `Dein ${genName(S.fac)} (Stufe ${maxOrd()}) erlaubt ${maxOrd()} Befehl(e).` : `<b>Ohne ${genName(S.fac)} keine Befehle.</b> Wirb beim Bauen einen im Fenster „Charaktere“ an (Silber + Eisen). Seine Stufe = Zahl der Befehle.`} Antippen nimmt einen Befehl zurück.</p><p class="note"><b>Strategie deines Generals:</b> ${genLv(S.units, S.chr || []) ? (STRAT[S.form] ? `${STRAT[S.form].n} – ${STRAT[S.form].d}` : 'keine gewählt – er kämpft in Schlachtreihe (wählen beim Aufstellen)') : 'keine – ohne General handelt jedes Regiment selbst'}<br><b>Strategie des Gegners:</b> ${S.opp && STRAT[S.opp.form] ? (hasSpy() ? STRAT[S.opp.form].n : 'unbekannt – zeigt sich zu Schlachtbeginn (Späher verraten sie vorher)') : 'keine (kein General)'}</p><p class="note">Gegner ${S.ename}: ${S.enemy ? (hasSpy() ? `${S.enemy.length - 1} Einheiten, Lager-Ausbauten: ${(S.opp.king.ins || []).map(i => INSI[i].n).join(', ') || 'keine'}` : `${S.enemy.length - 1} Einheiten im Nebel`) : 'stellt sich nach dem Draft auf'}. Wetter: ${WX[S.wx].n} – ${WX[S.wx].d}.</p>${AM.weather && !S.wxUsed ? '<button class="btn" data-a="wx">Wetterkunde: Wetter neu bestimmen</button>' : ''}<div class="ords">${Object.entries(
         ORD
       )
         .filter(([, o]) => !o.fac || o.fac === S.fac)
         .map(([k, o]) => {
           const locked = o.sil && lvl(S.col, 's') < o.sil;
-          return `<button class="ord${S.orders.includes(k) ? ' on' : ''}${locked ? ' locked' : ''}" data-a="ord" data-v="${k}"${locked || (!S.orders.includes(k) && (S.orders.length >= maxOrd() || S.gold < o.c)) ? ' disabled' : ''}><strong>${ico(o.ic)}${o.n} <span class="gc">${locked ? `Silber Stufe ${o.sil} nötig` : o.c + ' Gold'}</span></strong><small>${o.d}</small></button>`;
+          return `<button class="ord${S.orders.includes(k) ? ' on' : ''}${locked ? ' locked' : ''}" data-a="ord" data-v="${k}"${locked || (!S.orders.includes(k) && (S.orders.length >= maxOrd() || S.gold < gCost(o.c))) ? ' disabled' : ''}><strong>${ico(o.ic)}${o.n}${locked ? ` <span class="gc">Silber Stufe ${o.sil} nötig</span>` : GOLD_ON ? ` <span class="gc">${o.c} Gold</span>` : ''}</strong><small>${o.d}</small></button>`;
         })
         .join(
           ''
@@ -12069,6 +12745,8 @@ function render() {
           );
         }
       }
+    /* Wesen der Dunkelelfen stehen nur im Reiter „Beschwörung“, Element-Steine nur im Magie-Reiter */
+    if (elUse() === 'sum') for (const t of [...bq.keys()]) if (U[t].cre) bq.delete(t);
     op = [
       ...[...bq].map(
         ([t, [q, i, j]]) =>
@@ -12077,13 +12755,13 @@ function render() {
       ...op
     ];
     S.stash.forEach((st, i) => {
-      if (st.type === 'st' && RES[st.k].el && !bs.has(st.k) && S.units.some(u => canEnch(u, st))) {
+      if (false && st.type === 'st' && RES[st.k].el && !bs.has(st.k) && S.units.some(u => canEnch(u, st))) {
         bs.add(st.k);
         op.push(
           `<button class="opt" data-a="pk" data-v="e${i}">${oiB(elUse() === 'ban' ? 'b-flag' : 'b-spark')}<span>${ELV[elUse()]}: ${EL[RES[st.k].el].n} <em>${elUse() === 'ammo' ? 'Stein antippen, dann Fernkämpfer' : 'Stein antippen, dann Einheit'}</em></span></button>`
         );
       }
-      if (S.fac === 'ba' && st.type === 'st' && RES[st.k].el && !bs.has(st.k)) {
+      if (false && S.fac === 'ba' && st.type === 'st' && RES[st.k].el && !bs.has(st.k)) {
         bs.add(st.k);
         op.push(
           `<button class="opt" data-a="pk" data-v="e${i}">${oiB('b-meat')}<span>Essen: ${RES[st.k].n}-Stein <em>${fdesc(st)} · dann Einheit wählen</em></span></button>`
@@ -12101,11 +12779,17 @@ function render() {
       if (seen.has(key)) return;
       seen.add(key);
       op.push(
-        `<button class="opt" data-a="pk" data-v="u${p.a.uid},${p.c.uid}">${oiT(p.res)}<span>${p.k === 'm' ? 'Verschmelzen' : 'Kombinieren'}: ${U[p.res].n} ${'★'.repeat(p.s)}${p.k === 'c' ? ` <em>${U[p.res].cre ? 'Mischwesen' : 'Stufe ' + U[p.res].tier} · ${U[p.a.t].n} + ${U[p.c.t].n} · ${combGold(p.res)} Gold</em>` : ''}<em class="pv">→ ${p.k === 'm' ? prevMerge(p.a) : prevComb(p.a, p.c, p.res)}</em></span></button>`
+        `<button class="opt" data-a="pk" data-v="u${p.a.uid},${p.c.uid}">${oiT(p.res)}<span>${p.k === 'm' ? 'Verschmelzen' : 'Kombinieren'}: ${U[p.res].n} ${'★'.repeat(p.s)}${p.k === 'c' ? ` <em>${U[p.res].cre ? 'Mischwesen' : 'Stufe ' + U[p.res].tier} · ${U[p.a.t].n} + ${U[p.c.t].n}${GOLD_ON ? ` · ${combGold(p.res)} Gold` : ''}</em>` : ''}<em class="pv">→ ${p.k === 'm' ? prevMerge(p.a) : prevComb(p.a, p.c, p.res)}</em></span></button>`
       );
     });
   }
   $('gld').textContent = S.gold;
+  $('gldH').hidden = !GOLD_ON;
+  /* Reiter mit gelber Zahl: wie viele Möglichkeiten es dort gerade gibt */
+  const chH = B && S.step === 'build' ? chPanel() : '',
+    enH = B && S.step === 'build' ? enchPanel() : '',
+    nReady = h => (h.match(/class="offc ready/g) || []).length,
+    TN = { units: op.length, off: nReady(chH), ench: nReady(enH) };
   $('btabs').innerHTML =
     S.step === 'build'
       ? [
@@ -12115,19 +12799,20 @@ function render() {
         ]
           .map(
             ([k, n]) =>
-              `<button class="${S.btab === k ? 'on' : ''}" data-a="btab" data-v="${k}">${n}</button>`
+              `<button class="${S.btab === k ? 'on' : ''}" data-a="btab" data-v="${k}">${n}${TN[k] ? `<b class="tbn">${TN[k]}</b>` : ''}</button>`
           )
           .join('')
       : '';
   $('offP').innerHTML =
     B && S.step === 'build' && S.btab === 'off'
-      ? chPanel()
+      ? chH
       : B && S.step === 'build' && S.btab === 'ench'
-        ? enchPanel()
+        ? enH
         : '';
   if ((S.btab === 'off' || S.btab === 'ench') && S.step === 'build') op = [];
   $('opts').innerHTML = op.length ? '<span class="lbl">Jetzt möglich</span>' + op.join('') : '';
   $('rek').textContent = S.rek;
+  $('rekH').hidden = !REK_ON;
   $('bench').innerHTML = S.units.length
     ? `<div class="abtw">${abT()}</div>` + S.units.map(u => urow(u, true)).join('')
     : '<p class="note">Noch keine Einheiten. Wähle zwei Lagersteine und baue eine.</p>';
@@ -12250,7 +12935,7 @@ function chRecruitList(sel) {
       .filter(([, C]) => C.fac === S.fac)
       .map(([c, C]) => {
         const lvOk = [1, 2, 3].filter(lv => chAuto(c, lv)),
-          gold = lv => CHG[C.rk][lv - 1],
+          gold = lv => gCost(CHG[C.rk][lv - 1]),
           can = lvOk.filter(lv => S.gold >= gold(lv)),
           need = C.need.reduce((m, k) => ((m[k] = (m[k] || 0) + 1), m), {}),
           chips = Object.entries(need)
@@ -12259,14 +12944,16 @@ function chRecruitList(sel) {
               return `<span class="rc ${ok ? 'ok' : 'no'}">${n > 1 ? n + '× ' : ''}${FAMN[k]} ${ok ? '✓' : '– fehlt'}</span>`;
             })
             .join(''),
-          gChip = `<span class="rc ${S.gold >= gold(1) ? 'ok' : 'no'}">${gold(1)} Gold ${S.gold >= gold(1) ? '✓' : '– fehlt'}</span>`,
+          gChip = GOLD_ON
+            ? `<span class="rc ${S.gold >= gold(1) ? 'ok' : 'no'}">${gold(1)} Gold ${S.gold >= gold(1) ? '✓' : '– fehlt'}</span>`
+            : '',
           k = chCheck(c, sel),
           btns = can.length
             ? can
                 .map(lv =>
                   btn(
                     'recruit',
-                    `Stufe ${lv} · ${gold(lv)} Gold${
+                    `Stufe ${lv}${GOLD_ON ? ` · ${gold(lv)} Gold` : ''}${
                       lv > 1
                         ? ' · + ' +
                           chAuto(c, lv)
@@ -12283,7 +12970,7 @@ function chRecruitList(sel) {
             : '',
           manual =
             k && S.gold >= k.gold
-              ? btn('recruit', `Mit deiner Auswahl: Stufe ${k.lv} (${k.gold} Gold)`).replace(
+              ? btn('recruit', `Mit deiner Auswahl: Stufe ${k.lv}${gTxt(k.gold)}`).replace(
                   'data-a="recruit"',
                   `data-a="recruit" data-v="${c}"`
                 )
@@ -12297,7 +12984,7 @@ function chRecruitList(sel) {
     `<h3>Anwerben – jetzt möglich (${ok.length})</h3>` +
     (ok.length
       ? ok.map(x => x.html).join('')
-      : '<p class="note">Mit deinen Rohstoffen und deinem Gold geht gerade keiner.</p>') +
+      : `<p class="note">Mit deinen Rohstoffen${GOLD_ON ? ' und deinem Gold' : ''} geht gerade keiner.</p>`) +
     (no.length ? `<h3>Noch nicht möglich</h3>` + no.map(x => x.html).join('') : '')
   );
 }
@@ -12402,6 +13089,9 @@ function statBlock(u, compact) {
     rows = [
       sg ? '' : cell('Mann', curTroops(u), T.tr),
       cell('LP', s.hp, b.hp),
+      sg
+        ? ''
+        : cell('LP/Mann', Math.round((s.hp / troopsOf(u)) * 10) / 10, Math.round((b.hp / T.tr) * 10) / 10),
       cell('Angr.', s.atk, b.atk),
       cell('Rüst.', s.arm, b.arm),
       cell('Init.', s.ini, b.ini),
@@ -12503,7 +13193,7 @@ function rulesHTML() {
       ul([
         `Jeder Rohstoff hat Güteklassen 1–9. Die ersten drei haben Namen (z. B. Bronze – Eisen – Stahl), ab 4 heißt er z. B. „Erz 5“.`,
         `<b>Was bessere Steine bewirken:</b> Eine gebaute Einheit bekommt die Güte <b>Stein A + Stein B − 2</b> (höchstens 10). Jeder Gütepunkt: +8 % LP; je 2 Punkte +1 Angriff; ab 4 Punkten +1 Rüstung.`,
-        `Gegenstände werden mit besserer Güte stärker (bis ×2,5). Charaktere aus besseren Steinen bekommen ebenfalls Güte.`,
+        `Charaktere aus besseren Steinen bekommen Güte.`,
         `<b>Veredeln:</b> Zwei Steine derselben Sorte werden zu einem besseren: Güte A + Güte B (z. B. Stahl 3 + Eisen 2 = Erz 5), bis Güte 9.`
       ]) +
         tbl(
@@ -12535,11 +13225,15 @@ function rulesHTML() {
       'bauen',
       'Bauen, Verschmelzen, Kombinieren',
       ul([
-        `<b>Bauen:</b> Jede Einheit hat genau ein Rezept aus zwei Rohstoffen (Rezeptbuch). Dazu kostet sie so viele Rekruten, wie das Regiment Mann hat (Wesen kosten keine).`,
+        `<b>Bauen:</b> Jede Einheit hat genau ein Rezept aus zwei Rohstoffen (Rezeptbuch). Die Mannzahl steht auf der Karte; nach jeder Schlacht ist das Regiment wieder voll. Die Lebenspunkte hängen an der Mannzahl: LP = Mann × LP je Mann (schwere Truppen und Monster haben mehr LP je Mann).`,
         `<b>Verschmelzen</b> (2 gleiche Einheiten mit gleich vielen Sternen → ein Stern mehr, bis ★★★): ★ → ★★: ${starFx(1)}; ★★ → ★★★: ${starFx(2)}. Das Regiment belegt nur noch einen Platz auf dem Feld. Gefütterte Boni beider werden addiert, die bessere Güte bleibt.`,
-        `<b>Kombinieren</b> (2 verschiedene Einheiten mit Rezept → neue Einheit, Stufe 1 + 1 → 2, 2 + 2 → 3; kostet 3 Gold für Stufe 2, 6 Gold für Stufe 3): Die neue Einheit hat eigene Werte, eine eigene Fähigkeit und den Kombi-Bonus: Stufe 2 +${CMBB[2] * 100} % LP, Stufe 3 +${CMBB[3] * 100} % LP, je +1 Angriff. Sie erbt nur Grundarten (Fernkampf, Heilung, Flug, Sicht, Lanzenwall), keine weiteren Fähigkeiten. Sterne: die wenigeren der Eltern.`,
+        `<b>Kombinieren</b> (2 verschiedene Einheiten mit Rezept → neue Einheit, Stufe 1 + 1 → 2, 2 + 2 → 3): Die neue Einheit hat eigene Werte, eine eigene Fähigkeit und den Kombi-Bonus: Stufe 2 +${CMBB[2] * 100} % LP, Stufe 3 +${CMBB[3] * 100} % LP, je +1 Angriff. Sie erbt nur Grundarten (Fernkampf, Heilung, Flug, Sicht, Lanzenwall), keine weiteren Fähigkeiten. Sterne: die wenigeren der Eltern.`,
         `<b>Füttern:</b> Einheit + Stein → kleiner Dauerbonus (höchstens 3 je Stern).`,
-        `<b>Werkstätten</b> (Schmiede, Gerberei, Alchemie) stehen von Anfang an im Lager und stellen aus zwei Rohstoffen Gegenstände her. Eine Einheit und ein Charakter tragen je einen.`
+        ...(ITEMS_ON
+          ? [
+              `<b>Werkstätten</b> (Schmiede, Gerberei, Alchemie) stehen von Anfang an im Lager und stellen aus zwei Rohstoffen Gegenstände her. Eine Einheit und ein Charakter tragen je einen.`
+            ]
+          : [`<b>Gegenstände</b> sind vorerst abgeschaltet.`])
       ])
     ) +
     sec(
@@ -12557,8 +13251,7 @@ function rulesHTML() {
       'chars',
       'Charaktere',
       ul([
-        `Angeworben im Fenster „Charaktere“ aus 2–4 Rohstoffen (Pflicht-Rohstoffe plus beliebige) und Gold. Stufe = Rohstoffe − 1. Ein weiterer Rohstoff plus Gold befördert.`,
-        `Gold je Stufe: Rang 1 ${CHG[1].join('/')}, Rang 2 ${CHG[2].join('/')}, Rang 3 (General) ${CHG[3].join('/')}.`,
+        `Angeworben im Fenster „Charaktere“ aus 2–4 Rohstoffen (Pflicht-Rohstoffe plus beliebige, keine Elementsteine). Stufe = Rohstoffe − 1. Ein weiterer Rohstoff befördert.`,
         `Ein Charakter schließt sich einem Regiment an: Er gibt Werte und eine Fähigkeit, +Rang auf Disziplin und Standhaftigkeit und schaltet Befehle frei (siehe Befehle). Er kann einen Gegenstand tragen. Der General bestimmt die Zahl der Kriegsrat-Befehle und die Formationen.`
       ]) +
         tbl(
@@ -12578,31 +13271,14 @@ function rulesHTML() {
     ) +
     sec(
       'befehle',
-      'Aufstellen und Befehle',
+      'Aufstellen und Strategie',
       ul([
         `Aufstellen im hellen Streifen vor deinem Lager: Regiment antippen und Stelle antippen oder hinziehen. Charaktere und Gegenstände unter der Karte auf ein Regiment ziehen.`,
-        `<b>Befehle</b> je Regiment: ${Object.values(ORDU)
-          .filter(o => !o.rk)
-          .map(o => o.n)
-          .join(', ')}. Mit Charakter zusätzlich: Rang 1 ${Object.values(ORDU)
-          .filter(o => o.rk === 1)
-          .map(o => o.n)
-          .join(', ')}; Rang 2 ${Object.values(ORDU)
-          .filter(o => o.rk === 2)
-          .map(o => o.n)
-          .join(
-            ', '
-          )} und Zeitbefehl (nach ${ORDT.slice(1).join('/')} s gilt ein zweiter Befehl); Rang 3 ${Object.values(
-          ORDU
-        )
-          .filter(o => o.rk === 3)
-          .map(o => o.n)
-          .join(', ')}.`,
         `<b>Stellungen</b> (ab Stufe 2): ${['tight', 'loose', 'wedge'].map(k => `${STA[k].n} – ${STA[k].d}`).join(' ')}`,
-        `<b>Formationen</b> der ganzen Armee (nur wenn der General ein Regiment auf dem Feld führt; Stufe 1/2/3 schaltet frei): ${Object.values(
-          FORM
+        `<b>Strategie des Generals</b> (statt Befehlen an einzelne Regimenter; der General braucht die angegebene Stufe): ${Object.values(
+          STRAT
         )
-          .map(f => `${f.n} – ${f.d}`)
+          .map(f => `<b>${f.n}</b> (Stufe ${f.lv}, Vorbild: ${f.hist}) – ${f.d}`)
           .join(' ')}`
       ])
     ) +
@@ -12610,9 +13286,10 @@ function rulesHTML() {
       'rat',
       'Kriegsrat',
       ul([
-        `Befehle kosten Gold; wie viele du geben darfst, bestimmt die Stufe deines Generals (ohne General keine).`,
+        `Wie viele Befehle du geben darfst, bestimmt die Stufe deines Generals (ohne General keine). Silber-Befehle brauchen zusätzlich die Silber-Sammelstufe.`,
         ...Object.values(ORD).map(
-          o => `<b>${o.n}</b> (${o.c} Gold${o.fac ? ', nur ' + FAC[o.fac].n : ''}): ${o.d}`
+          o =>
+            `<b>${o.n}</b>${o.fac ? ' (nur ' + FAC[o.fac].n + ')' : ''}${o.sil ? ' (Silber Stufe ' + o.sil + ')' : ''}: ${o.d}`
         )
       ])
     ) +
@@ -12624,10 +13301,13 @@ function rulesHTML() {
         `<b>Bewegung:</b> Regimenter laufen auf den nächsten Feind zu, den ihre Seite sieht; das feindliche Lager kennen sie erst, wenn jemand es gesehen hat (sonst rücken sie vor). Zu tiefes Wasser umgehen sie über Furten; im Wasser und auf Umwegen ziehen sie sich zur Marschkolonne zusammen.`,
         `<b>Disziplin</b> (1–10) bestimmt, wie schnell ein Regiment schwenkt und umformt. Große Wendungen erzwingen ein Umformen (bis 5 s), Drehen auf der Stelle ist besonders langsam.`,
         `<b>Sicht:</b> ein Kegel nach vorn (90°) mit der Sichtweite des Regiments, dazu 8 Schritt rundum; das Lager sieht rundum. Wald verbirgt (Schattenläufer bis auf 3 Schritt), Dunkelheit verbirgt bis auf 15 Schritt, Hügel verdecken, was dahinter liegt, und erhöhen die eigene Sicht.`,
+        `<b>Munition:</b> Bogen und Armbrust 28 Schuss, Büchsen, Kanonen und Plänkler 20, Geschütze 18 je Schlacht (Salven zählen als ein Schuss). Danach kämpfen Schützen im Nahkampf; reine Fernkämpfer ziehen sich zum Lager zurück. Türme haben unbegrenzt.`,
+        `<b>Befehle:</b> Sobald neue Feinde sichtbar werden, verteilt der General Aufgaben nach Rolle: Linie bindet die feindliche Linie, Speere stellen sich der Reiterei, Reiterei jagt Schützen und Gerät oder greift in die Flanke (nie frontal in Speere), Schützen halten Feuerstellung, Gerät bleibt zurück, Plänkler gehen auf feindliche Schützen. Höchstens zwei Regimenter auf dasselbe Ziel. Befehle erreichen nur Regimenter im Befehlsradius: General 30, Held 20, Unteroffizier 15 Schritt (+5 je Stufe); ein Regiment mit eigenem Charakter ist immer in Befehlsweite. Ein General ohne Regiment führt vom Lager aus.`,
+        `<b>Ohne Befehl</b> (kein General oder außer Reichweite) handelt ein Regiment selbst: Es wählt nur alle 2,5 s ein Ziel, meist den nächsten sichtbaren Feind, und marschiert 12 % langsamer. Wie der General die Aufgaben verteilt, bestimmt seine Strategie.`,
         `<b>Eigenständige Taktik:</b> Regimenter warten nicht im Beschuss. Wer von Schützen getroffen wird und keinen Nahkämpfer vor sich hat, stürmt auf die Schützen los – auch Leibwachen und Hügelhalter (nur „Halten“ bleibt stehen). Ist der Gegner im Fernkampf deutlich stärker (×1,3), geben die Leibwachen das Lager frei und die Nahkämpfer suchen gezielt die Schützen.`,
-        `<b>Fernkampf:</b> Schützen brauchen eine eigene Sichtlinie (Hügel dazwischen blockieren, außer der Schütze steht oben). Wurfgeschütze schießen im Bogen. Ziele im Wald nehmen halben Schaden. Fernkampf trifft schwächer als Nahkampf (×0,7) und verliert ab halber Reichweite weiter an Wucht – an der Reichweitengrenze bleibt noch 40 % davon.`,
+        `<b>Fernkampf:</b> Schützen brauchen eine eigene Sichtlinie (Hügel dazwischen blockieren, außer der Schütze steht oben). Wurfgeschütze schießen im Bogen. Ziele im Wald nehmen halben Schaden. Fernkampf trifft schwächer als Nahkampf (×0,8) und verliert ab halber Reichweite weiter an Wucht – an der Reichweitengrenze bleibt noch 40 % davon.`,
         `<b>Nahkampf bindet:</b> Wer Feindkontakt hat, sitzt fest und kämpft nur nach vorn; Schützen schießen dann nicht mehr. Flanke ×1,5, Rücken ×2. Steht vorn kein Feind mehr, schwenkt das Regiment um und wehrt sich währenddessen nicht.`,
-        `<b>Sturmangriff:</b> Nach mindestens 8 Schritt Anlauf: Reiterei ×1,5, mit Ansturm ×2. Je Punkt Dichte-Unterschied (Angreifer gegen Ziel) ±15 %. Ein dichterer Angreifer zwingt das Ziel zur Mutprobe. Im Wald kein Sturmangriff, Reiterei dort −30 % Angriff. Lanzenwall hebt den Sturmangriff auf.`,
+        `<b>Sturmangriff:</b> Nach mindestens 8 Schritt Anlauf: Reiterei ×1,5, mit Ansturm ×2. Je Punkt Dichte-Unterschied (Angreifer gegen Ziel) ±15 %. Ein dichterer Angreifer zwingt das Ziel zur Mutprobe. Im Wald kein Sturmangriff, Reiterei dort −30 % Angriff. Speere (Lanzenwall) heben den Sturmangriff nur von vorn auf; anstürmende Reiterei erleidet dabei Schaden (3 × Lanzenwall × Sterne). Von der Seite oder hinten wirken Speere nicht. Anstürmende Regimenter sind auf dem Feld an Staubwolke und Leuchten zu erkennen.`,
         `<b>Ausgedünnte Regimenter</b> schlagen schwächer zu (bis 40 %). Initiative bestimmt, wie schnell ein Regiment nachschlägt.`
       ])
     ) +
@@ -12639,14 +13319,6 @@ function rulesHTML() {
         `<b>Mutprobe:</b> 2W6 gegen Standhaftigkeit (8 + Stufe − 1, +1 mit Sternen, + Rang des Charakters, +2 mit Furchtlos ★). Ausgelöst durch mehr als ein Fünftel LP-Verlust in 2 s, Treffer in Flanke oder Rücken, Furcht, Schlachtruf, Sturmangriff eines dichteren Gegners – und wenn ein Regiment allein (keine Verbündeten in 15 Schritt) einem Feind nahe kommt.`,
         `Abzüge: unter halben LP −1, unter einem Viertel −3, Flanke/Furcht/Sturmangriff −1, Rücken −2, allein −1, Armee-Moral unter 50 −1, unter 25 −3. Boni: Hügel +1, General oder Kriegsbanner in 15 Schritt +1.`,
         `<b>Flucht:</b> Wer höher würfelt, flieht, kämpft nicht und nimmt doppelten Schaden. Ohne Feind in der Nähe versucht er alle 2 s, sich zu sammeln. Wesen, Unerschütterliche und Rasende fliehen nie. Einzelkämpfer, Wesen, Kolosse und Plänkler sind nie „allein“.`
-      ])
-    ) +
-    sec(
-      'wirtschaft',
-      'Gold und Rekruten',
-      ul([
-        `<b>Gold:</b> Start 6. Beute nach der Schlacht: Sieg +${LOOT.win}, Unentschieden +${LOOT.draw}, Niederlage ${LOOT.loss}. Gold bezahlt Charaktere, Kombinationen und Kriegsrat-Befehle.`,
-        `<b>Rekruten:</b> Start 1000, jede Runde +50, nach einem Sieg zusätzlich 15 % der gefallenen Gegner. Die Hälfte deiner Gefallenen ist dauerhaft verloren, der Rest kehrt verwundet zurück und füllt die Regimenter auf.`
       ])
     )
   );
@@ -12766,9 +13438,9 @@ function bsRow(o, sel) {
       .map(e => `<i class="mdot" style="--eb:${EL[e].c}" title="${EL[e].n}"></i>`)
       .join(''),
     sx = [...(o.sx || '')].map(k => BSX[k]).join(', ');
-  let h = `<button class="bsr${sel ? ' on' : ''}${o.ac === 'f' ? ' fl' : ''}" data-a="selB" data-v="${o.id}"><span class="bsi">${tokSVG(o.t, o.side, o.st, o.el)}</span><span class="bsm"><span class="bsn">${P.n}${o.st > 1 ? ' ' + '★'.repeat(o.st) : ''}${dots}</span><span class="bsl">${bBar(p)}<small>${men}</small></span><span class="bst"><b class="${ac}">${an}</b>${sx ? ` <em>${sx}</em>` : ''}${o.ch ? ` <small>${CHR[o.ch].n}</small>` : ''}</span></span></button>`;
+  let h = `<button class="bsr${sel ? ' on' : ''}${o.ac === 'f' ? ' fl' : ''}" data-a="selB" data-v="${o.id}"><span class="bsi">${tokSVG(o.t, o.side, o.st, o.el)}</span><span class="bsm"><span class="bsn">${P.n}${o.st > 1 ? ' ' + '★'.repeat(o.st) : ''}${dots}</span><span class="bsl">${bBar(p)}<small>${men}${o.am >= 0 ? ` · <span class="${o.am ? '' : 'af'}">${o.am ? '➶' + o.am : 'leer'}</span>` : ''}</small></span><span class="bst"><b class="${o.cg ? 'af' : ac}">${o.cg ? 'Sturmangriff' : an}</b>${o.tk ? ` · ${o.tk}` : ''}${sx ? ` <em>${sx}</em>` : ''}${o.ch ? ` <small>${CHR[o.ch].n}</small>` : ''}</span></span></button>`;
   if (sel)
-    h += `<div class="bsd"><span>Angr. <b>${o.atk}</b></span><span>Rüst. <b>${o.arm}</b></span><span>LP <b>${Math.ceil(o.hp)}/${o.max}</b></span><span title="Standhaftigkeit: Moraltest mit 2W6, gelingt bis zu diesem Wert">Standh. <b>${o.ld ? o.ld : '∞'}</b></span>${mg ? `<span class="w">${elTxtB(o)}</span>` : ''}</div>`;
+    h += `<div class="bsd">${o.am >= 0 ? `<span>Munition <b>${o.am}/${o.am0}</b></span>` : ''}<span>Angr. <b>${o.atk}</b></span><span>Rüst. <b>${o.arm}</b></span><span>LP <b>${Math.ceil(o.hp)}/${o.max}</b></span><span title="Standhaftigkeit: Moraltest mit 2W6, gelingt bis zu diesem Wert">Standh. <b>${o.ld ? o.ld : '∞'}</b></span>${mg ? `<span class="w">${elTxtB(o)}</span>` : ''}</div>`;
   return h;
 }
 /* Kurztext Magie für die Detailzeile */
@@ -12787,7 +13459,8 @@ function bsHead(s, fr, f0, name) {
     fl = cur.filter(o => o.fl).length,
     k = cur.find(o => U[o.t].king),
     k0 = st0.find(o => U[o.t].king);
-  return `<div class="bsh"><h3>${name}</h3><div class="bsk"><span>Moral <b>${m}</b></span>${bBar(m / 100, pctC(m / 100))}</div><div class="bsk"><span>Stärke <b>${Math.round((hp / hp0) * 100)} %</b></span>${bBar(hp / hp0, '#8fb3e0')}</div>${k0 ? `<div class="bsk"><span>Lager <b>${k ? Math.ceil(k.hp) : 0}/${k0.max} LP</b></span>${bBar(k ? k.hp / k0.max : 0)}</div>` : ''}<small>${cur.filter(o => !U[o.t].king).length} von ${st0.filter(o => !U[o.t].king).length} Regimentern${fl ? ` · <b class="af">${fl} ${fl > 1 ? 'fliehen' : 'flieht'}</b>` : ''}</small></div>`;
+  const sk = (S.bf || [])[s];
+  return `<div class="bsh"><h3>${name}</h3><div class="bss">${sk ? `Strategie: <b>${STRAT[sk].n}</b>` : 'Ohne General – jedes Regiment handelt selbst'}</div><div class="bsk"><span>Moral <b>${m}</b></span>${bBar(m / 100, pctC(m / 100))}</div><div class="bsk"><span>Stärke <b>${Math.round((hp / hp0) * 100)} %</b></span>${bBar(hp / hp0, '#8fb3e0')}</div>${k0 ? `<div class="bsk"><span>Lager <b>${k ? Math.ceil(k.hp) : 0}/${k0.max} LP</b></span>${bBar(k ? k.hp / k0.max : 0)}</div>` : ''}<small>${cur.filter(o => !U[o.t].king).length} von ${st0.filter(o => !U[o.t].king).length} Regimentern${fl ? ` · <b class="af">${fl} ${fl > 1 ? 'fliehen' : 'flieht'}</b>` : ''}</small></div>`;
 }
 
 function bsPanels() {
