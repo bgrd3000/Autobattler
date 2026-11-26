@@ -1,6 +1,7 @@
 /* Autobattler · Webserver für Railway, ohne Abhängigkeiten
    - liefert das Spiel aus (Ordner public/ oder, im Ein-Datei-Paket, nur index.html)
    - /health für Railways Startprüfung
+   - /api/mp/…: Mehrspieler (mp.js)
    - /api/scores: Bestenliste (GET lesen, POST eintragen), gespeichert als JSON-Datei in DATA_DIR */
 const http = require('http');
 const fs = require('fs');
@@ -69,6 +70,16 @@ function entry(b) {
     t: Date.now()
   };
 }
+/* ---------- Mehrspieler ---------- */
+let MP = null;
+try {
+  MP = require('./mp');
+  console.log(`Mehrspieler bereit · ${MP.init(__dirname, DATA_DIR)} Spiele geladen`);
+} catch (e) {
+  MP = null;
+  console.error('Mehrspieler nicht verfügbar:', e.message);
+}
+
 const last =
   new Map(); /* einfache Bremse: ein Eintrag pro Adresse alle 5 s (Schulklassen teilen oft eine Adresse) */
 
@@ -158,6 +169,10 @@ const server = http.createServer((req, res) => {
     return res.end('ok');
   }
   if (p === '/api/scores') return api(req, res);
+  if (p.startsWith('/api/mp/')) {
+    if (!MP) return json(res, 503, { error: 'Mehrspieler nicht verfügbar' });
+    return MP.handle(req, res, new URL(req.url, 'http://x'));
+  }
   file(req, res, p);
 });
 server.listen(PORT, () =>

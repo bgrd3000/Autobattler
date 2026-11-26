@@ -2773,6 +2773,569 @@ div.urow {
   color: var(--br);
 }
 
+/* ═══ Übersicht: kompakter Kopf, Menü, kurze Listen ═══════════════════════ */
+.top {
+  position: relative;
+  align-items: center;
+  gap: 2px 12px;
+  padding: 8px 52px 4px max(3vw, 12px);
+}
+h1 {
+  font-size: clamp(20px, 4vw, 30px);
+}
+.stats {
+  gap: 2px 10px;
+  font-size: 12.5px;
+}
+.stats b {
+  font-size: 14px;
+}
+.menub {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  border: 1px solid var(--ln);
+  background: #ffffff10;
+  color: var(--br);
+  font-size: 20px;
+  cursor: pointer;
+}
+.steps {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: linear-gradient(#2a1216f2, #2a1216e6);
+  backdrop-filter: blur(4px);
+  padding: 4px 10px 5px;
+}
+.steps button {
+  padding: 5px 3px;
+  font-size: 12px;
+}
+/* Meldung: höchstens drei Zeilen */
+.status {
+  min-height: 0;
+  margin: 6px auto 0;
+  font-size: 14px;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* Menü (Armee im Detail, Rezeptbuch, Sammelboni, Bestenliste, Regeln) als eigenes Fenster */
+.menu {
+  display: none;
+}
+body.menuOn .menu {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow-y: auto;
+  background: #1d0b0ef7;
+  padding: 10px max(3vw, 12px) 40px;
+}
+body.menuOn {
+  overflow: hidden;
+}
+.menuh {
+  position: sticky;
+  top: -10px;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  background: #1d0b0ef7;
+  font-size: 18px;
+  color: var(--br);
+}
+.menu .panel {
+  max-width: 760px;
+  margin: 8px auto;
+}
+.hint2.one {
+  margin: 2px 0 6px;
+  font-size: 12px;
+}
+/* Draft: zwei Spalten, kurze Karten, Details auf ⓘ */
+.pack {
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 6px;
+}
+@media (max-width: 440px) {
+  .pack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.pki {
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 6px;
+  padding: 6px;
+  min-height: 0;
+  align-items: start;
+}
+.pki .pic svg {
+  width: 34px;
+  height: 34px;
+}
+.pki strong {
+  display: block;
+  font-size: 14px;
+  line-height: 1.15;
+}
+.pks {
+  display: block;
+  font-size: 11.5px;
+  line-height: 1.3;
+  color: var(--mut);
+  margin-top: 2px;
+}
+.pks b {
+  color: #9fe39a;
+}
+.pinf {
+  display: inline-block;
+  margin-top: 3px;
+  font-size: 11.5px;
+  color: var(--br);
+  text-decoration: underline dotted;
+}
+.pki.open {
+  grid-column: 1 / -1;
+}
+.radar summary,
+.sbd summary,
+.cdet summary,
+.chd summary {
+  cursor: pointer;
+  color: var(--br);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 3px 0;
+}
+.sbd summary span {
+  font-weight: 400;
+  color: var(--mut);
+  font-size: 11.5px;
+}
+.radar {
+  grid-column: 1 / -1;
+}
+/* Bauen: Filter und einzeilige Vorschau */
+.ofl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  margin: 4px 0 6px;
+}
+.ofl .lbl {
+  margin-right: 4px;
+}
+.fch {
+  border: 1px solid var(--ln);
+  border-radius: 14px;
+  background: #ffffff0a;
+  color: var(--mut);
+  font: 600 12px sans-serif;
+  padding: 4px 9px;
+  cursor: pointer;
+}
+.fch.on {
+  border-color: var(--br);
+  color: var(--ink);
+  background: #d2a24f2a;
+}
+.fch b {
+  color: var(--br);
+}
+.opt {
+  padding: 5px 8px;
+  min-height: 0;
+}
+.opt > span {
+  min-width: 0;
+}
+.opt em {
+  font-size: 11px;
+}
+.opt em.pv {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Charaktere und Kriegsrat: Erklärungen eingeklappt, Befehle kurz */
+.chd {
+  margin: 2px 0;
+}
+.ord small {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ord.on small {
+  -webkit-line-clamp: unset;
+}
+#council .note {
+  font-size: 12.5px;
+  margin: 3px 0;
+}
+.opts,
+.opt {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.opt > span {
+  overflow: hidden;
+}
+.fch.more {
+  width: 100%;
+  margin-top: 4px;
+  padding: 7px;
+}
+.menub {
+  top: 6px;
+  width: 34px;
+  height: 32px;
+  font-size: 18px;
+}
+.facs {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+.facc {
+  padding: 8px 10px;
+}
+.facc p {
+  font-size: 13px;
+  margin: 3px 0;
+}
+.facc.open {
+  grid-column: 1 / -1;
+}
+/* Charakter-Stufen als kleine Knöpfe in einer Zeile */
+#offP .cbt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+#offP .cbt .btn {
+  padding: 4px 9px;
+  min-height: 0;
+  font-size: 12.5px;
+}
+#offP .offc,
+#offP .offu {
+  padding: 7px;
+}
+.pku {
+  display: block;
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.3;
+  margin-bottom: 1px;
+}
+.pku b {
+  color: #9fe39a;
+}
+.pku {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.pun {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.uti {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  line-height: 0;
+}
+.uti svg {
+  width: 18px;
+  height: 18px;
+}
+.pki > span:last-child {
+  min-width: 0;
+}
+.pun {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+/* Einheitentyp-Symbole */
+.rty {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--br);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.rleg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  margin: 0 0 6px;
+  font-size: 11.5px;
+  color: var(--mut);
+}
+.rleg span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.rleg .rty {
+  width: 14px;
+  height: 14px;
+}
+/* Routenwahl: große Knöpfe */
+#navb.stack {
+  gap: 10px;
+}
+#navb.stack .btn {
+  min-height: 78px;
+  font-size: 19px;
+  padding: 12px 16px;
+  grid-template-columns: 30px 1fr;
+  column-gap: 12px;
+}
+#navb.stack .btn .bico {
+  width: 28px;
+  height: 28px;
+}
+#navb.stack .btn .rsub {
+  font-size: 14px;
+  line-height: 1.3;
+  white-space: normal;
+}
+/* ═══ Mehrspieler: Lobby, Spieltafel ═══════════════════════════════════════ */
+body.menuOn #lobbyP {
+  display: none;
+}
+body.lobbyOn #lobbyP {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 61;
+  overflow-y: auto;
+  background: #1d0b0ef7;
+  padding: 10px max(3vw, 12px) 40px;
+}
+body.lobbyOn {
+  overflow: hidden;
+}
+#lobbyP .panel {
+  max-width: 640px;
+  margin: 8px auto;
+}
+.lob h2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.lob h2 span {
+  font-size: 13px;
+  color: var(--mut);
+}
+.lform {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.lform input,
+.lform select,
+.lrow input,
+.lk input {
+  min-width: 0;
+  background: #00000040;
+  border: 1px solid var(--ln);
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 9px 10px;
+  font: 15px sans-serif;
+}
+.lform label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--mut);
+  font-size: 13px;
+}
+.lform .btn {
+  grid-column: 1 / -1;
+}
+@media (max-width: 440px) {
+  .lform {
+    grid-template-columns: 1fr;
+  }
+}
+.lgl {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.lgl li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--ln);
+  border-radius: 9px;
+  background: #ffffff08;
+}
+.lgl li span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.lgl small {
+  color: var(--mut);
+  font-size: 12px;
+}
+.lgl .btn {
+  flex: 0 0 auto;
+}
+.lseats {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.lseats li {
+  padding: 5px 10px;
+  border-radius: 14px;
+  border: 1px solid var(--ln);
+  font-size: 13px;
+}
+.lseats li.free {
+  opacity: 0.5;
+  border-style: dashed;
+}
+.lk {
+  display: block;
+  font-size: 12.5px;
+  color: var(--mut);
+  margin: 8px 0;
+}
+.lk span {
+  display: flex;
+  gap: 6px;
+  margin-top: 3px;
+}
+.lk input {
+  flex: 1;
+  font-size: 13px;
+}
+.lrow {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.lrow input {
+  flex: 1;
+}
+.lerr {
+  max-width: 640px;
+  margin: 8px auto;
+  background: #7a1d24;
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 13.5px;
+}
+.lob.hi {
+  border-color: var(--br);
+}
+.btn.sm {
+  padding: 4px 9px;
+  font-size: 12px;
+  min-height: 0;
+}
+.btn.mpgo {
+  width: 100%;
+  margin-bottom: 8px;
+}
+.mpbar {
+  margin: 6px auto 0;
+  max-width: 980px;
+  font-size: 12.5px;
+  background: #00000030;
+  border: 1px solid var(--ln);
+  border-radius: 10px;
+  padding: 5px 8px;
+}
+.mpbar summary {
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: center;
+  list-style: none;
+}
+.mpbar summary::-webkit-details-marker {
+  display: none;
+}
+.mps {
+  padding: 1px 7px;
+  border-radius: 10px;
+  background: #ffffff10;
+  white-space: nowrap;
+}
+.mps i {
+  font-style: normal;
+  color: var(--br);
+}
+.mps.me {
+  outline: 1px solid var(--br);
+}
+.mps.ai {
+  opacity: 0.6;
+}
+.facc.sel {
+  outline: 2px solid var(--br);
+}
+
+.mpbar summary b,
+.mpbar summary span {
+  font: 600 12.5px/1.5 sans-serif;
+}
+.mpbar summary b {
+  color: var(--br);
+}
+[data-st='route'] .status,
+[data-st='over'] .status,
+[data-st='wait'] .status {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+.mpw {
+  padding: 10px;
+  border: 1px dashed var(--ln);
+  border-radius: 9px;
+  text-align: center;
+}
+
 </style>
   </head>
   <body>
@@ -3839,21 +4402,26 @@ div.urow {
     <header class="top">
       <h1>Die Kampagne</h1>
       <div class="stats" id="stats"></div>
+      <button class="menub" data-a="menu" aria-label="Menü: Armee, Rezeptbuch, Bestenliste, Regeln">
+        ☰
+      </button>
     </header>
     <nav id="steps" class="steps"></nav>
     <main class="wrap">
       <section class="flow">
+        <div id="mpB"></div>
         <div id="status" class="status" aria-live="polite"></div>
         <div class="panel" id="facP"></div>
         <div class="panel" id="draftP">
           <h2>Draft <span id="picks"></span></h2>
-          <p class="hint2">
-            Punkte am Stein = Güte (● einfach, ●●● edel). Jeder Pick ist genau ein Stein. Jeder Rohstoff
-            steckt in mindestens drei Rezepten deines Volkes. Unter jedem Stein steht, was du daraus bauen
-            kannst – grün mit ✓: der Partner liegt schon in deinem Lager.
+          <p class="hint2 one">
+            Einen Stein antippen = nehmen · ⓘ zeigt, was daraus wird (✓ = Partner liegt schon im Lager).
           </p>
-          <h3 class="sbh">Sammelboni <span>(3/6/9 gleiche Rohstoffe = Stufe 1/2/3)</span></h3>
-          <div id="dsb" class="sbs"></div>
+          <p class="rleg" id="rleg"></p>
+          <details class="sbd">
+            <summary>Sammelboni <span>3/6/9 gleiche Rohstoffe = Stufe 1/2/3</span></summary>
+            <div id="dsb" class="sbs"></div>
+          </details>
           <div id="booster" class="gems sm"></div>
         </div>
         <div class="bgrid">
@@ -3884,14 +4452,23 @@ div.urow {
         </div>
         <div class="panel" id="council" hidden></div>
         <div id="selinfo" class="selinfo"></div>
+
+        <div id="acts" class="acts"></div>
+        <div id="navb" class="navb"></div>
+      </section>
+      <section class="menu lobby" id="lobbyP"></section>
+      <section class="menu" id="menuP">
+        <div class="menuh">
+          <b>Übersicht</b
+          ><span
+            ><button class="btn" data-a="mpLobby">👥 Mehrspieler</button>
+            <button class="btn" data-a="menu">Schließen ✕</button></span
+          >
+        </div>
         <details class="panel" id="collP">
           <summary>Sammelboni</summary>
           <div id="coll" class="coll"></div>
         </details>
-        <div id="acts" class="acts"></div>
-        <div id="navb" class="navb"></div>
-      </section>
-      <section>
         <div class="panel" id="enemyP" hidden>
           <h2>Nächster Gegner <span id="ename"></span></h2>
           <p class="note" id="esets"></p>
@@ -7179,15 +7756,21 @@ function modR(R, o) {
     }
 }
 function bake(m, frost, extra) {
+  const key = m.i + (m.flip ? 'f' : '');
   if (!BASE[m.i]) BASE[m.i] = bakeBase(m.i);
-  const B = BASE[m.i],
+  /* gedrehte Karte (Gegner im Mehrspieler sieht sie von der anderen Seite): Felder in umgekehrter Reihenfolge = 180° */
+  if (!BASE[key]) {
+    const b = BASE[m.i];
+    BASE[key] = { dep: b.dep.slice().reverse(), hgt: b.hgt.slice().reverse(), ter: b.ter.slice().reverse() };
+  }
+  const B = BASE[key],
     R = { dep: B.dep, hgt: B.hgt.slice(), ter: B.ter.slice(), ice: new Uint8Array(GW * GH), forts: [] };
   if (frost) for (let i = 0; i < GW * GH; i++) if (B.dep[i] > 0) R.ice[i] = 1;
   [...(m.mods || []), ...(extra || [])].forEach(o => modR(R, o));
   return R;
 }
 function baked(m, frost) {
-  const k = (frost ? 'f' : 'n') + (m.mods || []).length;
+  const k = (frost ? 'f' : 'n') + (m.flip ? 'r' : '') + (m.mods || []).length;
   if (!m._c || m._c.k !== k)
     Object.defineProperty(m, '_c', {
       value: { k, R: bake(m, frost) },
@@ -8935,7 +9518,7 @@ function simulate(pl, en, noFrames, b0, b1, opt) {
           en: o.ench || '',
           bn: o.ban || '',
           au: U[o.t].aura || o.raura || o.ban ? 1 : 0,
-          vr: o.side ? 0 : U[o.t].king ? visR(o) : visC(o),
+          vr: U[o.t].king ? visR(o) : visC(o),
           n0: o.sg ? 0 : o.n0,
           ld: o.ld,
           atk: o.atk,
@@ -8949,6 +9532,7 @@ function simulate(pl, en, noFrames, b0, b1, opt) {
         })),
       ev,
       v0: [...CTX.V[0]],
+      v1: [...CTX.V[1]],
       mor: [...CTX.mor],
       mi: CTX.mods.length
     });
@@ -8996,16 +9580,25 @@ function simulate(pl, en, noFrames, b0, b1, opt) {
       q = sc(1);
     out = p > q ? 'win' : p < q ? 'loss' : 'draw';
   }
-  const ecas = us
-      .filter(o => o.side === 1 && !o.sg && o.n1)
-      .reduce((s, o) => s + o.n1 - (o.hp > 0 ? Math.ceil(o.hp / o.hpp) : 0), 0),
+  const casN = sd =>
+      us
+        .filter(o => o.side === sd && !o.sg && o.n1)
+        .reduce((s, o) => s + o.n1 - (o.hp > 0 ? Math.ceil(o.hp / o.hpp) : 0), 0),
+    ecas = casN(1),
+    ecas0 = casN(0),
     cas = us
       .filter(o => o.side === 0 && o.src && !o.sg)
       .map(o => [o.src, Math.max(0, o.n1 - (o.hp > 0 ? Math.ceil(o.hp / o.hpp) : 0))]),
+    /* Verluste beider Seiten nach Einheiten-Nummer (für den Mehrspieler-Server) */
+    casU = us
+      .filter(o => o.src && !o.sg && o.src.uid != null)
+      .map(o => [o.side, o.src.uid, Math.max(0, o.n1 - (o.hp > 0 ? Math.ceil(o.hp / o.hpp) : 0))]),
     all = CTX.mods,
     res = {
       cas,
+      casU,
       ecas,
+      ecas0,
       frames,
       out,
       timeout,
@@ -9626,6 +10219,11 @@ function setFac(f) {
   if (typeof rulesHTML === 'function') $('rules').innerHTML = rulesHTML();
 }
 function aiOrders() {
+  /* Mehrspieler: Befehle des KI-Gegners kommen vom Server (Schanzen stehen schon auf der Karte) */
+  if (S.mp) {
+    S.aiOrd = (S.mpOrd || []).slice();
+    return;
+  }
   const sp = { ba: 'raid', de: 'ambush', zw: 'fort', or: 'joust', he: 'volley' }[S.opp.fac];
   S.aiOrd = ['supply', 'scout', 'deceive', sp]
     .sort(() => Math.random() - 0.5)
@@ -9650,7 +10248,7 @@ function startRound() {
   S.extra = 0;
   S.dr = { p: 0, packs: [], pk: 0, bon: false };
   S.orders = [];
-  S.wx = rollWx();
+  S.wx = S.mp ? S.mpWx || 'klar' : rollWx();
   S.wxUsed = false;
   S.forts = actMeta(S.units).fort1 ? 1 : 0;
   S.phase = 'build';
@@ -9659,7 +10257,7 @@ function startRound() {
   S.units.forEach(u => {
     if (isK(u)) u.kr = S.round;
   });
-  S.opp = S.ai[(S.round - 1) % S.ai.length];
+  S.opp = S.mp ? S.mpFoe || S.ai[0] : S.ai[(S.round - 1) % S.ai.length];
   S.ai.forEach(a => (a.rp = []));
   openPacks();
   S.ename = S.opp.n + (S.opp.fac ? ' · ' + FAC[S.opp.fac].n : '');
@@ -9757,11 +10355,16 @@ function advance() {
 }
 function draftDone() {
   S.step = 'build';
-  S.ai.forEach(ai => aiBuild(ai, rEq(S.round)));
+  if (!S.mp) S.ai.forEach(ai => aiBuild(ai, rEq(S.round)));
   syncPieces();
   S.enemy = S.opp.army;
   S.booster = [];
-  S.msg = `Draft abgeschlossen. ${S.ename} hat aufgestellt – „Gegner zeigen“ zeigt die Armee.`;
+  S.msg =
+    S.mp && !S.enemy
+      ? S.mp.rest
+        ? 'Draft abgeschlossen. Du setzt diese Runde aus – bau dein Heer für die nächste Schlacht.'
+        : `Draft abgeschlossen. ${S.ename} stellt selbst auf – sein Heer siehst du erst in der Schlacht.`
+      : `Draft abgeschlossen. ${S.ename} hat aufgestellt – „Gegner zeigen“ zeigt die Armee.`;
 }
 const canTake = it => true;
 function take(it) {
@@ -9782,6 +10385,11 @@ function take(it) {
   K.ins = (K.ins || []).concat(it.i);
 }
 function autoDraft() {
+  if (S.mp && !S.dr.bon) {
+    S.mp.auto = 1;
+    S.msg = 'Automatisch: aus jedem ankommenden Pack wird der beste Stein genommen.';
+    return mpAuto();
+  }
   while (S.picks > 0) {
     let bi = -1,
       bv = -1;
@@ -9807,6 +10415,8 @@ function autoDraft() {
 /* Autobattler · Spieleraktionen: Bauen, Veredeln, Herstellen, Offiziere, Formationen, Aufstellen */
 function pickB(i) {
   if (S.phase !== 'build' || S.picks <= 0 || !S.booster[i]) return;
+  S.dinf = -1;
+  if (S.mp && !S.dr.bon) return mpPick(i);
   const it = S.booster[i];
   take(S.booster.splice(i, 1)[0]);
   S.pend = -1;
@@ -9990,10 +10600,17 @@ function feedA() {
   const u = gu(S.selU[0]),
     st = S.stash[S.selS[0]];
   if (!canFeed(u) || st.type !== 'st' || !canEat(st)) return;
+  const a = stats(u),
+    d0 = u.b.dark || 0;
   feed(u, st);
+  const b = stats(u),
+    ch = ['hp', 'atk', 'arm', 'ini'].filter(p => a[p] !== b[p]).map(p => `${FN[p]} ${a[p]} → <b>${b[p]}</b>`);
+  if ((u.b.dark || 0) > d0) ch.push('<b>Furcht und Tarnung</b>');
   S.stash.splice(S.selS[0], 1);
   S.selS = [];
-  S.msg = `${U[u.t].n}: ${fdesc(st)}.`;
+  S.msg = `${uname(u.t, u.el)} ${RES[st.k].el ? 'hat gegessen' : 'wurde gefüttert'} (${RES[st.k].n}): ${
+    ch.join(' · ') || 'keine Wertänderung'
+  } · Fütterlimit ${u.f}/${3 * u.s}`;
 }
 function mergeA() {
   const [a, b] = S.selU.map(gu);
@@ -10577,23 +11194,69 @@ function aiBuild(ai, r) {
 }
 
 /* Autobattler · Schlacht, Ergebnis, Feldzug */
-function fight() {
-  if (!onboard().length) {
-    S.msg = 'Stelle mindestens eine Einheit aufs Feld.';
-    return;
-  }
-  if (S.picks > 0) autoDraft();
+/* ── Schlacht zwischen zwei Seiten ─────────────────────────────────────────────────────────
+   Eine Seite beschreibt ein Heer in eigenen Koordinaten (eigener Aufstellungsstreifen unten).
+   Seite B wird für die Rechnung um 180° gedreht (x → GW − x, y → GH − y), außer abs = 1
+   (KI-Heer, das schon oben aufgestellt ist). So rechnet der Server auch Mensch gegen Mensch. */
+const flipP = p => ({ ...p, x: +(GW - p.x).toFixed(2), y: +(GH - p.y).toFixed(2) });
+function mySide() {
   const O = S.orders,
-    A = S.aiOrd,
-    M0 = actMeta(S.units),
-    M1 = actMeta(S.enemy),
-    b0 = bonus(S.col);
-  if (O.includes('supply')) b0.kHp += 10;
-  if (M0.camp) b0.kHp += 10;
-  const b1 = bonus(S.opp.col);
-  if (A.includes('supply')) b1.kHp += 10;
-  if (M1.camp) b1.kHp += 10;
-  const R = baked(S.map),
+    M = actMeta(S.units),
+    b = bonus(S.col);
+  if (O.includes('supply')) b.kHp += 10;
+  if (M.camp) b.kHp += 10;
+  syncPieces();
+  /* Silber: Söldner – ein fremdes Grundregiment kämpft mit */
+  const extra = [];
+  let merc = '';
+  if (O.includes('merc')) {
+    const L = UBASE.filter(r => r[0] !== S.fac),
+      m = mk(L[rnd(L.length)][1], '');
+    place([m], 0, S.map);
+    extra.push(m);
+    merc = U[m.t].n + ' (' + FAC[U[m.t].fac].n + ')';
+  }
+  return {
+    n: '',
+    fac: S.fac,
+    us: [...fielded(), ...extra, ...towerUnits(S.pieces)],
+    eyes: eyeList(S.pieces, lvl(S.col, 'a')),
+    b,
+    O,
+    M,
+    form: genLv(S.units, S.chr || []) ? (STRAT[S.form] ? S.form : 'linie') : '',
+    gen: freeGen(S.chr),
+    know: hasSpy() ? 1 : 0,
+    merc
+  };
+}
+function aiSide(ai, ord) {
+  const M = actMeta(ai.army),
+    b = bonus(ai.col);
+  if (ord.includes('supply')) b.kHp += 10;
+  if (M.camp) b.kHp += 10;
+  const P = aiPieces(ai.col);
+  return {
+    abs: 1,
+    n: ai.n,
+    fac: ai.fac,
+    us: [...ai.army, ...towerUnits(P)],
+    eyes: eyeList(P, lvl(ai.col, 'a')),
+    b,
+    O: ord,
+    M,
+    form: STRAT[ai.form] ? ai.form : '',
+    gen: freeGen(ai.chr),
+    know: 0,
+    merc: ''
+  };
+}
+/* Rechnet die Schlacht A (unten) gegen B (oben) auf Karte m. Verändert m.mods (Belagerung, Brand, Hain). */
+function battle(A, B, m, wx) {
+  const fl = B.abs ? p => p : flipP,
+    bU = B.abs ? B.us : B.us.map(u => (u.pos ? { ...u, pos: fl(u.pos) } : u)),
+    S2 = [A, B],
+    R = baked(m),
     pt = (y0, y1, f) => {
       for (let k = 0; k < 120; k++) {
         const x = 4 + Math.random() * (GW - 8),
@@ -10605,105 +11268,156 @@ function fight() {
     mod = o => {
       o.x = +o.x.toFixed(1);
       o.y = +o.y.toFixed(1);
-      S.map.mods.push(o);
-    };
-  if (M0.siege) {
-    const f = R.forts.filter(([x, y]) => y < GH / 2);
-    if (f.length) {
-      const [x, y] = f[rnd(f.length)];
-      mod({ k: 'D', x, y, r: 1 });
+      m.mods.push(o);
+    },
+    U2 = [A.us, bU];
+  [0, 1].forEach(s => {
+    const M = S2[s].M,
+      foeHalf = y => (s ? y > GH / 2 : y < GH / 2);
+    if (M.siege) {
+      const f = R.forts.filter(([, y]) => foeHalf(y));
+      if (f.length) {
+        const [x, y] = f[rnd(f.length)];
+        mod({ k: 'D', x, y, r: 1 });
+      }
     }
-  }
-  if (M0.burn) {
-    const p = pt(2, GH / 2 - 2, i => R.ter[i] === 1);
-    if (p) mod({ k: 'A', x: p[0], y: p[1], r: 6 });
-  }
-  if (M0.grove) {
-    const p = pt(
-      ZY + 2,
-      GH - 2,
-      (i, x, y) =>
-        R.dep[i] < 0.15 && R.ter[i] === 0 && !fielded().some(u => Math.hypot(u.pos.x - x, u.pos.y - y) < 6)
-    );
-    if (p) mod({ k: 'W', x: p[0], y: p[1], r: 4 });
-  }
-  if (M1.siege) {
-    const f = R.forts.filter(([x, y]) => y > GH / 2);
-    if (f.length) {
-      const [x, y] = f[rnd(f.length)];
-      mod({ k: 'D', x, y, r: 1 });
+    if (M.burn) {
+      const p = s ? pt(GH / 2 + 2, GH - 2, i => R.ter[i] === 1) : pt(2, GH / 2 - 2, i => R.ter[i] === 1);
+      if (p) mod({ k: 'A', x: p[0], y: p[1], r: 6 });
     }
-  }
-  aiDuel();
-  /* Silber: Söldner (ein fremdes Grundregiment kämpft mit), Bestechung (schwächstes feindliches Regiment fehlt) */
-  const extra = [];
-  if (O.includes('merc')) {
-    const L = UBASE.filter(r => r[0] !== S.fac),
-      m = mk(L[rnd(L.length)][1], '');
-    place([m], 0, S.map);
-    extra.push(m);
-    S.merc = U[m.t].n + ' (' + FAC[U[m.t].fac].n + ')';
-  } else S.merc = '';
-  let foes = S.enemy;
-  S.bribed = '';
-  if (O.includes('bribe')) {
-    const c = foes
-      .filter(u => !U[u.t].king && !U[u.t].cre)
-      .sort((a, b) => stats(a).hp * stats(a).atk - stats(b).hp * stats(b).atk)[0];
-    if (c) {
-      foes = foes.filter(u => u !== c);
-      S.bribed = U[c.t].n;
+    if (M.grove) {
+      const ok = (i, x, y) =>
+          R.dep[i] < 0.15 &&
+          R.ter[i] === 0 &&
+          !U2[s].some(u => u.pos && Math.hypot(u.pos.x - x, u.pos.y - y) < 6),
+        p = s ? pt(2, GH - ZY - 2, ok) : pt(ZY + 2, GH - 2, ok);
+      if (p) mod({ k: 'W', x: p[0], y: p[1], r: 4 });
     }
-  }
-  /* Sammelboni: Türme (Stein) und Arkane Augen (Arkan) beider Seiten */
-  syncPieces();
-  const aiP = aiPieces(S.opp.col);
-  S.eyes = [eyeList(S.pieces, lvl(S.col, 'a')), eyeList(aiP, lvl(S.opp.col, 'a'))];
-  const myT = towerUnits(S.pieces),
-    foeT = towerUnits(aiP);
-  /* Strategien der Schlacht: mit General gilt die gewählte, sonst Schlachtreihe; ohne General keine */
-  S.bf = [
-    genLv(S.units, S.chr || []) ? (STRAT[S.form] ? S.form : 'linie') : '',
-    STRAT[S.opp.form] ? S.opp.form : ''
-  ];
-  const r = simulate([...fielded(), ...extra, ...myT], [...foes, ...foeT], false, b0, b1, {
-    eyes: S.eyes,
-    genFree: [freeGen(S.chr), freeGen(S.opp.chr)],
-    form: S.bf,
-    map: S.map,
-    w: S.wx,
-    drill: [M0.drill ? 1 : 0, M1.drill ? 1 : 0],
-    mor: [
-      100 +
-        (O.includes('supply') ? 25 : 0) -
-        (O.includes('march') && !M0.escort ? 25 : 0) +
-        (M0.morale ? 10 : 0) +
-        (O.includes('raid') ? 10 : 0),
-      100 + (A.includes('supply') ? 25 : 0) + (M1.morale ? 10 : 0) + (A.includes('raid') ? 10 : 0)
-    ],
-    hide: [
-      M1.scent ? 0 : O.includes('ambush') ? 5 : O.includes('deceive') ? 2 : 0,
-      M0.scent ? 0 : A.includes('ambush') ? 5 : A.includes('deceive') ? 2 : 0
-    ],
-    vb: [O.includes('scout') ? 1 : 0, A.includes('scout') ? 1 : 0],
-    ords: [O, A],
-    know: [hasSpy() ? 1 : 0, 0]
   });
+  /* Silber: Bestechung – das schwächste feindliche Regiment fehlt */
+  const bribed = ['', ''];
+  [0, 1].forEach(s => {
+    if (!S2[s].O.includes('bribe')) return;
+    const f = U2[1 - s],
+      c = f
+        .filter(u => !U[u.t].king && !U[u.t].cre && !U[u.t].twr)
+        .sort((a, b) => stats(a).hp * stats(a).atk - stats(b).hp * stats(b).atk)[0];
+    if (c) {
+      U2[1 - s] = f.filter(u => u !== c);
+      bribed[s] = U[c.t].n;
+    }
+  });
+  const mor = s => {
+      const { O, M } = S2[s];
+      return (
+        100 +
+        (O.includes('supply') ? 25 : 0) -
+        (O.includes('march') && !M.escort ? 25 : 0) +
+        (M.morale ? 10 : 0) +
+        (O.includes('raid') ? 10 : 0)
+      );
+    },
+    hide = s =>
+      S2[1 - s].M.scent ? 0 : S2[s].O.includes('ambush') ? 5 : S2[s].O.includes('deceive') ? 2 : 0,
+    eyes = [A.eyes || [], (B.eyes || []).map(fl)],
+    bf = [A.form || '', B.form || ''];
+  const r = simulate(U2[0], U2[1], false, A.b, B.b, {
+    eyes,
+    genFree: [A.gen || 0, B.gen || 0],
+    form: bf,
+    map: m,
+    w: wx,
+    drill: [A.M.drill ? 1 : 0, B.M.drill ? 1 : 0],
+    mor: [mor(0), mor(1)],
+    hide: [hide(0), hide(1)],
+    vb: [A.O.includes('scout') ? 1 : 0, B.O.includes('scout') ? 1 : 0],
+    ords: [A.O, B.O],
+    know: [A.know || 0, B.know || 0]
+  });
+  return Object.assign(r, { bribed, eyes, bf, merc: [A.merc || '', B.merc || ''] });
+}
+/* Ergebnis aus Sicht von Seite B: Karte um 180° gedreht, Seiten vertauscht */
+function flipRes(r) {
+  const P = a => [+(GW - a[0]).toFixed(2), +(GH - a[1]).toFixed(2), ...a.slice(2)],
+    sw = s => (s === 0 ? 1 : s === 1 ? 0 : s),
+    fm = o => ({ ...o, x: +(GW - o.x).toFixed(1), y: +(GH - o.y).toFixed(1) }),
+    fe = e => {
+      const o = { ...e };
+      if (o.a) o.a = P(o.a);
+      if (o.b) o.b = P(o.b);
+      if (o.area) o.area = o.area.map(P);
+      if ('side' in o) o.side = sw(o.side);
+      return o;
+    },
+    two = a => [a[1], a[0]];
+  return {
+    ...r,
+    cas: [],
+    out: { win: 'loss', loss: 'win' }[r.out] || r.out,
+    kd: sw(r.kd),
+    brk: sw(r.brk),
+    ecas: r.ecas0,
+    ecas0: r.ecas,
+    frames: (r.frames || []).map(f => ({
+      ...f,
+      us: f.us.map(u => ({
+        ...u,
+        side: 1 - u.side,
+        x: +(GW - u.x).toFixed(2),
+        y: +(GH - u.y).toFixed(2),
+        fa: +(u.fa + Math.PI).toFixed(3)
+      })),
+      ev: f.ev.map(fe),
+      v0: f.v1,
+      v1: f.v0,
+      mor: two(f.mor)
+    })),
+    rep: r.rep.map(o => ({ ...o, side: 1 - o.side })),
+    mor: two(r.mor),
+    mods: r.mods.map(fm),
+    all: r.all.map(fm),
+    casU: r.casU.map(([s, id, d]) => [1 - s, id, d]),
+    bribed: two(r.bribed),
+    merc: two(r.merc),
+    bf: two(r.bf),
+    eyes: two(r.eyes).map(L => L.map(fm))
+  };
+}
+/* Ergebnis aus eigener Sicht übernehmen: Verluste, Gefangene, Gelände, Bilder der Schlacht */
+function applyRes(r) {
   let perm = 0;
   S.prisoners = r.out === 'win' ? Math.round((r.ecas || 0) * 0.15) : 0;
-  (r.cas || []).forEach(([u, d]) => {
-    const p = Math.round(d * 0.5);
-    if (!p) return;
+  (r.casU || []).forEach(([s, id, d]) => {
+    const u = !s && S.units.find(x => x.uid === id),
+      p = Math.round(d * 0.5);
+    if (!u || !p) return;
     u.lost = Math.min(troopsOf(u) - 1, (u.lost || 0) + p);
     perm += p;
   });
   S.lostLast = perm;
   S.fid = (S.fid || 0) + 1;
-  S.bmap = { i: S.map.i, n: S.map.n, mods: S.map.mods.slice() };
+  S.bmap = { i: S.map.i, n: S.map.n, flip: S.map.flip || 0, mods: S.map.mods.slice() };
   S.bmods = r.all;
   if (S.map.mods.length < 220) S.map.mods = S.map.mods.concat(r.mods);
   S.frames = r.frames;
   S.res = r;
+  S.merc = r.merc[0];
+  S.bribed = r.bribed[0];
+  S.eyes = r.eyes;
+  S.bf = r.bf;
+}
+function fight() {
+  if (!onboard().length) {
+    S.msg = 'Stelle mindestens eine Einheit aufs Feld.';
+    return;
+  }
+  if (S.picks > 0) autoDraft();
+  if (S.mp) return mpFight();
+  const A = mySide(),
+    B = aiSide(S.opp, S.aiOrd);
+  aiDuel();
+  const r = battle(A, B, S.map, S.wx);
+  applyRes(r);
   rec('', r.out);
   rec(S.opp.n, { win: 'loss', loss: 'win' }[r.out] || 'draw');
   S.fi = 0;
@@ -10751,8 +11465,9 @@ function next() {
       if (GOLD_ON) S.gold += 3;
     }
     if (M.hunt) add('l');
-  } else if (o === 'loss') S.lives--;
+  } else if (o === 'loss' && !S.mp) S.lives--;
   if (GOLD_ON) S.gold += LOOT[o] || 0;
+  if (S.mp) return mpNext();
   if (S.lives <= 0) {
     S.phase = 'over';
     S.won = false;
@@ -10814,6 +11529,7 @@ function aiDuel() {
   S.duel = { a: pr[0].n, b: pr[1].n, out: z.out, rest: rest.n };
 }
 function route(i) {
+  if (S.mp) return mpRoute(i);
   S.map = mkMap(i);
   S.round++;
   S.units.forEach(u => {
@@ -10865,6 +11581,7 @@ function ord(k) {
 }
 function restart() {
   clearInterval(timer);
+  if (S.mp) return mpLeave();
   newRun();
 }
 
@@ -10945,6 +11662,87 @@ function piecesSVG(pcs, live) {
     )
     .join('');
 }
+
+/* Autobattler · Mehrspieler-Kern: Spiellogik, die der Server mit derselben Engine ausführt.
+   Alles hier braucht kein DOM. Der Server setzt vor jedem Aufruf S auf einen kleinen Zustand
+   { round, uid, map } und liest uid danach zurück, damit Einheiten-Nummern eindeutig bleiben. */
+const MPX = {
+  /* KI-Heer mit Startheer seines Volks */
+  ai(n, fac) {
+    const a = {
+      n,
+      fac,
+      chr: [],
+      rek: 1000,
+      stash: [],
+      units: [],
+      col: {},
+      rels: [],
+      rp: [],
+      plan: '',
+      king: { uid: S.uid++, t: 'KNG', s: 1, b: zero(), f: 0, pos: null, el: '', kr: 1, ins: [...WSH] }
+    };
+    [RECF[fac].el, RECF[fac].hn].filter(Boolean).forEach(t => a.units.push(mk(t, '')));
+    return a;
+  },
+  /* je Platz ein Pack mit DRS Steinen; jedes Pack bekommt eine Nummer, damit Picks eindeutig sind */
+  packs(n) {
+    return Array.from({ length: n }, () => ({ id: S.uid++, it: mkPack(DRS) }));
+  },
+  aiPick(ai, pk) {
+    aiPick(ai, pk);
+  },
+  /* KI baut ihr Heer für die Schlacht auf Karte S.map auf (Seite 1, oben) */
+  aiBuild(ai) {
+    aiBuild(ai, rEq(S.round));
+  },
+  /* Befehle eines KI-Gegners; Schanzen landen direkt in S.map.mods */
+  aiOrd(ai) {
+    S.opp = ai;
+    aiOrders();
+    return S.aiOrd;
+  },
+  vsAI(A, ai, ord, map, wx) {
+    return battle(A, aiSide(ai, ord), map, wx);
+  },
+  /* Mensch gegen Mensch: [Sicht A, Sicht B] */
+  pvp(A, B, map, wx) {
+    const r = battle(A, B, map, wx);
+    return [r, flipRes(r)];
+  },
+  /* KI gegen KI, ohne Bilder: nur das Ergebnis aus Sicht von a */
+  duel(a, b, map, wx) {
+    const cp = (x, side) => {
+      const L = (x.army || []).map(u => ({ ...u, pos: null, lost: 0 }));
+      place(L, side, map);
+      return L;
+    };
+    if (!(a.army || []).length || !(b.army || []).length) return 'draw';
+    return simulate(cp(a, 0), cp(b, 1), true, bonus(a.col), bonus(b.col), { map, w: wx }).out;
+  },
+  /* Objektverweise entfernen, damit das Ergebnis als JSON gespeichert werden kann */
+  slim(r) {
+    delete r.cas;
+    return r;
+  },
+  /* nur für Tests: ein KI-Heer als „menschliche“ Seite in eigenen Koordinaten */
+  testSide(ai) {
+    aiBuild(ai, rEq(S.round));
+    const d = aiSide(ai, []);
+    d.abs = 0;
+    d.us = d.us.map(u => (u.pos ? { ...u, pos: flipP(u.pos) } : u));
+    d.eyes = d.eyes.map(flipP);
+    return d;
+  },
+  rollWx,
+  NBAT,
+  DRP,
+  DRS,
+  isDraftR,
+  names: () => AIN.slice(),
+  facs: () => FK.slice(),
+  maps: () => MAPS.map(m => m.n)
+};
 
 /* Autobattler · Grafiken: Plaketten, Steine, Symbole */
 const RIM = ['', '#b07a3a', '#d3d9e1', '#f2c64c'];
@@ -11104,6 +11902,22 @@ const gem = (st, a, i, sel, off, n, ns) =>
 const chSVG = c =>
   `<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="#2a1216" stroke="${['', '#b07a3a', '#d3d9e1', '#f2c64c'][CHR[c].rk]}" stroke-width="3"/><use href="#${CHR[c].ic}" x="9" y="9" width="22" height="22" style="color:#f3e6cf"/></svg>`;
 /* Knopf-Symbole: Aktion → Symbol im Sprite (index.html) */
+
+/* Einheitentyp = Rolle im Kampf (roleOf): kleines Symbol */
+const RTYP = {
+  line: ['Linie', '<path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/>'],
+  pike: ['Speere/Piken', '<path d="M8 22V7M16 22V7M8 2l-2.5 5h5zM16 2l-2.5 5h5z"/>'],
+  shoot: ['Schützen', '<path d="M7 3c7 3 7 15 0 18M7 3v18M4 12h15M16 9l3 3-3 3"/>'],
+  skir: [
+    'Plänkler',
+    '<path d="M4 20L17 7M13 6h5v5"/><circle cx="6" cy="9" r="1.6"/><circle cx="15" cy="18" r="1.6"/>'
+  ],
+  siege: ['Artillerie', '<circle cx="9" cy="17" r="3.2"/><path d="M8 13.5L19.5 7l1.8 3L11 16"/>'],
+  cav: ['Reiterei', '<path d="M7 20v-8a5 5 0 0 1 10 0v8M4.5 20h5M14.5 20h5"/>'],
+  mon: ['Ungeheuer', '<path d="M6 4c2.5 6 2.5 11 0 16M12 3c2.5 6 2.5 12 0 18M18 4c2.5 6 2.5 11 0 16"/>']
+};
+const rtypSVG = r =>
+  `<svg class="rty" viewBox="0 0 24 24" aria-label="${RTYP[r][0]}"><title>${RTYP[r][0]}</title>${RTYP[r][1]}</svg>`;
 const ico = id => `<svg class="bico" aria-hidden="true"><use href="#${id}"/></svg>`,
   oiB = id => `<span class="oi">${ico(id)}</span>`,
   oiT = t => `<span class="oi">${tokSVG(t, 0, 1, '')}</span>`,
@@ -11843,11 +12657,15 @@ const inRect = (el, e) => {
 function boardRender(B) {
   const fr = !B && S.frames ? S.frames[S.fi] : null,
     R = fr ? frameR(fr) : baked(S.map, S.wx === 'frost');
-  paint(R, fr ? 'b' + S.fid + '|' + fr.mi : 'm' + S.map.i + '|' + S.map.mods.length + S.wx);
+  paint(
+    R,
+    fr ? 'b' + S.fid + '|' + fr.mi : 'm' + S.map.i + (S.map.flip ? 'r' : '') + '|' + S.map.mods.length + S.wx
+  );
   let o = fortSVG(R);
   const su = B && S.selU.length === 1 && !S.selS.length ? gu(S.selU[0]) : null,
     se = B && S.selE && S.enemy ? S.enemy.find(u => u.uid === S.selE) : null;
-  if (B) {
+  /* ohne Schlachtbilder (Mehrspieler: Aussetzen, Warten) wie beim Aufstellen zeichnen */
+  if (B || !fr) {
     o += `<rect x="0" y="${ZY}" width="${GW}" height="${GH - ZY}" class="zn"/><line x1="0" y1="${ZY}" x2="${GW}" y2="${ZY}" class="znl"/><line x1="0" y1="${ZC}" x2="${GW}" y2="${ZC}" class="znc"/><text x="${GW - 1.5}" y="${ZY + 3.6}" class="znt" text-anchor="end">Aufstellung</text><text x="${GW - 1.5}" y="${ZC + 3.6}" class="znt" text-anchor="end">Lager</text><line x1="0" y1="${GH - ZY}" x2="${GW}" y2="${GH - ZY}" class="znl e"/>`;
     if (!hasSpy())
       o += `<rect x="0" y="0" width="${GW}" height="${hasRecon() && S.prev ? 27 : GH / 2}" class="fogb"/>`;
@@ -12154,10 +12972,10 @@ function chPanel() {
     const C = CHR[ch.c],
       h = chHost(ch),
       g = ch.lv < 3 ? gCost(CHG[C.rk][ch.lv]) : 0;
-    return `<div class="offu${S.selC === ch.id ? ' on' : ''}"><span class="ti">${chSVG(ch.c)}</span><div><strong>${C.n}</strong> <span class="tag">${RKN[C.rk]} · Stufe ${ch.lv}</span>${chExplain(ch.c, ch.lv)}${ch.rel ? `<p>Trägt ${RELI[ch.rel].n}.</p>` : ''}<p class="hint2">${h ? `Führt: <b>${U[h.t].n}</b>` : 'Im Stab – noch keinem Regiment angeschlossen'}</p><div class="cbt">${btn('chsel', S.selC === ch.id ? 'Regiment antippen …' : h ? 'Umsetzen' : 'Anschließen', false, S.selC === ch.id ? 'on' : '').replace('data-a="chsel"', `data-a="chsel" data-v="${ch.id}"`)}${h ? btn('detach', 'Lösen').replace('data-a="detach"', `data-a="detach" data-v="${ch.id}"`) : ''}${ch.lv < 3 ? btn('promote', `Befördern (${GOLD_ON ? g + ' Gold, ' : ''}1 Rohstoff)`, !stOne || S.gold < g).replace('data-a="promote"', `data-a="promote" data-v="${ch.id}"`) : ''}${relOne ? btn('equipC', `Tragen: ${RELI[one.r].n}`).replace('data-a="equipC"', `data-a="equipC" data-v="${ch.id}"`) : ''}</div></div></div>`;
+    return `<div class="offu${S.selC === ch.id ? ' on' : ''}"><span class="ti">${chSVG(ch.c)}</span><div><strong>${C.n}</strong> <span class="tag">${RKN[C.rk]} · Stufe ${ch.lv}</span><details class="chd"><summary>Wirkung & Befehlsradius</summary>${chExplain(ch.c, ch.lv)}</details>${ch.rel ? `<p>Trägt ${RELI[ch.rel].n}.</p>` : ''}<p class="hint2">${h ? `Führt: <b>${U[h.t].n}</b>` : 'Im Stab – noch keinem Regiment angeschlossen'}</p><div class="cbt">${btn('chsel', S.selC === ch.id ? 'Regiment antippen …' : h ? 'Umsetzen' : 'Anschließen', false, S.selC === ch.id ? 'on' : '').replace('data-a="chsel"', `data-a="chsel" data-v="${ch.id}"`)}${h ? btn('detach', 'Lösen').replace('data-a="detach"', `data-a="detach" data-v="${ch.id}"`) : ''}${ch.lv < 3 ? btn('promote', `Befördern (${GOLD_ON ? g + ' Gold, ' : ''}1 Rohstoff)`, !stOne || S.gold < g).replace('data-a="promote"', `data-a="promote" data-v="${ch.id}"`) : ''}${relOne ? btn('equipC', `Tragen: ${RELI[one.r].n}`).replace('data-a="equipC"', `data-a="equipC" data-v="${ch.id}"`) : ''}</div></div></div>`;
   };
   return (
-    `<h2>Charaktere</h2><p class="hint2">Charaktere schließen sich einem Regiment an: Werte-Bonus, Fähigkeit und neue Befehle (Rang 1: Manöver, Rang 2: dazu Flankieren, Waldüberfall und Zeitbefehl, Rang 3: dazu Durch das Wasser und Kriegsrat). Anwerben: oben steht, wen du mit deinen Rohstoffen jetzt anwerben kannst – ein Tipp genügt, die Steine werden automatisch gewählt. Stufe = Zahl der Steine − 1.</p>` +
+    `<h2>Charaktere</h2><p class="hint2 one">Schließen sich einem Regiment an (Werte, Fähigkeit, Befehlsradius). Antippen = anwerben, Stufe = Steine − 1.</p>` +
     (mine.length ? `<h3>Dein Stab</h3>${mine.map(card).join('')}` : '') +
     chRecruitList(sel)
   );
@@ -12243,6 +13061,32 @@ function selCard(u, side) {
 </div><div class="full">${ob}${side ? '' : cmbHint(u)}${ABS ? '' : `<p>${isK(u) ? 'Steht still.' : 'Bewegt sich frei mit seinem Tempo, sucht Furten, wenn das Wasser zu tief ist, und greift an, was in Reichweite kommt.'}${T.rng ? ' Weicht Nahkämpfern aus, solange er nachlädt.' : ''}${T.heal ? ` Heilt Verbündete im Umkreis von ${(T.hr || 2) * 10}.` : ''}</p>`}</div></div>`;
 }
 /* Pick-Erklärung: alle Einheiten, Wesen, Charaktere und Gegenstände, die dieser Stein ermöglicht – ✓ = Partner liegt schon im Lager */
+/* Kurzfassung eines Draft-Steins: wie viele Rezepte, wie viele davon schon möglich, Sammelbonus */
+function pkShort(it) {
+  if (it.type !== 'st' || !S.fac) return '';
+  const h = hint(it),
+    n = (h.match(/<span class="rc/g) || []).length,
+    k = it.k,
+    R = RES[k];
+  let sb = '';
+  if (!R.el) {
+    const c = S.col[k] || 0,
+      nx = TH(k).find(x => x > c);
+    if (nx) sb = `${SETS[k][0]} ${c}→${c + (it.n || 1)}/${nx}${c + (it.n || 1) >= nx ? ' ★' : ''}`;
+  } else sb = 'Element';
+  const un = [...h.matchAll(/<span class="rc( ok)?( \w+)?"><b>([^<]+)<\/b>/g)].map(m => {
+    const ut = !m[2] && Object.keys(U).find(x => U[x].n === m[3] && U[x].fac === S.fac),
+      t = m[2] ? `<i>${m[3]}</i>` : `${ut ? rtypSVG(roleOf({ t: ut })) : ''}${m[3]}`;
+    return m[1] ? `<b>${t} ✓</b>` : t;
+  });
+  return `<span class="pks">${un.length ? `<span class="pku">${un.map(x => `<span class="pun">${x}</span>`).join('')}</span>` : ''}${[
+    n ? '' : 'keine Einheit',
+    sb,
+    stQ(it) > 1 ? `Güte ${stQ(it)}` : ''
+  ]
+    .filter(Boolean)
+    .join(' · ')}</span>`;
+}
 function hint(it) {
   if (it.type !== 'st' || !S.fac) return '';
   const k = it.k,
@@ -12264,7 +13108,7 @@ function hint(it) {
         rows.push(chip(have(o) > 0, U[CREC[mix(e, RES[o].el)]].n, '+ ' + RES[o].n))
       );
     }
-    if (S.fac === 'zw') {
+    if (S.fac === 'zw' && ITEMS_ON) {
       Object.entries(CRAFTZ)
         .filter(([p]) => p.includes(k))
         .forEach(([p, c]) => {
@@ -12304,7 +13148,7 @@ function hint(it) {
           )
         );
       });
-    Object.entries(CRAFT)
+    Object.entries(ITEMS_ON ? CRAFT : {})
       .filter(([p]) => p.includes(k))
       .forEach(([p, c]) => {
         const o = p[0] === k ? p[1] : p[0],
@@ -12396,7 +13240,9 @@ function render() {
         ['council', 'Kriegsrat'],
         ['battle', 'Schlacht']
       ],
-      ix = L.findIndex(x => x[0] === (ST === 'result' || ST === 'route' || ST === 'over' ? 'battle' : ST));
+      ix = L.findIndex(
+        x => x[0] === (ST === 'result' || ST === 'route' || ST === 'over' || ST === 'wait' ? 'battle' : ST)
+      );
     const SI = {
       draft: 'b-coin',
       build: 'b-hammer',
@@ -12413,7 +13259,7 @@ function render() {
     `${GOLD_ON ? `<span>Gold <b>${S.gold}</b></span>` : ''}${REK_ON ? `<span>Rekruten <b>${S.rek}</b></span>` : ''}<span><b>${S.map.n}</b> · Schlacht ${S.round}/${NBAT}</span><span>Gegner <b>${S.opp && S.opp.fac ? FAC[S.opp.fac].n : '–'}</b></span><span>Wetter <b>${WX[S.wx].n}</b></span><span>Siege <b>${S.wins}</b></span><span>Leben <b>${S.lives}</b></span><span>Feld <b>${onboard().length}</b>/${cap()}</span>`;
   const su = B && S.selU.length === 1 && !S.selS.length ? gu(S.selU[0]) : null,
     se = B && S.selE && S.prev && S.enemy ? S.enemy.find(u => u.uid === S.selE) : null;
-  boardRender(B);
+  boardRender(B || S.phase === 'wait');
   bsPanels();
   let st = S.msg || '';
   if (S.phase === 'battle' || S.phase === 'result') {
@@ -12431,25 +13277,31 @@ function render() {
     if (S.phase === 'result')
       st = `<b>${{ win: 'Sieg!', loss: 'Niederlage.', draw: 'Unentschieden.' }[S.res.out]}</b> ${S.res.kd === 1 ? 'Das gegnerische Lager ist gefallen. ' : S.res.kd === 0 ? 'Dein Lager ist gefallen. ' : ''}${S.res.kd < 0 && S.res.brk === 1 ? 'Die gegnerische Armee ist gebrochen und flieht. ' : S.res.kd < 0 && S.res.brk === 0 ? 'Deine Armee ist gebrochen und flieht. ' : ''}${S.res.timeout ? 'Zeitlimit: entschieden nach verbliebener Lebenskraft. ' : ''}${S.res.out === 'loss' ? 'Du verlierst ein Leben.' : ''}${GOLD_ON && LOOT[S.res.out] ? `Beute: +${LOOT[S.res.out] + (S.res.out === 'win' && S.orders.includes('raid') ? 3 : 0)} Gold.` : ''}`;
   }
-  if (S.phase === 'route' || S.phase === 'over') st += rankHTML();
+  if (S.phase === 'route' || S.phase === 'over' || (S.phase === 'wait' && S.mp && S.mp.wait === 'route'))
+    st += rankHTML();
   if (S.phase === 'over') st += lbOver();
   if ($('lbD') && $('lbD').open) $('lb').innerHTML = lbSide();
   $('status').innerHTML = st;
+  $('mpB').innerHTML = mpBar();
   $('fbar').innerHTML = S.phase === 'build' && S.step === 'deploy' ? fieldBar() : '';
   $('rep').innerHTML = S.showRep && S.phase === 'result' ? repPage() : '';
   $('rep').classList.toggle('on', !!(S.showRep && S.phase === 'result'));
   $('facP').innerHTML =
     S.step === 'fac'
-      ? `<h2>Volk wählen</h2><div class="facs">${FK.map(
+      ? `${S.mp ? '' : '<button class="btn mpgo" data-a="mpLobby">👥 Mehrspieler – mit Freunden spielen</button>'}<h2>Volk wählen</h2><div class="facs">${FK.map(
           f =>
-            `<button class="facc" data-a="fac" data-v="${f}"><strong>${FAC[f].n}</strong><p>${FAC[f].d}</p><small><b>Volksstein:</b> ${RES[FST[f]].n} (Einheiten daraus +${FSTB.hp * 100} % LP, +${FSTB.atk} Angriff)</small><small><b>Element-Steine:</b> ${FAC[f].el}</small><small><b>Einheiten:</b> ${UBASE.filter(
-              r => r[0] === f && r[3]
-            )
-              .map(r => r[2])
-              .join(', ')}</small><small><b>Eigener Befehl:</b> ${Object.values(ORD)
-              .filter(o => o.fac === f)
-              .map(o => o.n)
-              .join(', ')}</small></button>`
+            `<button class="facc${S.finf === f ? ' open' : ''}${mpTaken(f) ? ' dim' : ''}${S.fac === f ? ' sel' : ''}" data-a="fac" data-v="${f}"${mpTaken(f) || (S.mp && S.fac) ? ' disabled' : ''}><strong>${FAC[f].n}${mpTaken(f) ? ` <small>· ${esc(mpTaken(f))}</small>` : ''}</strong><p>${FAC[f].d}</p><span class="pinf" data-a="finf" data-v="${f}">${S.finf === f ? '× weniger' : 'ⓘ Einheiten & Besonderheiten'}</span>${
+              S.finf !== f
+                ? ''
+                : `<small><b>Volksstein:</b> ${RES[FST[f]].n} (Einheiten daraus +${FSTB.hp * 100} % LP, +${FSTB.atk} Angriff)</small><small><b>Element-Steine:</b> ${FAC[f].el}</small><small><b>Einheiten:</b> ${UBASE.filter(
+                    r => r[0] === f && r[3]
+                  )
+                    .map(r => r[2])
+                    .join(', ')}</small><small><b>Eigener Befehl:</b> ${Object.values(ORD)
+                    .filter(o => o.fac === f)
+                    .map(o => o.n)
+                    .join(', ')}</small>`
+            }</button>`
         ).join('')}</div>`
       : '';
   let b = [];
@@ -12536,7 +13388,7 @@ function render() {
     const pv = () =>
       b.push(
         !S.enemy
-          ? btn('x', 'Gegner nach dem Draft', true)
+          ? btn('x', S.opp && S.opp.human ? 'Gegner stellt selbst auf' : 'Gegner nach dem Draft', true)
           : !hasRecon()
             ? btn('x', 'Gegner im Nebel (Kundschafter)', true)
             : btn('prev', S.prev ? 'Gegner verbergen' : 'Gegner zeigen', false, S.prev ? 'on' : '')
@@ -12596,7 +13448,12 @@ function render() {
         )
       )
     );
-  else b.push(btn('restart', 'Neuer Lauf', false, 'main'));
+  else if (S.phase === 'wait') b.push('<button class="btn main" disabled>Warten …</button>');
+  else
+    b.push(
+      ...(S.mp ? [btn('mpLobby', 'Lobby')] : []),
+      btn('restart', S.mp ? 'Zum Einzelspiel' : 'Neuer Lauf', false, 'main')
+    );
   {
     const nv = b.filter(x => / main"|data-v="(build|deploy)"|data-a="speed"/.test(x)),
       ot = b
@@ -12616,7 +13473,7 @@ function render() {
   const AM = actMeta(S.units);
   $('council').hidden = !(B && S.step === 'council');
   $('council').innerHTML = B
-    ? `<h2>Kriegsrat <span>${S.orders.length}/${maxOrd()} Befehle${GOLD_ON ? ` · ${S.gold} Gold` : ''}</span></h2><p class="note">${maxOrd() ? `Dein ${genName(S.fac)} (Stufe ${maxOrd()}) erlaubt ${maxOrd()} Befehl(e).` : `<b>Ohne ${genName(S.fac)} keine Befehle.</b> Wirb beim Bauen einen im Fenster „Charaktere“ an (Silber + Eisen). Seine Stufe = Zahl der Befehle.`} Antippen nimmt einen Befehl zurück.</p><p class="note"><b>Strategie deines Generals:</b> ${genLv(S.units, S.chr || []) ? (STRAT[S.form] ? `${STRAT[S.form].n} – ${STRAT[S.form].d}` : 'keine gewählt – er kämpft in Schlachtreihe (wählen beim Aufstellen)') : 'keine – ohne General handelt jedes Regiment selbst'}<br><b>Strategie des Gegners:</b> ${S.opp && STRAT[S.opp.form] ? (hasSpy() ? STRAT[S.opp.form].n : 'unbekannt – zeigt sich zu Schlachtbeginn (Späher verraten sie vorher)') : 'keine (kein General)'}</p><p class="note">Gegner ${S.ename}: ${S.enemy ? (hasSpy() ? `${S.enemy.length - 1} Einheiten, Lager-Ausbauten: ${(S.opp.king.ins || []).map(i => INSI[i].n).join(', ') || 'keine'}` : `${S.enemy.length - 1} Einheiten im Nebel`) : 'stellt sich nach dem Draft auf'}. Wetter: ${WX[S.wx].n} – ${WX[S.wx].d}.</p>${AM.weather && !S.wxUsed ? '<button class="btn" data-a="wx">Wetterkunde: Wetter neu bestimmen</button>' : ''}<div class="ords">${Object.entries(
+    ? `<h2>Kriegsrat <span>${S.orders.length}/${maxOrd()} Befehle${GOLD_ON ? ` · ${S.gold} Gold` : ''}</span></h2><p class="note">${maxOrd() ? `Dein ${genName(S.fac)} (Stufe ${maxOrd()}) erlaubt ${maxOrd()} Befehl(e).` : `<b>Ohne ${genName(S.fac)} keine Befehle.</b> Wirb beim Bauen einen im Fenster „Charaktere“ an (Silber + Eisen). Seine Stufe = Zahl der Befehle.`} Antippen nimmt einen Befehl zurück.</p><p class="note"><b>Strategie deines Generals:</b> ${genLv(S.units, S.chr || []) ? (STRAT[S.form] ? `${STRAT[S.form].n} – ${STRAT[S.form].d}` : 'keine gewählt – er kämpft in Schlachtreihe (wählen beim Aufstellen)') : 'keine – ohne General handelt jedes Regiment selbst'}<br><b>Strategie des Gegners:</b> ${S.opp && S.opp.human ? 'unbekannt – ein Mensch wählt sie selbst' : S.opp && STRAT[S.opp.form] ? (hasSpy() ? STRAT[S.opp.form].n : 'unbekannt – zeigt sich zu Schlachtbeginn (Späher verraten sie vorher)') : 'keine (kein General)'}</p><p class="note">Gegner ${S.ename}: ${S.enemy ? (hasSpy() ? `${S.enemy.length - 1} Einheiten, Lager-Ausbauten: ${(S.opp.king.ins || []).map(i => INSI[i].n).join(', ') || 'keine'}` : `${S.enemy.length - 1} Einheiten im Nebel`) : S.opp && S.opp.human ? 'stellt selbst auf – sein Heer siehst du erst in der Schlacht' : 'stellt sich nach dem Draft auf'}. Wetter: ${WX[S.wx].n} – ${WX[S.wx].d}.</p>${AM.weather && !S.wxUsed ? '<button class="btn" data-a="wx">Wetterkunde: Wetter neu bestimmen</button>' : ''}<div class="ords">${Object.entries(
         ORD
       )
         .filter(([, o]) => !o.fac || o.fac === S.fac)
@@ -12626,7 +13483,7 @@ function render() {
         })
         .join(
           ''
-        )}</div>${S.forts ? `<p class="note">Noch ${S.forts} Schanze(n): eine Stelle in deinem Aufstellungsstreifen antippen.</p>` : ''}<h3>Feldlager</h3><p class="note">Fähigkeiten deiner Einheiten außerhalb des Kampfs. Jede wirkt einmal, egal wie viele Einheiten sie haben.</p><div class="metas">${
+        )}</div>${S.forts ? `<p class="note">Noch ${S.forts} Schanze(n): eine Stelle in deinem Aufstellungsstreifen antippen.</p>` : ''}<details class="cdet"><summary>Feldlager & Moral</summary><h3>Feldlager</h3><p class="note">Fähigkeiten deiner Einheiten außerhalb des Kampfs. Jede wirkt einmal, egal wie viele Einheiten sie haben.</p><div class="metas">${
         Object.keys(META)
           .filter(k => AM[k])
           .map(
@@ -12641,7 +13498,7 @@ function render() {
         .map(k => `<div><b>${META[k].n}</b><small>${META[k].d}</small></div>`)
         .join(
           ''
-        )}</div></details><h3>Moral</h3><p class="note">Start 100 (Versorgung +25, Zuversicht +10, Gewaltmarsch −25). Unter 50 −1 Angriff, unter 25 −2, bei 0 bricht die Armee. Einzelne Regimenter können fliehen – Details unter <b>Regeln › Moral und Mut</b>.</p>`
+        )}</div></details><h3>Moral</h3><p class="note">Start 100 (Versorgung +25, Zuversicht +10, Gewaltmarsch −25). Unter 50 −1 Angriff, unter 25 −2, bei 0 bricht die Armee. Einzelne Regimenter können fliehen – Details unter <b>Regeln › Moral und Mut</b>.</p></details>`
     : '';
   $('esets').textContent = S.opp ? 'Sammelboni: ' + bonusTxt(S.opp.col) : '';
   $('ename').textContent = S.ename || '';
@@ -12665,15 +13522,14 @@ function render() {
       ? S.booster
           .map(
             (it, i) =>
-              `<button class="pki${S.pend === i ? ' sel' : ''}${!B || !canTake(it) ? ' dim' : ''}" data-a="boost" data-v="${i}"><span class="pic">${itemSVG(it)}</span><span><strong>${itName(it)}</strong>${hint(it)}</span></button>`
+              `<button class="pki${S.pend === i ? ' sel' : ''}${S.dinf === i ? ' open' : ''}${!B || !canTake(it) ? ' dim' : ''}" data-a="boost" data-v="${i}"><span class="pic">${itemSVG(it)}</span><span><strong>${itName(it)}</strong>${pkShort(it)}<span class="pinf" data-a="dinf" data-v="${i}">${S.dinf === i ? '× weniger' : 'ⓘ mehr'}</span>${S.dinf === i ? hint(it) : ''}</span></button>`
           )
           .join('')
-      : `<p class="note" style="grid-column:1/-1;margin:0">Nächster Draft vor Schlacht ${S.round + (isDraftR(S.round) ? 2 : 1)}.</p>`) +
+      : S.mp && S.picks > 0
+        ? `<p class="note mpw" style="grid-column:1/-1;margin:0">⏳ Warte auf das nächste Pack – es kommt, sobald ${esc(S.mp.from || 'der Nachbar')} gewählt hat.</p>`
+        : `<p class="note" style="grid-column:1/-1;margin:0">Nächster Draft vor Schlacht ${S.round + (isDraftR(S.round) ? 2 : 1)}.</p>`) +
     (S.opp && S.picks > 0 && !S.dr.bon
-      ? `<div class="radar"><b>Weitergabe</b><br>Nach deinem Pick gibst du dieses Pack an <b>${giveTo()}</b> und bekommst das nächste von <b>${getFrom()}</b>. Pack ${S.dr.p + 1} geht ${drDir() > 0 ? 'nach links' : 'nach rechts'} (Pack 1 links, Pack 2 rechts).</div>`
-      : '') +
-    (S.opp
-      ? `<div class="radar"><b>Gegner-Radar · ${S.opp.n}${S.opp.fac ? ' · ' + FAC[S.opp.fac].n : ''}</b> (dein nächster Gegner)<br>Sammelt vor allem: ${S.opp.plan ? RES[S.opp.plan].n : 'noch nichts'}. Sammelboni: ${bonusTxt(S.opp.col)}.<br>Diese Runde genommen: ${S.opp.rp.length ? S.opp.rp.map(itName).join(', ') : 'noch nichts'}.</div>`
+      ? `<details class="radar"><summary>Weitergabe & Gegner</summary>Nach deinem Pick gibst du dieses Pack an <b>${giveTo()}</b> und bekommst das nächste von <b>${getFrom()}</b>. Pack ${S.dr.p + 1} geht ${drDir() > 0 ? 'nach links' : 'nach rechts'} (Pack 1 links, Pack 2 rechts).<br><b>Gegner-Radar · ${S.opp.n}${S.opp.fac ? ' · ' + FAC[S.opp.fac].n : ''}</b> (dein nächster Gegner): sammelt vor allem ${S.opp.plan ? RES[S.opp.plan].n : 'noch nichts'}. Sammelboni: ${bonusTxt(S.opp.col)}. Diese Runde genommen: ${S.opp.rp.length ? S.opp.rp.map(itName).join(', ') : 'noch nichts'}.</details>`
       : '');
   $('coll').innerHTML =
     `<b>Sammelboni</b> <span class="note">– jeder gedraftete Stein zählt, auch verbaute. Stufen bei 3/6/9.</span><div class="setl">${RK.map(
@@ -12810,7 +13666,29 @@ function render() {
         ? enH
         : '';
   if ((S.btab === 'off' || S.btab === 'ench') && S.step === 'build') op = [];
-  $('opts').innerHTML = op.length ? '<span class="lbl">Jetzt möglich</span>' + op.join('') : '';
+  /* Filter über der Liste: Bauen / Verschmelzen / Kombinieren – kurze Liste statt langer Seite */
+  const OK = { b: /<span>(Bauen|Beschwören)/, v: /<span>Verschmelzen/, k: /<span>Kombinieren/ },
+    ocnt = k => op.filter(x => OK[k].test(x)).length,
+    of = OK[S.ofl] && ocnt(S.ofl) ? S.ofl : 'all',
+    shown = of === 'all' ? op : op.filter(x => OK[of].test(x));
+  $('opts').innerHTML = op.length
+    ? `<div class="ofl"><span class="lbl">Jetzt möglich</span>${[
+        ['all', 'Alle', op.length],
+        ['b', 'Bauen', ocnt('b')],
+        ['v', 'Verschmelzen', ocnt('v')],
+        ['k', 'Kombinieren', ocnt('k')]
+      ]
+        .filter(([, , n]) => n)
+        .map(
+          ([k, n, c]) =>
+            `<button class="fch${of === k ? ' on' : ''}" data-a="ofl" data-v="${k}">${n} <b>${c}</b></button>`
+        )
+        .join('')}</div>` +
+      (S.oall || shown.length <= 6
+        ? shown.join('')
+        : shown.slice(0, 6).join('') +
+          `<button class="fch more" data-a="oall">… ${shown.length - 6} weitere zeigen</button>`)
+    : '';
   $('rek').textContent = S.rek;
   $('rekH').hidden = !REK_ON;
   $('bench').innerHTML = S.units.length
@@ -12916,9 +13794,16 @@ buildBook();
 /* Rangliste aller fünf Heere zwischen den Schlachten */
 function rankHTML() {
   const L = rankOrder();
-  const du = S.duel
-    ? `<p class="note">Andere Schlacht: ${S.duel.a} gegen ${S.duel.b} – ${{ win: `${S.duel.a} siegt`, loss: `${S.duel.b} siegt`, draw: 'unentschieden' }[S.duel.out]}. ${S.duel.rest} hat ausgesetzt.</p>`
-    : '';
+  const du = S.mp
+    ? (S.mpLog || [])
+        .map(
+          l =>
+            `<p class="note">Andere Schlacht: ${esc(mpSeatN(l.a))} gegen ${esc(mpSeatN(l.b))} – ${{ win: `${esc(mpSeatN(l.a))} siegt`, loss: `${esc(mpSeatN(l.b))} siegt`, draw: 'unentschieden' }[l.out]}.</p>`
+        )
+        .join('')
+    : S.duel
+      ? `<p class="note">Andere Schlacht: ${S.duel.a} gegen ${S.duel.b} – ${{ win: `${S.duel.a} siegt`, loss: `${S.duel.b} siegt`, draw: 'unentschieden' }[S.duel.out]}. ${S.duel.rest} hat ausgesetzt.</p>`
+      : '';
   return `<h3 class="sbh">Rangliste</h3><table class="rept rank"><tr><th>#</th><th>Heer</th><th>S</th><th>U</th><th>N</th><th>Pkt</th></tr>${L.map(
     (x, i) =>
       `<tr${x.n ? '' : ' class="me"'}><td>${i + 1}</td><td>${x.n || '<b>Du</b>'} <small>${x.f ? FAC[x.f].n : ''}</small></td><td>${x.t.w}</td><td>${x.t.d}</td><td>${x.t.l}</td><td><b>${rankPts(x.t)}</b></td></tr>`
@@ -12975,7 +13860,7 @@ function chRecruitList(sel) {
                   `data-a="recruit" data-v="${c}"`
                 )
               : '';
-        const html = `<div class="offc${can.length ? ' ready' : ' dim'}"><div class="offh"><span class="ti">${chSVG(c)}</span><div><strong>${C.n}</strong> <span class="tag">${RKN[C.rk]}</span>${chExplain(c, 0)}<div class="rcs">${chips}${gChip}</div>${lvOk.length > 1 ? `<p class="hint2">Höhere Stufe: je Stufe ein weiterer beliebiger Rohstoff, mehr Gold (Stufe 1/2/3: ${CHG[C.rk].join(' / ')}).</p>` : ''}</div></div>${btns || manual ? `<div class="cbt">${btns}${manual}</div>` : ''}</div>`;
+        const html = `<div class="offc${can.length ? ' ready' : ' dim'}"><div class="offh"><span class="ti">${chSVG(c)}</span><div><strong>${C.n}</strong> <span class="tag">${RKN[C.rk]}</span><details class="chd"><summary>Wirkung & Befehlsradius</summary>${chExplain(c, 0)}</details><div class="rcs">${chips}${gChip}</div></div></div>${btns || manual ? `<div class="cbt">${btns}${manual}</div>` : ''}</div>`;
         return { html, ok: can.length > 0 };
       });
   const ok = L.filter(x => x.ok),
@@ -13495,6 +14380,716 @@ function bsPanels() {
   $('bs1').innerHTML = b;
 }
 
+/* Autobattler · Mehrspieler im Browser: Lobby, Abgleich mit dem Server, Warten.
+   Ablauf wie in der Terraforming-Mars-App: ein Spiel anlegen, jeder bekommt einen eigenen Link,
+   gespielt wird asynchron. Der Browser spielt wie im Einzelspiel; der Server verteilt die Draft-Packs,
+   rechnet die Schlachten und führt die Rangliste. S.mp = { id, t, seat, r (Runde begonnen), res (Ergebnis übernommen) } */
+const MPK = 'kampagne.mp',
+  MPN = 'kampagne.name';
+const MP = { id: '', t: '', v: -1, view: null, busy: false };
+const LOB = { open: false, list: null, err: '', wait: null, inv: '', busy: false };
+let mpTimer = 0,
+  mpSaveT = 0;
+const ls = {
+  get: (k, d) => {
+    try {
+      return JSON.parse(localStorage.getItem(k)) ?? d;
+    } catch (e) {
+      return d;
+    }
+  },
+  set: (k, v) => {
+    try {
+      localStorage.setItem(k, JSON.stringify(v));
+    } catch (e) {
+      /* privater Modus: nichts merken */
+    }
+  }
+};
+const mpMine = () => ls.get(MPK, []);
+function mpRemember(id, t, game) {
+  const L = mpMine().filter(x => x.id !== id);
+  L.unshift({ id, t, game: game || '' });
+  ls.set(MPK, L.slice(0, 20));
+}
+const mpLink = (id, t) => location.origin + location.pathname + '?g=' + id + (t ? '&t=' + t : '');
+async function mpApi(p, body) {
+  let r;
+  try {
+    r = await fetch(
+      '/api/mp/' + p,
+      body
+        ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+        : {}
+    );
+  } catch (e) {
+    throw new Error('Keine Verbindung zum Spiel-Server.');
+  }
+  const d = await r.json().catch(() => null);
+  if (!d) throw new Error('Mehrspieler braucht den Spiel-Server (die veröffentlichte Version des Spiels).');
+  if (!r.ok) throw new Error(d.error || 'Fehler ' + r.status);
+  return d;
+}
+/* Volkswahl: wer hat dieses Volk schon? */
+const mpTaken = f => {
+  if (!S || !S.mp || !MP.view) return '';
+  const x = MP.view.seats.find((o, i) => o.fac === f && i !== MP.view.me);
+  return x ? x.name : '';
+};
+const mpSeatN = i => (MP.view && MP.view.seats[i] ? MP.view.seats[i].name : '?');
+const mpHuman = i => MP.view && MP.view.seats[i] && MP.view.seats[i].k === 'h';
+
+/* ---------- Abgleich ---------- */
+function mpPoll(on) {
+  clearInterval(mpTimer);
+  if (on) mpTimer = setInterval(mpTick, 3500);
+}
+async function mpTick() {
+  if (!MP.id || MP.busy || document.visibilityState === 'hidden') return;
+  try {
+    const v = await mpApi(`g/${MP.id}?t=${MP.t}`);
+    if (v.v === MP.v) return;
+    if (LOB.wait && v.status === 'lobby') {
+      LOB.wait = v;
+      MP.v = v.v;
+      lobbyRender();
+      return;
+    }
+    if (LOB.wait && v.status !== 'lobby') return mpEnter(MP.id, MP.t);
+    if (S.mp) {
+      mpSync(v);
+      render();
+    }
+  } catch (e) {
+    /* Netz weg: beim nächsten Mal wieder */
+  }
+}
+/* Spielstand auf dem Server sichern (ohne Schlachtbilder), damit es auf jedem Gerät weitergeht */
+function mpSave(now) {
+  if (!S || !S.mp) return;
+  clearTimeout(mpSaveT);
+  const go = () =>
+    mpApi(`g/${S.mp.id}/save`, {
+      t: S.mp.t,
+      S: JSON.parse(
+        JSON.stringify(S, (k, v) => (k === 'frames' || k === 'res' || k === 'bmods' ? undefined : v))
+      )
+    }).catch(() => 0);
+  if (now) go();
+  else mpSaveT = setTimeout(go, 1200);
+}
+/* Rangliste vom Server: du = '', andere nach Namen */
+function mpTab(v) {
+  S.tab = {};
+  v.seats.forEach((x, i) => (S.tab[i === v.me ? '' : x.name] = v.tab[i] || { w: 0, d: 0, l: 0 }));
+  S.mpLog = (v.log || []).filter(l => l.a !== v.me && l.b !== v.me);
+}
+function mpSync(v) {
+  MP.view = v;
+  MP.v = v.v;
+  if (!S.mp) return;
+  mpTab(v);
+  if (v.phase === 'fac') {
+    S.step = 'fac';
+    if (S.fac) {
+      const w = v.seats.filter(x => x.k === 'h' && !x.fac).map(x => x.name);
+      S.msg = `Du führst die ${FAC[S.fac].n}. Warte auf die Volkswahl von ${w.join(', ')}.`;
+    } else
+      S.msg = 'Wähle dein Volk. Bereits gewählte Völker sind vergeben; freie Plätze übernehmen KI-Heere.';
+    return;
+  }
+  if (!S.fac) {
+    /* Volk wurde (z. B. auf einem anderen Gerät) schon gewählt */
+    const f = v.seats[v.me].fac;
+    if (f) {
+      S.step = 'fac';
+      setFac(f);
+    }
+  }
+  if (S.phase === 'wait' && S.mp.wait === 'fight') {
+    if (v.round > S.round || (v.pair && v.pair.done)) mpLoadRes(true);
+    else
+      S.msg = `Bereit. Warte auf ${v.pair ? mpSeatN(v.pair.foe) : 'die anderen'} – die Schlacht beginnt, sobald beide bereit sind.`;
+    return;
+  }
+  const atEnd = S.phase === 'wait' || S.phase === 'route' || (S.mp.r || 0) === 0;
+  if (v.status === 'over' && atEnd) return mpOver(v);
+  if (v.round > (S.mp.r || 0) && atEnd && v.phase !== 'route') return mpRound(v);
+  if (v.round !== S.round) {
+    /* du schaust noch die letzte Schlacht: Routenwahl wartet */
+    if (S.phase === 'route' || S.phase === 'wait') mpRouteView(v);
+    return;
+  }
+  if (S.phase === 'build') {
+    /* Spielstand war älter als der Server (z. B. anderes Gerät): Schlacht ist schon geschlagen */
+    if (v.pair && v.pair.done && S.mp.res !== S.round) {
+      S.phase = 'wait';
+      S.mp.wait = 'fight';
+      mpLoadRes(true);
+      return;
+    }
+    if (!v.pair && v.phase === 'route') {
+      S.phase = 'wait';
+      S.mp.wait = 'route';
+      return mpRouteView(v);
+    }
+    if (v.phase === 'draft' && !S.dr.bon) mpDraftView(v);
+    else if (S.step === 'draft' && !S.dr.bon && v.phase !== 'draft') {
+      /* Draft am Tisch beendet; Gewaltmarsch-Zusatzpack nur für dich */
+      S.picks = S.ppx || 0;
+      if (S.picks > 0) {
+        S.dr.bon = true;
+        S.booster = mkPack(3);
+        S.msg = 'Gewaltmarsch: ein Zusatzpack nur für dich – nimm einen Stein.';
+      } else draftDone();
+    }
+    return;
+  }
+  if (S.phase === 'wait' || S.phase === 'route') mpRouteView(v);
+}
+function mpRouteView(v) {
+  if (v.status === 'over') {
+    if (S.phase === 'wait') mpOver(v);
+    return;
+  }
+  if (v.phase === 'route' && v.route && v.route.opts) {
+    S.phase = 'route';
+    S.ropts = v.route.opts;
+    const nf = v.route.next ? v.route.next.foe : -1;
+    S.msg = `Wähle das nächste Schlachtfeld${nf >= 0 ? ` – nächster Gegner: ${mpSeatN(nf)} · ${FAC[v.seats[nf].fac].n}` : ''}.`;
+    return;
+  }
+  S.phase = 'wait';
+  S.mp.wait = 'route';
+  const w =
+    v.phase === 'route'
+      ? v.seats.filter(x => !x.route).map(x => x.name)
+      : v.seats.filter((x, i) => x.k === 'h' && !x.ready && i !== v.rest).map(x => x.name);
+  S.msg =
+    v.phase === 'route' && v.route && v.route.next && v.route.next.chooser !== v.me
+      ? `${mpSeatN(v.route.next.chooser)} wählt das Schlachtfeld für eure nächste Schlacht.`
+      : `Warte auf ${w.join(', ') || 'die anderen'} – dann beginnt Schlacht ${v.round + 1}.`;
+}
+/* neue Runde: Gegner, Karte (beim Gast gedreht), Wetter vom Server; dann wie im Einzelspiel */
+function mpRound(v) {
+  clearInterval(timer);
+  const p = v.pair;
+  S.ai = v.seats
+    .map((x, i) => ({ x, i }))
+    .filter(o => o.i !== v.me)
+    .map(({ x, i }) => ({
+      n: x.name,
+      fac: x.fac,
+      seat: i,
+      human: x.k === 'h',
+      chr: [],
+      col: {},
+      stash: [],
+      units: [],
+      rels: [],
+      rp: [],
+      plan: '',
+      rek: 1000,
+      army: null,
+      king: null
+    }));
+  const foe = p ? S.ai.find(a => a.seat === p.foe) : null;
+  if (foe && p.foeAI) Object.assign(foe, JSON.parse(JSON.stringify(p.foeAI)), { n: foe.n });
+  S.mpFoe = foe || S.ai[0];
+  S.mpOrd = p && p.foeAI ? p.foeAI.ord || [] : [];
+  S.mpWx = p ? p.wx : 'klar';
+  S.round = v.round;
+  S.map = p ? JSON.parse(JSON.stringify(p.map)) : mkMap(S.map ? S.map.i : 0);
+  S.units.forEach(u => (u.pos = null));
+  place(S.units.filter(isK), 0, S.map);
+  S.mp.r = v.round;
+  S.mp.rest = !p;
+  S.mp.wait = '';
+  startRound();
+  S.msg =
+    (p
+      ? `Schlacht ${S.round}/${NBAT} auf ${S.map.n} gegen ${S.ename}${foe && foe.human ? ' (Mensch)' : ''}. Wetter: ${WX[S.wx].n}.`
+      : `Schlacht ${S.round}/${NBAT}: Du setzt diese Runde aus – du draftest und baust trotzdem.`) +
+    (p && p.home === false
+      ? ' Du spielst auswärts: dein Lager ist unten, die Karte ist für dich gedreht.'
+      : '');
+  if (v.phase === 'draft') mpDraftView(v);
+  mpSave(1);
+}
+function mpDraftView(v) {
+  const d = v.dr;
+  if (!d) return;
+  S.dr.p = d.p;
+  S.mp.pid = d.pack ? d.pack.id : 0;
+  S.booster = d.pack ? d.pack.it : [];
+  S.picks = DRP * DRS + (S.ppx || 0) - (v.seats[v.me].picks || 0);
+  if (!d.pack) {
+    const from = (v.me - d.dir + 5) % 5;
+    S.mp.from = mpSeatN(from) + (mpHuman(from) ? '' : ' (KI)');
+    S.msg = `Warte auf das nächste Pack von ${mpSeatN(from)}${mpHuman(from) ? '' : ' (KI)'}.`;
+  } else if (S.mp.auto) setTimeout(mpAuto, 30);
+}
+async function mpPick(i) {
+  if (MP.busy || !S.booster[i]) return;
+  MP.busy = true;
+  try {
+    const r = await mpApi(`g/${S.mp.id}/pick`, { t: S.mp.t, pid: S.mp.pid, i });
+    take(r.it);
+    S.pend = -1;
+    S.msg = `Genommen: ${itName(r.it)}.`;
+    mpSync(r.view);
+  } catch (e) {
+    S.msg = e.message;
+  }
+  MP.busy = false;
+  render();
+  mpSave(1);
+}
+/* „Rest automatisch“: nimmt aus jedem Pack, das ankommt, den besten Stein */
+function mpAuto() {
+  if (!S.mp || !S.mp.auto || MP.busy || S.dr.bon || !S.booster.length || S.picks <= 0) return;
+  let bi = 0,
+    bv = -1;
+  S.booster.forEach((it, i) => {
+    const v = itemVal(it, S.col, S.stash, campIns(), S.fac);
+    if (v > bv) {
+      bv = v;
+      bi = i;
+    }
+  });
+  mpPick(bi);
+}
+async function mpFight() {
+  if (S.mp.rest) {
+    S.phase = 'wait';
+    S.mp.wait = 'route';
+    S.msg = 'Du setzt diese Runde aus. Die nächste Runde beginnt, wenn die anderen gekämpft haben.';
+    mpSave(1);
+    return;
+  }
+  const A = JSON.parse(JSON.stringify(mySide()));
+  S.phase = 'wait';
+  S.mp.wait = 'fight';
+  S.msg = 'Melde bereit …';
+  MP.busy = true;
+  render();
+  try {
+    const r = await mpApi(`g/${S.mp.id}/ready`, { t: S.mp.t, side: A, mods: S.map.mods });
+    MP.busy = false;
+    mpSync(r.view);
+  } catch (e) {
+    MP.busy = false;
+    if (/schon bereit/.test(e.message)) S.msg = 'Bereit gemeldet – warte auf den Gegner.';
+    else {
+      S.phase = 'build';
+      S.mp.wait = '';
+      S.msg = e.message;
+    }
+  }
+  render();
+  mpSave(1);
+}
+async function mpLoadRes(apply) {
+  if (MP.busy || S.phase === 'battle' || S.phase === 'result') return;
+  MP.busy = true;
+  try {
+    const d = await mpApi(`g/${S.mp.id}/res?t=${S.mp.t}`);
+    MP.busy = false;
+    if (d.round !== S.round) return;
+    if (apply && S.mp.res !== S.round) {
+      applyRes(d.r);
+      S.mp.res = S.round;
+    } else {
+      S.frames = d.r.frames;
+      S.res = d.r;
+      S.bmods = d.r.all;
+    }
+    S.mp.wait = '';
+    S.fi = apply ? 0 : S.frames.length - 1;
+    S.selB = null;
+    S.phase = apply ? 'battle' : 'result';
+    clear();
+    if (apply) play();
+    mpSave(1);
+  } catch (e) {
+    MP.busy = false;
+    S.msg = e.message;
+  }
+  render();
+}
+/* nach dem Ergebnis: Beute wie im Einzelspiel, dann Routenwahl oder Warten */
+function mpNext() {
+  S.phase = 'wait';
+  S.mp.wait = 'route';
+  if (MP.view) mpSync(MP.view);
+  mpSave(1);
+}
+async function mpRoute(i) {
+  if (MP.busy) return;
+  MP.busy = true;
+  try {
+    const r = await mpApi(`g/${S.mp.id}/route`, { t: S.mp.t, i });
+    MP.busy = false;
+    S.phase = 'wait';
+    S.mp.wait = 'route';
+    mpSync(r.view);
+  } catch (e) {
+    MP.busy = false;
+    S.msg = e.message;
+  }
+  render();
+  mpSave(1);
+}
+function mpOver(v) {
+  clearInterval(timer);
+  mpTab(v);
+  S.phase = 'over';
+  const L = rankOrder(),
+    pl = L.findIndex(x => x.n === '') + 1;
+  S.won = pl === 1;
+  S.msg = S.won
+    ? `<b>Sieg!</b> Platz 1 nach ${NBAT} Schlachten – dein Heer hat den Feldzug „${v.name}“ gewonnen.`
+    : `<b>Feldzug beendet.</b> Platz ${pl} von ${L.length}. Sieger: ${L[0].n || 'du'}.`;
+  mpPoll(false);
+  mpSave(1);
+}
+async function mpFac(f) {
+  if (MP.busy || S.fac) return;
+  MP.busy = true;
+  try {
+    const r = await mpApi(`g/${S.mp.id}/fac`, { t: S.mp.t, fac: f });
+    MP.busy = false;
+    setFac(f);
+    S.step = 'fac';
+    mpSync(r.view);
+  } catch (e) {
+    MP.busy = false;
+    S.msg = e.message;
+  }
+  render();
+  mpSave(1);
+}
+/* ein Spiel betreten (eigener Link): Spielstand laden oder neu beginnen */
+async function mpEnter(id, t) {
+  MP.busy = true;
+  try {
+    const v = await mpApi(`g/${id}?t=${t}`);
+    if (v.me == null) throw new Error('Dieser Link gehört zu keinem Platz im Spiel.');
+    MP.id = id;
+    MP.t = t;
+    mpRemember(id, t, v.name);
+    try {
+      history.replaceState(null, '', '?g=' + id + '&t=' + t);
+    } catch (e) {
+      /* egal */
+    }
+    if (v.status === 'lobby') {
+      LOB.wait = v;
+      MP.v = v.v;
+      LOB.open = true;
+      MP.busy = false;
+      lobbyRender();
+      mpPoll(true);
+      return;
+    }
+    let sv = null;
+    try {
+      sv = await mpApi(`g/${id}/sav?t=${t}`);
+    } catch (e) {
+      sv = null;
+    }
+    clearInterval(timer);
+    if (sv && sv.mp && sv.mp.id === id) {
+      S = sv;
+      S.mp.t = t;
+      MP.busy = false;
+      if (S.phase === 'battle' || S.phase === 'result') {
+        /* Schlachtbilder werden nicht gespeichert: neu laden, ohne das Ergebnis doppelt zu verbuchen */
+        S.phase = 'wait';
+        S.mp.wait = 'load';
+        S.frames = null;
+        await mpLoadRes(false);
+        if (S.phase === 'wait') {
+          S.mp.wait = 'route';
+          S.phase = 'wait';
+        }
+      }
+    } else {
+      newRun();
+      S.mp = { id, t, seat: v.me, r: 0, res: 0 };
+    }
+    MP.busy = false;
+    LOB.open = false;
+    LOB.wait = null;
+    lobbyRender();
+    mpSync(v);
+    paintKey = '';
+    render();
+    mpPoll(true);
+  } catch (e) {
+    MP.busy = false;
+    LOB.err = e.message;
+    LOB.open = true;
+    lobbyRender();
+  }
+}
+function mpLeave() {
+  mpPoll(false);
+  MP.id = '';
+  MP.t = '';
+  MP.view = null;
+  LOB.wait = null;
+  try {
+    history.replaceState(null, '', location.pathname);
+  } catch (e) {
+    /* egal */
+  }
+  clearInterval(timer);
+  newRun();
+}
+
+/* ---------- Lobby ---------- */
+async function lobbyLoad() {
+  LOB.busy = true;
+  lobbyRender();
+  try {
+    LOB.list = await mpApi('games');
+    LOB.err = '';
+  } catch (e) {
+    LOB.list = [];
+    LOB.err = e.message;
+  }
+  LOB.busy = false;
+  lobbyRender();
+}
+const val = id => ($(id) && $(id).value) || '';
+function lobbyHTML() {
+  const head = `<div class="menuh"><b>Mehrspieler</b><button class="btn" data-a="mpClose">Schließen ✕</button></div>`,
+    err = LOB.err ? `<p class="lerr">${esc(LOB.err)}</p>` : '';
+  if (LOB.wait) {
+    const v = LOB.wait,
+      me = v.me,
+      host = me === 0;
+    return `${head}${err}<div class="panel lob"><h2>${esc(v.name)} <span>Warteraum</span></h2>
+      <p class="note">${v.seats.length}/${v.nh} Menschen. ${v.nh < 5 ? `Die übrigen ${5 - v.nh} Heere übernimmt die KI.` : ''} Das Spiel startet, sobald alle Plätze besetzt sind${host ? ' – oder wenn du es startest' : ''}.</p>
+      <ul class="lseats">${v.seats.map((x, i) => `<li>${i === me ? '<b>' + esc(x.name) + ' (du)</b>' : esc(x.name)}</li>`).join('')}${Array.from({ length: v.nh - v.seats.length }, () => '<li class="free">frei</li>').join('')}</ul>
+      <label class="lk">Einladung für die anderen<span><input readonly value="${esc(mpLink(v.id))}"><button class="btn" data-a="mpCopy" data-v="inv">Kopieren</button></span></label>
+      <label class="lk">Dein persönlicher Link – damit spielst du auf jedem Gerät weiter<span><input readonly value="${esc(mpLink(v.id, MP.t))}"><button class="btn" data-a="mpCopy" data-v="me">Kopieren</button></span></label>
+      <div class="lrow">${host ? `<button class="btn main" data-a="mpStart">Jetzt starten${v.seats.length < 5 ? ' (Rest KI)' : ''}</button>` : ''}<button class="btn" data-a="mpBack">Zur Spieleliste</button></div></div>`;
+  }
+  const L = LOB.list || [],
+    mine = mpMine(),
+    mineIds = new Set(mine.map(x => x.id)),
+    open = L.filter(g => g.status === 'lobby' && !mineIds.has(g.id)),
+    run = L.filter(g => g.status !== 'lobby' && !mineIds.has(g.id)),
+    byId = Object.fromEntries(L.map(g => [g.id, g])),
+    st = g =>
+      !g
+        ? 'unbekannt'
+        : g.status === 'lobby'
+          ? `wartet auf Spieler (${g.seats.length}/${g.nh})`
+          : g.status === 'over'
+            ? 'beendet'
+            : `Schlacht ${g.round}/${NBAT}`,
+    who = g =>
+      g
+        ? g.seats
+            .filter(x => x.k !== 'ai')
+            .map(x => esc(x.name))
+            .join(', ')
+        : '',
+    inv = LOB.inv && byId[LOB.inv];
+  return `${head}${err}
+  ${
+    inv
+      ? `<div class="panel lob hi"><h2>Einladung: ${esc(inv.name)}</h2><p class="note">${who(inv)} · ${st(inv)}</p>${inv.status === 'lobby' ? `<div class="lrow"><input id="mpJn" maxlength="20" placeholder="Dein Name" value="${esc(ls.get(MPN, ''))}"><button class="btn main" data-a="mpJoin" data-v="${inv.id}">Beitreten</button></div>` : '<p class="note">Das Spiel läuft schon – beitreten geht nur im Warteraum.</p>'}</div>`
+      : ''
+  }
+  <div class="panel lob"><h2>Neues Spiel</h2>
+    <div class="lform"><input id="mpGn" maxlength="40" placeholder="Name des Feldzugs"><input id="mpPn" maxlength="20" placeholder="Dein Name" value="${esc(ls.get(MPN, ''))}">
+    <label>Menschen <select id="mpNh">${[1, 2, 3, 4, 5].map(n => `<option value="${n}"${n === 2 ? ' selected' : ''}>${n}${n < 5 ? ` + ${5 - n} KI` : ''}</option>`).join('')}</select></label>
+    <button class="btn main" data-a="mpCreate">Spiel anlegen</button></div>
+    <p class="note">Jeder spielt, wann er Zeit hat: Draft, Bauen und Aufstellen; die Schlacht startet, sobald beide Gegner bereit sind.</p></div>
+  ${
+    mine.length
+      ? `<div class="panel lob"><h2>Meine Spiele</h2><ul class="lgl">${mine
+          .map(
+            x =>
+              `<li><span><b>${esc((byId[x.id] || {}).name || x.game || x.id)}</b><small>${who(byId[x.id])} · ${st(byId[x.id])}</small></span><button class="btn main" data-a="mpResume" data-v="${x.id}">Weiter</button></li>`
+          )
+          .join('')}</ul></div>`
+      : ''
+  }
+  <div class="panel lob"><h2>Offene Spiele <button class="btn sm" data-a="mpRefresh">${LOB.busy ? '…' : 'Aktualisieren'}</button></h2>${
+    open.length
+      ? `<ul class="lgl">${open
+          .map(
+            g =>
+              `<li><span><b>${esc(g.name)}</b><small>${who(g)} · ${g.seats.length}/${g.nh} Menschen</small></span><button class="btn" data-a="mpInv" data-v="${g.id}">Beitreten</button></li>`
+          )
+          .join('')}</ul>`
+      : `<p class="note">${LOB.list ? 'Gerade wartet kein Spiel auf Mitspieler.' : 'Lade …'}</p>`
+  }</div>
+  ${
+    run.length
+      ? `<details class="panel lob"><summary>Laufende Spiele (${run.length})</summary><ul class="lgl">${run
+          .map(g => `<li><span><b>${esc(g.name)}</b><small>${who(g)} · ${st(g)}</small></span></li>`)
+          .join('')}</ul></details>`
+      : ''
+  }`;
+}
+function lobbyRender() {
+  document.body.classList.toggle('lobbyOn', LOB.open);
+  const el = $('lobbyP');
+  if (!el) return;
+  /* Eingaben behalten */
+  const keep = ['mpGn', 'mpPn', 'mpNh', 'mpJn'].map(id => [id, val(id)]);
+  el.innerHTML = LOB.open ? lobbyHTML() : '';
+  keep.forEach(([id, x]) => x && $(id) && ($(id).value = x));
+}
+/* Spieltafel oben im Spiel: wer ist wo, Links */
+function mpBar() {
+  const v = MP.view;
+  if (!S.mp || !v) return '';
+  const ph = v.phase,
+    stt = (x, i) =>
+      x.k === 'ai'
+        ? 'KI'
+        : ph === 'fac'
+          ? x.fac
+            ? '✓'
+            : '…'
+          : ph === 'draft'
+            ? `${x.picks}/${DRP * DRS}`
+            : ph === 'route'
+              ? x.route
+                ? '✓'
+                : '…'
+              : i === v.rest
+                ? 'setzt aus'
+                : x.ready
+                  ? '✓'
+                  : '…';
+  return `<details class="mpbar"><summary><b>${esc(v.name)}</b> · ${v.seats
+    .map(
+      (x, i) =>
+        `<span class="mps${i === v.me ? ' me' : ''}${x.k === 'ai' ? ' ai' : ''}">${esc(x.name)} <i>${stt(x, i)}</i></span>`
+    )
+    .join(
+      ''
+    )}</summary><div class="lrow"><button class="btn sm" data-a="mpCopy" data-v="me">Mein Link kopieren</button><button class="btn sm" data-a="mpLobby">Lobby</button><button class="btn sm" data-a="mpQuit">Einzelspiel</button></div></details>`;
+}
+/* beim Verlassen der Seite sofort sichern */
+if (typeof document !== 'undefined' && typeof SERVER === 'undefined')
+  document.addEventListener('visibilitychange', () => document.visibilityState === 'hidden' && mpSave(1));
+const MPA = {
+  mpLobby: () => {
+    document.body.classList.remove('menuOn');
+    LOB.open = true;
+    LOB.err = '';
+    lobbyRender();
+    lobbyLoad();
+  },
+  mpClose: () => {
+    LOB.open = false;
+    lobbyRender();
+  },
+  mpRefresh: () => lobbyLoad(),
+  mpBack: () => {
+    LOB.wait = null;
+    mpPoll(false);
+    MP.id = '';
+    lobbyLoad();
+  },
+  mpInv: v => {
+    LOB.inv = v;
+    lobbyRender();
+  },
+  mpCreate: async () => {
+    const name = val('mpPn').trim();
+    if (!name) {
+      LOB.err = 'Bitte gib deinen Namen ein.';
+      return lobbyRender();
+    }
+    ls.set(MPN, name);
+    try {
+      const r = await mpApi('games', { name: val('mpGn'), player: name, nh: +val('mpNh') || 2 });
+      LOB.err = '';
+      await mpEnter(r.id, r.t);
+    } catch (e) {
+      LOB.err = e.message;
+      lobbyRender();
+    }
+  },
+  mpJoin: async id => {
+    const name = val('mpJn').trim();
+    if (!name) {
+      LOB.err = 'Bitte gib deinen Namen ein.';
+      return lobbyRender();
+    }
+    ls.set(MPN, name);
+    try {
+      const r = await mpApi(`g/${id}/join`, { player: name });
+      LOB.err = '';
+      LOB.inv = '';
+      await mpEnter(r.id, r.t);
+    } catch (e) {
+      LOB.err = e.message;
+      lobbyRender();
+    }
+  },
+  mpResume: id => {
+    const x = mpMine().find(g => g.id === id);
+    if (x) mpEnter(x.id, x.t);
+  },
+  mpStart: async () => {
+    try {
+      await mpApi(`g/${MP.id}/start`, { t: MP.t });
+      await mpEnter(MP.id, MP.t);
+    } catch (e) {
+      LOB.err = e.message;
+      lobbyRender();
+    }
+  },
+  mpCopy: async v => {
+    const id = MP.id || (S.mp && S.mp.id),
+      t = MP.t || (S.mp && S.mp.t),
+      link = mpLink(id, v === 'me' ? t : '');
+    try {
+      await navigator.clipboard.writeText(link);
+      if (S.mp && !LOB.open)
+        S.msg =
+          v === 'me'
+            ? 'Dein Link ist kopiert – damit spielst du auf jedem Gerät weiter.'
+            : 'Einladungslink kopiert.';
+      else LOB.err = '';
+    } catch (e) {
+      prompt('Link kopieren:', link);
+    }
+    render();
+  },
+  mpQuit: () => {
+    mpLeave();
+    render();
+  }
+};
+/* Start über Link: ?g=<id> (Einladung) oder ?g=<id>&t=<schlüssel> (eigener Platz) */
+function mpBoot() {
+  if (typeof location === 'undefined' || typeof SERVER !== 'undefined') return;
+  const q = new URLSearchParams(location.search),
+    g = q.get('g'),
+    t = q.get('t');
+  if (!g) return;
+  if (t) mpEnter(g, t);
+  else {
+    const mine = mpMine().find(x => x.id === g);
+    if (mine) return mpEnter(g, mine.t);
+    LOB.open = true;
+    LOB.inv = g;
+    lobbyLoad();
+  }
+}
+
 /* Autobattler · Eingabe und Start */
 let SUPP = 0;
 {
@@ -13612,6 +15207,11 @@ document.addEventListener('click', e => {
   const a = el.dataset.a,
     v = el.dataset.v;
   if (Date.now() < SUPP) return;
+  if (MPA[a]) {
+    MPA[a](v, el);
+    render();
+    return;
+  }
   const F = {
     lbSend: () => lbSend(),
     selB: () => (S.selB = S.selB === +v ? null : +v),
@@ -13622,7 +15222,7 @@ document.addEventListener('click', e => {
       S.selS = [];
       S.selU = [];
     },
-    fac: () => setFac(v),
+    fac: () => (S.mp ? mpFac(v) : setFac(v)),
     recruit: () => recruit(v),
     promote: () => promote(+v),
     chsel: () => chSel(+v),
@@ -13648,6 +15248,11 @@ document.addEventListener('click', e => {
       S.msg = '';
     },
     boost: () => pickB(+v),
+    dinf: () => (S.dinf = S.dinf === +v ? -1 : +v),
+    menu: () => document.body.classList.toggle('menuOn'),
+    ofl: () => ((S.ofl = v), (S.oall = false)),
+    oall: () => (S.oall = true),
+    finf: () => (S.finf = S.finf === v ? '' : v),
     stash: () => tapStash(+v),
     unit: () => tapUnit(+v),
     cell: () => {
@@ -13771,7 +15376,11 @@ const repaint = () => {
 document.addEventListener('visibilitychange', () => document.visibilityState === 'visible' && repaint());
 if (typeof window !== 'undefined' && window.addEventListener) window.addEventListener('resize', repaint);
 newRun();
+$('rleg').innerHTML = Object.keys(RTYP)
+  .map(r => `<span>${rtypSVG(r)}${RTYP[r][0]}</span>`)
+  .join('');
 render();
+mpBoot();
 
     </script>
   </body>
