@@ -179,7 +179,9 @@ h1 {
   height: 30px;
 }
 .chip[data-drag] {
-  touch-action: none;
+  touch-action: pan-y;
+  -webkit-touch-callout: none;
+  user-select: none;
   cursor: grab;
 }
 .dragg {
@@ -1242,7 +1244,7 @@ div.urow {
   position: absolute;
   left: 50%;
   top: 50%;
-  aspect-ratio: 1;
+  aspect-ratio: 40 / 56;
   display: grid;
   place-items: center;
   pointer-events: none;
@@ -1253,8 +1255,8 @@ div.urow {
 }
 .tk.blk .tc {
   position: absolute;
-  top: 72%;
-  left: 50%;
+  top: 86%;
+  left: 15%;
   transform: translateX(-50%);
   font: 700 8.5px/1 sans-serif;
   color: #fff;
@@ -2204,6 +2206,466 @@ div.urow {
 .pshadow {
   fill: #000;
 }
+/* Aufstellbares: Wachtürme und Arkane Augen */
+.ptwr rect,
+.ptwr path {
+  fill: #6b6258;
+  stroke: #2a241e;
+  stroke-width: 0.3;
+}
+.peyr {
+  fill: #b98cff1a;
+  stroke: #c9a7ff;
+  stroke-width: 0.35;
+  stroke-dasharray: 1.2 0.9;
+}
+.peyo {
+  fill: #f4eaff;
+  stroke: #6a3fb5;
+  stroke-width: 0.35;
+}
+.peyp {
+  fill: #6a3fb5;
+}
+.psel {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 0.4;
+}
+.ord.locked {
+  opacity: 0.55;
+}
+/* Magie sichtbar: Schein in Elementfarbe, Aura-Ringe, Marken in der Armeeliste */
+.tk.mag .bk,
+.tk.mag:not(.blk) .tin {
+  box-shadow:
+    0 0 0 1px var(--ec),
+    0 0 6px 2px var(--ec2);
+}
+.aring {
+  fill: none;
+  stroke-width: 0.35;
+  stroke-dasharray: 1 1;
+  opacity: 0.7;
+}
+.mtags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 3px 0;
+}
+.mtag {
+  font-size: 11px;
+  line-height: 1.2;
+  padding: 2px 6px 2px 16px;
+  border-radius: 8px;
+  background: #00000040;
+  position: relative;
+}
+.mtag::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin-top: -3.5px;
+  border-radius: 50%;
+  background: var(--eb);
+}
+.mdot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--eb);
+  border: 2px solid #0006;
+  flex: none;
+}
+.mrow {
+  margin: 4px 0;
+}
+.cbt small {
+  margin-right: 4px;
+}
+/* Werteblock (Profil) */
+.sblk {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(48px, 1fr));
+  gap: 2px;
+  margin: 6px 0;
+  border: 1px solid #ffffff2a;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.sblk span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3px 2px;
+  background: #00000033;
+}
+.sblk small {
+  font-size: 10px;
+  opacity: 0.75;
+  white-space: nowrap;
+}
+.sblk b {
+  font-size: 16px;
+  line-height: 1.1;
+}
+.sblk.c b {
+  font-size: 14px;
+}
+.sblk .up b {
+  color: #6fdc7a;
+}
+.sblk .dn b {
+  color: #ff8a80;
+}
+/* Charakter-Erklärung */
+.chlv {
+  display: grid;
+  gap: 2px;
+  margin: 3px 0 6px;
+}
+.chlv span {
+  font-size: 12.5px;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: #00000026;
+}
+.chlv span.on {
+  outline: 1px solid var(--br, #e6b04a);
+}
+.chx p {
+  margin: 3px 0;
+}
+/* Auswahlkarte: Werteblock oben, volle Breite */
+.scard > .txt,
+.scard > .txt:first-child {
+  flex: 1 1 100%;
+  min-width: 0;
+}
+
+/* ── Schlacht-Seitenleisten ───────────────────────────── */
+.bgrid {
+  display: contents;
+}
+.bside {
+  display: none;
+}
+[data-st='battle'] .wrap,
+[data-st='result'] .wrap {
+  max-width: 1280px;
+}
+[data-st='battle'] .bgrid,
+[data-st='result'] .bgrid {
+  display: grid;
+  order: 2;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: 'b b' 'l r';
+  align-items: start;
+}
+[data-st='battle'] .bgrid .bwrap,
+[data-st='result'] .bgrid .bwrap {
+  grid-area: b;
+}
+[data-st='battle'] .bside,
+[data-st='result'] .bside {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--pn);
+  border: 1px solid var(--ln);
+  border-radius: 10px;
+  padding: 6px;
+}
+#bs0 {
+  grid-area: l;
+}
+#bs1 {
+  grid-area: r;
+}
+@media (min-width: 1000px) {
+  [data-st='battle'] .bgrid,
+  [data-st='result'] .bgrid {
+    grid-template-columns: minmax(200px, 1fr) minmax(0, 620px) minmax(200px, 1fr);
+    grid-template-areas: 'l b r';
+  }
+  [data-st='battle'] .bside,
+  [data-st='result'] .bside {
+    max-height: 92vh;
+    overflow-y: auto;
+  }
+  [data-st='battle'] .status .mor,
+  [data-st='result'] .status .mor {
+    display: none;
+  }
+}
+.bsh {
+  border-bottom: 1px solid var(--ln);
+  padding-bottom: 5px;
+  margin-bottom: 2px;
+}
+.bsh h3 {
+  margin: 0 0 3px;
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#bs1 .bsh h3 {
+  color: #f08a8a;
+}
+#bs0 .bsh h3 {
+  color: #8fc0f0;
+}
+.bsk {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--mut);
+}
+.bsk b {
+  color: var(--ink);
+}
+.bsh small {
+  font-size: 11px;
+  color: var(--mut);
+}
+.bbar {
+  display: block;
+  height: 7px;
+  background: #0007;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.bbar span {
+  display: block;
+  height: 100%;
+  transition: width 0.2s linear;
+}
+.bsr {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 6px;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  padding: 3px 4px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: #0002;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.bsr.on {
+  border-color: var(--br);
+  background: #d2a24f22;
+}
+.bsr.fl {
+  background: #e0505a22;
+}
+.bsi svg {
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+.bsm {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.bsn {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.15;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.bsn .mdot {
+  width: 9px;
+  height: 9px;
+  border-width: 1px;
+  display: inline-block;
+}
+.bsl {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 5px;
+}
+.bsl small {
+  font-size: 11px;
+  color: var(--mut);
+  white-space: nowrap;
+}
+.bst {
+  font-size: 11px;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--mut);
+}
+.bst b {
+  font-weight: 700;
+}
+.bst em {
+  color: #f0c070;
+  font-style: normal;
+}
+.af {
+  color: #ff7a7a;
+}
+.am {
+  color: #ffb056;
+}
+.as {
+  color: #8fc0f0;
+}
+.aw {
+  color: #cfd8c0;
+}
+.ah {
+  color: var(--mut);
+}
+.bsd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  font-size: 12px;
+  padding: 2px 6px 6px 40px;
+  color: var(--mut);
+}
+.bsd b {
+  color: var(--ink);
+}
+.bsd .w {
+  flex-basis: 100%;
+}
+.bsx {
+  font-size: 11px;
+  color: var(--mut);
+  padding: 2px 4px;
+}
+
+/* Fähigkeiten: fett + Erklärung, Umschalter Kurz/Detail */
+.abl {
+  margin: 4px 0;
+  font-size: 13px;
+  line-height: 1.35;
+}
+.abl p {
+  margin: 0 0 3px;
+}
+.abl b {
+  color: var(--ink);
+}
+.abl .abd {
+  font-style: italic;
+  color: var(--mut);
+  margin-bottom: 5px;
+}
+.abl.kurz {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.abl.kurz b {
+  font-size: 12px;
+  padding: 1px 7px;
+  border-radius: 9px;
+  background: #0003;
+  border: 1px solid var(--ln);
+}
+.abt {
+  float: right;
+  margin: 0 0 4px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 9px;
+  border: 1px solid var(--br);
+  color: var(--br);
+  cursor: pointer;
+  user-select: none;
+}
+.abtw {
+  display: flow-root;
+  margin-bottom: 4px;
+}
+
+/* Pool beim Aufstellen: Raster statt Laufband, eigener Scrollbereich */
+[data-st='deploy'] #armyP {
+  display: none;
+}
+.fbar {
+  max-width: 620px;
+}
+.fsec {
+  margin-bottom: 8px;
+}
+.fsec h4 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: var(--br);
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+.fsec h4 span {
+  color: var(--mut);
+  font-weight: 600;
+  font-size: 12px;
+}
+.fsec h4 .full {
+  color: #f0c070;
+}
+.fsec .fl {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 6px;
+  overflow: visible;
+  max-height: 46vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1px;
+}
+.fsec .fchip {
+  max-width: none;
+  width: 100%;
+  touch-action: pan-y;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.fchip.onf {
+  opacity: 0.7;
+}
+.fchip.lift {
+  outline: 2px solid var(--br);
+  transform: scale(1.04);
+}
+.fsec .fl .none {
+  grid-column: 1 / -1;
+}
+
+.tk.blk .bi .tin svg {
+  filter: drop-shadow(0 1px 1.5px #000a);
+}
+.tk.blk .bi .tin {
+  aspect-ratio: 40 / 56;
+}
 
 </style>
   </head>
@@ -3095,6 +3557,177 @@ div.urow {
             <path d="M3 20L12 4l9 16zM12 20v-6" />
           </g>
         </symbol>
+        <!-- Paket 2: eigene Symbole für Einheiten, die sich bisher eins teilten -->
+        <symbol id="u-cauldron" viewBox="0 0 24 24">
+          <g fill="currentColor">
+            <path
+              d="M3 9.5h18v2.2H3zM4.2 11.7h15.6c0 5-3.4 8.3-7.8 8.3s-7.8-3.3-7.8-8.3zM6 19l-1.6 3h2.2l1.5-2.4zM18 19l1.6 3h-2.2l-1.5-2.4z"
+            />
+            <circle cx="9" cy="6" r="1.6" />
+            <circle cx="12.8" cy="3.6" r="1.3" />
+            <circle cx="15.5" cy="6.6" r="1.1" />
+          </g>
+        </symbol>
+        <symbol id="u-skull" viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            fill-rule="evenodd"
+            d="M12 2.2c-4.8 0-8.2 3.3-8.2 7.8 0 2.7 1.2 4.5 3.1 5.5V19h10.2v-3.5c1.9-1 3.1-2.8 3.1-5.5 0-4.5-3.4-7.8-8.2-7.8zM7.9 9.2h3.3v3.3H7.9zM12.8 9.2h3.3v3.3h-3.3zM11.1 14h1.8L12 16z"
+          />
+          <path
+            fill="currentColor"
+            d="M8.6 19.6h1.6v2.6H8.6zM11.2 19.6h1.6v2.6h-1.6zM13.8 19.6h1.6v2.6h-1.6z"
+          />
+        </symbol>
+        <symbol id="u-torch" viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            d="M10.4 11.6h3.2l-1 10.6h-1.2zM8.8 9.2h6.4v2.4H8.8zM12 1c2.8 2.6 4.5 4.8 3.6 7.2-.4 1-1.6 1.4-2.4.8.4-1.4-.2-2.4-1.1-3.1-.5 1.6-2.7 2.1-2.7 3.8-1.3-.6-1.9-2.2-1.3-3.6C8.8 4.4 11 3.6 12 1z"
+          />
+        </symbol>
+        <symbol id="u-javelin" viewBox="0 0 24 24">
+          <g stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+            <path d="M3 21L15.6 8.4M8.5 22L19.2 11.3M1.8 15.2L11.6 5.4" />
+          </g>
+          <path fill="currentColor" d="M14 6.6l6.4-3-3 6.4zM17.6 9.5L24 6.5l-3 6.4zM10 3.6l6.4-3-3 6.4z" />
+        </symbol>
+        <symbol id="u-shspear" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M12 .6l2.2 4.6h-4.4zM11.2 5h1.6v18h-1.6z" />
+          <circle cx="12" cy="14.2" r="7" fill="currentColor" />
+          <circle cx="12" cy="14.2" r="2.2" fill="#0006" />
+        </symbol>
+        <symbol id="u-moon" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M14.5 2.2a10 10 0 1 0 7.3 16.6A8.4 8.4 0 0 1 14.5 2.2z" />
+          <path fill="currentColor" d="M18 4.5l.8 1.9 1.9.8-1.9.8-.8 1.9-.8-1.9-1.9-.8 1.9-.8z" />
+        </symbol>
+        <symbol id="u-vial" viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            fill-rule="evenodd"
+            d="M9.2 1.6h5.6v1.8h-1.1v5.1l5.2 9.6c.9 1.7-.3 3.7-2.2 3.7H7.3c-1.9 0-3.1-2-2.2-3.7l5.2-9.6V3.4H9.2zM8.4 14.5l-1.9 3.6c-.2.5.1 1 .6 1h9.8c.5 0 .8-.5.6-1l-1.9-3.6z"
+          />
+          <circle cx="12" cy="11.4" r="1" fill="currentColor" />
+        </symbol>
+        <symbol id="u-harp" viewBox="0 0 24 24">
+          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke-width="2.5" d="M5.5 21.5V3c6.5 0 8.5 5.5 13.5 18.5z" />
+            <path stroke-width="1.2" d="M8.8 6v15.3M12 8v13.3M15.2 13v8.3" />
+          </g>
+        </symbol>
+        <symbol id="u-bolts" viewBox="0 0 24 24">
+          <g stroke="currentColor" stroke-width="2.1" stroke-linecap="round">
+            <path d="M3.5 20.5L18 6M3.5 3.5L18 18" />
+          </g>
+          <path
+            fill="currentColor"
+            d="M15.8 5l6.4-2.8L19.4 8.6zM15.8 19l6.4 2.8-2.8-6.4zM2 18l3.5 3.5-3 1zM2 6l3.5-3.5-3-1z"
+          />
+        </symbol>
+        <symbol id="u-ballista" viewBox="0 0 24 24">
+          <g fill="none" stroke="currentColor" stroke-linecap="round">
+            <path stroke-width="2.6" d="M2.2 10C6.5 5.5 17.5 5.5 21.8 10" />
+            <path stroke-width="1.1" d="M2.2 10L12 14.5l9.8-4.5" />
+            <path stroke-width="2.2" d="M12 4v13" />
+          </g>
+          <path fill="currentColor" d="M9.6 4.6L12 .6l2.4 4zM5.5 16.8h13v2.6h-13z" />
+          <circle cx="7.5" cy="21" r="2" fill="currentColor" />
+          <circle cx="16.5" cy="21" r="2" fill="currentColor" />
+        </symbol>
+        <symbol id="u-xcrown" viewBox="0 0 24 24">
+          <path fill="none" stroke="currentColor" stroke-width="2.2" d="M3 13c4 3 14 3 18 0" />
+          <path
+            fill="currentColor"
+            d="M11 9.5h2V22h-2zM8.5 20h7v2.4h-7zM6 8l1.4-6 3 3L12 .8 13.6 5l3-3L18 8z"
+          />
+        </symbol>
+        <symbol id="u-firelance" viewBox="0 0 24 24">
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            d="M2.5 21.5L14 10"
+          />
+          <path
+            fill="currentColor"
+            d="M12.2 9.6l2.4-2.4 2.4 2.4-2.4 2.4zM15.6 7.6c.8-2.6 3.4-3.6 6.9-6.4-.4 3-1.3 4.7-2.6 5.9 1.4-.2 2.4 0 3.4-.4-1.6 2.6-4.2 3.4-6.6 3.4z"
+          />
+          <circle cx="6" cy="18" r="2" fill="currentColor" />
+        </symbol>
+        <symbol id="u-arrows" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M7.5 9h9l-1.4 13.5H8.9z" />
+          <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none">
+            <path d="M10 9L7.6 2.6M12 9V1.8M14 9l2.4-6.4" />
+          </g>
+          <path fill="currentColor" d="M6.2 1.2l3 .8-1.2 2.4zM10.6 1.2h2.8L12 3.6zM14.8 2l3-.8-1.8 3.2z" />
+        </symbol>
+        <symbol id="u-musket" viewBox="0 0 24 24">
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            d="M7.5 17L21.6 2.9"
+          />
+          <path
+            fill="currentColor"
+            d="M1.8 19.6l4.6-4.4 3 3-2.2 4.4c-.4.8-1.4 1-2 .4zM8.6 13.4l2 2-1.8 1.8-2-2z"
+          />
+        </symbol>
+        <symbol id="u-blunder" viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            d="M1.5 16.5l5.6-2.4v4.8l-5.6 2zM7 12.8h8.6v3.4H7zM15.4 11.6l4.2-2.4v10.6l-4.2-2.4zM9 16.2h1.8v2.6H9z"
+          />
+          <circle cx="21.6" cy="6" r="1.6" fill="currentColor" />
+          <circle cx="19" cy="3.4" r="1.2" fill="currentColor" />
+          <circle cx="22.4" cy="2.2" r=".9" fill="currentColor" />
+        </symbol>
+        <!-- Paket 2: Lager je Volk -->
+        <symbol id="camp-ba" viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            fill-rule="evenodd"
+            d="M2.5 21c0-6.2 4.2-10.6 9.5-10.6s9.5 4.4 9.5 10.6zM10 21v-4.4a2 2 0 0 1 4 0V21z"
+          />
+          <path fill="currentColor" d="M8.6 10.9L12 6l3.4 4.9z" />
+          <g stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+            <path d="M12 7.5L9 1.8M12 7.5l3-5.7M12 7.5V1" />
+          </g>
+          <g stroke="#0005" stroke-width="1"><path d="M5.5 17.5h3M15.5 17.5h3M7 14.5h2M15 14.5h2" /></g>
+        </symbol>
+        <symbol id="camp-de" viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            fill-rule="evenodd"
+            d="M8 22V9l4-7.5L16 9v13zM11 11h2v3.4h-2zM10.4 22v-3.4a1.6 1.6 0 0 1 3.2 0V22z"
+          />
+          <path fill="currentColor" d="M3 22l2.2-9 2.8 3.2V22zM21 22l-2.2-9-2.8 3.2V22z" />
+        </symbol>
+        <symbol id="camp-zw" viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            fill-rule="evenodd"
+            d="M1.5 22V11.5L12 3.5l10.5 8V22zM8 22v-5.2a4 4 0 0 1 8 0V22zM4.3 13.5h2.4v1.4H4.3zM17.3 13.5h2.4v1.4h-2.4zM11 7.6h2V9h-2z"
+          />
+        </symbol>
+        <symbol id="camp-or" viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            fill-rule="evenodd"
+            d="M1.5 22V10l1.7-2.4L4.9 10v12zM5.6 22V9l1.7-2.4L9 9v13zM9.8 22V8l2.2-2.6L14.2 8v14zM15 22V9l1.7-2.4L18.4 9v13zM19.1 22V10l1.7-2.4 1.7 2.4v12zM10.2 22v-4.6a1.8 1.8 0 0 1 3.6 0V22z"
+          />
+          <path fill="currentColor" d="M11.5 5.6V.6h1v5zM12.5.6l5 1.6-5 1.6z" />
+          <path fill="#0005" d="M1.5 14h21v1.2h-21z" />
+        </symbol>
+        <symbol id="camp-he" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M12 3.2l10 8.3H2z" />
+          <path fill="currentColor" fill-rule="evenodd" d="M4.5 11.5h15V22h-15zM12 13.4l3 8.6H9z" />
+          <path
+            fill="currentColor"
+            d="M11.5.4h1v3.4h-1zM12.5.4l4.2 1.3-4.2 1.3zM2 11.5l1.3 3 1.2-3zM19.5 11.5l1.3 3 1.2-3z"
+          />
+        </symbol>
       </defs>
     </svg>
     <header class="top">
@@ -3109,20 +3742,24 @@ div.urow {
         <div class="panel" id="draftP">
           <h2>Draft <span id="picks"></span></h2>
           <p class="hint2">
-            Punkte am Stein = Güte (● einfach, ●●● edel). Jeder Pick ist genau ein Stein.
-            Jeder Rohstoff steckt in mindestens drei Rezepten deines Volkes. Unter jedem Stein steht, was du
-            daraus bauen kannst – grün mit ✓: der Partner liegt schon in deinem Lager.
+            Punkte am Stein = Güte (● einfach, ●●● edel). Jeder Pick ist genau ein Stein. Jeder Rohstoff
+            steckt in mindestens drei Rezepten deines Volkes. Unter jedem Stein steht, was du daraus bauen
+            kannst – grün mit ✓: der Partner liegt schon in deinem Lager.
           </p>
           <h3 class="sbh">Sammelboni <span>(3/6/9 gleiche Rohstoffe = Stufe 1/2/3)</span></h3>
           <div id="dsb" class="sbs"></div>
           <div id="booster" class="gems sm"></div>
         </div>
-        <div class="bwrap">
-          <div id="board" class="board" aria-label="Schlachtfeld">
-            <canvas id="terr"></canvas><svg id="ovl" viewBox="0 0 120 150" preserveAspectRatio="none"></svg>
+        <div class="bgrid">
+          <div id="bs0" class="bside"></div>
+          <div class="bwrap">
+            <div id="board" class="board" aria-label="Schlachtfeld">
+              <canvas id="terr"></canvas><svg id="ovl" viewBox="0 0 120 150" preserveAspectRatio="none"></svg>
+            </div>
+            <div id="layer"></div>
+            <svg id="fx" viewBox="0 0 120 150" preserveAspectRatio="none"></svg>
           </div>
-          <div id="layer"></div>
-          <svg id="fx" viewBox="0 0 120 150" preserveAspectRatio="none"></svg>
+          <div id="bs1" class="bside"></div>
         </div>
         <div id="fbar" class="fbar"></div>
         <div class="panel side" id="resP">
@@ -3315,30 +3952,30 @@ const FEED = {
   FN = { hp: 'LP', atk: 'Angriff', arm: 'Rüstung', ini: 'Initiative', dark: 'Dunkel (Furcht und Tarnung)' };
 /* Stufe 3 (9 Steine) gibt zusätzlich eine besondere Wirkung (SP3) */
 const SP3 = {
-  e: ['Meisterschmiede', 'alle Einheiten +1 Rüstung'],
+  e: ['Gehärteter Stahl', 'Rüstungsdurchschlag (Musketen, Kanonen) wirkt gegen dich nur halb'],
   h: ['Waldvolk', 'Wald bremst deine Einheiten nicht mehr'],
   l: ['Sturmangriff', 'der erste Nahkampfangriff jedes Regiments zählt doppelt'],
   p: ['Brandgeschosse', 'Fernkampftreffer setzen das Ziel in Brand'],
   k: ['Kristallschild', 'der erste Treffer auf jedes Regiment verpufft'],
-  a: ['Arkaner Turm', 'dein Lager schleudert alle 3 s einen Zauberblitz (6 Schaden, Reichweite 30)'],
-  s: ['Kriegskasse', '+3 Gold nach jeder Schlacht'],
+  a: ['Zweites Auge', 'du stellst ein zweites Arkanes Auge auf'],
+  s: ['Bestechung', 'Kriegsratsbefehl Bestechung: ein feindliches Regiment desertiert vor der Schlacht'],
   o: ['Schlachtrösser', 'Reiterei +2 Angriff'],
   n: ['Weitschuss', 'Fernkämpfer +10 Reichweite'],
-  t: ['Festung', 'Lager +3 Rüstung und Dornen 3'],
+  t: ['Bollwerk', 'deine Türme haben doppelte LP und +2 Rüstung'],
   u: ['Heilquellen', 'alle Einheiten regenerieren alle 2 s 1 LP je Stern'],
   c: ['Furchtlos', 'Mutproben deiner Regimenter +2']
 };
 const SETS = {
-  e: ['Schmiede', '+2 LP für alle'],
+  e: ['Schmiede', '+1 Rüstung für alle'],
   h: ['Waldläufer', '+1 Initiative für alle'],
   l: ['Sattlerei', '+1 Angriff für Nahkämpfer'],
   p: ['Pulverkammer', '+1 Angriff für Fernkämpfer'],
-  k: ['Kristallhort', '+1 Rüstung für alle'],
-  a: ['Arkanum', 'Wesen +1 Angriff, +2 LP'],
-  s: ['Silberschatz', 'Lager +6 LP'],
+  k: ['Kristallhort', '+8 Sichtweite für alle'],
+  a: ['Arkanum', 'Arkanes Auge: macht einen Kreis auf dem Feld sichtbar (Radius 15 / 22 / 30)'],
+  s: ['Silberschatz', 'schaltet Kriegsratsbefehle frei: I Goldene Späher, II Söldner, III Bestechung'],
   o: ['Gestüt', '+0,5 Tempo für alle'],
   n: ['Seilerei', '+1 Initiative für Fernkämpfer'],
-  t: ['Steinbruch', 'Lager +1 Rüstung'],
+  t: ['Steinbruch', 'je Stufe ein Wachturm, frei in deiner Aufstellungszone'],
   u: ['Kräutergarten', '+1 Heilung für Heiler und Lager'],
   c: ['Beinhaus', '+2 LP für Nahkämpfer']
 };
@@ -3350,18 +3987,22 @@ function bonus(col) {
   const L = k => lvl(col, k),
     ne = nEl(col);
   return {
-    hp: 2 * L('e'),
+    hp: 0,
     ini: L('h'),
     atkM: L('l'),
     atkR: L('p'),
-    arm: L('k'),
-    atkW: L('a') + (ne >= 4 ? 1 : 0),
-    hpW: 2 * L('a') + (ne >= 2 ? 3 : 0),
-    kHp: 6 * L('s'),
+    arm: L('e'),
+    vis: 8 * L('k'),
+    eye: L('a'),
+    silver: L('s'),
+    towers: L('t'),
+    atkW: ne >= 4 ? 1 : 0,
+    hpW: ne >= 2 ? 3 : 0,
+    kHp: 0,
     atk: 0,
     spd: 0.5 * L('o'),
     iniR: L('n'),
-    kArm: L('t'),
+    kArm: 0,
     heal: L('u'),
     hpM: 2 * L('c'),
     sp: RK.filter(k => L(k) >= 3)
@@ -4903,6 +5544,23 @@ U.KNG = {
   vis: 2,
   d: 'Fällt das Lager, ist die Schlacht verloren. Unbeweglich, versorgt Verbündete im Umkreis von 20 Schritt (heilt alle 2 Sekunden). Wird jede Runde stärker; Ausbauten kommen aus dem Draft.'
 };
+/* Wachturm aus dem Steinbruch-Sammelbonus: steht fest, schießt, zählt nicht zum Heer */
+U.TWR = {
+  n: 'Wachturm',
+  hp: 30,
+  atk: 3,
+  arm: 2,
+  ini: 3,
+  twr: 1,
+  nomelee: 1,
+  tier: 1,
+  val: 0,
+  vis: 3,
+  rng: 3.5,
+  unbr: 1,
+  sym: 'u-tower',
+  d: 'Steht fest an seinem Platz, schießt 35 weit und versperrt den Weg. Zählt nicht zum Heer: Fällt er, sinkt die Moral nicht.'
+};
 const comboOf = (a, b) => {
   const A = U[a.t],
     B = U[b.t];
@@ -4954,7 +5612,8 @@ const SPD = {
   MGE: [4, 'foot'],
   BSH: [5, 'fly'],
   GRU: [2.5, 'giant'],
-  KNG: [0, 'camp']
+  KNG: [0, 'camp'],
+  TWR: [0, 'siege']
 };
 const CLP = ['cav', 'beast', 'heavy', 'foot', 'siege'];
 function setProps() {
@@ -4977,7 +5636,8 @@ const isRanged = t => {
 };
 setProps();
 const TR = {
-    KNG: [1, 1]
+    KNG: [1, 1],
+    TWR: [1, 1]
   },
   SPC = {
     foot: [1.4, 1.2],
@@ -5257,6 +5917,9 @@ const campIns = () => {
 const ELU = { ba: 'eat', de: 'sum', zw: 'rune', or: 'ban', he: 'ammo' },
   elUse = f => ELU[facOf(f)],
   ELV = { rune: 'Verzaubern', ban: 'Weihen', ammo: 'Laden' };
+/* Name des Magie-Reiters je Volk */
+const ELTAB = { rune: 'Runen', ban: 'Banner', ammo: 'Zaubermunition', eat: 'Festmahl', sum: 'Beschwörung' },
+  elTab = f => ELTAB[elUse(f)] || 'Verzauberungen';
 const ENCH = {
     f: 'Verzauberung Feuer: Treffer setzen das Ziel in Brand',
     i: 'Verzauberung Wasser: Treffer lassen das Ziel stillstehen (höchstens jeden 2. Treffer)',
@@ -5280,11 +5943,32 @@ const ENCH = {
   },
   ELT = { rune: ENCH, ammo: AMMO, ban: BANT },
   /* Text der Element-Wirkung einer Einheit (je nach Volk Rune, Munition oder Banner) */
+  /* Kombination zweier Elemente (z. B. Feuer + Wasser = Dampf): beide Wirkungen zugleich */
+  elName = k => (k.length > 1 ? MXD[k] : EL[k].n),
+  elPart = (T, k) => [...k].map(e => T[e].split(': ').slice(1).join(': ')).join(' + '),
   elTxt = u => {
     const r = [];
-    if (u.ench) r.push((U[u.t].fac === 'he' ? AMMO : ENCH)[u.ench]);
-    if (u.ban) r.push(BANT[u.ban]);
+    if (u.ench) {
+      const he = U[u.t].fac === 'he';
+      r.push(`${he ? 'Munition' : 'Verzauberung'} ${elName(u.ench)}: ${elPart(he ? AMMO : ENCH, u.ench)}`);
+    }
+    if (u.ban) r.push(`Banner ${elName(u.ban)}: ${elPart(BANT, u.ban)}`);
     return r.join(' · ');
+  },
+  /* Magie und Auren einer Einheit als kurze Marken (Armeeliste) */
+  magicTags = u => {
+    const T = U[u.t],
+      C = u.ch ? chFx(u.ch) : {},
+      r = [];
+    if (u.ench) r.push({ e: u.ench, t: `${U[u.t].fac === 'he' ? 'Munition' : 'Rune'} ${elName(u.ench)}` });
+    if (u.ban) r.push({ e: u.ban, t: `Banner ${elName(u.ban)} · Aura 12` });
+    if (u.b && u.b.dark) r.push({ e: 'd', t: 'Dunkel (gegessen)' });
+    const enR = !u.ench && u.rel && RELI[u.rel] && RELI[u.rel].el;
+    if (enR) r.push({ e: enR, t: `${RELI[u.rel].n}` });
+    const au =
+      (T.aura || 0) + (C.aura || 0) + (u.rel === 'ba' ? 1 : 0) + (u.ins || []).filter(x => x === 'ze').length;
+    if (au) r.push({ e: '', t: `Aura +${au} Angriff · 12` });
+    return r;
   };
 const canEnch = (u, st, f) => {
     const m = elUse(f);
@@ -5450,6 +6134,27 @@ const ORD = {
     c: 2,
     fac: 'he',
     d: 'Hochelfen: Alle Fernkämpfer +2 Angriff in dieser Schlacht.'
+  },
+  gspy: {
+    ic: 'b-eye',
+    n: 'Goldene Späher',
+    c: 2,
+    sil: 1,
+    d: 'Silber I: Wirkt wie Spione und Kundschafter zusammen – du siehst das feindliche Heer samt Aufstellung und hast +10 Sicht.'
+  },
+  merc: {
+    ic: 'u-axe',
+    n: 'Söldner',
+    c: 3,
+    sil: 2,
+    d: 'Silber II: Ein Söldnerregiment eines fremden Volks kämpft in dieser Schlacht für dich. Es zählt nicht zu deinem Heer.'
+  },
+  bribe: {
+    ic: 'b-coin',
+    n: 'Bestechung',
+    c: 3,
+    sil: 3,
+    d: 'Silber III: Das schwächste feindliche Regiment (keine Wesen, kein Heerführer) desertiert vor der Schlacht.'
   },
   supply: {
     ic: 'b-cart',
@@ -5623,9 +6328,9 @@ const FORM = {
 };
 const FLV = { linie: 1, keil: 2, igel: 2, hammer: 3 };
 const maxOrd = () => genLv(S.units, S.chr || []),
-  hasSpy = () => S.orders.includes('spy') || !!actMeta(S.units).spy,
-  hasRecon = () => S.orders.includes('scout') || !!actMeta(S.units).recon,
-  fullView = () => hasSpy() && S.orders.includes('scout');
+  hasSpy = () => S.orders.includes('spy') || S.orders.includes('gspy') || !!actMeta(S.units).spy,
+  hasRecon = () => S.orders.includes('scout') || S.orders.includes('gspy') || !!actMeta(S.units).recon,
+  fullView = () => hasSpy() && (S.orders.includes('scout') || S.orders.includes('gspy'));
 
 /* Steinheer · Charaktere: Unteroffiziere, Helden, Magier und Generäle schließen sich Regimentern an */
 /* rk = Rang: 1 Unteroffizier, 2 Held/Spezialist, 3 General. fx gilt je Stufe (Zahlen × Stufe). */
@@ -5723,6 +6428,27 @@ const chTxt = ch =>
   canLead = u => u && !U[u.t].king && !U[u.t].cre,
   ordOK = (u, k) => (ORDU[k].rk || 0) <= chRank(u);
 
+/* Klartext: was ein Charakter je Stufe bewirkt und was er freischaltet */
+function chExplain(c, lvNow) {
+  const C = CHR[c],
+    lv = [1, 2, 3]
+      .map(l => `<span class="${l === lvNow ? 'on' : ''}"><b>Stufe ${l}</b> ${chTxt({ c, lv: l })}</span>`)
+      .join(''),
+    unl = Object.values(ORDU)
+      .filter(o => o.rk && o.rk <= C.rk)
+      .map(o => o.n);
+  if (C.rk >= 2) unl.push('Zeitbefehl');
+  return `<div class="chx"><p><b>Wirkt auf sein Regiment:</b></p><div class="chlv">${lv}</div><p><b>Schaltet für das Regiment frei:</b> ${unl.join(', ')} · Disziplin +${C.rk}.</p>${
+    C.gen
+      ? `<p><b>Als General:</b> Kriegsrat mit so vielen Befehlen pro Schlacht wie seine Stufe; Formationen ${Object.entries(
+          FLV
+        )
+          .map(([k, l]) => `${FORM[k].n} ab Stufe ${l}`)
+          .join(', ')}. Nur einer im Heer.</p>`
+      : ''
+  }</div>`;
+}
+
 /* Steinheer · Welt: Karten, Gelände, Wetter, Wegfindung */
 const mkMap = i => ({ i, n: MAPS[i].n, mods: [] });
 function rollWx() {
@@ -5751,13 +6477,49 @@ const TER = {
     d: 'Deckung: halber Fernkampfschaden. Wer im Wald steht, ist nur aus 8 Schritt Nähe zu sehen. Bremst – Reiterei am stärksten.'
   },
   H: { n: 'Hügel', d: 'Anhöhe: +1 Angriff, +10 Reichweite, +10 Sicht.' },
-  F: { n: 'Flachwasser & Furt', d: 'Bremst. Nur wer genug Wattiefe hat, kommt hindurch.' },
+  F: {
+    n: 'Flachwasser & Furt',
+    d: 'Bremst. Nur wer genug Wattiefe hat, kommt hindurch. Furten haben in der Mitte flaches, am Rand mitteltiefes Wasser: dort kommen auch breite Regimenter durch, aber langsamer.'
+  },
   R: { n: 'Tiefes Wasser', d: 'Unpassierbar außer für Flieger. Frost friert es zu.' },
   I: { n: 'Eis', d: 'Zugefrorenes Wasser, frei begehbar – taut nach der Schlacht.' },
   S: { n: 'Sumpf', d: 'Bremst stark, −2 Initiative, −1 Rüstung.' },
   X: { n: 'Schanze', d: '+2 Rüstung für Einheiten darin.' },
   A: { n: 'Asche', d: 'Verbrannter Wald, offenes Gelände.' },
-  L: { n: 'Lava', d: '2 Schaden alle 2 Sekunden.' }
+  L: { n: 'Lava', d: '2 Schaden alle 2 Sekunden.' },
+  G: {
+    n: 'Geröll',
+    d: 'Bremst Reiterei und Kriegsgerät stark (×0,5), Fußvolk leicht. Reiterei verliert hier den Sturmangriff.'
+  },
+  U: {
+    n: 'Ruinen',
+    d: 'Deckung: Fernkampf −⅓, +1 Rüstung. Die Formation lockert sich (Dichte −1), bremst leicht.'
+  },
+  V: {
+    n: 'Dorf',
+    d: 'Häuser: halber Fernkampfschaden, +1 Rüstung, nur aus 8 Schritt Nähe zu sehen. Reiterei kann nicht hineinstürmen und kommt nur langsam voran.'
+  },
+  K: {
+    n: 'Felder',
+    d: 'Offen, aber hohes Korn: Einheiten darin sind erst ab 15 Schritt zu sehen. Feuer brennt sie ab.'
+  },
+  E: {
+    n: 'Hecken',
+    d: 'Hindernis: das Überqueren kostet Zeit. Wer an einer Hecke steht, hat +1 Rüstung gegen Fernkampf, und Angreifer verlieren ihren Sturmangriff.'
+  }
+};
+/* Geländecodes im Raster R.ter */
+const TC = {
+  plain: 0,
+  forest: 1,
+  swamp: 2,
+  lava: 3,
+  ash: 4,
+  rubble: 5,
+  ruins: 6,
+  village: 7,
+  field: 8,
+  hedge: 9
 };
 const WX = {
   klar: { n: 'Klar', d: 'keine Besonderheit', w: 40 },
@@ -5786,18 +6548,22 @@ const MAPS = [
         w: 9,
         p: [
           [-2, 47, 2],
-          [9, 50, 2],
+          [8, 50, 2],
+          [10.5, 50.5, 0.55],
           [14, 51, 0.3],
           [21, 50, 0.3],
-          [27, 48, 2],
+          [24.5, 49, 0.55],
+          [27.5, 48, 2],
           [36, 51, 2],
           [39, 52, 1],
           [45, 51, 1],
           [49, 49, 2],
-          [57, 50, 2],
+          [56, 50, 2],
+          [58.5, 51, 0.55],
           [61, 52, 0.3],
           [68, 51, 0.3],
-          [73, 49, 2],
+          [70.5, 50, 0.55],
+          [74, 49, 2],
           [82, 51, 2]
         ]
       }
@@ -5923,13 +6689,171 @@ const MAPS = [
         ]
       }
     ]
+  },
+  /* Paket 3: neue Karten mit Dorf, Feldern, Hecken, Ruinen und Geröll (punktsymmetrisch, damit fair) */
+  {
+    n: 'Dorf am Kreuzweg',
+    hills: [
+      [40, 25, 8, 1],
+      [40, 75, 8, 1]
+    ],
+    village: [[40, 50, 9]],
+    fields: [
+      [16, 40, 16, 10],
+      [64, 60, 16, 10],
+      [16, 60, 14, 9],
+      [64, 40, 14, 9]
+    ],
+    hedges: [
+      [8, 34, 24, 34],
+      [72, 66, 56, 66],
+      [8, 66, 22, 66],
+      [72, 34, 58, 34],
+      [25, 42, 25, 56],
+      [55, 58, 55, 44]
+    ],
+    forest: [
+      [70, 22, 6],
+      [10, 78, 6]
+    ]
+  },
+  {
+    n: 'Alte Ruinen',
+    hills: [[40, 50, 11, 1.1]],
+    ruins: [
+      [40, 50, 10],
+      [14, 38, 5],
+      [66, 62, 5]
+    ],
+    rubble: [
+      [27, 46, 5],
+      [53, 54, 5],
+      [62, 30, 5],
+      [18, 70, 5]
+    ],
+    forest: [
+      [8, 20, 7],
+      [72, 80, 7]
+    ],
+    swamp: [
+      [66, 40, 5],
+      [14, 60, 5]
+    ]
+  },
+  {
+    n: 'Heckenland',
+    fields: [
+      [20, 45, 18, 12],
+      [60, 55, 18, 12],
+      [20, 58, 16, 8],
+      [60, 42, 16, 8]
+    ],
+    hedges: [
+      [4, 38, 30, 38],
+      [76, 62, 50, 62],
+      [10, 51, 28, 51],
+      [70, 49, 52, 49],
+      [34, 36, 34, 48],
+      [46, 64, 46, 52],
+      [54, 40, 76, 40],
+      [26, 60, 4, 60]
+    ],
+    village: [
+      [70, 46, 5],
+      [10, 54, 5]
+    ],
+    forest: [[40, 50, 4]]
+  },
+  {
+    n: 'Geröllhang',
+    hills: [
+      [18, 50, 14, 1.4],
+      [62, 50, 14, 1.4]
+    ],
+    rubble: [
+      [18, 44, 8],
+      [62, 56, 8],
+      [28, 34, 5],
+      [52, 66, 5]
+    ],
+    forest: [
+      [40, 40, 5],
+      [40, 60, 5]
+    ],
+    ruins: [
+      [72, 28, 4],
+      [8, 72, 4]
+    ]
+  },
+  {
+    n: 'Kornfelder am Fluss',
+    rivers: [
+      {
+        w: 8,
+        p: [
+          [-2, 50, 2],
+          [24, 51, 2],
+          [29.5, 50.5, 0.55],
+          [34, 50, 0.3],
+          [46, 50, 0.3],
+          [50.5, 49.5, 0.55],
+          [56, 49, 2],
+          [82, 50, 2]
+        ]
+      }
+    ],
+    fields: [
+      [14, 36, 18, 12],
+      [66, 64, 18, 12],
+      [14, 64, 16, 10],
+      [66, 36, 16, 10]
+    ],
+    village: [
+      [40, 40, 5],
+      [40, 60, 5]
+    ],
+    hedges: [
+      [24, 30, 24, 42],
+      [56, 70, 56, 58]
+    ],
+    forest: [
+      [70, 22, 5],
+      [10, 78, 5]
+    ]
+  },
+  {
+    n: 'Trümmerfeste',
+    hills: [[40, 50, 10, 1]],
+    ruins: [
+      [40, 44, 7],
+      [40, 56, 7]
+    ],
+    rubble: [
+      [24, 50, 6],
+      [56, 50, 6]
+    ],
+    swamp: [
+      [10, 40, 6],
+      [70, 60, 6]
+    ],
+    forest: [
+      [70, 30, 6],
+      [10, 70, 6]
+    ],
+    hedges: [
+      [20, 30, 32, 30],
+      [60, 70, 48, 70]
+    ]
   }
 ];
 MAPS.forEach(M => {
   const s = WS,
     p = a => a.map(v => [v[0] * s, v[1] * s, ...v.slice(2)]);
-  ['forest', 'swamp'].forEach(k => {
+  ['forest', 'swamp', 'rubble', 'ruins', 'village'].forEach(k => {
     if (M[k]) M[k] = M[k].map(([x, y, r]) => [x * s, y * s, r * s]);
+  });
+  ['fields', 'hedges'].forEach(k => {
+    if (M[k]) M[k] = M[k].map(v => v.map(c => c * s));
   });
   if (M.hills) M.hills = M.hills.map(([x, y, r, hh]) => [x * s, y * s, r * s, hh]);
   if (M.lakes) M.lakes = M.lakes.map(([x, y, rx, ry, d]) => [x * s, y * s, rx * s, ry * s, d]);
@@ -5975,8 +6899,22 @@ function bakeBase(mi) {
         const q = Math.hypot((cx - a) / rx, (cy - b) / ry) / (0.85 + 0.3 * nz);
         if (q < 1) d = Math.max(d, dd * Math.min(1, 2.2 * (1 - q)));
       }
+      for (const [a, b, w, hh] of M.fields || [])
+        if (Math.abs(cx - a) < w / 2 && Math.abs(cy - b) < hh / 2) t = TC.field;
       for (const [a, b, r] of M.forest || []) if (Math.hypot(cx - a, cy - b) < r * (0.7 + 0.6 * nz)) t = 1;
       for (const [a, b, r] of M.swamp || []) if (Math.hypot(cx - a, cy - b) < r * (0.7 + 0.6 * nz)) t = 2;
+      for (const [a, b, r] of M.rubble || [])
+        if (Math.hypot(cx - a, cy - b) < r * (0.7 + 0.6 * nz)) t = TC.rubble;
+      for (const [a, b, r] of M.ruins || [])
+        if (Math.hypot(cx - a, cy - b) < r * (0.75 + 0.5 * nz)) t = TC.ruins;
+      for (const [a, b, r] of M.village || [])
+        if (Math.hypot(cx - a, cy - b) < r * (0.85 + 0.3 * nz)) t = TC.village;
+      for (const [x1, y1, x2, y2] of M.hedges || []) {
+        const vx = x2 - x1,
+          vy = y2 - y1,
+          q = Math.max(0, Math.min(1, ((cx - x1) * vx + (cy - y1) * vy) / (vx * vx + vy * vy || 1)));
+        if (Math.hypot(cx - x1 - q * vx, cy - y1 - q * vy) < 0.8) t = TC.hedge;
+      }
       if (d > 0.15) t = 0;
       dep[i] = d;
       hgt[i] = h;
@@ -6010,9 +6948,9 @@ function modR(R, o) {
         dd = Math.hypot(x + 0.5 - o.x, y + 0.5 - o.y) / o.r;
       if (dd > 0.75 + 0.4 * NZ[i]) continue;
       if (o.k === 'W') {
-        if (R.dep[i] < 0.15 && R.ter[i] !== 3) R.ter[i] = 1;
+        if (R.dep[i] < 0.15 && [0, 4, TC.field].includes(R.ter[i])) R.ter[i] = 1;
       } else if (o.k === 'A') {
-        if (R.ter[i] === 1) R.ter[i] = 4;
+        if (R.ter[i] === 1 || R.ter[i] === TC.field) R.ter[i] = 4;
       } else if (o.k === 'L') {
         if (R.dep[i] < 0.15) R.ter[i] = 3;
       } else if (o.k === 'H') {
@@ -6069,7 +7007,23 @@ const onHill = o => !!RX() && CTX.R.hgt[ci(o.x, o.y)] > 0.5,
   inForest = o => terAt(o) === 1,
   inSwamp = o => terAt(o) === 2 && dR(CTX.R, o.x, o.y) < 0.15,
   inFort = o => !!RX() && CTX.R.forts.some(([a, b]) => (a - o.x) ** 2 + (b - o.y) ** 2 < 21),
-  onLava = o => terAt(o) === 3;
+  onLava = o => terAt(o) === 3,
+  inRubble = o => terAt(o) === TC.rubble,
+  inRuin = o => terAt(o) === TC.ruins,
+  inVillage = o => terAt(o) === TC.village,
+  inField = o => terAt(o) === TC.field,
+  /* an einer Hecke: eine Heckenzelle im Umkreis des Regiments */
+  nearHedge = o => {
+    if (!RX()) return false;
+    const r = Math.min(4, (o.r || 2) * 0.7 + 1);
+    for (let a = 0; a < 8; a++) {
+      const x = o.x + Math.cos(a * 0.785) * r,
+        y = o.y + Math.sin(a * 0.785) * r;
+      if (CTX.R.ter[ci(x, y)] === TC.hedge || CTX.R.ter[ci((o.x + x) / 2, (o.y + y) / 2)] === TC.hedge)
+        return true;
+    }
+    return CTX.R.ter[ci(o.x, o.y)] === TC.hedge;
+  };
 function passArr(cls) {
   const k = 'p' + cls;
   if (CTX.ff.has(k)) return CTX.ff.get(k);
@@ -6160,6 +7114,13 @@ function spF(u) {
   if (u.cls === 'fly') return 1;
   const c = CL[u.cls];
   let f = inForest(u) ? (u.wood ? 1 : c.fo) : inSwamp(u) ? c.sw : 1;
+  const k = u.cls.replace(/W$/, ''),
+    tt = terAt(u);
+  if (tt === TC.rubble) f *= k === 'cav' || k === 'siege' ? 0.5 : k === 'beast' ? 0.75 : 0.85;
+  else if (tt === TC.ruins) f *= k === 'cav' || k === 'siege' ? 0.7 : 0.85;
+  else if (tt === TC.village) f *= k === 'cav' ? 0.5 : k === 'siege' ? 0.6 : 0.75;
+  else if (tt === TC.field) f *= 0.95;
+  else if (tt === TC.hedge) f *= k === 'giant' ? 0.8 : 0.45;
   const d = RX() ? dR(CTX.R, u.x, u.y) : 0;
   if (d > 0.05) f *= Math.max(0.3, 1 - (0.6 * d) / c.wd);
   return f;
@@ -6268,27 +7229,38 @@ function turnTo(u, a, noWheel) {
   setFa(u, u.fa + dd);
   return Math.max(0, 1 - (Math.abs(dd) * u.w) / sp) * Math.max(0.3, Math.cos(d - dd));
 }
+/* Marschieren wie echte Soldaten: Ein Regiment geht nur nach vorn (in Blickrichtung); um die Richtung zu
+   ändern, schwenkt es (turnTo). Steht das Ziel schräg, geht es langsamer und biegt dabei ein – so entstehen
+   Bögen statt seitlichem Rutschen. Aus dem Stand braucht es etwa eine Sekunde bis zum vollen Marschtempo. */
+const ACCT = { foot: 1, heavy: 1.3, cav: 1.6, beast: 0.8, fly: 0.8, siege: 2, giant: 1.5, camp: 1 };
 function moveU(u, dx, dy, mult, back) {
   const L = Math.hypot(dx, dy);
   if (L < 0.05) return false;
-  const al = back ? 0.6 : turnTo(u, Math.atan2(dy, dx)),
-    s = Math.min(L, u.spd * spF(u) * DT * (mult || 1) * al),
+  const al = back ? 0.6 : turnTo(u, Math.atan2(dy, dx));
+  u.acc = Math.min(1, (u.acc || 0) + DT / (ACCT[u.cls] || 1));
+  /* vorwärts: Anteil der Zielrichtung, der in Blickrichtung liegt; Einzelkämpfer drehen sofort */
+  const fwd = back || u.sg ? 1 : Math.max(0, Math.cos(Math.atan2(dy, dx) - u.fa)),
+    mvx = back || u.sg ? dx / L : u.ca,
+    mvy = back || u.sg ? dy / L : u.sa,
+    s = Math.min(L, u.spd * spF(u) * DT * (mult || 1) * al * (0.35 + 0.65 * u.acc)) * (fwd < 0.25 ? 0 : fwd),
     cx = v => Math.max(u.r, Math.min(GW - u.r, v)),
     cy = v => Math.max(u.r, Math.min(GH - u.r, v)),
-    nx = cx(u.x + (dx / L) * s),
-    ny = cy(u.y + (dy / L) * s),
+    nx = cx(u.x + mvx * s),
+    ny = cy(u.y + mvy * s),
     ox = u.x,
     oy = u.y;
+  if (s <= 0) return true;
   if (canStand(u.cls, nx, ny)) {
     u.x = nx;
     u.y = ny;
   } else {
     /* Hindernis (Ufer, Furtrand): seitlich versetzt weiterlaufen statt hängenzubleiben */
-    const a0 = Math.atan2(dy, dx);
+    const a0 = back || u.sg ? Math.atan2(dy, dx) : u.fa;
     let ok = false;
-    for (const da of [0.45, -0.45, 0.9, -0.9, 1.35, -1.35]) {
-      const x2 = cx(u.x + Math.cos(a0 + da) * s),
-        y2 = cy(u.y + Math.sin(a0 + da) * s);
+    /* nur kleine Ausweichschritte zur Seite; größere Umwege macht der Block durch Schwenken */
+    for (const da of [0.45, -0.45, 0.9, -0.9]) {
+      const x2 = cx(u.x + Math.cos(a0 + da) * s * 0.7),
+        y2 = cy(u.y + Math.sin(a0 + da) * s * 0.7);
       if (canStand(u.cls, x2, y2)) {
         u.x = x2;
         u.y = y2;
@@ -6428,15 +7400,18 @@ function computeV(us) {
     for (const o of al) {
       if (o.side === s) continue;
       const hid = CTX.hide[o.side] * 3 > CTX.t,
-        fo = inForest(o);
+        fo = inForest(o),
+        /* versteckt: Wald und Dorf ab 8, Kornfeld ab 15, Schattenläufer im Wald ab 3 */
+        lim = fo && U[o.t].stealth ? 3 : fo || hid || inVillage(o) ? 8 : inField(o) ? 15 : 0;
       for (const [w] of eyes) {
         const d = dist(w, o);
         if (!seesO(w, o)) continue;
-        if ((fo || hid) && d > (fo && U[o.t].stealth ? 3 : 8) + o.r + w.r) continue;
+        if (lim && d > lim + o.r + w.r) continue;
         if (o.shade && d > 15 + o.r + w.r) continue;
         V.add(o.id);
         break;
       }
+      if (!V.has(o.id) && CTX.eyes[s].some(e => Math.hypot(e.x - o.x, e.y - o.y) <= e.r + o.r)) V.add(o.id);
     }
     CTX.V[s] = V;
     for (const o of al)
@@ -6462,13 +7437,17 @@ function bu(u, side, bn) {
     has = k => sp3.includes(k),
     rngU = !!(B.rng || B.line),
     en = enchOf(u) || C.ench || (has('p') && rngU && !B.king ? 'f' : '');
-  if (has('e') && !B.king) st.arm += 1;
   if (has('o') && B.cls === 'cav') st.atk += 2;
-  if (B.king && has('t')) st.arm += 3;
+  /* Wachturm: Bollwerk (Stein III) verdoppelt LP, +2 Rüstung */
+  if (B.twr && has('t')) {
+    st.hp *= 2;
+    st.arm += 2;
+  }
   /* Erde: Rune +1 Rüstung; als Munition der Hochelfen +2 Angriff im Fernkampf */
-  const amR = en === 'r' && B.fac === 'he' && rngU ? 2 : 0;
-  if (en === 'r' && !amR) st.arm += 1;
-  const dk = en === 'd' || !!(u.b && u.b.dark) || u.ban === 'd';
+  const hasE = e => (en || '').includes(e),
+    amR = hasE('r') && B.fac === 'he' && rngU ? 2 : 0;
+  if (hasE('r') && !amR) st.arm += 1;
+  const dk = hasE('d') || !!(u.b && u.b.dark) || (u.ban || '').includes('d');
   if (sp) sp += C.spd || 0;
   const ic = i => (u.ins || []).filter(x => x === i).length;
   return {
@@ -6489,13 +7468,13 @@ function bu(u, side, bn) {
         ? 0
         : 7 + (B.tier || 1) + (u.ch ? CHR[u.ch.c].rk : 0) + (u.s > 1 ? 1 : 0) + (has('c') ? 2 : 0),
     rward: C.rward || 0,
-    bolt: C.bolt || (B.king && has('a') ? 6 : 0),
+    bolt: C.bolt || 0,
     wood: has('h'),
     rchg: has('l') && !rngU && !B.king,
     shld: has('k') && !B.king,
     rngB: has('n') && rngU ? 10 : 0,
     rgn: has('u') && !B.king ? 1 : 0,
-    vx: C.vis || 0,
+    vx: (C.vis || 0) + (bn && bn.vis ? bn.vis / 10 : 0),
     el: u.el || B.el || en || '',
     ench: en,
     amR,
@@ -6503,7 +7482,7 @@ function bu(u, side, bn) {
     shade: !!(B.shade || dk),
     fear: !!(B.fear || dk),
     rls: u.rel === 'va' || !!C.ls,
-    rth: (u.rel === 'th' ? 2 : 0) + 3 * ic('lg') + (C.th || 0) + (B.king && has('t') ? 3 : 0),
+    rth: (u.rel === 'th' ? 2 : 0) + 3 * ic('lg') + (C.th || 0) + 0,
     raura: (u.rel === 'ba' ? 1 : 0) + ic('ze') + (C.aura || 0),
     tw: ic('tw') > 0,
     trng: ic('tw') > 0 ? 30 : 0,
@@ -6633,6 +7612,10 @@ function hurt(t, v, us, src) {
   }
 }
 const effIni = o => o.ini - (inSwamp(o) ? 2 : 0);
+/* Fernkampf: bis zur halben Reichweite voller Schaden, danach fällt er bis auf RFMIN an der Grenze; RBASE dämpft allgemein */
+const RBASE = 0.7,
+  RFMIN = 0.4,
+  rFall = (d, R) => RBASE * (1 - (1 - RFMIN) * Math.max(0, Math.min(1, (d / R - 0.5) / 0.5)));
 function hit(u, t, us, pierce, ev, ranged, mult) {
   const B = U[u.t],
     T = U[t.t],
@@ -6649,7 +7632,9 @@ function hit(u, t, us, pierce, ev, ranged, mult) {
       : 0;
   /* Weihe-Banner der Orks (Umkreis 12, das Regiment selbst eingeschlossen) */
   const banN = (side, e, x) =>
-      us.some(o => o.hp > 0 && o.side === side && o.ban === e && (o === x || gapAB(o, x) <= 12)),
+      us.some(
+        o => o.hp > 0 && o.side === side && (o.ban || '').includes(e) && (o === x || gapAB(o, x) <= 12)
+      ),
     od = k => !!(CTX && CTX.ords[u.side].includes(k)),
     bonA =
       (banN(u.side, 'f', u) ? 1 : 0) +
@@ -6677,15 +7662,19 @@ function hit(u, t, us, pierce, ev, ranged, mult) {
   /* Sturmangriff: nach mindestens 8 Schritt Anlauf. Reiterei immer (×1,5, mit Ansturm ×2), sonst nur mit Ansturm.
      Wucht (Dichte des Angreifers) gegen Dichte des Ziels; im Wald kein Sturmangriff, Lanzenwall hebt ihn auf. */
   let chg = 0;
-  if (!ranged && (u.run || 0) >= 8 && (B.charge || u.rchg || B.cls === 'cav') && !inForest(u)) {
+  /* Gelände gegen Sturmangriff: Wald, Geröll (Reiterei), Dorf (gegen Reiterei), Hecke vor dem Ziel */
+  const noChg = inForest(u) || (B.cls === 'cav' && (inRubble(u) || inVillage(t))) || nearHedge(t),
+    tDen = (t.den || 2) - (inRuin(t) ? 1 : 0);
+  if (!ranged && (u.run || 0) >= 8 && (B.charge || u.rchg || B.cls === 'cav') && noChg) u.run = 0;
+  if (!ranged && (u.run || 0) >= 8 && (B.charge || u.rchg || B.cls === 'cav') && !noChg) {
     u.run = 0;
     if (!T.pike) {
       const base = (B.charge || u.rchg ? 2 : 1.5) + (u.sta === 'wedge' ? 0.4 : 0) + (od('joust') ? 0.5 : 0),
-        f = Math.max(0.5, Math.min(1.6, 1 + 0.15 * ((u.den || 2) - (t.den || 2))));
+        f = Math.max(0.5, Math.min(1.6, 1 + 0.15 * ((u.den || 2) - tDen)));
       a = Math.round(a * base * f);
       chg = 1;
       if (ev) ev.charge = 1;
-      if ((u.den || 2) > (t.den || 2) && !t.flee) t.mtq = t.mtq || 'charge';
+      if ((u.den || 2) > tDen && !t.flee) t.mtq = t.mtq || 'charge';
     }
   }
   if (B.warcry && !ranged && !u.wcU) {
@@ -6711,7 +7700,9 @@ function hit(u, t, us, pierce, ev, ranged, mult) {
   }
   if (B.pierceM && !ranged) pierce = 1;
   let v = pierce
-    ? a
+    ? CTX && CTX.hard[t.side]
+      ? Math.max(Math.ceil(a / 2), a - Math.floor(t.arm / 2))
+      : a
     : Math.max(
         Math.ceil(a / 2),
         a -
@@ -6720,10 +7711,14 @@ function hit(u, t, us, pierce, ev, ranged, mult) {
           ward -
           (banN(t.side, 'r', t) ? 1 : 0) -
           (T.dig && t.stl >= 1 ? 2 : 0) -
-          (inFort(t) ? 2 : 0) +
+          (inFort(t) ? 2 : 0) -
+          (inRuin(t) || inVillage(t) ? 1 : 0) +
           (inSwamp(t) ? 1 : 0)
       );
-  if (ranged && inForest(t)) v = Math.ceil(v / 2);
+  /* Deckung gegen Fernkampf: Wald und Dorf halb, Ruinen −⅓, Hecke −1 */
+  if (ranged && (inForest(t) || inVillage(t))) v = Math.ceil(v / 2);
+  else if (ranged && inRuin(t)) v = Math.ceil((v * 2) / 3);
+  if (ranged && v > 1 && nearHedge(t)) v -= 1;
   if (T.dcap) v = Math.min(v, T.dcap);
   if (ranged && T.mist) v = 0;
   if (ranged && T.rhalf) v = Math.ceil(v / 2);
@@ -6735,6 +7730,11 @@ function hit(u, t, us, pierce, ev, ranged, mult) {
     if (ev) ev.block = 1;
   }
   if (t.flee) v *= 2;
+  /* merken, wer uns beschießt – für die eigenständige Taktik (Sturm auf die Schützen) */
+  if (ranged && CTX && v > 0) {
+    t.rhT = CTX.t;
+    t.rSrc = u.id;
+  }
   hurt(t, v, us, u);
   if (t.mtq) {
     const w = t.mtq;
@@ -6757,7 +7757,7 @@ function hit(u, t, us, pierce, ev, ranged, mult) {
     us.filter(o => foe(o) && o !== t && gapAB(o, t) <= 4).forEach(o =>
       hurt(o, Math.max(1, Math.floor(v / 2)), us, u)
     );
-  if (B.push && !ranged && t.hp > 0 && !imm && t.ench !== 'r') {
+  if (B.push && !ranged && t.hp > 0 && !imm && !(t.ench || '').includes('r')) {
     const d = dist(u, t) || 1,
       ux = (t.x - u.x) / d,
       uy = (t.y - u.y) / d;
@@ -6801,21 +7801,22 @@ function hit(u, t, us, pierce, ev, ranged, mult) {
     if (ev && ch.length) ev.chain = ch;
   }
   if (u.ench && t.hp > 0 && !imm) {
-    if (u.ench === 'f') {
+    if (u.ench.includes('f')) {
       t.burnT = 2;
       t.burnV = Math.max(t.burnV, 1 + u.st);
       if (ev) ev.fire = 1;
-    } else if (u.ench === 'i' && !u.fcd) {
+    }
+    if (u.ench.includes('i') && !u.fcd) {
       t.frz = now + 1.6;
       u.fcd = 2;
       if (ev) ev.freeze = 1;
     }
   }
-  if (u.ench === 'd' && ranged && t.hp > 0 && !imm && !T.king && now >= (t.dkT || 0)) {
+  if ((u.ench || '').includes('d') && ranged && t.hp > 0 && !imm && !T.king && now >= (t.dkT || 0)) {
     t.dkT = now + 3;
     morTest(t, us, 'fear');
   }
-  if (u.ench === 'b') {
+  if ((u.ench || '').includes('b')) {
     const o = us
       .filter(o => foe(o) && o !== t && dist(o, t) <= 12)
       .sort((p, q) => dist(p, t) - dist(q, t))[0];
@@ -6889,7 +7890,7 @@ function turnFx(u, us, ev) {
     };
   let tf = 0;
   if (B.burnF && CTX.w !== 'regen') {
-    const p = find(7, i => R.ter[i] === 1);
+    const p = find(7, i => R.ter[i] === 1 || R.ter[i] === TC.field);
     if (p && addMod({ k: 'A', x: p[0], y: p[1], r: 4 })) {
       tf = 1;
       foes.filter(o => Math.hypot(o.x - p[0], o.y - p[1]) <= 4 + o.r).forEach(o => hurt(o, 2, us, u));
@@ -7027,7 +8028,7 @@ function act(u, us, ev) {
       morTest(o, us, 'fear')
     );
   }
-  if (u.ban === 'i' && t >= (u.bnT || 0)) {
+  if ((u.ban || '').includes('i') && t >= (u.bnT || 0)) {
     u.bnT = t + 2;
     us.filter(o => o.hp > 0 && o.side === u.side && !U[o.t].king && (o === u || gapAB(o, u) <= 12)).forEach(
       o => {
@@ -7092,11 +8093,13 @@ function act(u, us, ev) {
     ready = u.cd <= 0,
     rb = (onHill(u) ? 10 : 0) - (CTX.w === 'sturm' ? 10 : 0),
     gap = o => gapAB(u, o),
-    E = (k, o, x) =>
-      Object.assign(
+    E = (k, o, x) => {
+      if (k === 'shot') u.shT = CTX.t; /* für die Seitenleiste: „schießt“ */
+      return Object.assign(
         { k, a: [u.x, u.y], b: [o.x, o.y], id: u.id, tid: o.id, side: u.side, n: u.t, tn: o.t },
         x || {}
-      ),
+      );
+    },
     fire = () => {
       u.cd = intv;
       if (u.scd) u.scd--;
@@ -7136,6 +8139,7 @@ function act(u, us, ev) {
     },
     still = () => {
       u.stl += DT;
+      u.acc = 0;
       if (u.stl > 3) u.run = 0;
     };
   if (u.col && foesA.some(o => gapAB(u, o) <= 18)) {
@@ -7229,11 +8233,11 @@ function act(u, us, ev) {
       if (ready && !aim(pickS(inR))) return still();
       if (ready) {
         const tt = pickS(inR),
-          e = shoot(tt, B.pierce, B.volley ? 0.55 : 1);
+          e = shoot(tt, B.pierce, (B.volley ? 0.55 : 1) * rFall(gap(tt), RR));
         if (B.volley) {
           const t2 = low(foes.filter(o => o.hp > 0 && gap(o) <= RR && los(u, o)));
           if (t2) {
-            const v2 = hit(u, t2, us, B.pierce, null, 1, 0.55);
+            const v2 = hit(u, t2, us, B.pierce, null, 1, 0.55 * rFall(gap(t2), RR));
             if (t2 === tt) e.v += v2;
             else e.extra = [[t2.x, t2.y, v2]];
           }
@@ -7262,7 +8266,7 @@ function act(u, us, ev) {
       if (ready && !aim(pickS(inR))) return still();
       if (ready) {
         const tt = pickS(inR),
-          e = shoot(tt, 1);
+          e = shoot(tt, 1, rFall(gap(tt), LR));
         if (B.thru) {
           const an = Math.atan2(tt.y - u.y, tt.x - u.x),
             cs = Math.cos(an),
@@ -7312,17 +8316,22 @@ function act(u, us, ev) {
       return still();
     }
   }
+  const shotAt = !isRanged(u.t) && CTX.t - (u.rhT ?? -99) < 3;
   if (
     B.king ||
     u.ord === 'halt' ||
     u.ord === 'counter' ||
     u.ord === 'forest' ||
-    (u.ord === 'hill' && onHill(u)) ||
+    (u.ord === 'hill' && onHill(u) && !shotAt) ||
     u.root > t ||
     foesA.some(o => U[o.t].frostf && gap(o) <= 4)
   )
     return still();
-  if (CTX.mor[u.side] < 25 && al.filter(o => !U[o.t].king).length > 2 && u.ord !== 'raid') return still();
+  /* Unter Beschuss (Treffer in den letzten 3 s) und selbst kein Schütze: nicht stehen bleiben, sondern auf die Schützen */
+  const shooter = shotAt ? foesA.find(o => o.id === u.rSrc) : null,
+    meleeNear = foesA.some(o => !isRanged(o.t) && !U[o.t].king && gap(o) <= 10);
+  if (CTX.mor[u.side] < 25 && al.filter(o => !U[o.t].king).length > 2 && u.ord !== 'raid' && !shooter)
+    return still();
   const myC = al.find(o => U[o.t].king),
     eC = foesA.find(o => U[o.t].king) || CTX.camp[1 - u.side],
     /* Ziel ohne Sicht: bekanntes Lager, sonst zuletzt gesehener Feind, sonst geradeaus vorrücken */
@@ -7389,7 +8398,15 @@ function act(u, us, ev) {
     }
   }
   let goal = null;
-  if (u.ord === 'guard' && myC && al.some(o => !U[o.t].king && o.ord !== 'guard' && o.ord !== 'halt')) {
+  /* Lage der eigenen Seite: ausgeschossen (CTX.ag) → Leibwachen geben das Lager frei und alle rücken vor */
+  const ag = CTX.ag[u.side];
+  if (shooter && !meleeNear) goal = shooter;
+  else if (
+    u.ord === 'guard' &&
+    !ag &&
+    myC &&
+    al.some(o => !U[o.t].king && o.ord !== 'guard' && o.ord !== 'halt')
+  ) {
     /* Leibwache: zurück zum Lager erst ab 45 Schritt Abstand, wieder frei ab 22 – sonst pendelt sie hin und her */
     const dc = dist(u, myC);
     if (dc > 45) u.gRet = true;
@@ -7397,8 +8414,8 @@ function act(u, us, ev) {
     if (u.gRet) goal = myC;
     else {
       const th = foes.filter(o => dist(o, myC) <= 50);
-      if (!th.length) return still();
-      goal = nearS(th);
+      if (!th.length && !shooter) return still();
+      goal = th.length ? nearS(th) : shooter;
     }
   } else if (u.ord === 'raid') goal = known();
   else if (u.ord === 'hill' && hillPt(u)) goal = hillPt(u);
@@ -7416,9 +8433,17 @@ function act(u, us, ev) {
   ) {
   } else {
     let pool = foes;
-    if (u.ord === 'hunt') {
-      const rf = foes.filter(o => isRanged(o.t) && !U[o.t].king);
-      if (rf.length) pool = rf;
+    const rf = foes.filter(o => isRanged(o.t) && !U[o.t].king);
+    if (u.ord === 'hunt' && rf.length) pool = rf;
+    /* ausgeschossen: Nahkämpfer suchen die Schützen, wenn sie nicht viel weiter weg sind als der nächste Feind */ else if (
+      ag &&
+      !isRanged(u.t) &&
+      rf.length &&
+      foes.length
+    ) {
+      const nA = near(foes),
+        nR = near(rf);
+      if (dist(u, nR) <= dist(u, nA) * 1.6 + 6) pool = rf;
     }
     goal = pool.length ? nearS(pool) : known();
     goal = flankGoal(u, goal, al) || goal;
@@ -7465,6 +8490,16 @@ function act(u, us, ev) {
     }
   } else still();
 }
+/* Lagebeurteilung je Seite (alle 2 s): Feuerkraft der Schützen beider Seiten vergleichen.
+   Ist der Gegner deutlich stärker im Fernkampf (×1,3), wartet man nicht ab, sondern greift an (CTX.ag). */
+function assess(us) {
+  const fp = s =>
+    us
+      .filter(o => o.hp > 0 && o.side === s && !U[o.t].king && (isRanged(o.t) || o.trng))
+      .reduce((a, o) => a + o.atk * (o.hp / o.max) * (U[o.t].volley ? 1.4 : 1) + (o.trng ? 2 : 0), 0);
+  const f = [fp(0), fp(1)];
+  for (const s of [0, 1]) CTX.ag[s] = f[1 - s] > 0 && f[1 - s] > f[s] * 1.3 + 1;
+}
 function simulate(pl, en, noFrames, b0, b1, opt) {
   opt = opt || {};
   const m = opt.map || null,
@@ -7477,6 +8512,11 @@ function simulate(pl, en, noFrames, b0, b1, opt) {
     form: opt.form || ['', ''],
     hide: opt.hide || [0, 0],
     vb: opt.vb || [0, 0],
+    /* Arkane Augen je Seite: [{x, y, r}] – alles im Kreis ist sichtbar */
+    eyes: opt.eyes || [[], []],
+    ag: [false, false],
+    /* Gehärteter Stahl (Eisen III): Durchschlag gegen diese Seite wirkt nur halb */
+    hard: [!!(b0 && b0.sp && b0.sp.includes('e')), !!(b1 && b1.sp && b1.sp.includes('e'))],
     ords: opt.ords || [[], []],
     t: 0,
     ff: new Map(),
@@ -7509,8 +8549,16 @@ function simulate(pl, en, noFrames, b0, b1, opt) {
     const c = us.find(o => o.side === s && U[o.t].king);
     return c ? { x: c.x, y: c.y } : { x: GW / 2, y: s ? 12 : GH - 12 };
   });
+  /* Zustand für die Seitenleiste: f flieht, m Nahkampf, s schießt, w marschiert, h steht */
+  const actOf = o => {
+    const mv = o._sx != null && Math.hypot(o.x - o._sx, o.y - o._sy) > 0.05;
+    o._sx = o.x;
+    o._sy = o.y;
+    return o.flee ? 'f' : o.pin ? 'm' : CTX.t - (o.shT ?? -9) <= 2.5 ? 's' : mv ? 'w' : 'h';
+  };
   const kd = s => us.some(o => o.side === s && U[o.t].king && o.hp <= 0),
-    alive = s => !kd(s) && CTX.mor[s] > 0 && us.some(o => o.side === s && o.hp > 0 && !U[o.t].king),
+    alive = s =>
+      !kd(s) && CTX.mor[s] > 0 && us.some(o => o.side === s && o.hp > 0 && !U[o.t].king && !U[o.t].twr),
     snap = ev => ({
       t: CTX.t,
       us: us
@@ -7535,7 +8583,16 @@ function simulate(pl, en, noFrames, b0, b1, opt) {
           sg: o.sg ? 1 : 0,
           ch: o.ch || '',
           fl: o.flee ? 1 : 0,
-          vr: o.side ? 0 : U[o.t].king ? visR(o) : visC(o)
+          en: o.ench || '',
+          bn: o.ban || '',
+          au: U[o.t].aura || o.raura || o.ban ? 1 : 0,
+          vr: o.side ? 0 : U[o.t].king ? visR(o) : visC(o),
+          n0: o.sg ? 0 : o.n0,
+          ld: o.ld,
+          atk: o.atk,
+          arm: o.arm,
+          ac: actOf(o),
+          sx: (o.burnT > 0 ? 'b' : '') + (o.frz > CTX.t ? 'z' : '') + (o.root > CTX.t ? 'r' : '')
         })),
       ev,
       v0: [...CTX.V[0]],
@@ -7548,6 +8605,7 @@ function simulate(pl, en, noFrames, b0, b1, opt) {
   for (let k = 0; k < 400 && alive(0) && alive(1); k++) {
     CTX.t += DT;
     computeV(us);
+    if (k % 4 === 0) assess(us);
     const ev = [];
     CTX.ev = ev;
     const hp0 = us.reduce((s, o) => s + Math.max(0, o.hp), 0);
@@ -7837,9 +8895,10 @@ function combine(a, b, pool) {
   a.f += b.f;
   if (!a.pos) a.pos = b.pos;
 }
-const capN = r => Math.min(14, 6 + Math.floor((r - 1) * 0.8));
-const BMAX = 10;
-const cap = () => capN(rEq(S.round));
+/* Feldlimit: Schlacht 1 → 3 Regimenter, danach +1 je Schlacht, höchstens 10. Die Armee selbst ist unbegrenzt. */
+const capN = b => Math.min(10, 2 + b);
+const BMAX = Infinity;
+const cap = () => capN(S.round);
 /* Lager als Inventar: gleiche Steine (Rohstoff + Güte) bzw. Gegenstände bilden einen Stapel mit Zähler */
 const stKey = st => (st.type === 'rel' ? 'r' + st.r + ':' + (st.q || 0) : st.k + ':' + stQ(st)),
   stGroups = () => {
@@ -7967,6 +9026,7 @@ function aiOrders() {
 }
 function startRound() {
   const dr = isDraftR(S.round);
+  if (S.fac) syncPieces(true);
   S.picks = (dr ? DRP * DRS : 0) + S.extra;
   S.ppx = S.extra;
   S.extra = 0;
@@ -8077,6 +9137,7 @@ function advance() {
 function draftDone() {
   S.step = 'build';
   S.ai.forEach(ai => aiBuild(ai, rEq(S.round)));
+  syncPieces();
   S.enemy = S.opp.army;
   S.booster = [];
   S.msg = `Draft abgeschlossen. ${S.ename} hat aufgestellt – „Gegner zeigen“ zeigt die Armee.`;
@@ -8658,6 +9719,29 @@ function prev() {
   S.selE = null;
 }
 
+/* Verzauberungs-Fenster: ein oder zwei Element-Steine direkt auf ein Regiment (Rune, Munition oder Banner) */
+function encApply(v) {
+  const [si, uid] = String(v).split('|'),
+    idx = si.split(',').map(Number),
+    sts = idx.map(i => S.stash[i]),
+    u = gu(+uid);
+  if (!u || sts.some(st => !canEnch(u, st))) return;
+  if (sts.length === 2 && sts[0].k === sts[1].k) return;
+  const key = sts.length === 2 ? mix(RES[sts[0].k].el, RES[sts[1].k].el) : RES[sts[0].k].el;
+  applyEl(u, key);
+  idx.sort((a, b) => b - a).forEach(i => S.stash.splice(i, 1));
+  S.selS = [];
+  S.selU = [];
+  S.msg = `${U[u.t].n}: ${elTxt(u)}.`;
+}
+/* Barbaren: Element-Stein direkt an ein Regiment verfüttern */
+function feedApply(v) {
+  const [i, uid] = String(v).split('|').map(Number);
+  S.selS = [i];
+  S.selU = [uid];
+  feedA();
+}
+
 /* Steinheer · KI-Gegner */
 const AIN = [
   'Aschenbanner',
@@ -8919,7 +10003,34 @@ function fight() {
     }
   }
   aiDuel();
-  const r = simulate(fielded(), S.enemy, false, b0, b1, {
+  /* Silber: Söldner (ein fremdes Grundregiment kämpft mit), Bestechung (schwächstes feindliches Regiment fehlt) */
+  const extra = [];
+  if (O.includes('merc')) {
+    const L = UBASE.filter(r => r[0] !== S.fac),
+      m = mk(L[rnd(L.length)][1], '');
+    place([m], 0, S.map);
+    extra.push(m);
+    S.merc = U[m.t].n + ' (' + FAC[U[m.t].fac].n + ')';
+  } else S.merc = '';
+  let foes = S.enemy;
+  S.bribed = '';
+  if (O.includes('bribe')) {
+    const c = foes
+      .filter(u => !U[u.t].king && !U[u.t].cre)
+      .sort((a, b) => stats(a).hp * stats(a).atk - stats(b).hp * stats(b).atk)[0];
+    if (c) {
+      foes = foes.filter(u => u !== c);
+      S.bribed = U[c.t].n;
+    }
+  }
+  /* Sammelboni: Türme (Stein) und Arkane Augen (Arkan) beider Seiten */
+  syncPieces();
+  const aiP = aiPieces(S.opp.col);
+  S.eyes = [eyeList(S.pieces, lvl(S.col, 'a')), eyeList(aiP, lvl(S.opp.col, 'a'))];
+  const myT = towerUnits(S.pieces),
+    foeT = towerUnits(aiP);
+  const r = simulate([...fielded(), ...extra, ...myT], [...foes, ...foeT], false, b0, b1, {
+    eyes: S.eyes,
     form: [S.form && hasCmd(S.units) ? S.form : '', S.opp.form || ''],
     map: S.map,
     w: S.wx,
@@ -8958,6 +10069,7 @@ function fight() {
   rec('', r.out);
   rec(S.opp.n, { win: 'loss', loss: 'win' }[r.out] || 'draw');
   S.fi = 0;
+  S.selB = null;
   S.phase = 'battle';
   clear();
   play();
@@ -9025,7 +10137,7 @@ function next() {
     S.ropts = MAPS.map((_, i) => i)
       .filter(i => i !== S.map.i)
       .sort(() => Math.random() - 0.5)
-      .slice(0, 2);
+      .slice(0, 3);
     const nx = S.ai[S.round % S.ai.length];
     S.msg = `Schlacht ${S.round} geschlagen. Nächster Gegner: ${nx.n} · ${FAC[nx.fac].n}. Wähle das nächste Schlachtfeld.`;
   }
@@ -9074,6 +10186,10 @@ function route(i) {
 }
 function ord(k) {
   if (S.phase !== 'build' || (ORD[k].fac && ORD[k].fac !== S.fac)) return;
+  if (ORD[k].sil && lvl(S.col, 's') < ORD[k].sil) {
+    S.msg = `${ORD[k].n} braucht Silber Stufe ${ORD[k].sil} (Sammelbonus).`;
+    return;
+  }
   const c = ORD[k].c;
   if (S.orders.includes(k)) {
     if (k === 'fort' && S.forts < 3) {
@@ -9114,39 +10230,213 @@ function restart() {
   newRun();
 }
 
+/* Steinheer · Aufstellbares aus Sammelboni: Wachtürme (Stein) und Arkane Augen (Arkan)
+   Spieler: S.pieces = [{ k: 'twr' | 'eye', x, y }] – beim Aufstellen per Ziehen verschiebbar.
+   Gegner: werden automatisch gesetzt. */
+const EYER = [0, 15, 22, 30] /* Radius des Arkanen Auges je Arkan-Stufe */,
+  PIECE_HIT = 3.2;
+const eyeCount = L => (L >= 3 ? 2 : L >= 1 ? 1 : 0);
+/* Zahl der Türme und Augen an die Sammelboni anpassen; neue bekommen Standardplätze */
+function syncPieces(reset) {
+  const b = bonus(S.col),
+    want = { twr: b.towers, eye: eyeCount(b.eye) };
+  if (reset || !S.pieces) S.pieces = [];
+  for (const k of ['twr', 'eye']) {
+    const have = S.pieces.filter(p => p.k === k);
+    for (let i = have.length; i < want[k]; i++) S.pieces.push(defaultPiece(k, i));
+    for (let i = want[k]; i < have.length; i++) S.pieces.splice(S.pieces.indexOf(have[i]), 1);
+  }
+}
+function defaultPiece(k, i) {
+  if (k === 'eye') return { k, x: GW * (i ? 0.7 : 0.35), y: GH * 0.3 };
+  const R = baked(S.map);
+  for (let n = 0; n < 200; n++) {
+    const x = GW * (0.2 + 0.3 * i) + (Math.random() - 0.5) * (6 + n * 0.3),
+      y = ZY + 6 + Math.random() * 10;
+    if (pieceOK({ k }, x, y, R)) return { k, x: +x.toFixed(1), y: +y.toFixed(1) };
+  }
+  return { k, x: GW * (0.2 + 0.3 * i), y: ZY + 8 };
+}
+/* Türme nur in der eigenen Aufstellungszone auf festem Boden, Augen überall */
+function pieceOK(p, x, y, R) {
+  if (x < 1 || x > GW - 1 || y < 1 || y > GH - 1) return false;
+  if (p.k === 'eye') return true;
+  return y >= ZY + 2 && spotRect(R || baked(S.map), 'siege', x, y, 3.6, 3.6);
+}
+function movePiece(p, x, y) {
+  if (!pieceOK(p, x, y)) {
+    S.msg = p.k === 'twr' ? 'Türme nur in deinem Aufstellungsstreifen und nicht im Wasser.' : '';
+    return;
+  }
+  p.x = +x.toFixed(1);
+  p.y = +y.toFixed(1);
+  S.msg = '';
+}
+const pieceAt = (x, y) => (S.pieces || []).find(p => Math.hypot(p.x - x, p.y - y) <= PIECE_HIT);
+/* Für die Schlacht: Turm-Einheiten und Augen einer Seite */
+function towerUnits(pcs) {
+  return pcs
+    .filter(p => p.k === 'twr')
+    .map(p => {
+      const u = mk('TWR', '');
+      u.pos = { x: p.x, y: p.y };
+      return u;
+    });
+}
+const eyeList = (pcs, L) =>
+  pcs.filter(p => p.k === 'eye').map(p => ({ x: p.x, y: p.y, r: EYER[Math.min(3, L)] }));
+/* Gegner: Türme vor dem eigenen Lager, Augen über deiner Seite */
+function aiPieces(col) {
+  const b = bonus(col),
+    T = Array.from({ length: b.towers }, () => mk('TWR', ''));
+  place(T, 1, S.map);
+  const pcs = T.map(u => ({ k: 'twr', x: u.pos.x, y: u.pos.y }));
+  for (let i = 0; i < eyeCount(b.eye); i++) pcs.push({ k: 'eye', x: GW * (i ? 0.3 : 0.65), y: GH * 0.7 });
+  return pcs;
+}
+/* Zeichnen (Aufstellung): Turm als Zinnen-Symbol, Auge mit Sichtkreis */
+function piecesSVG(pcs, live) {
+  const L = lvl(S.col, 'a');
+  return (pcs || [])
+    .map(p =>
+      p.k === 'eye'
+        ? `<g class="peye"><circle cx="${p.x}" cy="${p.y}" r="${EYER[Math.min(3, L)]}" class="peyr"/><ellipse cx="${p.x}" cy="${p.y}" rx="2.4" ry="1.4" class="peyo"/><circle cx="${p.x}" cy="${p.y}" r="0.8" class="peyp"/></g>`
+        : live
+          ? ''
+          : `<g class="ptwr"><rect x="${p.x - 1.6}" y="${p.y - 1.6}" width="3.2" height="3.2" rx="0.3"/><path d="M${p.x - 1.6} ${p.y - 1.6}v-0.8h0.8v0.5h0.8v-0.5h0.8v0.5h0.8v-0.5h0.8v0.8z"/></g>`
+    )
+    .join('');
+}
+
 /* Steinheer · Grafiken: Plaketten, Steine, Symbole */
 const RIM = ['', '#b07a3a', '#d3d9e1', '#f2c64c'];
 const EIC = { f: '#4a1205', i: '#0c2a52', b: '#1d3340', r: '#2a1a0c', d: '#e6d8ff' };
 MK.forEach(k => (EIC[k] = '#1c0e0a'));
+/* Eigene Symbole für Einheiten, die sich bisher ein Symbol teilten (Kombis erben sie als Grundsymbol) */
+const SYMX = {
+  bKX: 'u-cauldron',
+  bSC: 'u-skull',
+  bFT: 'u-torch',
+  ePE: 'u-javelin',
+  eHO: 'u-shspear',
+  eKN: 'u-skull',
+  eSN: 'u-moon',
+  eOR: 'u-eye',
+  eGM: 'u-vial',
+  eSI: 'u-harp',
+  zJS: 'u-bolts',
+  zKB: 'u-ballista',
+  zKR: 'u-xcrown',
+  zFL: 'u-firelance',
+  zSN: 'u-medic',
+  hPL: 'u-arrows',
+  hAK: 'u-musket',
+  hMU: 'u-blunder'
+};
+Object.entries(SYMX).forEach(([t, s]) => U[t] && !U[t].par && (U[t].sym = s));
+/* Plaketten-Form je Volk: Zwerge Achteck, Hochelfen Tropfen, Dunkelelfen Raute, Orks Wappenschild, Barbaren gezackt.
+   Wesen (mit Element) bleiben rund. */
+const polyP = (n, r, a0) =>
+  'M' +
+  [...Array(n)]
+    .map((_, i) => {
+      const a = ((a0 + (360 / n) * i) * Math.PI) / 180;
+      return (24 + r * Math.cos(a)).toFixed(2) + ' ' + (24 + r * Math.sin(a)).toFixed(2);
+    })
+    .join('L') +
+  'Z';
+const jagP = () =>
+  'M' +
+  [...Array(28)]
+    .map((_, i) => {
+      const a = (i * Math.PI) / 14 - Math.PI / 2,
+        r = i % 2 ? 19.4 : 22.4;
+      return (24 + r * Math.cos(a)).toFixed(2) + ' ' + (24 + r * Math.sin(a)).toFixed(2);
+    })
+    .join('L') +
+  'Z';
+const FSH = {
+  zw: polyP(8, 21.6, 22.5),
+  he: 'M24 1.4C34.4 8.2 42.8 16.4 42.8 27.4 42.8 38.4 34.4 46.4 24 46.4 13.6 46.4 5.2 38.4 5.2 27.4 5.2 16.4 13.6 8.2 24 1.4Z',
+  de: 'M24 1.2L46.4 24 24 46.8 1.6 24Z',
+  or: 'M24 2.6L42.4 6.8V22C42.4 33.4 34 41.2 24 45.6 14 41.2 5.6 33.4 5.6 22V6.8Z',
+  ba: jagP()
+};
+const FSHN = { zw: 'Achteck', he: 'Tropfen', de: 'Raute', or: 'Wappenschild', ba: 'gezackter Rand' };
+/* Volk einer Plakette: Einheiten tragen es selbst, das Lager gehört der jeweiligen Seite */
+const tokFac = (T, side) =>
+  T.king ? (typeof S !== 'undefined' && S ? (side ? S.opp && S.opp.fac : S.fac) : '') : T.fac;
 function tokSVG(t, side, st, el0) {
   const T = U[t],
     el = T.el || '',
     rim = T.king ? '#f2c64c' : RIM[T.tier],
     ic = el ? EIC[el] : side ? '#f8ecd8' : '#3a1b20',
     bd = badgeOf(t);
+  const fac = tokFac(T, side),
+    shp = !el && FSH[fac],
+    inner = (sc, extra) =>
+      shp
+        ? `<path d="${shp}" transform="translate(24 24) scale(${sc}) translate(-24 -24)" fill="none" stroke="${rim}" ${extra}/>`
+        : `<circle cx="24" cy="24" r="${(19.6 * sc).toFixed(1)}" fill="none" stroke="${rim}" ${extra}/>`;
   let h = '<svg viewBox="0 0 48 48">';
   if (el)
     h += `<circle cx="24" cy="24" r="22.6" fill="none" stroke="${side ? '#c0353f' : '#f3e6cf'}" stroke-width="3"/>`;
-  h += `<circle cx="24" cy="24" r="19.6" fill="url(#${el ? 'e' + el : side ? 'gE' : 'gP'})" stroke="${rim}" stroke-width="${T.tier === 3 ? 3.4 : 2.4}"/>`;
-  if (T.tier === 3)
-    h += `<circle cx="24" cy="24" r="16.3" fill="none" stroke="${rim}" stroke-width=".9" stroke-dasharray="1.6 1.8"/>`;
-  if (T.tier === 2)
-    h += `<circle cx="24" cy="24" r="16.6" fill="none" stroke="${rim}" stroke-width=".6" opacity=".7"/>`;
+  const fill = `fill="url(#${el ? 'e' + el : side ? 'gE' : 'gP'})" stroke="${rim}" stroke-width="${T.tier === 3 || T.king ? 3.2 : 2.3}" stroke-linejoin="round"`;
+  h += shp ? `<path d="${shp}" ${fill}/>` : `<circle cx="24" cy="24" r="19.6" ${fill}/>`;
+  if (T.tier === 3) h += inner(0.83, 'stroke-width=".9" stroke-dasharray="1.6 1.8"');
+  if (T.tier === 2) h += inner(0.85, 'stroke-width=".7" opacity=".7"');
   const bf = el ? '#2a1216' : side ? '#f3e6cf' : '#4a1d23',
     bi = el ? '#f3e6cf' : side ? '#4a1d23' : '#f3e6cf';
   const mi = T.icon ? 'u-' + T.icon : baseOf(t);
+  /* Kombi-Wappen: schräg geteilt (Schrägbalken in Stufenfarbe), oben links die erste, unten rechts die zweite Herkunft;
+     Stufe 3 trägt zusätzlich eine Krone */
   h += bd
-    ? `<use href="#${mi}" x="10" y="9" width="21" height="21" style="color:${ic}"/><circle cx="35.5" cy="34.5" r="8.4" fill="${bf}" stroke="${rim}" stroke-width="1.4"/><use href="#${bd}" x="30" y="29" width="11" height="11" style="color:${bi}"/>`
-    : `<use href="#${baseOf(t)}" x="12" y="11" width="24" height="24" style="color:${ic}"/>`;
+    ? `<path d="M11.5 39.5L39.5 11.5" stroke="#2a1216" stroke-width="5.6" stroke-linecap="round" opacity=".55"/><path d="M11.5 39.5L39.5 11.5" stroke="${rim}" stroke-width="3.4" stroke-linecap="round"/><use href="#${mi}" x="7.2" y="7.2" width="17.5" height="17.5" style="color:${ic}"/><use href="#${bd}" x="24.4" y="24.4" width="16" height="16" style="color:${ic}"/>` +
+      (T.tier === 3
+        ? `<path d="M16.5 8.2l1.4-6.6 3.6 3.2 2.5-4.2 2.5 4.2 3.6-3.2 1.4 6.6z" fill="#f2c64c" stroke="#2a1216" stroke-width="1" stroke-linejoin="round"/>`
+        : '')
+    : `<use href="#${T.king && fac && FSH[fac] ? 'camp-' + fac : baseOf(t)}" x="12" y="11" width="24" height="24" style="color:${ic}"/>`;
   if (el)
     [...el].forEach((c, i) => {
       const cx = i ? 37.5 : 10.5;
       h += `<circle cx="${cx}" cy="10.5" r="7.6" fill="#2a1216" stroke="${EL[c].c}" stroke-width="1.6"/><use href="#ic-${c}" x="${cx - 5}" y="5.5" width="10" height="10" style="color:${EL[c].c}"/>`;
     });
   if (st > 1)
-    h += `<text x="${bd ? 18 : 24}" y="43.5" text-anchor="middle" font-size="8.5" font-weight="700" fill="#f2c64c" stroke="#2a1216" stroke-width="1.6" paint-order="stroke">${'★'.repeat(st)}</text>`;
-  if (el0 && !T.el && EL[el0] && el0.length === 1)
+    h += `<text x="${bd ? 15 : 24}" y="${bd ? 42 : 43.5}" text-anchor="middle" font-size="8.5" font-weight="700" fill="#f2c64c" stroke="#2a1216" stroke-width="1.6" paint-order="stroke">${'★'.repeat(st)}</text>`;
+  if (el0 && !T.el && EL[el0] && el0.length === 1 && bd)
+    h += `<circle cx="39" cy="9" r="7.4" fill="#2a1216" stroke="${EL[el0].c}" stroke-width="1.8"/><use href="#ic-${el0}" x="34.8" y="4.8" width="8.4" height="8.4" style="color:${EL[el0].c}"/>`;
+  else if (el0 && !T.el && EL[el0] && el0.length === 1)
     h += `<circle cx="9" cy="39" r="8" fill="#2a1216" stroke="${EL[el0].c}" stroke-width="1.8"/><use href="#ic-${el0}" x="4.5" y="34.5" width="9" height="9" style="color:${EL[el0].c}"/>`;
+  return h + '</svg>';
+}
+/* Feldzeichen über einem Regiment: Fahne in Volksform, Symbol (bei Kombis das Wappen), Sterne */
+const FLAG = {
+  ba: 'M7 7H37V30L34 33.5 31 30 28 34 25 30 22 34 19 30 16 34 13 30 10 33.5 7 30Z',
+  de: 'M7 7H37V27L22 42 7 27Z',
+  zw: 'M7 7H37V31H33V35H11V31H7Z',
+  or: 'M7 7H37V39L22 29.5 7 39Z',
+  he: 'M7 7H37V26C37 34.5 30.5 40 22 40 13.5 40 7 34.5 7 26Z'
+};
+function bannerSVG(t, side, st, el0) {
+  const T = U[t],
+    fac = tokFac(T, side),
+    rim = T.king ? '#f2c64c' : RIM[T.tier] || '#b07a3a',
+    ic = side ? '#f8ecd8' : '#3a1b20',
+    fl = side ? '#8a2530' : '#efe2c6',
+    bd = badgeOf(t),
+    mi = T.icon ? 'u-' + T.icon : baseOf(t),
+    E = T.el || (el0 && EL[el0] ? el0 : '');
+  let h = `<svg viewBox="0 0 40 56"><rect x="4.2" y="3" width="2.4" height="52" rx="1" fill="#3a2414"/><rect x="4" y="5.2" width="34.5" height="2" rx="1" fill="#3a2414"/><circle cx="5.4" cy="3" r="2.6" fill="${rim}" stroke="#2a1216" stroke-width=".8"/>`;
+  h += `<path d="${FLAG[fac] || 'M7 7H37V34H7Z'}" fill="${fl}" stroke="${rim}" stroke-width="1.7" stroke-linejoin="round"/>`;
+  h += bd
+    ? `<path d="M10 33L35 9.5" stroke="${rim}" stroke-width="2.6" stroke-linecap="round"/><use href="#${mi}" x="8.5" y="9" width="14" height="14" style="color:${ic}"/><use href="#${bd}" x="22.5" y="19" width="13" height="13" style="color:${ic}"/>`
+    : `<use href="#${T.king && FSH[fac] ? 'camp-' + fac : baseOf(t)}" x="11" y="9.5" width="22" height="22" style="color:${ic}"/>`;
+  if (st > 1)
+    h += `<text x="22" y="${bd ? 37 : 36}" text-anchor="middle" font-size="7.5" font-weight="700" fill="#f2c64c" stroke="#2a1216" stroke-width="1.5" paint-order="stroke">${'★'.repeat(st)}</text>`;
+  if (E)
+    [...E].slice(0, 2).forEach((c, i) => {
+      h += `<circle cx="${34 - i * 7}" cy="10.5" r="3.4" fill="${EL[c].c}" stroke="#2a1216" stroke-width=".9"/>`;
+    });
   return h + '</svg>';
 }
 const relSVG = (ic, c) =>
@@ -9248,13 +10538,20 @@ function drawLayer(list) {
         (o.ob ? `<span class="ob">${o.ob}</span>` : '') +
         (o.ch && CHR[o.ch] ? `<span class="chb">${chSVG(o.ch)}</span>` : '');
       el.innerHTML = blk
-        ? `<div class="bk"></div><div class="bi"><div class="tin">${tok}</div><span class="tc"></span></div>`
+        ? `<div class="bk"></div><div class="bi"><div class="tin">${bannerSVG(o.t, o.side, o.st, o.el)}${o.ob ? `<span class="ob">${o.ob}</span>` : ''}${o.ch && CHR[o.ch] ? `<span class="chb">${chSVG(o.ch)}</span>` : ''}</div><span class="tc"></span></div>`
         : `<div class="tin">${tok}${o.hpb ? '<span class="hp"><span></span></span>' : ''}</div>`;
     }
     el.classList.toggle('s1', o.side === 1);
     el.classList.toggle('sel', !!o.sel);
     el.classList.toggle('ghost', !!o.ghost);
     el.classList.toggle('flee', !!o.fl);
+    /* Verzauberung oder Banner: farbiger Schein in den Elementfarben */
+    const mg = o.en || o.bn || '';
+    el.classList.toggle('mag', !!mg);
+    if (mg) {
+      el.style.setProperty('--ec', EL[mg[0]].c);
+      el.style.setProperty('--ec2', EL[mg[mg.length - 1]].c);
+    }
     el.classList.remove('gone');
     el.style.transition = blk ? trB : tr;
     el.style.left = (o.x * 100) / GW + '%';
@@ -9277,8 +10574,9 @@ function drawLayer(list) {
         bk.innerHTML = modelsSVG(o);
       }
       const bi = el.querySelector('.bi');
-      bi.style.width = Math.min(220, (5 / o.w) * 100) + '%';
-      bi.style.transform = `translate(-50%,-50%) rotate(${-deg}deg)`;
+      bi.style.width = Math.min(300, (7 / o.w) * 100) + '%';
+      /* Feldzeichen bleibt aufrecht; der Fahnenstock steht in der Mitte des Regiments */
+      bi.style.transform = `translate(-50%,-50%) rotate(${-deg}deg) translate(30%,-34%)`;
       el.querySelector('.tc').textContent = o.n || '';
     } else {
       el.style.width = ((o.r * 3.4) / GW) * 100 + '%';
@@ -9577,7 +10875,7 @@ function paint(R, key) {
       return (A[i] * (1 - fx) + A[i + 1] * fx) * (1 - fy) + (A[j] * (1 - fx) + A[j + 1] * fx) * fy;
     },
     mixc = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
-  const TI = [0, 1, 2, 3, 4].map(k => {
+  const TI = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(k => {
     const A = new Float32Array(GW * GH);
     for (let j = 0; j < GW * GH; j++) A[j] = R.ter[j] === k && R.dep[j] < 0.15 ? 1 : 0;
     return A;
@@ -9595,7 +10893,7 @@ function paint(R, key) {
         sl = smp(R.hgt, x - 1, y - 1) - smp(R.hgt, x + 1, y + 1);
       let t = 0,
         tw = 0.5;
-      for (let k = 1; k < 5; k++) {
+      for (let k = 1; k < 10; k++) {
         const v = smp(TI[k], jx, jy);
         if (v > tw) {
           tw = v;
@@ -9614,6 +10912,12 @@ function paint(R, key) {
         );
       } else if (t === 3) c = fbm(x * 1.5, y * 1.5) > 0.55 ? [90, 36, 24] : [232, 98, 42];
       else if (t === 4) c = mixc([104, 98, 92], [128, 120, 112], n);
+      else if (t === 5) c = mixc([136, 128, 110], [164, 154, 132], fbm(x * 2.2, y * 2.2));
+      else if (t === 6) c = mixc([138, 140, 118], [118, 118, 100], fbm(x * 1.6, y * 1.6));
+      else if (t === 7) c = mixc([152, 130, 94], [170, 150, 108], n);
+      else if (t === 8)
+        c = mixc(Math.sin(x * 2.1 + y * 0.5) > 0 ? [206, 182, 96] : [182, 158, 76], [170, 160, 90], n * 0.35);
+      else if (t === 9) c = mixc([42, 76, 38], [62, 98, 48], fbm(x * 2, y * 2));
       if (R.ice[i] && R.dep[i] > 0.15) c = mixc([214, 238, 248], [184, 220, 238], n);
       else if (d > 0.12)
         c = mixc(mixc([126, 176, 196], [150, 190, 200], n), [38, 82, 128], Math.min(1, (d - 0.12) / 1.2));
@@ -9625,6 +10929,7 @@ function paint(R, key) {
       D[o + 3] = 255;
     }
   g.putImageData(im, 0, 0);
+  paintDeco(g, R, PX);
   for (let y = 1; y < GH; y += 2.2)
     for (let x = 1; x < GW; x += 2.2) {
       const jx = x + (hsh((x * 7) | 0, (y * 7) | 0) - 0.5) * 1.6,
@@ -9643,6 +10948,78 @@ function paint(R, key) {
       g.fillStyle = 'rgba(140,176,98,.5)';
       g.beginPath();
       g.arc(jx * PX - r * 0.3, jy * PX - r * 0.3, r * 0.35, 0, 7);
+      g.fill();
+    }
+}
+/* Geländedetails: Steine im Geröll, Mauerreste in Ruinen, Häuser im Dorf, Büsche an Hecken */
+function paintDeco(g, R, PX) {
+  const T = (x, y) => (R.dep[ci(x, y)] > 0.15 ? -1 : R.ter[ci(x, y)]),
+    J = (a, b) => hsh((a * 7) | 0, (b * 13) | 0);
+  for (let y = 0.8; y < GH; y += 1.5)
+    for (let x = 0.8; x < GW; x += 1.5) {
+      const jx = x + (J(x, y) - 0.5) * 1.2,
+        jy = y + (J(y, x) - 0.5) * 1.2;
+      if (T(jx, jy) !== TC.rubble || J(x + 3, y) < 0.35) continue;
+      const r = (0.3 + J(x, y + 5) * 0.4) * PX;
+      g.fillStyle = 'rgba(40,34,28,.45)';
+      g.beginPath();
+      g.arc(jx * PX + 1, jy * PX + 1.2, r, 0, 7);
+      g.fill();
+      g.fillStyle = J(x + 1, y) > 0.5 ? '#a49c8c' : '#8c8476';
+      g.beginPath();
+      g.arc(jx * PX, jy * PX, r, 0, 7);
+      g.fill();
+    }
+  for (let y = 1.5; y < GH; y += 3.4)
+    for (let x = 1.5; x < GW; x += 3.4) {
+      if (T(x, y) !== TC.ruins || J(x, y) < 0.3) continue;
+      const L = (1.6 + J(y, x) * 2.4) * PX,
+        th = 0.7 * PX,
+        v = J(x + 2, y + 2) > 0.5;
+      g.save();
+      g.translate(x * PX, y * PX);
+      g.rotate((J(x, y + 9) - 0.5) * 0.3);
+      g.fillStyle = 'rgba(30,26,22,.4)';
+      g.fillRect(1, 1.5, v ? th : L, v ? L : th);
+      g.fillStyle = '#9a948a';
+      g.fillRect(0, 0, v ? th : L, v ? L : th);
+      g.fillStyle = '#bdb6a8';
+      g.fillRect(0, 0, v ? th : L, v ? th * 0.4 : th * 0.4);
+      g.restore();
+    }
+  for (let y = 1.6; y < GH; y += 4)
+    for (let x = 1.6; x < GW; x += 4) {
+      const jx = x + (J(x, y) - 0.5) * 1.4,
+        jy = y + (J(y, x) - 0.5) * 1.4;
+      if (T(jx, jy) !== TC.village || J(x + 5, y) < 0.22) continue;
+      const w = (2 + J(x, y + 1) * 0.8) * PX,
+        hh = (1.5 + J(x + 1, y) * 0.5) * PX,
+        rf = J(x + 7, y) > 0.35 ? ['#9a4a36', '#b85c40'] : ['#6c6a66', '#8a8682'];
+      g.save();
+      g.translate(jx * PX, jy * PX);
+      g.rotate((J(x + 3, y + 3) - 0.5) * 0.5);
+      g.fillStyle = 'rgba(30,20,12,.45)';
+      g.fillRect(-w / 2 + 1.5, -hh / 2 + 2, w, hh);
+      g.fillStyle = rf[0];
+      g.fillRect(-w / 2, -hh / 2, w, hh / 2);
+      g.fillStyle = rf[1];
+      g.fillRect(-w / 2, 0, w, hh / 2);
+      g.strokeStyle = 'rgba(40,20,10,.7)';
+      g.lineWidth = 1;
+      g.strokeRect(-w / 2, -hh / 2, w, hh);
+      g.restore();
+    }
+  for (let y = 0.5; y < GH; y += 1.1)
+    for (let x = 0.5; x < GW; x += 1.1) {
+      if (T(x, y) !== TC.hedge) continue;
+      const r = (0.55 + J(x, y) * 0.25) * PX;
+      g.fillStyle = 'rgba(16,34,14,.5)';
+      g.beginPath();
+      g.arc(x * PX + 0.8, y * PX + 1, r, 0, 7);
+      g.fill();
+      g.fillStyle = J(x + 2, y) > 0.5 ? '#3e6a32' : '#4c7a3a';
+      g.beginPath();
+      g.arc(x * PX, y * PX, r, 0, 7);
       g.fill();
     }
 }
@@ -9697,6 +11074,20 @@ const prevFoes = () =>
   S.prev && S.enemy && hasRecon() ? S.enemy.filter(u => fullView() || u.pos.y >= 27) : [];
 function tapBoard(x, y) {
   if (S.phase !== 'build') return;
+  if (S.selP && !fielded().some(u => hitU(u, x, y))) {
+    movePiece(S.selP, x, y);
+    S.selP = null;
+    return;
+  }
+  if (S.step === 'deploy' && pieceAt(x, y)) {
+    S.selP = pieceAt(x, y);
+    S.selU = [];
+    S.msg =
+      S.selP.k === 'twr'
+        ? 'Turm gewählt: Stelle in deinem Streifen antippen.'
+        : 'Arkanes Auge gewählt: Stelle auf dem Feld antippen.';
+    return;
+  }
   const o = fielded().find(u => hitU(u, x, y));
   if (o) {
     tapUnit(o.uid);
@@ -9730,6 +11121,12 @@ function tapBoard(x, y) {
   }
   placeAt(gu(S.selU[0]), x, y);
 }
+const inRect = (el, e) => {
+  const r = el.getBoundingClientRect();
+  return (
+    r.height > 0 && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom
+  );
+};
 {
   const bd = $('board');
   let drag = null;
@@ -9741,15 +11138,24 @@ function tapBoard(x, y) {
     bd.addEventListener('pointerdown', e => {
       if (S.phase !== 'build') return;
       const [x, y] = wpos(e),
-        u = fielded().find(o => hitU(o, x, y));
-      drag = { x, y, u, mv: false };
-      if (u && bd.setPointerCapture) bd.setPointerCapture(e.pointerId);
+        u = fielded().find(o => hitU(o, x, y)),
+        p = !u && S.step === 'deploy' ? pieceAt(x, y) : null;
+      drag = { x, y, u, p, mv: false };
+      if ((u || p) && bd.setPointerCapture) bd.setPointerCapture(e.pointerId);
     });
     bd.addEventListener('pointermove', e => {
-      if (!drag || !drag.u) return;
+      if (!drag || !(drag.u || drag.p)) return;
       const [x, y] = wpos(e);
       if (!drag.mv && Math.hypot(x - drag.x, y - drag.y) < 1.5) return;
       drag.mv = true;
+      if (drag.p) {
+        if (pieceOK(drag.p, x, y)) {
+          drag.p.x = +x.toFixed(1);
+          drag.p.y = +y.toFixed(1);
+          boardRender(S.phase === 'battle');
+        }
+        return;
+      }
       const el = TK.get('p' + drag.u.uid);
       if (el) {
         el.style.transition = 'none';
@@ -9762,7 +11168,15 @@ function tapBoard(x, y) {
       const d = drag;
       drag = null;
       const [x, y] = wpos(e);
-      if (d.u && d.mv) {
+      if (d.p && d.mv) {
+        S.selP = null;
+        S.msg = '';
+      } else if (d.u && d.mv && !isK(d.u) && inRect($('fbar'), e)) {
+        /* vom Feld zurück in den Pool ziehen */
+        d.u.pos = null;
+        S.selU = [];
+        S.msg = `${U[d.u.t].n} zurück in die Reserve.`;
+      } else if (d.u && d.mv) {
         S.selE = null;
         S.selS = [];
         placeAt(d.u, x, y);
@@ -9786,6 +11200,10 @@ function boardRender(B) {
     o += `<rect x="0" y="${ZY}" width="${GW}" height="${GH - ZY}" class="zn"/><line x1="0" y1="${ZY}" x2="${GW}" y2="${ZY}" class="znl"/><line x1="0" y1="${ZC}" x2="${GW}" y2="${ZC}" class="znc"/><text x="${GW - 1.5}" y="${ZY + 3.6}" class="znt" text-anchor="end">Aufstellung</text><text x="${GW - 1.5}" y="${ZC + 3.6}" class="znt" text-anchor="end">Lager</text><line x1="0" y1="${GH - ZY}" x2="${GW}" y2="${GH - ZY}" class="znl e"/>`;
     if (!hasSpy())
       o += `<rect x="0" y="0" width="${GW}" height="${hasRecon() && S.prev ? 27 : GH / 2}" class="fogb"/>`;
+    if (S.step === 'deploy')
+      o +=
+        piecesSVG(S.pieces) +
+        (S.selP ? `<circle cx="${S.selP.x}" cy="${S.selP.y}" r="3.4" class="psel"/>` : '');
     const sel = su && su.pos ? su : se;
     if (sel) {
       const P = U[sel.t],
@@ -9815,6 +11233,7 @@ function boardRender(B) {
         r: urad(u),
         sel: S.selU.includes(u.uid),
         ...fo(u),
+        ...magOf(u),
         fa: -Math.PI / 2
       }));
     prevFoes().forEach(u =>
@@ -9834,6 +11253,7 @@ function boardRender(B) {
         fa: Math.PI / 2
       })
     );
+    o += auraRings(list);
     drawLayer(list);
     lastFi = -1;
   } else {
@@ -9849,32 +11269,40 @@ function boardRender(B) {
           [x2, y2] = p(Math.PI / 4);
         return `<path d="M${ax.toFixed(1)} ${ay.toFixed(1)}L${x1} ${y1}A${u.vr} ${u.vr} 0 0 1 ${x2} ${y2}Z" fill="#000"/><circle cx="${u.x}" cy="${u.y}" r="${NEAR + u.r}" fill="#000"/>`;
       })
-      .join('')}</mask><rect x="0" y="0" width="${GW}" height="${GH}" class="fogm" mask="url(#fm)"/>`;
+      .join(
+        ''
+      )}${((S.eyes && S.eyes[0]) || []).map(e => `<circle cx="${e.x}" cy="${e.y}" r="${e.r}" fill="#000"/>`).join('')}</mask><rect x="0" y="0" width="${GW}" height="${GH}" class="fogm" mask="url(#fm)"/>${piecesSVG(
+      ((S.eyes && S.eyes[0]) || []).map(e => ({ k: 'eye', x: e.x, y: e.y })),
+      true
+    )}`;
+    const vis = fr.us.filter(u => u.side === 0 || fv.has(u.id));
+    o += auraRings(vis.map(u => ({ ...u, w: u.sg ? 0 : u.w })));
     drawLayer(
-      fr.us
-        .filter(u => u.side === 0 || fv.has(u.id))
-        .map(u => ({
-          k: 'b' + u.id,
-          t: u.t,
-          ch: u.ch,
-          fl: u.fl,
-          side: u.side,
-          st: u.st,
-          el: u.el,
-          x: u.x,
-          y: u.y,
-          r: u.sg ? CL[U[u.t].cls].r : u.r,
-          hp: u.hp,
-          max: u.max,
-          hpb: 1,
-          w: u.sg ? 0 : u.w,
-          d: u.d,
-          fa: u.fa,
-          f: u.f,
-          rk: u.rk,
-          n: u.n,
-          sg: u.sg
-        }))
+      vis.map(u => ({
+        k: 'b' + u.id,
+        t: u.t,
+        ch: u.ch,
+        fl: u.fl,
+        side: u.side,
+        st: u.st,
+        el: u.el,
+        x: u.x,
+        y: u.y,
+        r: u.sg ? CL[U[u.t].cls].r : u.r,
+        hp: u.hp,
+        max: u.max,
+        hpb: 1,
+        w: u.sg ? 0 : u.w,
+        d: u.d,
+        fa: u.fa,
+        f: u.f,
+        rk: u.rk,
+        n: u.n,
+        sg: u.sg,
+        en: u.en,
+        bn: u.bn,
+        sel: S.selB === u.id
+      }))
     );
     if (S.fi !== lastFi) {
       if (S.fi === lastFi + 1) fx(fr);
@@ -9884,42 +11312,65 @@ function boardRender(B) {
   $('ovl').innerHTML = o;
 }
 
+/* Magie einer Aufstellungs-Einheit für die Anzeige (wie in den Schlacht-Frames: en, bn, au) */
+const magOf = u => {
+  const C = u.ch ? chFx(u.ch) : {},
+    en = u.ench || (u.rel && RELI[u.rel] && RELI[u.rel].el) || '';
+  return {
+    en,
+    bn: u.ban || '',
+    au: U[u.t].aura || C.aura || u.rel === 'ba' || (u.ins || []).includes('ze') || u.ban ? 1 : 0
+  };
+};
+/* Aura-Ringe: Umkreis 12 um Regimenter mit Aura oder Banner (gestrichelt, in Elementfarbe) */
+const auraRings = list =>
+  list
+    .filter(o => o.au)
+    .map(
+      o =>
+        `<circle cx="${o.x}" cy="${o.y}" r="${12 + (o.w ? Math.max(o.w, o.d) / 2 : o.r)}" class="aring" style="stroke:${o.bn ? EL[o.bn[0]].c : '#f2c64c'}"/>`
+    )
+    .join('');
+
 /* Steinheer · Oberfläche: Karten, Hinweise, Hauptansicht, Rezeptbuch */
 let ABS = false;
-const abShort = s =>
-  s
-    .split(' · ')
-    .map(x => x.split(':')[0])
-    .join(' · ');
+/* Fähigkeiten einer Einheit: Detail = fett + Erklärung je Zeile, Kurz = nur die fetten Namen */
 function abilH(T, u) {
-  let s = abil(T);
-  if (u && (u.ench || u.ban)) s += ' · ' + elTxt(u);
-  if (u && u.rel) s += ' · ' + RELI[u.rel].n + ': ' + RELI[u.rel].d;
-  const m = (T.meta || []).length
-    ? `<br>Feldlager: ${ABS ? (T.meta || []).map(k => META[k].n).join(', ') : metaTxt(T)}`
-    : '';
-  return `<span class="abx" data-a="abt" role="button" title="Antippen: kürzer oder ausführlich">${ABS ? abShort(s) : s}${m} <em>${ABS ? '▸ mehr' : '▾ kürzer'}</em></span>`;
+  const L = abilList(T);
+  if (u && (u.ench || u.ban))
+    elTxt(u)
+      .split(' · ')
+      .forEach(x => {
+        const i = x.indexOf(':');
+        L.push(i > 0 ? [x.slice(0, i), x.slice(i + 1).trim()] : [x, '']);
+      });
+  if (u && u.rel) L.push([RELI[u.rel].n, RELI[u.rel].d]);
+  (T.meta || []).forEach(k => L.push(['Feldlager · ' + META[k].n, META[k].d]));
+  const desc = [T.dx, T.d].filter(Boolean).join(' ');
+  if (ABS) return `<div class="abl kurz">${L.map(([n]) => `<b>${n}</b>`).join('') || '<span>—</span>'}</div>`;
+  return `<div class="abl">${desc ? `<p class="abd">${desc}</p>` : ''}${L.map(([n, t]) => `<p><b>${n}</b>${t ? ' – ' + t : ''}</p>`).join('') || '<p>—</p>'}</div>`;
 }
-function abil(B) {
+/* Umschalter Kurz/Detail für alle Einheitenkarten */
+const abT = () => `<span class="abt" data-a="abt" role="button">${ABS ? 'Detail ▸' : 'Kurz ▾'}</span>`;
+/* Fähigkeiten als Liste [Name, Erklärung]; die Beschreibung (B.d) steht getrennt davor */
+function abilList(B) {
   const r = [];
-  if (B.dx) r.push(B.dx);
-  if (B.d) r.push(B.d);
   if (B.fs && B.fac) r.push(`Volksstein ${RES[FST[B.fac]].n}: +${FSTB.hp * 100} % LP, +${FSTB.atk} Angriff`);
   if (B.par && !B.cre) r.push(`Kombi-Bonus: +${CMBB[B.tier] * 100} % LP, +1 Angriff`);
-  if (B.rng) r.push(`Fernkampf ${B.rng * 10}`);
-  if (B.line) r.push(`Schuss ${B.line * 10} (ignoriert Rüstung)`);
-  if (B.pierce) r.push('ignoriert Rüstung');
-  if (B.heal) r.push(`heilt ${B.heal} je Stern, Reichweite ${(B.hr || 2) * 10}`);
-  if (B.splash) r.push('halber Schaden an Gegnern dicht beim Ziel');
-  if (B.aura) r.push(`+${B.aura} Angriff für Verbündete im Umkreis von 12`);
-  if (B.ward) r.push(`+${B.ward} Rüstung für Verbündete im Umkreis von 12`);
+  if (B.rng) r.push(`Fernkampf: schießt bis ${B.rng * 10} weit`);
+  if (B.line) r.push(`Schuss: Kugel bis ${B.line * 10} weit, ignoriert Rüstung`);
+  if (B.pierce) r.push('Panzerbrechend: ignoriert Rüstung');
+  if (B.heal) r.push(`Heiler: heilt Verbündete um ${B.heal} LP je Stern, Reichweite ${(B.hr || 2) * 10}`);
+  if (B.splash) r.push('Flächenschaden: halber Schaden an Gegnern dicht beim Ziel');
+  if (B.aura) r.push(`Kampfaura: +${B.aura} Angriff für Verbündete im Umkreis von 12`);
+  if (B.ward) r.push(`Schutzaura: +${B.ward} Rüstung für Verbündete im Umkreis von 12`);
   if (B.br) r.push('Durchbruch: nach einem Sieg sofort der nächste Schlag');
-  if (B.th) r.push(`Dornen ${B.th}`);
-  if (B.rg) r.push(`regeneriert ${B.rg} je Stern`);
-  if (B.ls) r.push('Lebensraub (⅓ des Schadens)');
-  if (B.stun) r.push('betäubt das Ziel (höchstens jeden 2. Zug)');
-  if (B.spawn) r.push('beim Tod erscheint ein Hunderudel (5 LP, 3 Angriff)');
-  if (B.fly) r.push('fliegt');
+  if (B.th) r.push(`Dornen: wer es im Nahkampf trifft, erleidet ${B.th} Schaden`);
+  if (B.rg) r.push(`Regeneration: heilt sich um ${B.rg} LP je Stern`);
+  if (B.ls) r.push('Lebensraub: heilt sich um ⅓ des verursachten Schadens');
+  if (B.stun) r.push('Betäuben: das Ziel setzt aus (höchstens jeden 2. Zug)');
+  if (B.spawn) r.push('Rudel: beim Tod erscheint ein Hunderudel (5 LP, 3 Angriff)');
+  if (B.fly) r.push('Flieger: überfliegt Wasser, Wald und Gegner');
   if (B.swarm) r.push('Schwarm: +1 Angriff je Verbündetem in Berührung (max. +2)');
   if (B.rhalf) r.push('Schildwall: halber Fernkampfschaden');
   if (B.charge) r.push('Ansturm: erster Nahkampfangriff doppelt');
@@ -9948,28 +11399,45 @@ function abil(B) {
   if (B.cls === 'cav')
     r.push('Reiterei: Sturmangriff nach Anlauf (×1,5), im Wald −30 % Angriff und kein Sturmangriff');
   if (B.pike) r.push(`Lanzenwall: +${B.pike} Schaden gegen Reiterei, kein Ansturm-Bonus gegen sie`);
-  return r.join(' · ') || '—';
+  return r.map(x => {
+    const i = x.indexOf(':');
+    return i > 0 ? [x.slice(0, i).trim(), x.slice(i + 1).trim()] : [x, ''];
+  });
 }
-/* Leiste direkt unter dem Feld (Aufstellen): Reserve, Charaktere, Gegenstände – antippen oder aufs Feld ziehen */
+const abil = B =>
+  [B.dx, B.d, ...abilList(B).map(([n, t]) => (t ? n + ': ' + t : n))].filter(Boolean).join(' · ') || '—';
+/* Pool unter dem Feld (Aufstellen): Reserve, Regimenter auf dem Feld, Charaktere, Gegenstände.
+   Antippen und dann das Feld antippen – oder ziehen (am Handy kurz halten). Vom Feld zurück in den Pool ziehen = Reserve. */
 function fieldBar() {
-  const res = S.units.filter(u => !isK(u) && !u.pos),
+  const res = bench(),
+    on = onboard(),
     chs = allCh(),
     its = S.stash.map((st, i) => [st, i]).filter(([st]) => st.type === 'rel');
-  const ux = u =>
-      `<button class="fchip${S.selU.includes(u.uid) ? ' sel' : ''}" data-a="unit" data-v="${u.uid}" data-drag="${u.uid}"><span class="ti">${tokSVG(u.t, 0, u.s, u.ench || u.el)}</span><small>${uname(u.t, u.el)}</small></button>`,
+  const ux = (u, f) =>
+      `<button class="fchip${f ? ' onf' : ''}${S.selU.includes(u.uid) ? ' sel' : ''}" data-a="unit" data-v="${u.uid}" data-drag="${u.uid}"><span class="ti">${tokSVG(u.t, 0, u.s, u.ench || u.el)}</span><small>${uname(u.t, u.el)}${u.s > 1 ? ' ' + '★'.repeat(u.s) : ''}<em>${isSingle(u.t) ? 'Einzelkämpfer' : curTroops(u) + ' Mann'}${u.ch ? ' · ' + CHR[u.ch.c].n : ''}</em></small></button>`,
     cx = ch => {
       const h = chHost(ch);
       return `<button class="fchip ch${S.selC === ch.id ? ' sel' : ''}" data-a="chsel" data-v="${ch.id}" data-dragc="${ch.id}"><span class="ti">${chSVG(ch.c)}</span><small>${CHR[ch.c].n} ${ch.lv}<em>${h ? U[h.t].n : 'frei'}${ch.rel ? ' · ' + RELI[ch.rel].n : ''}</em></small></button>`;
     },
     ix = ([st, i]) =>
-      `<button class="fchip it${S.selS.length === 1 && S.selS[0] === i ? ' sel' : ''}" data-a="fitem" data-v="${i}" data-dragi="${i}"><span class="ti">${itemSVG(st)}</span><small>${RELI[st.r].n}</small></button>`;
+      `<button class="fchip it${S.selS.length === 1 && S.selS[0] === i ? ' sel' : ''}" data-a="fitem" data-v="${i}" data-dragi="${i}"><span class="ti">${itemSVG(st)}</span><small>${RELI[st.r].n}</small></button>`,
+    sec = (h, body) => `<div class="fsec"><h4>${h}</h4><div class="fl">${body}</div></div>`,
+    full = on.length >= cap();
   return (
-    `<p class="fh">Antippen, dann ein Regiment auf dem Feld antippen – oder direkt aufs Feld ziehen.</p>` +
-    `<div class="frow"><b>Reserve</b><div class="fl">${res.length ? res.map(ux).join('') : '<span class="none">alle aufgestellt</span>'}</div></div>` +
-    `<div class="frow"><b>Charaktere</b><div class="fl">${chs.length ? chs.map(cx).join('') : '<span class="none">keine – beim Bauen anwerben</span>'}</div></div>` +
-    (its.length
-      ? `<div class="frow"><b>Gegenstände</b><div class="fl">${its.map(ix).join('')}</div></div>`
-      : '')
+    `<p class="fh">Antippen, dann eine Stelle im Aufstellungsstreifen antippen – oder ziehen (am Handy kurz halten). Vom Feld hierher ziehen schickt ein Regiment zurück in die Reserve.</p>` +
+    sec(
+      `Reserve <span>${res.length}</span>${full ? ' <span class="full">Feld voll</span>' : ''}`,
+      res.length ? res.map(u => ux(u)).join('') : '<span class="none">alle aufgestellt</span>'
+    ) +
+    sec(
+      `Auf dem Feld <span>${on.length}/${cap()}</span>`,
+      on.length ? on.map(u => ux(u, 1)).join('') : '<span class="none">noch niemand</span>'
+    ) +
+    sec(
+      `Charaktere <span>${chs.length}</span>`,
+      chs.length ? chs.map(cx).join('') : '<span class="none">keine – beim Bauen anwerben</span>'
+    ) +
+    (its.length ? sec(`Gegenstände <span>${its.length}</span>`, its.map(ix).join('')) : '')
   );
 }
 /* Schlachtbericht: eigene Seite mit beiden Heeren, Schaden je Einheit, Vernichtungen, Verluste und Fluchten */
@@ -10048,7 +11516,7 @@ function chPanel() {
     const C = CHR[ch.c],
       h = chHost(ch),
       g = ch.lv < 3 ? CHG[C.rk][ch.lv] : 0;
-    return `<div class="offu${S.selC === ch.id ? ' on' : ''}"><span class="ti">${chSVG(ch.c)}</span><div><strong>${C.n}</strong> <span class="tag">${RKN[C.rk]} · Stufe ${ch.lv}</span><p>${chTxt(ch)}${ch.rel ? ` · trägt ${RELI[ch.rel].n}` : ''}</p><p class="hint2">${h ? `Führt: <b>${U[h.t].n}</b>` : 'Im Stab – noch keinem Regiment angeschlossen'}</p><div class="cbt">${btn('chsel', S.selC === ch.id ? 'Regiment antippen …' : h ? 'Umsetzen' : 'Anschließen', false, S.selC === ch.id ? 'on' : '').replace('data-a="chsel"', `data-a="chsel" data-v="${ch.id}"`)}${h ? btn('detach', 'Lösen').replace('data-a="detach"', `data-a="detach" data-v="${ch.id}"`) : ''}${ch.lv < 3 ? btn('promote', `Befördern (${g} Gold, 1 Rohstoff)`, !stOne || S.gold < g).replace('data-a="promote"', `data-a="promote" data-v="${ch.id}"`) : ''}${relOne ? btn('equipC', `Tragen: ${RELI[one.r].n}`).replace('data-a="equipC"', `data-a="equipC" data-v="${ch.id}"`) : ''}</div></div></div>`;
+    return `<div class="offu${S.selC === ch.id ? ' on' : ''}"><span class="ti">${chSVG(ch.c)}</span><div><strong>${C.n}</strong> <span class="tag">${RKN[C.rk]} · Stufe ${ch.lv}</span>${chExplain(ch.c, ch.lv)}${ch.rel ? `<p>Trägt ${RELI[ch.rel].n}.</p>` : ''}<p class="hint2">${h ? `Führt: <b>${U[h.t].n}</b>` : 'Im Stab – noch keinem Regiment angeschlossen'}</p><div class="cbt">${btn('chsel', S.selC === ch.id ? 'Regiment antippen …' : h ? 'Umsetzen' : 'Anschließen', false, S.selC === ch.id ? 'on' : '').replace('data-a="chsel"', `data-a="chsel" data-v="${ch.id}"`)}${h ? btn('detach', 'Lösen').replace('data-a="detach"', `data-a="detach" data-v="${ch.id}"`) : ''}${ch.lv < 3 ? btn('promote', `Befördern (${g} Gold, 1 Rohstoff)`, !stOne || S.gold < g).replace('data-a="promote"', `data-a="promote" data-v="${ch.id}"`) : ''}${relOne ? btn('equipC', `Tragen: ${RELI[one.r].n}`).replace('data-a="equipC"', `data-a="equipC" data-v="${ch.id}"`) : ''}</div></div></div>`;
   };
   return (
     `<h2>Charaktere</h2><p class="hint2">Charaktere schließen sich einem Regiment an: Werte-Bonus, Fähigkeit und neue Befehle (Rang 1: Manöver, Rang 2: dazu Flankieren, Waldüberfall und Zeitbefehl, Rang 3: dazu Durch das Wasser und Kriegsrat). Anwerben: oben steht, wen du mit deinen Rohstoffen und deinem Gold jetzt anwerben kannst – ein Tipp genügt, die Steine werden automatisch gewählt. Stufe = Zahl der Steine − 1.</p>` +
@@ -10059,7 +11527,7 @@ function chPanel() {
 const urow = (u, click) => {
   const s = stats(u),
     T = U[u.t];
-  return `<${click ? 'button' : 'div'} class="urow${S.selU.includes(u.uid) && click ? ' sel' : ''}"${click ? ` data-a="unit" data-v="${u.uid}"` : ''}><span class="ti">${tokSVG(u.t, click ? 0 : 1, u.s, u.ench || u.el)}</span><span><strong>${uname(u.t, u.el)}${qStr(u)}</strong> <span class="tag">Stufe ${T.tier}</span>${u.ch ? ` <span class="tag">${CHR[u.ch.c].n} ${u.ch.lv}</span>` : ''}${click ? ` <span class="tag">${u.pos ? 'Feld' : 'Reserve'}</span>` : ''}<p>${isK(u) ? '' : isSingle(u.t) ? 'Einzelkämpfer · ' : 'Truppen ' + curTroops(u) + (u.lost ? '/' + troopsOf(u) : '') + ' · '}LP ${s.hp} · Angr. ${s.atk} · Rüst. ${s.arm} · Init. ${s.ini}${s.heal ? ` · Heilung ${s.heal}` : ''}${click ? ` · gefüttert ${u.f}/${3 * u.s}` : ''}</p><p>${abilH(T, u)}</p>${u.ins && u.ins.length ? `<p><b>Ausbauten:</b> ${u.ins.map(i => INSI[i].n).join(', ')}</p>` : ''}${click && !isK(u) ? `<p>Befehl: ${ORDU[u.ord || 'auto'].n}</p>` : ''}</span></${click ? 'button' : 'div'}>`;
+  return `<${click ? 'button' : 'div'} class="urow${S.selU.includes(u.uid) && click ? ' sel' : ''}"${click ? ` data-a="unit" data-v="${u.uid}"` : ''}><span class="ti">${tokSVG(u.t, click ? 0 : 1, u.s, u.ench || u.el)}</span><span><strong>${uname(u.t, u.el)}${qStr(u)}</strong> <span class="tag">Stufe ${T.tier}</span>${u.ch ? ` <span class="tag">${CHR[u.ch.c].n} ${u.ch.lv}</span>` : ''}${click ? ` <span class="tag">${u.pos ? 'Feld' : 'Reserve'}</span>` : ''}${statBlock(u, true)}${click && S.fac === 'ba' ? `<p class="hint2">gefüttert ${u.f}/${3 * u.s}</p>` : ''}${abilH(T, u)}${magicTags(u).length ? `<p class="mtags">${tagsHTML(magicTags(u))}</p>` : ''}${u.ins && u.ins.length ? `<p><b>Ausbauten:</b> ${u.ins.map(i => INSI[i].n).join(', ')}</p>` : ''}${click && !isK(u) ? `<p>Befehl: ${ORDU[u.ord || 'auto'].n}</p>` : ''}</span></${click ? 'button' : 'div'}>`;
 };
 function propTxt(t) {
   const P = U[t],
@@ -10068,12 +11536,14 @@ function propTxt(t) {
     return `Unbeweglich · Größe ${fmt(c.r)} · Sicht ${(P.vis || 2) * 10} · heilt Verbündete im Umkreis von 20`;
   return `${isSingle(t) ? 'Einzelkämpfer' : 'Truppen ' + P.tr + ' in ' + P.rk + ' Gliedern'} · Tempo ${fmt(P.spd)} · ${c.n} · Größe ${fmt(c.r)} · ${P.rng ? 'Fernkampf ' + P.rng * 10 : P.line ? 'Schuss ' + P.line * 10 : P.nomelee ? 'kein Nahkampf' : 'Nahkampf'} · Sicht ${(P.vis || 2) * 10} · Wattiefe ${c.wd > 9 ? 'unbegrenzt' : fmt(c.wd)} · Wald ×${fmt(c.fo)} · Sumpf ×${fmt(c.sw)}`;
 }
-function propBox(t, u) {
+function propBox(t, u, rest) {
   const P = U[t],
     c = CL[P.cls],
     row = (k, v) => `<span><small>${k}</small><b>${v}</b></span>`;
   if (P.king)
     return `<div class="props">${row('Tempo', 'steht')}${row('Größe', fmt(c.r))}${row('Sicht', P.king ? (P.vis || 2) * 10 + ' rundum' : Math.min(95, Math.round((P.vis || 2) * 18)) + ' nach vorn (90°)')}${row('Versorgt', '20')}</div>`;
+  if (rest)
+    return `<div class="props">${row('Klasse', c.n)}${row('Wattiefe', c.wd > 9 ? '∞' : fmt(c.wd))}${row('Wald · Sumpf', '×' + fmt(c.fo) + ' · ×' + fmt(c.sw))}${row('Dichte', P.den || '–')}</div>`;
   return `<div class="props">${row('Truppen', isSingle(t) ? 'Einzelkämpfer' : u ? curTroops(u) + (u.lost ? ' / ' + troopsOf(u) : '') : P.tr)}${row('Tempo', fmt(P.spd))}${row('Klasse', c.n)}${row('Reichweite', P.rng ? P.rng * 10 : P.line ? P.line * 10 + ' (Schuss)' : P.nomelee ? '–' : 'Nahkampf')}${row('Sicht', P.king ? (P.vis || 2) * 10 + ' rundum' : Math.min(95, Math.round((P.vis || 2) * 18)) + ' nach vorn (90°)')}${row('Wattiefe', c.wd > 9 ? '∞' : fmt(c.wd))}${row('Wald · Sumpf', '×' + fmt(c.fo) + ' · ×' + fmt(c.sw))}${row('Dichte', P.den || '–')}${row('Disziplin', P.dis ? P.dis + '/10' : '–')}</div>`;
 }
 function evTxt(e) {
@@ -10131,9 +11601,8 @@ function selCard(u, side) {
       !side && !isK(u) && S.phase === 'build'
         ? `<div class="uos"><b>Befehl:</b> ${ordUI(u, 'sm').h}<small>${ordUI(u, 'sm').d}</small></div>`
         : '';
-  return `<div class="scard">${propBox(u.t, u)}<div class="txt"><strong>${uname(u.t, u.el)}${qStr(u)}</strong> <span class="tag">Stufe ${T.tier}</span>${side ? ' <span class="tag">Gegner</span>' : ''}
-<p>LP ${s.hp} · Angr. ${s.atk} · Rüst. ${s.arm} · Init. ${s.ini}</p><p>${abilH(T, u)}</p>${u.ch ? `<p><b>${CHR[u.ch.c].n}</b> (${RKN[CHR[u.ch.c].rk]}, Stufe ${u.ch.lv}): ${chTxt(u.ch)}</p>` : ''}${u.ins && u.ins.length ? `<p><b>Ausbauten:</b> ${u.ins.map(i => INSI[i].n).join(', ')}</p>` : ''}
-</div><div class="full">${ob}${side ? '' : cmbHint(u)}<p>${isK(u) ? 'Steht still.' : 'Bewegt sich frei mit seinem Tempo, sucht Furten, wenn das Wasser zu tief ist, und greift an, was in Reichweite kommt.'}${T.rng ? ' Weicht Nahkämpfern aus, solange er nachlädt.' : ''}${T.heal ? ` Heilt Verbündete im Umkreis von ${(T.hr || 2) * 10}.` : ''}</p></div></div>`;
+  return `<div class="scard"><div class="txt">${abT()}<strong>${uname(u.t, u.el)}${qStr(u)}</strong> <span class="tag">Stufe ${T.tier}</span>${side ? ' <span class="tag">Gegner</span>' : ''}${statBlock(u)}${magicTags(u).length ? `<p class="mtags">${tagsHTML(magicTags(u))}</p>` : ''}${abilH(T, u)}${u.ch ? `<p><b>${CHR[u.ch.c].n}</b> (${RKN[CHR[u.ch.c].rk]}, Stufe ${u.ch.lv}): ${chTxt(u.ch)}</p>` : ''}${ABS ? '' : propBox(u.t, u, true)}${u.ins && u.ins.length ? `<p><b>Ausbauten:</b> ${u.ins.map(i => INSI[i].n).join(', ')}</p>` : ''}
+</div><div class="full">${ob}${side ? '' : cmbHint(u)}${ABS ? '' : `<p>${isK(u) ? 'Steht still.' : 'Bewegt sich frei mit seinem Tempo, sucht Furten, wenn das Wasser zu tief ist, und greift an, was in Reichweite kommt.'}${T.rng ? ' Weicht Nahkämpfern aus, solange er nachlädt.' : ''}${T.heal ? ` Heilt Verbündete im Umkreis von ${(T.hr || 2) * 10}.` : ''}</p>`}</div></div>`;
 }
 /* Pick-Erklärung: alle Einheiten, Wesen, Charaktere und Gegenstände, die dieser Stein ermöglicht – ✓ = Partner liegt schon im Lager */
 function hint(it) {
@@ -10274,6 +11743,7 @@ function render() {
   const su = B && S.selU.length === 1 && !S.selS.length ? gu(S.selU[0]) : null,
     se = B && S.selE && S.prev && S.enemy ? S.enemy.find(u => u.uid === S.selE) : null;
   boardRender(B);
+  bsPanels();
   let st = S.msg || '';
   if (S.phase === 'battle' || S.phase === 'result') {
     const fm = S.frames[S.fi].mor,
@@ -10474,10 +11944,10 @@ function render() {
         ORD
       )
         .filter(([, o]) => !o.fac || o.fac === S.fac)
-        .map(
-          ([k, o]) =>
-            `<button class="ord${S.orders.includes(k) ? ' on' : ''}" data-a="ord" data-v="${k}"${!S.orders.includes(k) && (S.orders.length >= maxOrd() || S.gold < o.c) ? ' disabled' : ''}><strong>${ico(o.ic)}${o.n} <span class="gc">${o.c} Gold</span></strong><small>${o.d}</small></button>`
-        )
+        .map(([k, o]) => {
+          const locked = o.sil && lvl(S.col, 's') < o.sil;
+          return `<button class="ord${S.orders.includes(k) ? ' on' : ''}${locked ? ' locked' : ''}" data-a="ord" data-v="${k}"${locked || (!S.orders.includes(k) && (S.orders.length >= maxOrd() || S.gold < o.c)) ? ' disabled' : ''}><strong>${ico(o.ic)}${o.n} <span class="gc">${locked ? `Silber Stufe ${o.sil} nötig` : o.c + ' Gold'}</span></strong><small>${o.d}</small></button>`;
+        })
         .join(
           ''
         )}</div>${S.forts ? `<p class="note">Noch ${S.forts} Schanze(n): eine Stelle in deinem Aufstellungsstreifen antippen.</p>` : ''}<h3>Feldlager</h3><p class="note">Fähigkeiten deiner Einheiten außerhalb des Kampfs. Jede wirkt einmal, egal wie viele Einheiten sie haben.</p><div class="metas">${
@@ -10549,7 +12019,7 @@ function render() {
         })
         .join('')
     : '<p class="note" style="grid-column:1/-1;margin:0">Leer – Steine kommen aus dem Draft.</p>';
-  $('bc').textContent = `Reserve ${bench().length}/${BMAX} · Feld ${onboard().length}/${cap()}`;
+  $('bc').textContent = `Reserve ${bench().length} · Feld ${onboard().length}/${cap()}`;
   $('ahint').textContent =
     S.step === 'deploy'
       ? 'Einheit antippen, dann Stelle im hellen Streifen antippen – oder hineinziehen. ▌ = steht auf dem Feld'
@@ -10640,7 +12110,8 @@ function render() {
     S.step === 'build'
       ? [
           ['units', 'Truppen'],
-          ['off', 'Charaktere']
+          ['off', 'Charaktere'],
+          ['ench', elTab()]
         ]
           .map(
             ([k, n]) =>
@@ -10648,17 +12119,22 @@ function render() {
           )
           .join('')
       : '';
-  $('offP').innerHTML = B && S.step === 'build' && S.btab === 'off' ? chPanel() : '';
-  if (S.btab === 'off' && S.step === 'build') op = [];
+  $('offP').innerHTML =
+    B && S.step === 'build' && S.btab === 'off'
+      ? chPanel()
+      : B && S.step === 'build' && S.btab === 'ench'
+        ? enchPanel()
+        : '';
+  if ((S.btab === 'off' || S.btab === 'ench') && S.step === 'build') op = [];
   $('opts').innerHTML = op.length ? '<span class="lbl">Jetzt möglich</span>' + op.join('') : '';
   $('rek').textContent = S.rek;
   $('bench').innerHTML = S.units.length
-    ? S.units.map(u => urow(u, true)).join('')
+    ? `<div class="abtw">${abT()}</div>` + S.units.map(u => urow(u, true)).join('')
     : '<p class="note">Noch keine Einheiten. Wähle zwei Lagersteine und baue eine.</p>';
 }
 const brow = (t, extra) => {
   const B = U[t];
-  return `<div class="brow"><span class="ti">${tokSVG(t, 0, 1, '')}</span><div><strong>${B.n}</strong> <span class="tag">${'Stufe ' + B.tier}</span><p>LP ${B.hp} · Angr. ${B.atk} · Rüst. ${B.arm} · Init. ${B.ini} · Sicht ${B.vis || 2}${B.val ? ' · Wert ' + String(B.val).replace('.', ',') : ''}</p><p>${propTxt(t)}</p><p>${abilH(B)}</p>${extra}</div></div>`;
+  return `<div class="brow"><span class="ti">${tokSVG(t, 0, 1, '')}</span><div><strong>${B.n}</strong> <span class="tag">${'Stufe ' + B.tier}</span><p>LP ${B.hp} · Angr. ${B.atk} · Rüst. ${B.arm} · Init. ${B.ini} · Sicht ${B.vis || 2}${B.val ? ' · Wert ' + String(B.val).replace('.', ',') : ''}</p><p>${propTxt(t)}</p>${abilH(B)}${extra}</div></div>`;
 };
 function buildBook() {
   const F = S && S.fac;
@@ -10669,7 +12145,7 @@ function buildBook() {
   const ofTier = n =>
     Object.keys(U).filter(t => U[t].tier === n && U[t].fac === F && !U[t].cre && !U[t].king);
   $('book').innerHTML =
-    `<details open><summary>Stufe 1 · aus Steinen (${ofTier(1).length})</summary><div class="book">` +
+    `<div class="abtw">${abT()}</div><details open><summary>Stufe 1 · aus Steinen (${ofTier(1).length})</summary><div class="book">` +
     ofTier(1)
       .map(t =>
         brow(
@@ -10704,7 +12180,7 @@ function buildBook() {
     'groß · zwei gleiche Element-Steine'
   ];
   $('book').innerHTML =
-    `<details open><summary>Armeelager</summary><div class="book">${brow(
+    `<div class="abtw">${abT()}</div><details open><summary>Armeelager</summary><div class="book">${brow(
       'KNG',
       '<div class="pairs"><span>Jede Armee hat genau eins. LP 20 + 5 je Runde. Ausbauten: ' +
         Object.values(INSI)
@@ -10812,7 +12288,7 @@ function chRecruitList(sel) {
                   `data-a="recruit" data-v="${c}"`
                 )
               : '';
-        const html = `<div class="offc${can.length ? ' ready' : ' dim'}"><div class="offh"><span class="ti">${chSVG(c)}</span><div><strong>${C.n}</strong> <span class="tag">${RKN[C.rk]}</span><p>${chTxt({ c, lv: 1 })} (je Stufe)${C.gen ? '. Bestimmt die Zahl der Kriegsrat-Befehle und schaltet Formationen frei. Nur einer.' : ''}</p><div class="rcs">${chips}${gChip}</div>${lvOk.length > 1 ? `<p class="hint2">Höhere Stufe: je Stufe ein weiterer beliebiger Rohstoff, mehr Gold (Stufe 1/2/3: ${CHG[C.rk].join(' / ')}).</p>` : ''}</div></div>${btns || manual ? `<div class="cbt">${btns}${manual}</div>` : ''}</div>`;
+        const html = `<div class="offc${can.length ? ' ready' : ' dim'}"><div class="offh"><span class="ti">${chSVG(c)}</span><div><strong>${C.n}</strong> <span class="tag">${RKN[C.rk]}</span>${chExplain(c, 0)}<div class="rcs">${chips}${gChip}</div>${lvOk.length > 1 ? `<p class="hint2">Höhere Stufe: je Stufe ein weiterer beliebiger Rohstoff, mehr Gold (Stufe 1/2/3: ${CHG[C.rk].join(' / ')}).</p>` : ''}</div></div>${btns || manual ? `<div class="cbt">${btns}${manual}</div>` : ''}</div>`;
         return { html, ok: can.length > 0 };
       });
   const ok = L.filter(x => x.ok),
@@ -10824,6 +12300,124 @@ function chRecruitList(sel) {
       : '<p class="note">Mit deinen Rohstoffen und deinem Gold geht gerade keiner.</p>') +
     (no.length ? `<h3>Noch nicht möglich</h3>` + no.map(x => x.html).join('') : '')
   );
+}
+
+/* Marken für Magie und Auren: Farbe des Elements (bei Kombinationen beide Farben) */
+const elBg = e =>
+  !e ? '#e6b04a' : e.length > 1 ? `linear-gradient(90deg,${EL[e[0]].c} 50%,${EL[e[1]].c} 50%)` : EL[e].c;
+const tagsHTML = tags => tags.map(x => `<span class="mtag" style="--eb:${elBg(x.e)}">${x.t}</span>`).join('');
+/* Reiter „Verzauberungen“: was du mit deinen Element-Steinen jetzt tun kannst, und was schon wirkt */
+function enchPanel() {
+  const m = elUse(),
+    el = S.stash.map((s, i) => ({ s, i })).filter(x => x.s.type === 'st' && RES[x.s.k].el),
+    find = e => el.find(x => RES[x.s.k].el === e),
+    uBtn = (u, a, v) =>
+      `<button class="btn sm" data-a="${a}" data-v="${v}">${U[u.t].n} ${'★'.repeat(u.s)}</button>`;
+  let body = '';
+  if (ELT[m]) {
+    const E = ESK.map(k => RES[k].el),
+      keys = [...E, ...E.flatMap((a, i) => E.slice(i + 1).map(b => mix(a, b)))],
+      T = ELT[m],
+      word = { rune: 'Rune', ammo: 'Munition', ban: 'Banner' }[m],
+      rows = keys.map(k => {
+        const st = [...k].map(find),
+          ok = st.every(Boolean),
+          tg = ok ? S.units.filter(u => st.every(x => canEnch(u, x.s))) : [],
+          cost = [...k]
+            .map(
+              (e, n) =>
+                `<span class="rc ${st[n] ? 'ok' : 'no'}">${EL[e].n}-Stein ${st[n] ? '✓' : '– fehlt'}</span>`
+            )
+            .join('');
+        return {
+          ok: ok && tg.length,
+          h: `<div class="offc${ok && tg.length ? ' ready' : ' dim'}"><div class="offh"><span class="mdot" style="--eb:${elBg(k)}"></span><div><strong>${word} ${elName(k)}</strong>${k.length > 1 ? ' <span class="tag">Kombination</span>' : ''}<p>${elPart(T, k)}</p><div class="rcs">${cost}</div></div></div>${ok && tg.length ? `<div class="cbt"><small>Auf:</small> ${tg.map(u => uBtn(u, 'encApply', st.map(x => x.i).join(',') + '|' + u.uid)).join('')}</div>` : ok ? '<p class="note">Kein passendes Regiment' + (m === 'ammo' ? ' (nur Fernkämpfer)' : '') + ' ohne ' + word + '.</p>' : ''}</div>`
+        };
+      });
+    body =
+      `<h3>Jetzt möglich (${rows.filter(r => r.ok).length})</h3>` +
+      (rows
+        .filter(r => r.ok)
+        .map(r => r.h)
+        .join('') || '<p class="note">Dir fehlen Element-Steine – sie kommen im Draft.</p>') +
+      `<details><summary>Alle ${word === 'Banner' ? 'Banner' : word === 'Rune' ? 'Runen' : 'Munitionen'} (${rows.length})</summary>${rows
+        .filter(r => !r.ok)
+        .map(r => r.h)
+        .join('')}</details>`;
+  } else if (m === 'eat') {
+    const seen = new Set();
+    body =
+      '<h3>Essen</h3>' +
+      (el
+        .filter(x => !seen.has(x.s.k) && seen.add(x.s.k))
+        .map(
+          x =>
+            `<div class="offc ready"><div class="offh"><span class="mdot" style="--eb:${elBg(RES[x.s.k].el)}"></span><div><strong>${RES[x.s.k].n}-Stein</strong><p>${fdesc(x.s)}</p></div></div><div class="cbt"><small>Wer isst?</small> ${S.units
+              .filter(u => canFeed(u))
+              .map(u => uBtn(u, 'feedApply', x.i + '|' + u.uid))
+              .join('')}</div></div>`
+        )
+        .join('') || '<p class="note">Keine Element-Steine im Lager.</p>');
+  } else if (m === 'sum') {
+    const seen = new Set(),
+      opts = [];
+    for (const a of el)
+      for (let j = 0; j < S.stash.length; j++) {
+        if (j === a.i || S.stash[j].type !== 'st') continue;
+        const r = fromStones(a.s, S.stash[j]);
+        if (r.t && U[r.t].cre && !seen.has(r.t)) {
+          seen.add(r.t);
+          opts.push(
+            `<div class="offc ready"><div class="offh"><span class="mdot" style="--eb:${elBg(U[r.t].el)}"></span><div><strong>${U[r.t].n}</strong><p>${U[r.t].d}</p></div></div><div class="cbt"><button class="btn sm pri" data-a="pk" data-v="s${Math.min(a.i, j)},${Math.max(a.i, j)}">Beschwören: ${stName(S.stash[a.i])} + ${stName(S.stash[j])}</button></div></div>`
+          );
+        }
+      }
+    body =
+      '<h3>Beschwören</h3><p class="note">Element-Stein + beliebiger Stein = Wesen. Zwei Wesen verschiedener Elemente lassen sich zu Mischwesen kombinieren.</p>' +
+      (opts.join('') || '<p class="note">Keine Element-Steine im Lager.</p>');
+  }
+  const act = S.units
+    .filter(u => magicTags(u).length)
+    .map(u => `<div class="mrow"><b>${U[u.t].n} ${'★'.repeat(u.s)}</b> ${tagsHTML(magicTags(u))}</div>`)
+    .join('');
+  return (
+    `<p class="note">${FAC[S.fac].el}</p>` +
+    body +
+    `<h3>Aktive Verzauberungen und Auren</h3>` +
+    (act || '<p class="note">Noch keine.</p>')
+  );
+}
+
+/* Werteblock einer Einheit (wie ein Profil im Tabletop): verbesserte Werte grün, gesunkene rot.
+   Vergleich mit derselben Einheit frisch gebaut (1 Stern, Güte 0, ohne Füttern, Charakter, Gegenstände). */
+function statBlock(u, compact) {
+  const T = U[u.t],
+    s = stats(u),
+    b = stats({ uid: -1, t: u.t, s: 1, b: zero(), f: 0, el: '', q: 0 }),
+    C = u.ch ? chFx(u.ch) : {},
+    sg = isSingle(u.t) || isK(u),
+    dis = T.dis ? Math.min(10, T.dis + (u.ch ? CHR[u.ch.c].rk : 0)) : 0,
+    cell = (k, v, b0) =>
+      `<span${v > b0 ? ' class="up"' : v < b0 ? ' class="dn"' : ''}><small>${k}</small><b>${String(v).replace('.', ',')}</b></span>`,
+    rows = [
+      sg ? '' : cell('Mann', curTroops(u), T.tr),
+      cell('LP', s.hp, b.hp),
+      cell('Angr.', s.atk, b.atk),
+      cell('Rüst.', s.arm, b.arm),
+      cell('Init.', s.ini, b.ini),
+      s.heal ? cell('Heilung', s.heal, b.heal || 0) : '',
+      isK(u) ? '' : cell('Tempo', Math.round((T.spd + (C.spd || 0)) * 10) / 10, T.spd),
+      T.rng || T.line ? cell('Reichw.', (T.rng || T.line) * 10, (T.rng || T.line) * 10) : '',
+      compact
+        ? ''
+        : cell(
+            'Sicht',
+            Math.min(95, Math.round(((T.vis || 2) + (C.vis || 0)) * 18)),
+            Math.min(95, Math.round((T.vis || 2) * 18))
+          ),
+      dis && !compact ? cell('Diszipl.', dis, T.dis) : ''
+    ];
+  return `<div class="sblk${compact ? ' c' : ''}">${rows.join('')}</div>`;
 }
 
 /* Steinheer · Regeln: alle Regeln an einer Stelle, aus den Spieldaten erzeugt (bleiben so automatisch aktuell) */
@@ -10882,6 +12476,8 @@ function rulesHTML() {
       'Ziel und Ablauf',
       ul([
         `Ein Feldzug hat ${NBAT} Schlachten. Wer danach Platz 1 der Rangliste hält, gewinnt den Feldzug. Jede Niederlage kostet ein Leben; sind alle 6 weg, ist der Feldzug vorbei.`,
+        `<b>Plaketten:</b> Die Form zeigt das Volk – Barbaren gezackt, Dunkelelfen Raute, Zwerge Achteck, Orks Wappenschild, Hochelfen Tropfen; Wesen sind rund. Hell = deine, rot = gegnerische Einheiten. Der Rand zeigt die Stufe (Bronze, Silber, Gold), kleine Zeichen unten rechts die zweite Einheit einer Kombination. Jedes Volk hat sein eigenes Lager.`,
+        `<b>Heer und Feld:</b> Deine Armee ist unbegrenzt. Aufs Feld dürfen in Schlacht 1 drei Regimenter, danach je Schlacht eines mehr (höchstens 10). Der Rest wartet in der Reserve.`,
         `Jede Runde hat vier Schritte: <b>Kaufen</b> (Draft, nur vor Schlacht 1, 3, 5, 7), <b>Bauen</b>, <b>Aufstellen</b>, <b>Kriegsrat</b> – dann folgt die Schlacht.`,
         `Jede Schlacht findet auf einem anderen Gelände statt: Nach jeder Schlacht wählst du aus zwei Schlachtfeldern das nächste. Veränderungen am Gelände (Brand, Schanzen, Wald, Lava) gelten nur für diese eine Schlacht.`,
         `Die vier KI-Heere sind die anderen vier Völker. Du kämpfst reihum gegen jedes, in ${NBAT} Schlachten also gegen jedes zweimal. Die beiden Heere, die gerade nicht gegen dich kämpfen, schlagen eine eigene Schlacht, das vierte setzt aus.`,
@@ -10925,7 +12521,10 @@ function rulesHTML() {
       'sammel',
       'Sammelboni',
       ul([
-        `Jeder gedraftete Stein zählt für seine Sorte. 3 / 6 / 9 Steine = Stufe 1 / 2 / 3; der Bonus gilt je Stufe. Stufe 3 gibt zusätzlich eine besondere Wirkung (★).`
+        `Jeder gedraftete Stein zählt für seine Sorte. 3 / 6 / 9 Steine = Stufe 1 / 2 / 3; der Bonus gilt je Stufe. Stufe 3 gibt zusätzlich eine besondere Wirkung (★).`,
+        `<b>Wachtürme</b> (Stein) und <b>Arkane Augen</b> (Arkan) stellst du beim Aufstellen selbst auf: antippen und an die gewünschte Stelle ziehen oder tippen. Türme nur in deinem Aufstellungsstreifen, Augen überall. Türme schießen 35 weit, zählen aber nicht zum Heer.`,
+        `<b>Silber</b> schaltet Kriegsratsbefehle frei, die nur mit Silber gehen: Goldene Späher (I), Söldner (II), Bestechung (III).`,
+        `<b>Elementarbund:</b> ab 2 verschiedenen Element-Steinen Wesen +3 LP, ab 4 zusätzlich +1 Angriff.`
       ]) +
         tbl(
           ['Rohstoff', 'Bonus je Stufe', '★ bei 9'],
@@ -11025,7 +12624,8 @@ function rulesHTML() {
         `<b>Bewegung:</b> Regimenter laufen auf den nächsten Feind zu, den ihre Seite sieht; das feindliche Lager kennen sie erst, wenn jemand es gesehen hat (sonst rücken sie vor). Zu tiefes Wasser umgehen sie über Furten; im Wasser und auf Umwegen ziehen sie sich zur Marschkolonne zusammen.`,
         `<b>Disziplin</b> (1–10) bestimmt, wie schnell ein Regiment schwenkt und umformt. Große Wendungen erzwingen ein Umformen (bis 5 s), Drehen auf der Stelle ist besonders langsam.`,
         `<b>Sicht:</b> ein Kegel nach vorn (90°) mit der Sichtweite des Regiments, dazu 8 Schritt rundum; das Lager sieht rundum. Wald verbirgt (Schattenläufer bis auf 3 Schritt), Dunkelheit verbirgt bis auf 15 Schritt, Hügel verdecken, was dahinter liegt, und erhöhen die eigene Sicht.`,
-        `<b>Fernkampf:</b> Schützen brauchen eine eigene Sichtlinie (Hügel dazwischen blockieren, außer der Schütze steht oben). Wurfgeschütze schießen im Bogen. Ziele im Wald nehmen halben Schaden.`,
+        `<b>Eigenständige Taktik:</b> Regimenter warten nicht im Beschuss. Wer von Schützen getroffen wird und keinen Nahkämpfer vor sich hat, stürmt auf die Schützen los – auch Leibwachen und Hügelhalter (nur „Halten“ bleibt stehen). Ist der Gegner im Fernkampf deutlich stärker (×1,3), geben die Leibwachen das Lager frei und die Nahkämpfer suchen gezielt die Schützen.`,
+        `<b>Fernkampf:</b> Schützen brauchen eine eigene Sichtlinie (Hügel dazwischen blockieren, außer der Schütze steht oben). Wurfgeschütze schießen im Bogen. Ziele im Wald nehmen halben Schaden. Fernkampf trifft schwächer als Nahkampf (×0,7) und verliert ab halber Reichweite weiter an Wucht – an der Reichweitengrenze bleibt noch 40 % davon.`,
         `<b>Nahkampf bindet:</b> Wer Feindkontakt hat, sitzt fest und kämpft nur nach vorn; Schützen schießen dann nicht mehr. Flanke ×1,5, Rücken ×2. Steht vorn kein Feind mehr, schwenkt das Regiment um und wehrt sich währenddessen nicht.`,
         `<b>Sturmangriff:</b> Nach mindestens 8 Schritt Anlauf: Reiterei ×1,5, mit Ansturm ×2. Je Punkt Dichte-Unterschied (Angreifer gegen Ziel) ±15 %. Ein dichterer Angreifer zwingt das Ziel zur Mutprobe. Im Wald kein Sturmangriff, Reiterei dort −30 % Angriff. Lanzenwall hebt den Sturmangriff auf.`,
         `<b>Ausgedünnte Regimenter</b> schlagen schwächer zu (bis 40 %). Initiative bestimmt, wie schnell ein Regiment nachschlägt.`
@@ -11142,15 +12742,109 @@ function lbOver() {
 const lbSide = () =>
   lbTable() + `<p class="note">${lbRule()} Eintragen kannst du am Ende eines Feldzugs.</p>`;
 
+/* Steinheer · Schlacht-Seitenleisten: Stärke, Moral und Zustand jedes Regiments, links du, rechts der Gegner */
+const BACT = {
+  f: ['Flieht', 'af'],
+  m: ['Nahkampf', 'am'],
+  s: ['Schießt', 'as'],
+  w: ['Marschiert', 'aw'],
+  h: ['Steht', 'ah']
+};
+const BSX = { b: 'brennt', z: 'erstarrt', r: 'festgehalten' };
+const pctC = p => (p < 0.25 ? '#e0505a' : p < 0.5 ? '#e0b13a' : '#6fcf6a');
+const bBar = (p, c) =>
+  `<span class="bbar"><span style="width:${Math.round(Math.max(0, Math.min(1, p)) * 100)}%;background:${c || pctC(p)}"></span></span>`;
+
+/* Eine Zeile pro Regiment; das ausgewählte zeigt zusätzlich seine Kampfwerte */
+function bsRow(o, sel) {
+  const P = U[o.t],
+    p = o.max ? o.hp / o.max : 0,
+    [an, ac] = BACT[o.ac] || BACT.h,
+    men = o.sg || P.twr ? `${Math.max(0, Math.ceil(o.hp))} LP` : `${o.n}/${o.n0} Mann`,
+    mg = (o.en || '') + (o.bn || ''),
+    dots = [...new Set(mg)]
+      .map(e => `<i class="mdot" style="--eb:${EL[e].c}" title="${EL[e].n}"></i>`)
+      .join(''),
+    sx = [...(o.sx || '')].map(k => BSX[k]).join(', ');
+  let h = `<button class="bsr${sel ? ' on' : ''}${o.ac === 'f' ? ' fl' : ''}" data-a="selB" data-v="${o.id}"><span class="bsi">${tokSVG(o.t, o.side, o.st, o.el)}</span><span class="bsm"><span class="bsn">${P.n}${o.st > 1 ? ' ' + '★'.repeat(o.st) : ''}${dots}</span><span class="bsl">${bBar(p)}<small>${men}</small></span><span class="bst"><b class="${ac}">${an}</b>${sx ? ` <em>${sx}</em>` : ''}${o.ch ? ` <small>${CHR[o.ch].n}</small>` : ''}</span></span></button>`;
+  if (sel)
+    h += `<div class="bsd"><span>Angr. <b>${o.atk}</b></span><span>Rüst. <b>${o.arm}</b></span><span>LP <b>${Math.ceil(o.hp)}/${o.max}</b></span><span title="Standhaftigkeit: Moraltest mit 2W6, gelingt bis zu diesem Wert">Standh. <b>${o.ld ? o.ld : '∞'}</b></span>${mg ? `<span class="w">${elTxtB(o)}</span>` : ''}</div>`;
+  return h;
+}
+/* Kurztext Magie für die Detailzeile */
+const elTxtB = o =>
+  [o.en ? 'Verzauberung ' + elName(o.en) : '', o.bn ? 'Banner ' + elName(o.bn) : '']
+    .filter(Boolean)
+    .join(' · ');
+
+/* Kopf einer Seite: Moral, Gesamtstärke, Regimenter */
+function bsHead(s, fr, f0, name) {
+  const cur = fr.us.filter(o => o.side === s && !U[o.t].twr),
+    st0 = f0.us.filter(o => o.side === s && !U[o.t].twr),
+    hp = cur.reduce((a, o) => a + o.hp, 0),
+    hp0 = st0.reduce((a, o) => a + o.max, 0) || 1,
+    m = fr.mor[s],
+    fl = cur.filter(o => o.fl).length,
+    k = cur.find(o => U[o.t].king),
+    k0 = st0.find(o => U[o.t].king);
+  return `<div class="bsh"><h3>${name}</h3><div class="bsk"><span>Moral <b>${m}</b></span>${bBar(m / 100, pctC(m / 100))}</div><div class="bsk"><span>Stärke <b>${Math.round((hp / hp0) * 100)} %</b></span>${bBar(hp / hp0, '#8fb3e0')}</div>${k0 ? `<div class="bsk"><span>Lager <b>${k ? Math.ceil(k.hp) : 0}/${k0.max} LP</b></span>${bBar(k ? k.hp / k0.max : 0)}</div>` : ''}<small>${cur.filter(o => !U[o.t].king).length} von ${st0.filter(o => !U[o.t].king).length} Regimentern${fl ? ` · <b class="af">${fl} ${fl > 1 ? 'fliehen' : 'flieht'}</b>` : ''}</small></div>`;
+}
+
+function bsPanels() {
+  const on = (S.phase === 'battle' || S.phase === 'result') && S.frames;
+  if (!on) {
+    $('bs0').innerHTML = $('bs1').innerHTML = '';
+    return;
+  }
+  const fr = S.frames[S.fi],
+    f0 = S.frames[0],
+    fv = new Set(fr.v0),
+    byId = new Map(fr.us.map(o => [o.id, o]));
+  /* eigene Seite: alle Regimenter, Vernichtete am Ende abgeblendet */
+  const mine = f0.us.filter(o => o.side === 0 && !U[o.t].king);
+  let a = bsHead(0, fr, f0, 'Dein Heer');
+  a += mine
+    .filter(o => byId.has(o.id))
+    .map(o => bsRow(byId.get(o.id), S.selB === o.id))
+    .join('');
+  const dead = mine.filter(o => !byId.has(o.id));
+  if (dead.length) a += `<div class="bsx">Vernichtet: ${dead.map(o => U[o.t].n).join(', ')}</div>`;
+  /* Gegner: nur was du gerade siehst */
+  const foes = fr.us.filter(o => o.side === 1 && !U[o.t].king),
+    seen = foes.filter(o => fv.has(o.id)),
+    hid = foes.length - seen.length,
+    gone = f0.us.filter(o => o.side === 1 && !U[o.t].king).length - foes.length;
+  let b = bsHead(1, fr, f0, S.ename || 'Gegner');
+  b += seen.map(o => bsRow(o, S.selB === o.id)).join('');
+  if (hid) b += `<div class="bsx">${hid} Regiment${hid > 1 ? 'er' : ''} nicht in Sicht</div>`;
+  if (gone > 0) b += `<div class="bsx">${gone} vernichtet</div>`;
+  $('bs0').innerHTML = a;
+  $('bs1').innerHTML = b;
+}
+
 /* Steinheer · Eingabe und Start */
 let SUPP = 0;
 {
-  let dd = null;
+  let dd = null,
+    hold = 0;
   const bd = $('board');
   document.addEventListener('pointerdown', e => {
     const el = e.target.closest && e.target.closest('[data-drag],[data-dragc],[data-dragi]');
     if (!el || S.phase !== 'build') return;
+    /* Touch: erst nach kurzem Halten ziehen, sonst scrollt die Liste */
+    const touch = e.pointerType === 'touch';
+    clearTimeout(hold);
+    if (touch)
+      hold = setTimeout(() => {
+        if (dd && !dd.mv) {
+          dd.armed = true;
+          el.classList.add('lift');
+          if (navigator.vibrate) navigator.vibrate(15);
+        }
+      }, 220);
     dd = {
+      el,
+      armed: !touch,
       uid: el.dataset.drag ? +el.dataset.drag : null,
       cid: el.dataset.dragc ? +el.dataset.dragc : null,
       iid: el.dataset.dragi ? +el.dataset.dragi : null,
@@ -11163,6 +12857,11 @@ let SUPP = 0;
   document.addEventListener('pointermove', e => {
     if (!dd) return;
     if (!dd.mv && Math.hypot(e.clientX - dd.x, e.clientY - dd.y) < 8) return;
+    if (!dd.armed) {
+      clearTimeout(hold);
+      dd = null;
+      return;
+    }
     const u = dd.uid != null ? gu(dd.uid) : null,
       ch = dd.cid != null ? gch(dd.cid) : null,
       it = dd.iid != null ? S.stash[dd.iid] : null;
@@ -11180,10 +12879,27 @@ let SUPP = 0;
     dd.g.style.left = e.clientX + 'px';
     dd.g.style.top = e.clientY + 'px';
   });
+  document.addEventListener(
+    'touchmove',
+    e => {
+      if (dd && dd.armed) e.preventDefault();
+    },
+    { passive: false }
+  );
+  document.addEventListener('pointercancel', () => {
+    clearTimeout(hold);
+    if (dd) {
+      dd.el.classList.remove('lift');
+      if (dd.g) dd.g.remove();
+    }
+    dd = null;
+  });
   document.addEventListener('pointerup', e => {
+    clearTimeout(hold);
     if (!dd) return;
     const d = dd;
     dd = null;
+    d.el.classList.remove('lift');
     if (!d.mv) return;
     d.g.remove();
     SUPP = Date.now() + 350;
@@ -11201,7 +12917,15 @@ let SUPP = 0;
         else if (d.cid != null) attach(gch(d.cid), tg);
         else equipTo(tg, d.iid);
       }
-    } else S.msg = 'Zum Aufstellen auf das Spielfeld ziehen.';
+    } else {
+      const fb = $('fbar').getBoundingClientRect(),
+        u = d.uid != null ? gu(d.uid) : null;
+      if (u && u.pos && !isK(u) && e.clientY >= fb.top && e.clientY <= fb.bottom) {
+        u.pos = null;
+        S.selU = [];
+        S.msg = `${U[u.t].n} zurück in die Reserve.`;
+      } else S.msg = 'Zum Aufstellen auf das Spielfeld ziehen.';
+    }
     render();
   });
   document.addEventListener('pointercancel', () => {
@@ -11217,6 +12941,9 @@ document.addEventListener('click', e => {
   if (Date.now() < SUPP) return;
   const F = {
     lbSend: () => lbSend(),
+    selB: () => (S.selB = S.selB === +v ? null : +v),
+    encApply: () => encApply(v),
+    feedApply: () => feedApply(v),
     btab: () => {
       S.btab = v;
       S.selS = [];
