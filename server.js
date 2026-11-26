@@ -1,4 +1,4 @@
-/* Steinheer · Webserver für Railway, ohne Abhängigkeiten
+/* Autobattler · Webserver für Railway, ohne Abhängigkeiten
    - liefert das Spiel aus (Ordner public/ oder, im Ein-Datei-Paket, nur index.html)
    - /health für Railways Startprüfung
    - /api/scores: Bestenliste (GET lesen, POST eintragen), gespeichert als JSON-Datei in DATA_DIR */
@@ -161,6 +161,6 @@ const server = http.createServer((req, res) => {
   file(req, res, p);
 });
 server.listen(PORT, () =>
-  console.log(`Steinheer läuft auf Port ${PORT} · Bestenliste: ${FILE} (${scores.length} Einträge)`)
+  console.log(`Autobattler läuft auf Port ${PORT} · Bestenliste: ${FILE} (${scores.length} Einträge)`)
 );
 process.on('SIGTERM', () => server.close(() => process.exit(0)));

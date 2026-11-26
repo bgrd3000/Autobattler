@@ -3731,7 +3731,7 @@ div.urow {
       </defs>
     </svg>
     <header class="top">
-      <h1>Steinheer</h1>
+      <h1>Die Kampagne</h1>
       <div class="stats" id="stats"></div>
     </header>
     <nav id="steps" class="steps"></nav>
@@ -3811,7 +3811,7 @@ div.urow {
     </main>
     <div id="rep" class="rep" role="dialog" aria-label="Schlachtbericht"></div>
     <script>
-/* Steinheer · Hilfsfunktionen */
+/* Autobattler · Hilfsfunktionen */
 const $ = id => document.getElementById(id),
   rnd = n => Math.floor(Math.random() * n);
 const rkey = (a, b) => [a, b].sort().join('');
@@ -3835,12 +3835,12 @@ function vn(x, y) {
 const fbm = (x, y) =>
   vn(x, y) * 0.6 + vn(x * 2.1 + 7, y * 2.1 + 3) * 0.3 + vn(x * 4.3 + 1, y * 4.3 + 9) * 0.1;
 
-/* Steinheer · Kampfwerte (automatisch erzeugt von apply.py / fix.py – nicht von Hand ändern) */
+/* Autobattler · Kampfwerte (automatisch erzeugt von apply.py / fix.py – nicht von Hand ändern) */
 /*TUNE*/const HPT={"bPL":37,"bAX":34,"bSH":49,"bSW":14,"bRE":19,"bHU":27,"bBA":36,"bSC":18,"bSS":18,"bFT":21,"bGR":24,"bHG":31,"bRB":21,"bHR":29,"bMW":43,"bPB":30,"bFW":17,"bST":43,"bKX":19,"bAP":26,"ePE":14,"eMY":24,"eHO":38,"eSK":23,"eTO":10,"eHI":19,"eHT":33,"eSW":36,"eOR":17,"eAK":54,"eSP":18,"eSI":15,"eFS":14,"eON":10,"eSF":23,"eTW":40,"eKN":16,"eSN":27,"eGM":13,"eAG":32,"zDA":29,"zHB":39,"zRA":12,"zFL":17,"zRW":17,"zKA":8,"zTB":13,"zPR":32,"zLR":22,"zMO":22,"zTK":38,"zGD":32,"zGM":41,"zJS":12,"zKB":9,"zAL":21,"zGB":18,"zTI":30,"zSN":28,"zKR":12,"bWU":50,"bSM":53,"bPH":40,"bHZ":48,"bBE":40,"bFR":20,"bAR":60,"bKH":49,"ePH":41,"eSC":49,"eKS":10,"eKT":35,"ePG":30,"eHK":59,"eSS":61,"eAR":53,"zPS":32,"zDW":6,"zFB":11,"zDR":24,"zTM":45,"zES":58,"zER":36,"zDG":50,"bGH":62,"bBK":78,"bAG":57,"bBS":35,"bKW":88,"eUP":46,"eGG":45,"eTR":87,"eSV":39,"eSG":35,"eHA":46,"zJG":84,"zHD":42,"zKK":33,"zWF":90,"zSR":42,"SAL":17,"FEL":26,"PHX":27,"KOB":18,"EGO":33,"WYR":35,"IRL":12,"SGE":9,"DVO":29,"FLS":18,"WHU":26,"BGI":44,"NGE":13,"KUG":15,"LGO":27,"HWO":33,"MAM":29,"MGO":46},ATT={"bPL":2,"bAX":5,"bSH":2,"bSW":2,"bRE":5,"bHU":5,"bBA":5,"bSC":1,"bSS":2,"bFT":3,"bGR":1,"bHG":5,"bRB":2,"bHR":5,"bMW":2,"bPB":6,"bFW":3,"bST":1,"bKX":1,"bAP":2,"ePE":1,"eMY":4,"eHO":2,"eSK":6,"eTO":1,"eHI":5,"eHT":7,"eSW":5,"eOR":1,"eAK":1,"eSP":2,"eSI":1,"eFS":4,"eON":3,"eSF":2,"eTW":2,"eKN":1,"eSN":5,"eGM":2,"eAG":5,"zDA":4,"zHB":4,"zRA":1,"zFL":5,"zRW":2,"zKA":3,"zTB":2,"zPR":7,"zLR":5,"zMO":2,"zTK":2,"zGD":5,"zGM":1,"zJS":2,"zKB":3,"zAL":1,"zGB":2,"zTI":5,"zSN":2,"zKR":2,"bWU":5,"bSM":6,"bPH":4,"bHZ":7,"bBE":7,"bFR":4,"bAR":2,"bKH":6,"ePH":2,"eSC":8,"eKS":4,"eKT":7,"ePG":2,"eHK":2,"eSS":2,"eAR":8,"zPS":3,"zDW":3,"zFB":4,"zDR":6,"zTM":5,"zES":4,"zER":8,"zDG":6,"bGH":5,"bBK":8,"bAG":6,"bBS":5,"bKW":11,"eUP":6,"eGG":4,"eTR":6,"eSV":5,"eSG":6,"eHA":3,"zJG":11,"zHD":7,"zKK":5,"zWF":5,"zSR":7,"SAL":4,"FEL":5,"PHX":7,"KOB":4,"EGO":4,"WYR":8,"IRL":4,"SGE":1,"DVO":7,"FLS":3,"WHU":4,"BGI":7,"NGE":4,"KUG":15,"LGO":5,"HWO":1,"MAM":6,"MGO":4},HLT={"bSC":5,"bKX":4,"bAP":4,"eOR":4,"eSN":2,"zMO":3,"zAL":4,"zSN":3,"bAR":6,"eHK":5,"zTM":3,"bAG":3,"eGG":3,"eTR":5,"eSV":3,"zWF":3},EFT={},MULT=[0,1,1.748,2.795];/*END*/
 /* Volksausgleich: LP-Faktor je Volk, aus dem Völker-Probelauf (probeF.js) */
 const FBAL = { ba: 1.1, de: 1.5, zw: 0.94, or: 1.02, he: 0.78 };
 
-/* Steinheer · Rohstoffe, Güteklassen, Elemente, Sammelboni, Füttern */
+/* Autobattler · Rohstoffe, Güteklassen, Elemente, Sammelboni, Füttern */
 const RES = {
   e: { n: 'Eisen', c: '#9aa0a8', w: 22, v: 1 },
   h: { n: 'Holz', c: '#5d9d5f', w: 14, v: 1 },
@@ -4019,7 +4019,7 @@ function bonusTxt(col) {
   return r.join(' · ') || 'keine';
 }
 
-/* Steinheer · Einheiten: Völker, Grundtypen, Kombinationen, Wesen, Armeelager, Bewegungsklassen, Truppenstärke */
+/* Autobattler · Einheiten: Völker, Grundtypen, Kombinationen, Wesen, Armeelager, Bewegungsklassen, Truppenstärke */
 const FAC = {
   ba: {
     n: 'Barbaren',
@@ -5857,7 +5857,7 @@ const curTroops = u => Math.max(1, troopsOf(u) - (u.lost || 0)),
   uForm = u => formOf(u.t, curTroops(u)),
   costOf = t => (U[t].cre ? 0 : U[t].tr);
 
-/* Steinheer · Rezepte, Werkstätten, Gegenstände, Lager-Ausbauten, Verzauberung */
+/* Autobattler · Rezepte, Werkstätten, Gegenstände, Lager-Ausbauten, Verzauberung */
 /* f = Volk; ohne Angabe das Volk des Spielers */
 const facOf = f => f || (S && S.fac) || 'ba';
 function fromStones(a, b, f) {
@@ -6081,7 +6081,7 @@ const INSI = {
   la: { n: 'Lazarett', ic: 'KL', d: 'Lager heilt 3 mehr' }
 };
 
-/* Steinheer · Kriegsrat, Einheitenbefehle, Feldlager, Formationen, Offiziere */
+/* Autobattler · Kriegsrat, Einheitenbefehle, Feldlager, Formationen, Offiziere */
 const ORD = {
   spy: {
     ic: 'b-eye',
@@ -6332,7 +6332,7 @@ const maxOrd = () => genLv(S.units, S.chr || []),
   hasRecon = () => S.orders.includes('scout') || S.orders.includes('gspy') || !!actMeta(S.units).recon,
   fullView = () => hasSpy() && (S.orders.includes('scout') || S.orders.includes('gspy'));
 
-/* Steinheer · Charaktere: Unteroffiziere, Helden, Magier und Generäle schließen sich Regimentern an */
+/* Autobattler · Charaktere: Unteroffiziere, Helden, Magier und Generäle schließen sich Regimentern an */
 /* rk = Rang: 1 Unteroffizier, 2 Held/Spezialist, 3 General. fx gilt je Stufe (Zahlen × Stufe). */
 const CHR = {
   bRF: { fac: 'ba', n: 'Rottenführer', rk: 1, need: ['e', 'l'], ic: 'u-axe', fx: { atk: 1 } },
@@ -6449,7 +6449,7 @@ function chExplain(c, lvNow) {
   }</div>`;
 }
 
-/* Steinheer · Welt: Karten, Gelände, Wetter, Wegfindung */
+/* Autobattler · Welt: Karten, Gelände, Wetter, Wegfindung */
 const mkMap = i => ({ i, n: MAPS[i].n, mods: [] });
 function rollWx() {
   const k = Object.keys(WX),
@@ -7135,7 +7135,7 @@ function addMod(o) {
   return true;
 }
 
-/* Steinheer · Kampfsimulation */
+/* Autobattler · Kampfsimulation */
 let CTX = null;
 const setFa = (o, a) => {
     o.fa = a;
@@ -8729,7 +8729,7 @@ function place(us, side, m) {
     });
 }
 
-/* Steinheer · Spielzustand, Rundenablauf, Draft */
+/* Autobattler · Spielzustand, Rundenablauf, Draft */
 let S, timer;
 function roll(r) {
   if (r >= 2 && Math.random() < 0.15) return { type: 'st', k: ESK[rnd(ESK.length)] };
@@ -9183,7 +9183,7 @@ function autoDraft() {
   }
 }
 
-/* Steinheer · Spieleraktionen: Bauen, Veredeln, Herstellen, Offiziere, Formationen, Aufstellen */
+/* Autobattler · Spieleraktionen: Bauen, Veredeln, Herstellen, Offiziere, Formationen, Aufstellen */
 function pickB(i) {
   if (S.phase !== 'build' || S.picks <= 0 || !S.booster[i]) return;
   const it = S.booster[i];
@@ -9742,7 +9742,7 @@ function feedApply(v) {
   feedA();
 }
 
-/* Steinheer · KI-Gegner */
+/* Autobattler · KI-Gegner */
 const AIN = [
   'Aschenbanner',
   'Graue Legion',
@@ -9944,7 +9944,7 @@ function aiBuild(ai, r) {
   }
 }
 
-/* Steinheer · Schlacht, Ergebnis, Feldzug */
+/* Autobattler · Schlacht, Ergebnis, Feldzug */
 function fight() {
   if (!onboard().length) {
     S.msg = 'Stelle mindestens eine Einheit aufs Feld.';
@@ -10124,7 +10124,7 @@ function next() {
     S.phase = 'over';
     S.won = rankOrder()[0].n === '';
     S.msg = S.won
-      ? `<b>Sieg!</b> Platz 1 nach ${NBAT} Schlachten – dein Steinheer hat den Feldzug gewonnen.`
+      ? `<b>Sieg!</b> Platz 1 nach ${NBAT} Schlachten – dein Heer hat den Feldzug gewonnen.`
       : `<b>Feldzug beendet.</b> Platz ${rankOrder().findIndex(x => x.n === '') + 1} nach ${NBAT} Schlachten.`;
   }
   if (S.phase === 'over') {
@@ -10230,7 +10230,7 @@ function restart() {
   newRun();
 }
 
-/* Steinheer · Aufstellbares aus Sammelboni: Wachtürme (Stein) und Arkane Augen (Arkan)
+/* Autobattler · Aufstellbares aus Sammelboni: Wachtürme (Stein) und Arkane Augen (Arkan)
    Spieler: S.pieces = [{ k: 'twr' | 'eye', x, y }] – beim Aufstellen per Ziehen verschiebbar.
    Gegner: werden automatisch gesetzt. */
 const EYER = [0, 15, 22, 30] /* Radius des Arkanen Auges je Arkan-Stufe */,
@@ -10308,7 +10308,7 @@ function piecesSVG(pcs, live) {
     .join('');
 }
 
-/* Steinheer · Grafiken: Plaketten, Steine, Symbole */
+/* Autobattler · Grafiken: Plaketten, Steine, Symbole */
 const RIM = ['', '#b07a3a', '#d3d9e1', '#f2c64c'];
 const EIC = { f: '#4a1205', i: '#0c2a52', b: '#1d3340', r: '#2a1a0c', d: '#e6d8ff' };
 MK.forEach(k => (EIC[k] = '#1c0e0a'));
@@ -10506,7 +10506,7 @@ const btn = (a, t, dis, c) => {
   return `<button class="btn${i ? ' ib' : ''} ${c || ''}" data-a="${a}"${dis ? ' disabled' : ''}>${i ? ico(i) : ''}${t}</button>`;
 };
 
-/* Steinheer · Spielfeld: Gelände malen, Plaketten bewegen, Effekte, Aufstellen per Antippen/Ziehen */
+/* Autobattler · Spielfeld: Gelände malen, Plaketten bewegen, Effekte, Aufstellen per Antippen/Ziehen */
 const layer = $('layer'),
   fxs = $('fx'),
   TK = new Map();
@@ -11332,7 +11332,7 @@ const auraRings = list =>
     )
     .join('');
 
-/* Steinheer · Oberfläche: Karten, Hinweise, Hauptansicht, Rezeptbuch */
+/* Autobattler · Oberfläche: Karten, Hinweise, Hauptansicht, Rezeptbuch */
 let ABS = false;
 /* Fähigkeiten einer Einheit: Detail = fett + Erklärung je Zeile, Kurz = nur die fetten Namen */
 function abilH(T, u) {
@@ -12420,7 +12420,7 @@ function statBlock(u, compact) {
   return `<div class="sblk${compact ? ' c' : ''}">${rows.join('')}</div>`;
 }
 
-/* Steinheer · Regeln: alle Regeln an einer Stelle, aus den Spieldaten erzeugt (bleiben so automatisch aktuell) */
+/* Autobattler · Regeln: alle Regeln an einer Stelle, aus den Spieldaten erzeugt (bleiben so automatisch aktuell) */
 /* Güte eines Steins (1–9) → was sie in einer gebauten Einheit bewirkt. Einheiten-Güte = Güte A + Güte B − 2. */
 const qFx = q =>
   q > 0
@@ -12654,7 +12654,7 @@ function rulesHTML() {
 
 $('rules').innerHTML = rulesHTML();
 
-/* Steinheer · Bestenliste: Punkte nach Ergebnis, gespeichert auf dem Server (/api/scores) */
+/* Autobattler · Bestenliste: Punkte nach Ergebnis, gespeichert auf dem Server (/api/scores) */
 const SCORE = { win: 3, draw: 1, loss: 0, camp: 10 },
   NAMEMAX = 20;
 /* Punkte eines Feldzugs: jede Schlacht nach Ergebnis, dazu ein Bonus für den gewonnenen Feldzug */
@@ -12742,7 +12742,7 @@ function lbOver() {
 const lbSide = () =>
   lbTable() + `<p class="note">${lbRule()} Eintragen kannst du am Ende eines Feldzugs.</p>`;
 
-/* Steinheer · Schlacht-Seitenleisten: Stärke, Moral und Zustand jedes Regiments, links du, rechts der Gegner */
+/* Autobattler · Schlacht-Seitenleisten: Stärke, Moral und Zustand jedes Regiments, links du, rechts der Gegner */
 const BACT = {
   f: ['Flieht', 'af'],
   m: ['Nahkampf', 'am'],
@@ -12822,7 +12822,7 @@ function bsPanels() {
   $('bs1').innerHTML = b;
 }
 
-/* Steinheer · Eingabe und Start */
+/* Autobattler · Eingabe und Start */
 let SUPP = 0;
 {
   let dd = null,
