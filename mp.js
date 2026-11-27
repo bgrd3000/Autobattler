@@ -11,7 +11,9 @@ const vm = require('vm');
 const zlib = require('zlib');
 const crypto = require('crypto');
 
-const N = 5; /* Plätze je Spiel */
+const N = 5; /* höchstens so viele Plätze je Spiel */
+const nOf = G => G.n || N,
+  nbOf = G => G.nb || X.MPX.NBAT;
 const KEEP_DAYS = 45;
 
 /* ---------- Engine laden ---------- */
@@ -41,7 +43,14 @@ function loadEngine(dir) {
 }
 /* Engine-Aufruf mit kleinem Zustand; Einheiten-Nummern laufen im Spiel weiter */
 function E(G, map, f) {
-  const S = { round: G.round, uid: G.uid, map: map || { i: 0, n: '', mods: [] }, orders: [], units: [], aiOrd: [] };
+  const S = {
+    round: G.round,
+    uid: G.uid,
+    map: map || { i: 0, n: '', mods: [] },
+    orders: [],
+    units: [],
+    aiOrd: []
+  };
   X.setS(S);
   const r = f(X.MPX);
   G.uid = X.getS().uid;
@@ -118,13 +127,23 @@ function rec(G, s, out) {
 const inv = o => ({ win: 'loss', loss: 'win' })[o] || 'draw';
 
 /* ---------- Lobby ---------- */
-function create(name, player, nh) {
+function create(name, player, nh, o = {}) {
+  const n = Math.max(2, Math.min(N, o.n | 0 || N)),
+    nb = [4, 6, 8, 10, 12].includes(o.nb | 0) ? o.nb | 0 : X.MPX.NBAT,
+    all = X.MPX.facs(),
+    facs = Array.isArray(o.facs) ? all.filter(f => o.facs.includes(f)) : all.slice();
+  nh = Math.max(1, Math.min(n, nh | 0 || 2));
+  if (facs.length < nh)
+    throw new Error('Es müssen mindestens so viele Völker gewählt sein wie Menschen mitspielen.');
   const G = {
+    n,
+    nb,
+    facs,
     id: rid(5),
     name: clean(name, 40) || 'Feldzug',
     created: Date.now(),
     status: 'lobby',
-    nh: Math.max(1, Math.min(N, nh | 0 || 2)),
+    nh,
     seats: [{ k: 'h', name: clean(player, 20) || 'Spieler 1', t: rid(12), fac: '' }],
     round: 0,
     uid: 1,
@@ -153,17 +172,26 @@ function join(G, player) {
 function start(G) {
   if (G.status !== 'lobby') return;
   const names = shuffle(X.MPX.names()).filter(n => !G.seats.some(x => x.name === n));
-  while (G.seats.length < N) G.seats.push({ k: 'ai', name: names.shift(), fac: '' });
+  while (G.seats.length < nOf(G)) G.seats.push({ k: 'ai', name: names.shift(), fac: '' });
   G.status = 'run';
   G.phase = 'fac';
 }
 function setFac(G, s, fac) {
   if (G.phase !== 'fac') throw new Error('Volkswahl ist vorbei.');
-  if (!X.MPX.facs().includes(fac)) throw new Error('Unbekanntes Volk.');
-  if (G.seats.some((x, i) => i !== s && x.fac === fac)) throw new Error('Dieses Volk ist schon vergeben.');
+  if (!(G.facs || X.MPX.facs()).includes(fac))
+    throw new Error('Dieses Volk spielt in diesem Feldzug nicht mit.');
+  if (G.seats.some((x, i) => i !== s && x.k === 'h' && x.fac === fac))
+    throw new Error('Dieses Volk ist schon vergeben.');
   G.seats[s].fac = fac;
-  if (humans(G).every(i => G.seats[i].fac)) {
-    const free = shuffle(X.MPX.facs().filter(f => !G.seats.some(x => x.fac === f)));
+  facDone(G);
+}
+/* alle Menschen haben gewählt: KI-Völker verteilen, erste Runde */
+function facDone(G) {
+  if (G.phase === 'fac' && humans(G).every(i => G.seats[i].fac)) {
+    /* KI-Völker: zuerst freie, reichen sie nicht, kommen Völker mehrfach vor */
+    const fa = G.facs || X.MPX.facs(),
+      unused = shuffle(fa.filter(f => !G.seats.some(x => x.fac === f))),
+      free = [...unused, ...shuffle(fa.slice()), ...shuffle(fa.slice()), ...shuffle(fa.slice())];
     G.ai = {};
     G.seats.forEach((x, i) => {
       if (x.k !== 'ai') return;
@@ -175,32 +203,68 @@ function setFac(G, s, fac) {
   }
 }
 
+/* ---------- Beenden ---------- */
+/* Wer das Spiel angelegt hat, beendet es für alle. Andere steigen aus: ihr Platz wird ein KI-Heer
+   (mit frischem Heer seines Volkes), damit niemand auf sie warten muss. */
+function leave(G, s) {
+  if (G.status === 'over') return;
+  if (s === 0 || G.status === 'lobby') {
+    if (s !== 0) {
+      G.seats.splice(s, 1);
+      return;
+    }
+    G.status = 'over';
+    G.phase = 'over';
+    G.ended = true;
+    return;
+  }
+  const x = G.seats[s];
+  x.k = 'ai';
+  x.t = rid(12); /* alter Link verfällt */
+  x.ready = false;
+  x.left = true;
+  delete G.sub[s];
+  if (G.phase === 'fac') {
+    x.fac = '';
+    return facDone(G);
+  }
+  G.ai[s] = E(G, null, M => plain(M.ai(x.name, x.fac)));
+  if (G.phase === 'draft') aiLoop(G);
+  else if (G.phase === 'build') {
+    const p = pairOf(G, s);
+    E(G, p ? p.map : { i: 0, n: '', mods: [] }, M => {
+      const a = JSON.parse(JSON.stringify(G.ai[s]));
+      M.aiBuild(a);
+      G.ai[s] = plain(a);
+    });
+    /* wartete der Gegner schon auf ihn, kämpft er jetzt gegen die KI */
+    const o = p ? opp(p, s) : -1;
+    if (p && !p.done && G.sub[o]) fightIfReady(G, p, o);
+    roundEnd(G);
+  } else if (G.phase === 'route') {
+    delete G.routeOpts[s];
+    if (!Object.keys(G.routeOpts).length) newRound(G);
+  }
+}
+
 /* ---------- Paarungen ---------- */
-/* Wer setzt aus (bei 5 Plätzen einer): lieber ein KI-Heer, sonst wer am seltensten aussetzte.
-   Die übrigen vier werden so gepaart, dass man möglichst selten zweimal auf denselben trifft. */
+/* Bei ungerader Zahl setzt einer aus: lieber ein KI-Heer, sonst wer am seltensten aussetzte.
+   Die übrigen werden so gepaart, dass man möglichst selten zweimal auf denselben trifft. */
+function matchings(l) {
+  if (!l.length) return [[]];
+  const [a, ...r] = l,
+    out = [];
+  r.forEach((b, i) => matchings(r.filter((_, j) => j !== i)).forEach(m => out.push([[a, b], ...m])));
+  return out;
+}
 function pairings(G) {
   const all = G.seats.map((x, i) => i),
-    pool = all.filter(i => !isH(G, i)).length ? all.filter(i => !isH(G, i)) : all,
-    r = shuffle(pool.slice()).sort((a, b) => (G.rests[a] || 0) - (G.rests[b] || 0))[0],
-    four = all.filter(i => i !== r),
-    [a, b, c, d] = four,
-    opts = shuffle([
-      [
-        [a, b],
-        [c, d]
-      ],
-      [
-        [a, c],
-        [b, d]
-      ],
-      [
-        [a, d],
-        [b, c]
-      ]
-    ]),
+    ais = all.filter(i => !isH(G, i)),
+    pool = ais.length ? ais : all,
+    r = all.length % 2 ? shuffle(pool.slice()).sort((a, b) => (G.rests[a] || 0) - (G.rests[b] || 0))[0] : -1,
     k = (x, y) => (x < y ? x + '-' + y : y + '-' + x),
     cost = o => o.reduce((s, [x, y]) => s + (G.met[k(x, y)] || 0) * 10, 0);
-  const best = opts.sort((p, q) => cost(p) - cost(q))[0];
+  const best = shuffle(matchings(shuffle(all.filter(i => i !== r)))).sort((p, q) => cost(p) - cost(q))[0];
   return {
     rest: r,
     pairs: best.map(([x, y]) => {
@@ -220,14 +284,20 @@ function newRound(G) {
   const pl = G.nextPl || pairings(G);
   G.nextPl = null;
   G.rest = pl.rest;
-  G.rests[pl.rest] = (G.rests[pl.rest] || 0) + 1;
+  if (pl.rest >= 0) G.rests[pl.rest] = (G.rests[pl.rest] || 0) + 1;
   const maps = X.MPX.maps();
   G.pairs = pl.pairs.map(p => {
     const mi = G.next[pkey(p)] != null ? G.next[pkey(p)] : Math.floor(Math.random() * maps.length);
     const k = p.a < p.b ? p.a + '-' + p.b : p.b + '-' + p.a;
     G.met[k] = (G.met[k] || 0) + 1;
     if (isH(G, p.a) && isH(G, p.b)) G.homes[p.a] = (G.homes[p.a] || 0) + 1;
-    const P = { ...p, map: { i: mi, n: maps[mi], mods: [] }, wx: E(G, null, M => M.rollWx()), ord: [], done: false };
+    const P = {
+      ...p,
+      map: { i: mi, n: maps[mi], mods: [] },
+      wx: E(G, null, M => M.rollWx()),
+      ord: [],
+      done: false
+    };
     /* KI-Gegner eines Menschen: Befehle (Schanzen landen auf der Karte) */
     if (isH(G, p.a) && !isH(G, p.b)) P.ord = E(G, P.map, M => plain(M.aiOrd(G.ai[p.b])));
     return P;
@@ -248,20 +318,20 @@ function newRound(G) {
 }
 const dirOf = G => (G.dr.p % 2 ? -1 : 1);
 function openPacks(G) {
-  const P = E(G, null, M => plain(M.packs(N)));
+  const P = E(G, null, M => plain(M.packs(nOf(G))));
   G.dr.q = P.map(pk => [pk]);
   aiLoop(G);
 }
 function pass(G, s) {
   const q = G.dr.q,
     pk = q[s].shift();
-  if (pk.it.length) q[(s + dirOf(G) + N) % N].push(pk);
+  if (pk.it.length) q[(s + dirOf(G) + nOf(G)) % nOf(G)].push(pk);
 }
 /* KI-Plätze nehmen, solange sie ein Pack vor sich haben; danach ggf. nächstes Pack oder Ende */
 function aiLoop(G) {
   for (let go = true; go; ) {
     go = false;
-    for (let s = 0; s < N; s++) {
+    for (let s = 0; s < nOf(G); s++) {
       if (isH(G, s) || !G.dr.q[s].length) continue;
       const ai = G.ai[s],
         pk = G.dr.q[s][0];
@@ -372,7 +442,7 @@ function roundEnd(G) {
     rec(G, p.b, inv(out));
     G.log.push({ a: p.a, b: p.b, out });
   }
-  if (G.round >= X.MPX.NBAT) {
+  if (G.round >= nbOf(G)) {
     G.phase = 'over';
     G.status = 'over';
     return;
@@ -405,6 +475,8 @@ function pub(G) {
     name: G.name,
     status: G.status,
     nh: G.nh,
+    n: nOf(G),
+    nb: nbOf(G),
     round: G.round,
     phase: G.phase || '',
     created: G.created,
@@ -417,7 +489,10 @@ function view(G, s) {
     ...pub(G),
     v: G.v,
     me: s,
-    nbat: X.MPX.NBAT,
+    nbat: nbOf(G),
+    ended: !!G.ended,
+    n: nOf(G),
+    facs: G.facs || X.MPX.facs(),
     seats: G.seats.map((x, i) => ({
       name: x.name,
       k: x.k,
@@ -450,7 +525,15 @@ function view(G, s) {
     };
     if (!isH(G, o) && G.phase !== 'draft') {
       const a = G.ai[o];
-      v.pair.foeAI = { n: a.n, fac: a.fac, army: a.army || [], col: a.col, chr: a.chr, form: a.form || '', ord: p.ord };
+      v.pair.foeAI = {
+        n: a.n,
+        fac: a.fac,
+        army: a.army || [],
+        col: a.col,
+        chr: a.chr,
+        form: a.form || '',
+        ord: p.ord
+      };
     }
   }
   if (G.phase === 'route') {
@@ -510,7 +593,7 @@ async function handle(req, res, url) {
         return send(req, res, 200, L);
       }
       const b = await body(req, 4000);
-      const G = create(b.name, b.player, b.nh);
+      const G = create(b.name, b.player, b.nh, { n: b.n, nb: b.nb, facs: b.facs });
       if (G.nh <= 1) start(G);
       saveG(G);
       return send(req, res, 200, { id: G.id, t: G.seats[0].t, seat: 0 });
@@ -546,7 +629,11 @@ async function handle(req, res, url) {
     else if (act === 'pick') out.it = pick(G, s, b.pid, b.i | 0);
     else if (act === 'ready') ready(G, s, b.side, b.mods);
     else if (act === 'route') route(G, s, b.i | 0);
-    else if (act === 'save') {
+    else if (act === 'leave') {
+      leave(G, s);
+      saveG(G);
+      return send(req, res, 200, { ok: 1 });
+    } else if (act === 'save') {
       putX(G, s, 'sav', JSON.stringify(b.S || null));
       return send(req, res, 200, { ok: 1 });
     } else return send(req, res, 404, { error: 'Unbekannte Aktion' });
@@ -563,4 +650,8 @@ function init(dir, dataDir) {
   loadAll();
   return games.size;
 }
-module.exports = { init, handle, _t: { games, create, join, start, setFac, pick, ready, route, view, X: () => X } };
+module.exports = {
+  init,
+  handle,
+  _t: { games, create, join, start, setFac, pick, ready, route, view, leave, X: () => X }
+};
