@@ -3745,7 +3745,7 @@ body.typing .tabs {
 }
 .tnode {
   position: absolute;
-  height: 52px;
+  height: 72px;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -3839,8 +3839,8 @@ body.typing .tabs {
 }
 .tdots .dot,
 .tleg .dot {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
 }
 .dot.miss {
   background: transparent;
@@ -4040,6 +4040,79 @@ body.typing .tabs {
 .foes .tag.nx {
   background: #f2c64c;
   color: #2a1216;
+}
+.echip.rare {
+  border-style: dashed;
+  border-color: #f2c64c;
+}
+/* Einheitenbaum: Fähigkeiten, Bauweg nach Lesezeichen */
+.tnode .tab {
+  font-size: 10.5px;
+  line-height: 1.15;
+  color: var(--mut);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.tnode .tbg {
+  position: absolute;
+  top: -7px;
+  right: 4px;
+  font-size: 10px;
+  line-height: 1;
+  padding: 2px 5px;
+  border-radius: 6px;
+  background: var(--pn);
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+.tnode.inl {
+  position: relative;
+}
+.tnode.s-todo,
+.tlg.s-todo {
+  border: 1.5px dashed #f2c64c;
+}
+.tnode.s-ready,
+.tlg.s-ready {
+  border: 2px solid #f2c64c;
+  box-shadow: 0 0 8px #f2c64c66;
+}
+.tnode.s-ready .tbg {
+  color: #f2c64c;
+}
+.tnode.s-army,
+.tlg.s-army {
+  border: 1.5px solid #9fd88a;
+}
+.tnode.s-army .tbg {
+  color: #9fd88a;
+}
+.tlg {
+  display: inline-block;
+  padding: 0 6px;
+  margin-left: 4px;
+  border-radius: 6px;
+  font-size: 11px;
+}
+.tmap > svg path.pm {
+  stroke: #f2c64c;
+  stroke-dasharray: 5 4;
+  stroke-width: 2;
+}
+.tmarks {
+  margin: 0 0 8px;
+}
+.marks .mk u {
+  text-decoration: none;
+  font-weight: 700;
+}
+#resP .dtools {
+  margin: 2px 0 8px;
+}
+.opt.bm {
+  border-color: #f2c64c;
+  box-shadow: 0 0 0 1px #f2c64c inset;
 }
 
 </style>
@@ -5140,7 +5213,7 @@ body.typing .tabs {
       <button
         class="menub"
         data-a="menu"
-        aria-label="Menü: Armee, Rezeptbuch, Einheitenbaum, Bestenliste, Regeln"
+        aria-label="Menü: Armee, Einheitenbaum, Bestenliste, Regeln"
       >
         ☰
       </button>
@@ -5191,6 +5264,10 @@ body.typing .tabs {
         <div class="panel side" id="resP">
           <div class="btabs" id="btabs"></div>
           <h2>Rohstoffe <span id="stc"></span></h2>
+          <div class="dtools">
+            <button class="btn sm" data-a="treeOpen">🌳 Einheitenbaum</button>
+            <div id="marks2" class="marks"></div>
+          </div>
           <div id="stash" class="gems xs"></div>
           <div id="opts" class="opts"></div>
         </div>
@@ -5227,10 +5304,6 @@ body.typing .tabs {
         <details class="panel">
           <summary>Armee im Detail</summary>
           <div id="bench"></div>
-        </details>
-        <details class="panel">
-          <summary>Rezeptbuch</summary>
-          <div id="book"></div>
         </details>
         <details class="panel" id="treeD">
           <summary>Einheitenbaum</summary>
@@ -5310,8 +5383,24 @@ const fbm = (x, y) =>
 /*TUNE*/const HPT={"bPL":37,"bAX":34,"bSH":49,"bSW":14,"bRE":19,"bHU":27,"bBA":36,"bSC":18,"bSS":18,"bFT":21,"bGR":24,"bHG":31,"bRB":21,"bHR":29,"bMW":43,"bPB":30,"bFW":17,"bST":43,"bKX":19,"bAP":26,"ePE":14,"eMY":24,"eHO":38,"eSK":23,"eTO":10,"eHI":19,"eHT":33,"eSW":36,"eOR":17,"eAK":54,"eSP":18,"eSI":15,"eFS":14,"eON":10,"eSF":23,"eTW":40,"eKN":16,"eSN":27,"eGM":13,"eAG":32,"zDA":29,"zHB":39,"zRA":12,"zFL":17,"zRW":17,"zKA":8,"zTB":13,"zPR":32,"zLR":22,"zMO":22,"zTK":38,"zGD":32,"zGM":41,"zJS":12,"zKB":9,"zAL":21,"zGB":18,"zTI":30,"zSN":28,"zKR":12,"bWU":50,"bSM":53,"bPH":40,"bHZ":48,"bBE":40,"bFR":20,"bAR":60,"bKH":49,"ePH":41,"eSC":49,"eKS":10,"eKT":35,"ePG":30,"eHK":59,"eSS":61,"eAR":53,"zPS":32,"zDW":6,"zFB":11,"zDR":24,"zTM":45,"zES":58,"zER":36,"zDG":50,"bGH":62,"bBK":78,"bAG":57,"bBS":35,"bKW":88,"eUP":46,"eGG":45,"eTR":87,"eSV":39,"eSG":35,"eHA":46,"zJG":84,"zHD":42,"zKK":33,"zWF":90,"zSR":42,"SAL":17,"FEL":26,"PHX":27,"KOB":18,"EGO":33,"WYR":35,"IRL":12,"SGE":9,"DVO":29,"FLS":18,"WHU":26,"BGI":44,"NGE":13,"KUG":15,"LGO":27,"HWO":33,"MAM":29,"MGO":46,"oPA":59,"oHH":41,"oEW":67,"hKA":47,"hKU":45,"oRO":98,"oHB":95,"hGK":65},ATT={"bPL":2,"bAX":5,"bSH":2,"bSW":2,"bRE":5,"bHU":5,"bBA":5,"bSC":1,"bSS":2,"bFT":3,"bGR":1,"bHG":5,"bRB":2,"bHR":5,"bMW":2,"bPB":6,"bFW":3,"bST":1,"bKX":1,"bAP":2,"ePE":1,"eMY":4,"eHO":2,"eSK":6,"eTO":1,"eHI":5,"eHT":7,"eSW":5,"eOR":1,"eAK":1,"eSP":2,"eSI":1,"eFS":4,"eON":3,"eSF":2,"eTW":2,"eKN":1,"eSN":5,"eGM":2,"eAG":5,"zDA":4,"zHB":4,"zRA":1,"zFL":5,"zRW":2,"zKA":3,"zTB":2,"zPR":7,"zLR":5,"zMO":2,"zTK":2,"zGD":5,"zGM":1,"zJS":2,"zKB":3,"zAL":1,"zGB":2,"zTI":5,"zSN":2,"zKR":2,"bWU":5,"bSM":6,"bPH":4,"bHZ":7,"bBE":7,"bFR":4,"bAR":2,"bKH":6,"ePH":5,"eSC":8,"eKS":4,"eKT":7,"ePG":2,"eHK":2,"eSS":2,"eAR":8,"zPS":3,"zDW":3,"zFB":5,"zDR":6,"zTM":5,"zES":4,"zER":8,"zDG":6,"bGH":6,"bBK":9,"bAG":10,"bBS":9,"bKW":11,"eUP":8,"eGG":8,"eTR":7,"eSV":5,"eSG":7,"eHA":3,"zJG":11,"zHD":7,"zKK":5,"zWF":5,"zSR":8,"SAL":4,"FEL":5,"PHX":7,"KOB":4,"EGO":4,"WYR":8,"IRL":4,"SGE":1,"DVO":7,"FLS":3,"WHU":4,"BGI":7,"NGE":4,"KUG":15,"LGO":5,"HWO":1,"MAM":6,"MGO":4,"oPA":8,"oHH":4,"oEW":7,"hKA":5,"hKU":9,"oRO":10,"oHB":7,"hGK":7},HLT={"bSC":5,"bKX":4,"bAP":4,"eOR":4,"eSN":2,"zMO":3,"zAL":4,"zSN":3,"bAR":6,"eHK":5,"zTM":3,"bAG":3,"eGG":3,"eTR":5,"eSV":3,"zWF":3},EFT={},MULT=[0,1,1.748,2.795];/*END*/
 
 /* Autobattler · Version und Änderungsliste (neueste zuerst) – bei jedem Release oben ergänzen; reine Fixes erhöhen die Nummer nicht */
-const VERSION = '0.11.0';
+const VERSION = '0.12.0';
 const CHANGES = [
+  {
+    v: '0.12.0',
+    t: [
+      'Moral: Regimenter fliehen nicht mehr vor dem Feindkontakt, nur weil sie allein stehen (vor allem Reiterei); Paniktest erst ab 25 % Verlust in kurzer Zeit; Standhaftigkeit +1',
+      'Alchemie für alle Völker gleich: 1–3 Element-Steine werden kombiniert – heraus kommt ein Elementarwesen, ein Charakter oder ein Gegenstand mit genau einer Fähigkeit (63 Rezepte); ohne Rezept ein Talisman mit den addierten kleinen Boni der Steine',
+      'Kein Essen, Beschwören, Runenschlagen, Bannerweihen oder Munitionladen mehr mit Element-Steinen',
+      'Seltene Steine wirklich selten: im Schnitt einer je Draft am ganzen Tisch',
+      'Rezepte ohne Muster: welche Mischung was ergibt, folgt keiner Regel – gleiche Steine sind nicht immer ein Wesen, seltene nicht immer ein Charakter; jedes Rezept braucht höchstens einen seltenen Stein',
+      'Präzisere Einheiten: Stufe 1 und 2 haben genau eine Fähigkeit, Stufe 3 höchstens zwei; 27 doppelte Einheiten gestrichen (ihre Steinpaare bauen nichts mehr)',
+      'Balance neu gemessen nach dem Umbau',
+      'Einheitenbaum neu: jede Einheit zeigt ihre eigenen Fähigkeiten und die nötigen Steine',
+      'Lesezeichen zeigen den Bauweg: im Baum sind die noch zu bauenden Einheiten markiert (gestrichelt = zu bauen, gold = jetzt baubar, grün = im Heer), dazu Fortschritt und nächster Schritt',
+      'Beim Bauen: Einheitenbaum und Lesezeichen-Überblick direkt bei den Rohstoffen; Bau- und Kombi-Optionen auf dem Weg zu einem Lesezeichen sind mit 🔖 markiert',
+      'Rezeptbuch entfernt – der Einheitenbaum ersetzt es; Gelände und Armeelager stehen jetzt in den Regeln'
+    ]
+  },
   {
     v: '0.11.0',
     t: [
@@ -5427,7 +5516,7 @@ const RES = {
   B: { n: 'Luft', c: '#dff3ff', v: 2, el: 'b' },
   R: { n: 'Erde', c: '#c08a4f', v: 2, el: 'r' },
   D: { n: 'Dunkelheit', c: '#8a6bb8', v: 2, el: 'd' },
-  /* seltene Element-Steine: Joker im Draft, wirken nur über die Alchemie (15-alchemy.js) */
+  /* seltene Element-Steine: im Schnitt einer je Draft am Tisch, wirken über die Alchemie (15-alchemy.js) */
   L: { n: 'Licht', c: '#ffe27a', v: 3, el: 'l' },
   Z: { n: 'Blitz', c: '#b8a7ff', v: 3, el: 'z' },
   Y: { n: 'Leben', c: '#6fdc7a', v: 3, el: 'y' },
@@ -5441,9 +5530,7 @@ const RES = {
 const RK = ['e', 'h', 'l', 'o', 'n', 't', 'p', 'k', 'a', 'u', 'c', 's'],
   ESK = ['F', 'I', 'B', 'R', 'D'] /* Grundsteine: Wesen, Sammelbund */,
   ESR = ['L', 'Z', 'Y', 'X', 'G', 'T', 'V', 'C', 'A'] /* seltene Steine */,
-  ESA = [...ESK, ...ESR],
-  /* Häufigkeit im Draft: Grundsteine oft, Licht mittel, die übrigen selten */
-  ESW = { F: 10, I: 10, B: 10, R: 10, D: 10, L: 5, Z: 2, Y: 2, X: 2, G: 2, T: 2, V: 2, C: 2, A: 2 };
+  ESA = [...ESK, ...ESR];
 const GRN = {
     e: ['Bronze', 'Eisen', 'Stahl'],
     h: ['Kiefer', 'Eiche', 'Eibe'],
@@ -5618,27 +5705,27 @@ const FAC = {
   ba: {
     n: 'Barbaren',
     d: 'Raubzüge, Bestien und Raserei. Wenig Rüstung, viel Wucht.',
-    el: 'Werden gegessen: jeder Element-Stein stärkt das Regiment und zählt aufs Fütterlimit. Bis zu drei verspeiste Steine verschmelzen zu einer Essenz – welche, findet nur heraus, wer es probiert.'
+    el: 'Element-Steine werden in der Alchemie kombiniert – bei allen Völkern gleich. Heraus kommen Elementarwesen, Charaktere oder Gegenstände; was genau, zeigt erst der Versuch.'
   },
   de: {
     n: 'Dunkelelfen',
     d: 'Speerwälle, Streitwagen und Magie. Schnell, präzise, zerbrechlich.',
-    el: 'Grundsteine beschwören Elementarwesen (Element + Stein oder Kristall, zwei Elemente ergeben Mischwesen). Wesen lassen sich mit bis zu drei weiteren Steinen nähren – was daraus wird, zeigt sich erst dann.'
+    el: 'Element-Steine werden in der Alchemie kombiniert – bei allen Völkern gleich. Heraus kommen Elementarwesen, Charaktere oder Gegenstände; was genau, zeigt erst der Versuch.'
   },
   zw: {
     n: 'Zwerge',
     d: 'Pulver, Armbrust und Maschinen. Langsam, zäh, mit großer Reichweite.',
-    el: 'Werden als Runen in Regimenter geschlagen – bis zu drei Steine je Regiment. Jede Zusammenstellung ergibt eine andere Rune; aufgeschrieben ist keine.'
+    el: 'Element-Steine werden in der Alchemie kombiniert – bei allen Völkern gleich. Heraus kommen Elementarwesen, Charaktere oder Gegenstände; was genau, zeigt erst der Versuch.'
   },
   or: {
     n: 'Orks',
     d: 'Ritterheer: schwere Reiterei, Burgknechte und Belagerungsgerät. Stark im Sturmangriff, schwerfällig im Manöver.',
-    el: 'Werden zu Schlachtbannern geweiht: bis zu drei Steine je Regiment; die Kraft des Banners strahlt auch auf Verbündete im Umkreis aus. Welche Kraft, zeigt erst die Weihe.'
+    el: 'Element-Steine werden in der Alchemie kombiniert – bei allen Völkern gleich. Heraus kommen Elementarwesen, Charaktere oder Gegenstände; was genau, zeigt erst der Versuch.'
   },
   he: {
     n: 'Hochelfen',
     d: 'Pike und Pulver: dichte Pikenblöcke, Büchsenschützen und schnelle Reiter. Diszipliniert, stark auf Distanz.',
-    el: 'Werden zu Munition geladen: bis zu drei Steine je Fernkämpfer, dazu +2 Angriff aus der Ferne. Was die Ladung bewirkt, zeigt erst der Versuch.'
+    el: 'Element-Steine werden in der Alchemie kombiniert – bei allen Völkern gleich. Heraus kommen Elementarwesen, Charaktere oder Gegenstände; was genau, zeigt erst der Versuch.'
   }
 };
 /* Volksstein: Einheiten, deren Rezept diesen Rohstoff enthält, sind stärker als die Gegenstücke anderer Völker */
@@ -7458,15 +7545,31 @@ const TR = {
 /* Lebenspunkte je Modell: LP = Mann × LP je Mann (lpm). Wer stärker werden soll, bekommt mehr Mann (TRX),
    nicht einfach mehr LP. Einzelkämpfer, Wesen und Lager behalten ihre LP. */
 const TRX = {
+  /* Balance 0.12 (präzise Einheiten, 160 Feldzüge je Volk: Dunkelelfen 59 %, Orks 55 %, Barbaren 43 %, Hochelfen 45 %) */
+  eSW: 7,
+  zTI: 11,
+  zPR: 17,
+  eSF: 4,
+  eAK: 7,
+  eOR: 12,
+  oHA: 48,
+  oHR: 12,
+  bPB: 26,
+  bFT: 26,
+  bSS: 6,
+  bHG: 17,
+  bBA: 11,
+  hRO: 52,
+  hSI: 15,
+  hMA: 7,
   /* Kerntruppen, die zu schnell zerfielen: mehr Mann */
-  eMY: 66,
+  eMY: 50,
   eHO: 56,
   bPL: 90,
   hFA: 3 /* Falkonett: meistgenutzte Artillerie der Hochelfen */,
   hBG: 32 /* Silberbogner: stärkste Schützen (Schaden je Wert 17 gegen sonst ~12) */,
   bSH: 56,
-  zGD: 9 /* Bergkönigsgarde: zäheste Linie, meistgenutzt (Zwerge lagen bei 54 %) */,
-  oHR: 14 /* Hauerritter: Orks = schwere Reiterei, meistgenutzt */,
+  zGD: 11 /* Bergkönigsgarde: zäheste Linie, meistgenutzt (Zwerge lagen bei 54 %) */,
   ePH: 62,
   oPA: 15,
   oHH: 57,
@@ -7794,6 +7897,90 @@ function fmSlot(fm, i, n, f, rk) {
 const curTroops = u => troopsOf(u),
   uForm = u => formOf(u.t, curTroops(u));
 
+/* ── Präzise Einheiten (Vorschlag „Einheiten präziser“, Nov 2026) ─────────────────────────────────
+   Stufe 1 und 2: genau eine Fähigkeit, Stufe 3: höchstens zwei. UDROP nimmt die übrigen weg.
+   UCUT streicht Stufe-1-Einheiten, die eine andere desselben Volkes doppeln; ihre Steinpaare bauen dann nichts.
+   Die Formation wird vorher festgehalten, damit das Wegnehmen (z. B. Schutzaura) sie nicht ändert. */
+const UDROP = {
+  bBA: ["splash"],
+  eHO: ["rhalf"],
+  eSK: ["stealth"],
+  eSW: ["charge"],
+  zTI: ["charge", "hunt"],
+  oHR: ["charge", "push"],
+  oOR: ["aura", "charge"],
+  oSB: ["swarm"],
+  oGE: ["hunt"],
+  hPI: ["rhalf"],
+  hFK: ["aura"],
+  bWU: ["ls", "warcry"],
+  bSM: ["dig"],
+  bHZ: ["warcry"],
+  bBE: ["splash", "fear"],
+  bAR: ["rg", "banner"],
+  bKH: ["aura", "ward", "unbr"],
+  ePH: ["ward", "dig"],
+  eSC: ["th"],
+  eKT: ["stealth"],
+  eHK: ["rg", "banner"],
+  eSS: ["splash", "thru"],
+  eAR: ["ward", "br", "banner"],
+  zPS: ["ward", "dig"],
+  zDW: ["thru"],
+  zFB: ["splash", "thru"],
+  zDR: ["charge", "warcry"],
+  zTM: ["br", "unbr"],
+  zES: ["ward", "dig"],
+  zER: ["br"],
+  zDG: ["aura", "ward", "unbr"],
+  oLS: ["charge", "warcry"],
+  oPA: ["aura"],
+  oHH: ["ward"],
+  oPZ: ["ls", "berserk"],
+  oBP: ["splash"],
+  oEW: ["dig"],
+  oHJ: ["hunt"],
+  hKA: ["ward", "dig"],
+  hKH: ["br"],
+  hFR: ["volley"],
+  hKU: ["charge"],
+  hFB: ["splash"],
+  hHM: ["rg"],
+  hLF: ["aura", "ward"],
+  bGH: ["warcry"],
+  bBK: ["fear"],
+  bAG: ["fear"],
+  bKW: ["dig"],
+  eUP: ["unbr", "dig"],
+  eGG: ["stun", "fear"],
+  eTR: ["thru"],
+  eSV: ["fear", "stealth"],
+  eSG: ["warcry"],
+  eHA: ["warcry"],
+  zJG: ["unbr", "dig"],
+  zKK: ["thru"],
+  zWF: ["th", "fear", "unbr"],
+  zSR: ["warcry"],
+  oRO: ["aura", "charge", "warcry"],
+  oFW: ["dig"],
+  oGS: ["ls", "fear"],
+  oFZ: ["thru"],
+  hGK: ["unbr", "dig"],
+  hSS: ["warcry"],
+  hKR: ["aura", "ward"]
+};
+const UCUT = ["bHR", "bMW", "bFW", "bST", "bKX", "bAP", "eFS", "eON", "eTW", "eKN", "eSN", "eGM", "zTB", "zGM", "zJS", "zKB", "zAL", "zSN", "zKR", "oLB", "oFT", "oHX", "oGA", "oTK", "hKS", "hMB", "hSG"];
+(function () {
+  for (const t in U) if (!U[t].king && !U[t].twr && !U[t].cre && !FMX[t]) FMX[t] = fmOf(t);
+  for (const t in UDROP) if (U[t]) UDROP[t].forEach(k => delete U[t][k]);
+  for (const t of UCUT) {
+    const f = U[t] && U[t].fac;
+    if (f && RECF[f]) for (const k of Object.keys(RECF[f])) if (RECF[f][k] === t) delete RECF[f][k];
+    delete U[t];
+    delete FMX[t];
+  }
+})();
+
 /* Autobattler · Rezepte, Werkstätten, Gegenstände, Lager-Ausbauten, Verzauberung */
 /* Gegenstände (Herstellen aus zwei Rohstoffen) sind vorerst abgeschaltet – zum Wiedereinschalten auf true setzen */
 const ITEMS_ON = false;
@@ -7801,19 +7988,8 @@ const ITEMS_ON = false;
 const facOf = f => f || (S && S.fac) || 'ba';
 function fromStones(a, b, f) {
   f = facOf(f);
-  const ea = RES[a.k].el || '',
-    eb = RES[b.k].el || '';
-  if (ea || eb) {
-    if (f !== 'de') return { t: null, el: '' };
-    if (ea && eb) {
-      const m = mix(ea, eb);
-      return ea === eb ? { t: CREC[ea + 3], el: ea } : { t: CREC[m], el: m };
-    }
-    const el = ea || eb,
-      o = ea ? b : a,
-      c = o.k === 't' ? 1 : o.k === 'k' ? 2 : 0;
-    return c ? { t: CREC[el + c], el } : { t: null, el: '' };
-  }
+  /* Element-Steine bauen keine Einheiten mehr direkt – sie gehen in die Alchemie */
+  if (RES[a.k].el || RES[b.k].el) return { t: null, el: '' };
   return { t: RECF[f][rkey(a.k, b.k)] || null, el: '' };
 }
 /* Wesen kosten mehr: zum Steinpaar kommt ein dritter gleicher Stein – der Partner-Rohstoff
@@ -7872,61 +8048,23 @@ const campIns = () => {
       c = CRAFT[k] || (facOf(f) === 'zw' && CRAFTZ[k]);
     return c && (ins || campIns()).includes(c[0]) ? c[1] : null;
   };
-/* Element-Steine je Volk: essen (Barbaren), beschwören (Dunkelelfen), Rune (Zwerge), Banner weihen (Orks), Munition laden (Hochelfen) */
-const ELU = { ba: 'eat', de: 'sum', zw: 'rune', or: 'ban', he: 'ammo' },
-  elUse = f => ELU[facOf(f)],
-  ELV = { rune: 'Rune schlagen', ban: 'Banner weihen', ammo: 'Laden', eat: 'Essen', sum: 'Nähren' };
-/* Name des Magie-Reiters je Volk */
-const ELTAB = { rune: 'Runen', ban: 'Banner', ammo: 'Zaubermunition', eat: 'Festmahl', sum: 'Beschwörung' },
-  elTab = f => ELTAB[elUse(f)] || 'Verzauberungen';
-/* Element-Steine: jedes Volk trägt sie anders auf (Alchemie, 15-alchemy.js). Was eine Zusammenstellung bewirkt,
-   steht nirgends – sie zeigt sich erst auf dem Regiment. */
-const ELWORD = { rune: 'Rune', ammo: 'Munition', ban: 'Banner', eat: 'Mahl', sum: 'Wesensglut' };
-const elName = k => essName(k) || (EL[k] ? EL[k].n : k),
-  /* Wirkung der Essenzen eines Regiments als Text */
-  elTxt = u => {
-    const r = [],
-      T = U[u.t];
-    if (u.ench) {
-      const w = T.fac === 'he' && (T.rng || T.line) ? 'Munition' : T.cre ? 'Wesensglut' : S && S.fac === 'ba' && T.fac === 'ba' ? 'Mahl' : 'Rune';
-      r.push(`${w} ${essName(u.ench)}: ${essLines(essFx(u.ench, w === 'Munition' ? 'ammo' : 'rune')).join('; ')}`);
-    }
-    if (u.ban) r.push(`Banner ${essName(u.ban)}: ${essLines(essFx(u.ban, 'ban')).join('; ')}`);
-    return r.join(' · ');
-  },
+/* Element-Steine: für alle Völker gleich – sie werden in der Alchemie (15-alchemy.js) kombiniert */
+const elName = k => (EL[k] ? EL[k].n : k),
+  /* Gegenstand eines Regiments als Text (Name: Wirkung) */
+  elTxt = u => (u.rel && RELI[u.rel] ? `${RELI[u.rel].n}: ${RELI[u.rel].d}` : ''),
   /* Magie und Auren einer Einheit als kurze Marken (Armeeliste) */
   magicTags = u => {
     const T = U[u.t],
       C = u.ch ? chFx(u.ch) : {},
       r = [];
-    if (u.ench) r.push({ e: essKey(u.ench), t: essName(u.ench) });
-    if (u.ban) r.push({ e: essKey(u.ban), t: `Banner ${essName(u.ban)}` });
+    if (u.rel && RELI[u.rel] && RELI[u.rel].alc) r.push({ e: u.rel.slice(2, 3), t: RELI[u.rel].n });
     if (u.b && u.b.dark) r.push({ e: 'd', t: 'Dunkel (gegessen)' });
-    const enR = !u.ench && u.rel && RELI[u.rel] && RELI[u.rel].el;
-    if (enR) r.push({ e: enR, t: `${RELI[u.rel].n}` });
     const au =
       (T.aura || 0) + (C.aura || 0) + (u.rel === 'ba' ? 1 : 0) + (u.ins || []).filter(x => x === 'ze').length;
     if (au) r.push({ e: '', t: `Aura +${au} Angriff · 12` });
     return r;
-  };
-/* Wer kann einen Element-Stein tragen? Je Volk: Rune (Einheiten), Munition (Fernkämpfer), Banner (Einheiten),
-   Mahl (Barbaren: jede Einheit mit freiem Fütterplatz), Wesensglut (Dunkelelfen: nur Wesen). Höchstens drei Steine. */
-const essOn = (u, f) => (elUse(f) === 'ban' ? u.ban : u.ench) || '',
-  canEnch = (u, st, f, n) => {
-    const m = elUse(f);
-    if (!st || st.type !== 'st' || !RES[st.k].el || !u || U[u.t].king) return false;
-    if (essKey(essOn(u, f)).length + (n || 1) > ESSMAX) return false;
-    if (m === 'sum') return !!U[u.t].cre;
-    if (U[u.t].cre) return false;
-    if (m === 'ammo') return !!(U[u.t].rng || U[u.t].line);
-    if (m === 'eat') return u.f + (n || 1) <= 3 * u.s;
-    return true;
   },
-  applyEl = (u, el, f) => {
-    if (elUse(f) === 'ban') u.ban = essAdd(u.ban, el) || u.ban;
-    else u.ench = essAdd(u.ench, el) || u.ench;
-  },
-  enchOf = u => u.ench || (u.rel && RELI[u.rel] && RELI[u.rel].el) || '';
+  enchOf = u => (u.rel && RELI[u.rel] && RELI[u.rel].el) || '';
 const RELI = {
     sw: { n: 'Flammenschwert', ic: 'LI', c: '#ff7a2f', d: '+3 Angriff' },
     sh: { n: 'Turmschild', ic: 'SI', c: '#b9c0c8', d: '+3 Rüstung' },
@@ -8220,7 +8358,8 @@ const RKN = ['', 'Unteroffizier', 'Held', 'General'],
     th: v => `Dornen ${v}`,
     vis: v => `+${v * 10} Sicht`,
     ls: () => 'Lebensraub',
-    ench: e => essLines(essFx(e, 'rune')).join(', ')
+    ench: e => Object.keys(ESS1[e] || {}).map(t => TRC[t]()).join(', '),
+    tr: o => Object.entries(o).map(([t, v]) => TRC[t](v)).join(', ')
   };
 /* Wirkung eines Charakters auf sein Regiment (inkl. getragenem Gegenstand) */
 function chFx(ch) {
@@ -8268,352 +8407,168 @@ function chExplain(c, lvNow) {
   }</div>`;
 }
 
-/* Autobattler · Alchemie der Element-Steine
-   Ein Regiment trägt eine Essenz aus 1–3 Element-Steinen (u.ench, bei Orks als Banner u.ban). Jede Essenz –
-   jede Zusammenstellung, auch doppelte Steine wie Feuer + Feuer + Wasser – hat eine eigene, feste Wirkung.
-   Im Spiel wird nichts davon erklärt, bevor man es ausprobiert: Spieler sollen entdecken.
-   Aufbau: Einzelwirkungen (ESS1), handgemachte Kombinationen (ESSH), alle übrigen aus einem festen Generator
-   (Merkmal-Vorrat je Element, Zufall mit der Essenz als Saat – also immer gleich).
-   Die Wirkung besteht aus Werten (st) und Merkmalen (tr). Merkmale heißen wie die Fähigkeiten der Einheiten
-   (burn, chain, rg …); der Kampf liest sie über UB(o) wie angeborene Fähigkeiten. */
+/* Autobattler · Alchemie: Element-Steine kombinieren – für alle Völker gleich
+   1–3 Element-Steine werden im Lager zusammengeführt. Heraus kommt
+   · nach einem Rezept (ALC) ein Gegenstand mit genau einer Fähigkeit, ein Elementarwesen oder ein Charakter,
+   · sonst ein Talisman: die kleinen Boni der Steine addiert (Feuer +1 Angriff, Wasser +6 LP …).
+   Im Spiel steht nirgends, was ein Rezept ergibt – Spieler sollen es ausprobieren.
+   Gegenstände sind Einträge in RELI/RS (12-items.js) und werden wie andere Gegenstände angelegt;
+   ihre Fähigkeit (tr) liest der Kampf über UB(o) wie eine angeborene. */
 
-/* Reihenfolge der Elemente in einem Essenz-Schlüssel (sortiert) */
+/* Reihenfolge der Elemente in einem Rezept-Schlüssel (sortiert) */
 const ELS = ['f', 'i', 'b', 'r', 'd', 'l', 'z', 'y', 'x', 'g', 't', 'v', 'c', 'a'];
 const essKey = s =>
   [...(s || '')]
     .filter(e => ELS.includes(e))
     .sort((a, b) => ELS.indexOf(a) - ELS.indexOf(b))
     .join('');
-const ESSMAX = 3;
+const ALCMAX = 3;
 
-/* ── Merkmale: Wirkung, Text, Stärke ──────────────────────────────────────────────────────────── */
+/* ── Fähigkeiten (Merkmale): Text ─────────────────────────────────────────────────────────────── */
 const TRC = {
-  burn: { d: () => 'Treffer setzen das Ziel in Brand' },
-  freeze: { d: () => 'Treffer lassen das Ziel stillstehen (höchstens jeden 2. Treffer)' },
-  jump: { d: () => 'Treffer springen zu 50 % auf einen weiteren Gegner über' },
-  chain: { d: () => 'Blitzkette: Treffer springen auf zwei weitere Gegner (60 %)' },
-  root: { d: () => 'Treffer fesseln das Ziel 2 s an den Boden' },
-  stun: { d: () => 'Treffer betäuben (höchstens jeden 2. Zug)' },
-  splash: { d: () => 'Flächenschaden: halber Schaden an Gegnern dicht beim Ziel' },
-  quake: { d: () => 'Beben: jeder Nahkampftreffer erschüttert alle Gegner in Berührung' },
-  push: { d: () => 'Wucht: stößt das Ziel zurück' },
-  ls: { d: () => 'Lebensraub: heilt sich um ⅓ des Schadens' },
-  melt: { d: () => 'Zersetzen: jeder Treffer nimmt dem Ziel 1 Rüstung' },
-  blaze: { d: () => 'Glutkranz: versengt jeden Zug alle Gegner in Berührung' },
-  rg: { d: v => `Regeneration ${v}: heilt sich jeden Zug` },
-  th: { d: v => `Dornen ${v}: wer es im Nahkampf trifft, erleidet Schaden` },
-  fear: { d: () => 'Furcht: Gegner im Nahkampf müssen Mutproben bestehen' },
-  shade: { d: () => 'Tarnung: erst auf 15 Schritt zu sehen' },
-  warcry: { d: () => 'Schlachtruf: der erste Gegner im Nahkampf muss eine Mutprobe bestehen' },
-  unbr: { d: () => 'Unerschütterlich: flieht nie' },
-  berserk: { d: () => 'Raserei: stärker, je verwundeter, flieht nie' },
-  hunt: { d: v => `Hetzjagd: +${v} Schaden gegen Verwundete` },
-  shield: { d: () => 'Schildwehr: der erste Treffer verpufft' },
-  rhalf: { d: () => 'Halber Fernkampfschaden' },
-  mist: { d: () => 'Nebelleib: Fernkampf geht hindurch' },
-  imm: { d: () => 'Unberührbar: Brand, Frost, Fesseln und Betäubung wirken nicht' },
-  rebirth: { d: () => 'Wiedergeburt: steht einmal mit einem Drittel der LP wieder auf' },
-  charge: { d: () => 'Ansturm: erster Nahkampfangriff doppelt' },
-  pierceM: { d: () => 'Nahkampf ignoriert Rüstung' },
-  impact: { d: () => 'Aufprall: der Sturmangriff trifft alle Gegner in Berührung' },
-  dcap: { d: v => `Zäh: kein Treffer richtet mehr als ${v} Schaden an` },
-  aura: { d: v => `Kampfaura: +${v} Angriff für Verbündete im Umkreis von 12` },
-  ward: { d: v => `Schutzaura: +${v} Rüstung für Verbündete im Umkreis von 12` },
-  banner: { d: () => 'Feldzeichen: Verbündete in 15 Schritt halten besser stand' },
-  blink: { d: () => 'Sprung: taucht alle 7 s neben dem schwächsten Gegner auf' },
-  dig: { d: () => 'Verschanzen: steht es still, +2 Rüstung' },
-  pull: { d: () => 'Sog: zieht jeden Zug einen Gegner heran' },
-  steady: { d: () => 'Standfest: lässt sich nicht wegstoßen' },
-  dread: { d: () => 'Grauen: Getroffene müssen eine Mutprobe bestehen (höchstens alle 3 s)' },
-  dodge: { d: v => `Wesenlos: weicht ${Math.round(v * 100)} % der Nahkampftreffer aus` },
-  drain: { d: () => 'Entkräften: jeder Treffer nimmt dem Ziel 1 Angriff (höchstens alle 3 s)' },
-  dispel: { d: () => 'Entzaubern: der erste Treffer löscht die Essenz des Ziels' },
-  deathB: { d: v => `Letzter Atem: beim Tod ${v} Schaden an allen Gegnern in Berührung` },
-  haste: { d: v => `Eile: greift ${Math.round(v * 100)} % schneller an` },
-  mend: { d: v => `Lebensquell: heilt jeden 2. Zug Verbündete im Umkreis von 12 um ${v}` },
-  windB: { d: () => 'Rückenwind: Fernkampf aus dem Umkreis von 12 +1, feindlicher hinein −1' },
-  sap: { d: () => 'Seelenraub: jeder Sieg über ein Regiment gibt der eigenen Seite Moral' },
-  echo: { d: v => `Echo: ${Math.round(v * 100)} % Chance, sofort noch einmal zuzuschlagen` },
-  glare: { d: () => 'Gleißen: feindlicher Fernkampf auf das Regiment −2 Angriff' },
-  gravity: { d: () => 'Schwere: Gegner in Berührung sind halb so schnell' }
+  burn: () => 'Treffer setzen das Ziel in Brand',
+  freeze: () => 'Treffer lassen das Ziel stillstehen (höchstens jeden 2. Treffer)',
+  jump: () => 'Treffer springen zu 50 % auf einen weiteren Gegner über',
+  chain: () => 'Blitzkette: Treffer springen auf zwei weitere Gegner (60 %)',
+  root: () => 'Treffer fesseln das Ziel 2 s an den Boden',
+  stun: () => 'Treffer betäuben (höchstens jeden 2. Zug)',
+  splash: () => 'Flächenschaden: halber Schaden an Gegnern dicht beim Ziel',
+  rg: v => `Regeneration: heilt sich jeden Zug um ${v} LP je Stern`,
+  fear: () => 'Furcht: Gegner im Nahkampf müssen Mutproben bestehen',
+  shade: () => 'Tarnung: erst auf 15 Schritt zu sehen',
+  berserk: () => 'Raserei: stärker, je verwundeter, flieht nie',
+  hunt: v => `Hetzjagd: +${v} Schaden gegen Verwundete`,
+  shield: () => 'Schildwehr: der erste Treffer verpufft',
+  rhalf: () => 'Halber Fernkampfschaden',
+  mist: () => 'Nebelleib: Fernkampf geht hindurch',
+  imm: () => 'Unberührbar: Brand, Frost, Fesseln und Betäubung wirken nicht',
+  rebirth: () => 'Wiedergeburt: steht einmal mit einem Drittel der LP wieder auf',
+  pierceM: () => 'Nahkampf ignoriert Rüstung',
+  blink: () => 'Sprung: taucht alle 7 s neben dem schwächsten Gegner auf',
+  pull: () => 'Sog: zieht jeden Zug einen Gegner heran',
+  steady: () => 'Standfest: lässt sich nicht wegstoßen',
+  dread: () => 'Grauen: Getroffene müssen eine Mutprobe bestehen (höchstens alle 3 s)',
+  dodge: v => `Wesenlos: weicht ${Math.round(v * 100)} % der Nahkampftreffer aus`,
+  dispel: () => 'Entzaubern: der erste Treffer nimmt dem Ziel die Kraft seines Gegenstands',
+  deathB: v => `Letzter Atem: beim Tod ${v} Schaden an allen Gegnern in Berührung`,
+  haste: v => `Eile: greift ${Math.round(v * 100)} % schneller an`,
+  mend: v => `Lebensquell: heilt jeden 2. Zug Verbündete im Umkreis von 12 um ${v}`,
+  sap: () => 'Seelenraub: jedes vernichtete Regiment gibt der eigenen Seite Moral',
+  echo: v => `Echo: ${Math.round(v * 100)} % Chance, sofort noch einmal zuzuschlagen`,
+  glare: () => 'Gleißen: feindlicher Fernkampf auf das Regiment −2 Angriff',
+  gravity: () => 'Schwere: Gegner in Berührung sind halb so schnell',
+  ls: () => 'Lebensraub: heilt sich um ⅓ des Schadens'
 };
-const STN = { atk: 'Angriff', arm: 'Rüstung', hp: '% LP', ini: 'Initiative', spd: 'Tempo', ld: 'Standhaftigkeit', vis: 'Sicht' };
-/* Merkmale, die nur im Nahkampf bzw. nur mit Fernkampf Sinn ergeben */
-const TRMEL = ['charge', 'impact', 'quake', 'pierceM', 'push', 'warcry'];
+const STN = { atk: 'Angriff', arm: 'Rüstung', hp: 'LP', ini: 'Initiative', spd: 'Tempo', ld: 'Standhaftigkeit', vis: 'Sicht' };
 
-/* ── Einzelwirkungen ──────────────────────────────────────────────────────────────────────────── */
+/* ── kleine Boni der einzelnen Steine (Talisman = Summe) ──────────────────────────────────────── */
+const STONE = {
+  f: { atk: 1 },
+  i: { hp: 6 },
+  b: { ini: 1 },
+  r: { arm: 1 },
+  d: { ld: 1 },
+  l: { ld: 2, hp: 4 },
+  z: { ini: 2, atk: 1 },
+  y: { hp: 12 },
+  x: { atk: 2 },
+  g: { ld: 1, ini: 1 },
+  t: { arm: 2 },
+  v: { arm: 1, ld: 1 },
+  c: { ini: 1, spd: 0.5 },
+  a: { atk: 1, hp: 6 }
+};
+/* Einzelstein als Fähigkeit (Charakter-Verzauberung, Pulverkammer III) */
 const ESS1 = {
-  f: { n: 'Feuer', tr: { burn: 1 } },
-  i: { n: 'Wasser', tr: { freeze: 1 } },
-  b: { n: 'Luft', tr: { jump: 1 } },
-  r: { n: 'Erde', st: { arm: 1 }, tr: { steady: 1 } },
-  d: { n: 'Dunkelheit', tr: { shade: 1, fear: 1 } },
-  l: { n: 'Licht', st: { vis: 10 }, tr: { mend: 1, glare: 1 } },
-  z: { n: 'Blitz', st: { ini: 1 }, tr: { chain: 1 } },
-  y: { n: 'Leben', st: { hp: 10 }, tr: { rg: 2 } },
-  x: { n: 'Tod', tr: { hunt: 2, deathB: 3 } },
-  g: { n: 'Geist', st: { ld: 1 }, tr: { dodge: 0.2 } },
-  t: { n: 'Tiefe', st: { arm: 1 }, tr: { gravity: 1 } },
-  v: { n: 'Leere', tr: { imm: 1, dispel: 1 } },
-  c: { n: 'Zeit', st: { ini: 2 }, tr: { haste: 0.15 } },
-  a: { n: 'Blut', tr: { ls: 1, berserk: 1 } }
+  f: { burn: 1 },
+  i: { freeze: 1 },
+  b: { jump: 1 },
+  r: { steady: 1 },
+  d: { shade: 1, fear: 1 }
 };
 
-/* ── Handgemachte Kombinationen (Schlüssel sortiert nach ELS) ─────────────────────────────────── */
-const ESSH = {
-  ff: { n: 'Feuersbrunst', st: { atk: 1 }, tr: { burn: 1, blaze: 1 } },
-  fi: { n: 'Dampfschleier', tr: { shade: 1, rhalf: 1 } },
-  fb: { n: 'Glutwind', tr: { burn: 1, splash: 1 } },
-  fr: { n: 'Magma', st: { arm: 1 }, tr: { melt: 1, steady: 1 } },
-  fd: { n: 'Höllenglut', tr: { burn: 1, fear: 1, deathB: 4 } },
-  fl: { n: 'Sonnenzorn', st: { atk: 2 }, tr: { glare: 1 } },
-  fz: { n: 'Kugelblitz', tr: { chain: 1, splash: 1 } },
-  fy: { n: 'Phönixglut', tr: { rebirth: 1, burn: 1 } },
-  fx: { n: 'Aschenodem', tr: { blaze: 1, hunt: 3 } },
-  fg: { n: 'Irrlicht', tr: { blink: 1, burn: 1 } },
-  ft: { n: 'Schlund des Vulkans', tr: { quake: 1, burn: 1 } },
-  fv: { n: 'Kaltes Feuer', tr: { dispel: 1, burn: 1, imm: 1 } },
-  fc: { n: 'Zündschnur', st: { ini: 3 }, tr: { charge: 1, impact: 1 } },
-  fa: { n: 'Kriegsrausch', st: { atk: 2 }, tr: { berserk: 1, charge: 1 } },
-  ii: { n: 'Sturzflut', tr: { push: 1, freeze: 1 } },
-  ib: { n: 'Unwetter', tr: { chain: 1, push: 1 } },
-  ir: { n: 'Schlammwall', st: { arm: 1 }, tr: { root: 1, steady: 1 } },
-  id: { n: 'Moorlicht', tr: { root: 1, shade: 1 } },
-  il: { n: 'Taufe', st: { ld: 2 }, tr: { mend: 2 } },
-  iz: { n: 'Gewitterfront', tr: { stun: 1, chain: 1 } },
-  iy: { n: 'Quelle', st: { hp: 15 }, tr: { rg: 3 } },
-  ix: { n: 'Totes Wasser', tr: { melt: 1, drain: 1 } },
-  ig: { n: 'Nebelgeist', tr: { dodge: 0.3, shade: 1 } },
-  it: { n: 'Abgrund', tr: { pull: 1, freeze: 1 } },
-  iv: { n: 'Ewiges Eis', st: { arm: 2 }, tr: { imm: 1, freeze: 1 } },
-  ic: { n: 'Gezeiten', st: { ini: 2 }, tr: { rg: 2, haste: 0.1 } },
-  ia: { n: 'Blutregen', tr: { ls: 1, mend: 1 } },
-  bb: { n: 'Orkan', st: { spd: 1, ini: 2 }, tr: { push: 1 } },
-  br: { n: 'Sandsturm', tr: { shade: 1, rhalf: 1 } },
-  bd: { n: 'Nachtwind', tr: { shade: 1, blink: 1 } },
-  bl: { n: 'Himmelsauge', st: { vis: 15, ini: 1 }, tr: { windB: 1 } },
-  bz: { n: 'Donnerkeil', tr: { stun: 1, charge: 1, impact: 1 } },
-  by: { n: 'Atem des Lebens', st: { spd: 1 }, tr: { rg: 2 } },
-  bx: { n: 'Pesthauch', tr: { blaze: 1, fear: 1 } },
-  bg: { n: 'Flüsterstimmen', tr: { fear: 1, dodge: 0.2 } },
-  bt: { n: 'Mahlstrom', tr: { pull: 1, push: 1 } },
-  bv: { n: 'Vakuum', tr: { dispel: 1, mist: 1 } },
-  bc: { n: 'Rückenwind', st: { spd: 1 }, tr: { haste: 0.25 } },
-  ba: { n: 'Blutnebel', tr: { ls: 1, shade: 1 } },
-  rr: { n: 'Grundfeste', st: { arm: 3 }, tr: { steady: 1, dig: 1 } },
-  rd: { n: 'Gruftgeist', tr: { rebirth: 1, fear: 1 } },
-  rl: { n: 'Kristallherz', st: { arm: 1 }, tr: { shield: 1, mend: 1 } },
-  rz: { n: 'Magnetit', tr: { melt: 1, stun: 1 } },
-  ry: { n: 'Wurzelwerk', tr: { rg: 2, root: 1 } },
-  rx: { n: 'Grabeserde', tr: { deathB: 5, fear: 1, hunt: 2 } },
-  rg: { n: 'Golemseele', st: { arm: 2 }, tr: { unbr: 1 } },
-  rt: { n: 'Erdbeben', tr: { quake: 1, push: 1 } },
-  rv: { n: 'Leerstein', st: { arm: 2 }, tr: { imm: 1 } },
-  rc: { n: 'Versteinerung', tr: { stun: 1, dig: 1 } },
-  ra: { n: 'Blutstein', st: { arm: 1 }, tr: { ls: 1 } },
-  dd: { n: 'Schattenkönig', tr: { shade: 1, fear: 1, warcry: 1, dread: 1 } },
-  dl: { n: 'Zwielicht', tr: { dodge: 0.25, glare: 1 } },
-  dz: { n: 'Schwarzer Blitz', tr: { chain: 1, dread: 1 } },
-  dy: { n: 'Untod', tr: { rebirth: 1, rg: 1 } },
-  dx: { n: 'Seelenfresser', tr: { sap: 1, ls: 1, fear: 1 } },
-  dg: { n: 'Spukgestalt', tr: { dodge: 0.3, fear: 1, mist: 1 } },
-  dt: { n: 'Finsternis der Tiefe', tr: { shade: 1, gravity: 1, pull: 1 } },
-  dv: { n: 'Vergessen', tr: { dispel: 1, shade: 1, drain: 1 } },
-  dc: { n: 'Nachtwache', st: { ini: 2, vis: 10 }, tr: { shade: 1 } },
-  da: { n: 'Blutmond', st: { atk: 1 }, tr: { ls: 1, fear: 1, berserk: 1 } },
-  ll: { n: 'Heiligenschein', st: { ld: 3 }, tr: { mend: 2, banner: 1 } },
-  lz: { n: 'Gleißender Strahl', tr: { chain: 1, glare: 1 } },
-  ly: { n: 'Morgenröte', st: { hp: 15 }, tr: { mend: 2 } },
-  lx: { n: 'Letztes Licht', tr: { rebirth: 1, deathB: 4 } },
-  lg: { n: 'Engelsgestalt', st: { ld: 2 }, tr: { dodge: 0.25, unbr: 1 } },
-  lt: { n: 'Leuchtfeuer der Tiefe', st: { vis: 20 }, tr: { pull: 1 } },
-  lv: { n: 'Sonnenfinsternis', tr: { imm: 1, glare: 1, dispel: 1 } },
-  lc: { n: 'Zeitlicht', st: { ini: 3 }, tr: { haste: 0.2, glare: 1 } },
-  la: { n: 'Heiliger Gral', tr: { ls: 1, mend: 2 } },
-  zz: { n: 'Gewittersturm', st: { ini: 2 }, tr: { chain: 1, stun: 1, splash: 1 } },
-  zy: { n: 'Lebensfunke', tr: { rebirth: 1, haste: 0.15 } },
-  zx: { n: 'Todesblitz', tr: { chain: 1, hunt: 4 } },
-  zg: { n: 'Spukfeuer', tr: { blink: 1, chain: 1 } },
-  zt: { n: 'Erdungsstab', st: { arm: 2 }, tr: { stun: 1, steady: 1 } },
-  zv: { n: 'Leerblitz', tr: { dispel: 1, chain: 1 } },
-  zc: { n: 'Augenblick', st: { ini: 4 }, tr: { haste: 0.3 } },
-  za: { n: 'Blutblitz', st: { atk: 2 }, tr: { ls: 1, chain: 1 } },
-  yy: { n: 'Lebensbaum', st: { hp: 30 }, tr: { rg: 3, th: 2 } },
-  yx: { n: 'Kreislauf', tr: { rebirth: 1, hunt: 2, rg: 1 } },
-  yg: { n: 'Ahnengeist', st: { ld: 2 }, tr: { rg: 2, banner: 1 } },
-  yt: { n: 'Uralte Wurzel', st: { hp: 20 }, tr: { root: 1, steady: 1 } },
-  yv: { n: 'Leeres Herz', st: { hp: 25 }, tr: { imm: 1 } },
-  yc: { n: 'Jungbrunnen', tr: { rg: 3, haste: 0.15 } },
-  ya: { n: 'Blutsbande', st: { hp: 15 }, tr: { ls: 1, aura: 1 } },
-  xx: { n: 'Seuche', tr: { blaze: 1, drain: 1, melt: 1 } },
-  xg: { n: 'Gespensterzug', tr: { mist: 1, fear: 1, dodge: 0.2 } },
-  xt: { n: 'Grabestiefe', tr: { pull: 1, hunt: 3, gravity: 1 } },
-  xv: { n: 'Nichts', tr: { dispel: 1, drain: 1, imm: 1 } },
-  xc: { n: 'Sense der Zeit', st: { atk: 2 }, tr: { hunt: 3, haste: 0.15 } },
-  xa: { n: 'Aderlass', st: { atk: 3 }, tr: { ls: 1, hunt: 2 } },
-  gg: { n: 'Geisterheer', st: { ld: 2 }, tr: { dodge: 0.35, unbr: 1 } },
-  gt: { n: 'Spuk der Tiefe', tr: { pull: 1, fear: 1, dodge: 0.2 } },
-  gv: { n: 'Seelenlos', tr: { imm: 1, unbr: 1, dispel: 1 } },
-  gc: { n: 'Vorahnung', st: { ini: 3 }, tr: { dodge: 0.3 } },
-  ga: { n: 'Blutgeist', tr: { ls: 1, dodge: 0.2, berserk: 1 } },
-  tt: { n: 'Tiefseedruck', st: { arm: 3 }, tr: { gravity: 1, pull: 1 } },
-  tv: { n: 'Schwarzes Loch', tr: { pull: 1, gravity: 1, dispel: 1 } },
-  tc: { n: 'Gezeitenkraft', st: { arm: 1, ini: 2 }, tr: { push: 1, haste: 0.1 } },
-  ta: { n: 'Blutsumpf', tr: { gravity: 1, ls: 1 } },
-  vv: { n: 'Absolute Leere', tr: { imm: 1, mist: 1, dispel: 1, drain: 1 } },
-  vc: { n: 'Stillstand', tr: { freeze: 1, stun: 1, imm: 1 } },
-  va: { n: 'Hungernde Leere', tr: { ls: 1, drain: 1 } },
-  cc: { n: 'Zeitschleife', st: { ini: 3 }, tr: { echo: 0.3 } },
-  ca: { n: 'Pulsschlag', st: { atk: 1 }, tr: { haste: 0.2, berserk: 1 } },
-  aa: { n: 'Blutdurst', st: { atk: 3 }, tr: { ls: 1, berserk: 1, hunt: 2 } },
-  /* besondere Dreier */
-  fff: { n: 'Inferno', st: { atk: 2 }, tr: { burn: 1, blaze: 1, splash: 1, deathB: 6 } },
-  iii: { n: 'Tiefer Frost', st: { arm: 2 }, tr: { freeze: 1, stun: 1, steady: 1 } },
-  bbb: { n: 'Wirbelsturm', st: { spd: 2, ini: 3 }, tr: { push: 1, jump: 1, haste: 0.2 } },
-  rrr: { n: 'Lebender Fels', st: { arm: 4, hp: 20 }, tr: { steady: 1, dcap: 8 } },
-  ddd: { n: 'Ewige Nacht', tr: { shade: 1, fear: 1, dread: 1, warcry: 1, dodge: 0.2 } },
-  ffi: { n: 'Kochender Kessel', tr: { burn: 1, splash: 1, blaze: 1 } },
-  fii: { n: 'Nebelbank', tr: { mist: 1, shade: 1 } },
-  fir: { n: 'Kreislauf der Welt', st: { atk: 1, arm: 1, hp: 10 }, tr: { rg: 2, burn: 1 } },
-  fbr: { n: 'Meteor', tr: { impact: 1, charge: 1, burn: 1, quake: 1 } },
-  fid: { n: 'Hexenkessel', tr: { burn: 1, freeze: 1, fear: 1 } },
-  lll: { n: 'Göttliches Licht', st: { ld: 3, vis: 20 }, tr: { mend: 3, glare: 1, unbr: 1 } },
-  xxx: { n: 'Der Schnitter', st: { atk: 3 }, tr: { hunt: 5, sap: 1, fear: 1, deathB: 6 } },
-  yyy: { n: 'Weltenbaum', st: { hp: 40 }, tr: { rg: 4, mend: 2, th: 3 } },
-  zzz: { n: 'Zorn des Himmels', st: { ini: 3 }, tr: { chain: 1, stun: 1, splash: 1, haste: 0.2 } },
-  ggg: { n: 'Heer der Toten', st: { ld: 3 }, tr: { mist: 1, dodge: 0.3, unbr: 1, fear: 1 } },
-  ttt: { n: 'Kraken', tr: { pull: 1, gravity: 1, root: 1, quake: 1 } },
-  vvv: { n: 'Auslöschung', tr: { dispel: 1, imm: 1, mist: 1, drain: 1, melt: 1 } },
-  ccc: { n: 'Ewigkeit', st: { ini: 5 }, tr: { echo: 0.4, haste: 0.25 } },
-  aaa: { n: 'Blutgott', st: { atk: 4 }, tr: { ls: 1, berserk: 1, hunt: 3, aura: 1 } },
-  lxy: { n: 'Kreis von Leben und Tod', tr: { rebirth: 1, mend: 2, hunt: 3 } },
-  lvx: { n: 'Götterdämmerung', st: { atk: 2 }, tr: { dispel: 1, deathB: 6, glare: 1 } },
-  fzc: { n: 'Zeitbombe', tr: { deathB: 8, chain: 1, haste: 0.2 } },
-  gya: { n: 'Seelenbund', st: { ld: 2, hp: 15 }, tr: { ls: 1, mend: 1, banner: 1 } },
-  btc: { n: 'Sturmflut der Zeit', st: { spd: 1, ini: 3 }, tr: { pull: 1, push: 1, haste: 0.2 } },
-  dgv: { n: 'Unsichtbarer Schrecken', tr: { mist: 1, shade: 1, dread: 1, fear: 1 } },
-  rty: { n: 'Gebirgsherz', st: { arm: 3, hp: 25 }, tr: { rg: 2, steady: 1 } },
-  ilz: { n: 'Regenbogenblitz', tr: { chain: 1, mend: 1, glare: 1 } },
-  xyz: { n: 'Lazarus', tr: { rebirth: 1, chain: 1, rg: 2 } },
-  fxa: { n: 'Kriegsgott', st: { atk: 3 }, tr: { berserk: 1, charge: 1, fear: 1, burn: 1 } }
+/* ── Rezepte ──────────────────────────────────────────────────────────────────────────────────── */
+/* Ergebnisse mit ihrem Thema (Elemente, an die sie gebunden sind). Welche Mischung was ergibt, wird beim Laden
+   mit fester Saat verteilt: thematisch (mindestens ein Stein des Themas steckt drin), aber ohne Muster –
+   zwei gleiche Steine sind nicht immer ein Wesen, zwei seltene nicht immer ein Charakter.
+   Höchstens ein seltener Stein je Rezept, damit jedes Rezept auch wirklich erreichbar ist.
+   it: Gegenstand {n, ic, st, tr} · u: Elementarwesen (CREC-Schlüssel) · ch: Charakter (CHR-Schlüssel) */
+const ALCR = [
+  ...['f2', 'i2', 'b2', 'r2', 'd2', 'f3', 'i3', 'b3', 'r3', 'd3'].map(u => ({ th: u[0], u })),
+  ...['fi', 'fb', 'fr', 'fd', 'ib', 'ir', 'id', 'br', 'bd', 'rd'].map(u => ({ th: u, u })),
+  { th: 'fi', it: { n: 'Dampfhelm', ic: 'cwisp', tr: { rhalf: 1 } } },
+  { th: 'fr', it: { n: 'Magmahammer', ic: 'cgolem', tr: { pierceM: 1 } } },
+  { th: 'fd', it: { n: 'Höllenbrand', ic: 'f', st: { atk: 1 }, tr: { burn: 1 } } },
+  { th: 'fb', it: { n: 'Glutfächer', ic: 'f', tr: { splash: 1 } } },
+  { th: 'ib', it: { n: 'Sturmglocke', ic: 'b', tr: { jump: 1 } } },
+  { th: 'ir', it: { n: 'Quellstein', ic: 'i', tr: { rg: 2 } } },
+  { th: 'id', it: { n: 'Moorlaterne', ic: 'd', tr: { root: 1 } } },
+  { th: 'br', it: { n: 'Sandschleier', ic: 'ccloud', tr: { shade: 1 } } },
+  { th: 'bd', it: { n: 'Nachtschwinge', ic: 'cwing', tr: { blink: 1 } } },
+  { th: 'ir', it: { n: 'Wellenbrecher', ic: 'SI', tr: { shield: 1 } } },
+  { th: 'rd', it: { n: 'Grabstein', ic: 'r', tr: { rebirth: 1 } } },
+  { th: 'fd', it: { n: 'Schreckensmaske', ic: 'd', tr: { fear: 1 } } },
+  { th: 'l', it: { n: 'Sonnenschwert', ic: 'LI', st: { atk: 3 } } },
+  { th: 'l', it: { n: 'Heiliger Kelch', ic: 'KL', tr: { mend: 2 } } },
+  { th: 'l', it: { n: 'Lichtschild', ic: 'SI', tr: { glare: 1 } } },
+  { th: 'l', it: { n: 'Zwielichtmantel', ic: 'cwisp', tr: { dodge: 0.25 } } },
+  { th: 'z', it: { n: 'Donnerklinge', ic: 'LI', tr: { chain: 1 } } },
+  { th: 'z', it: { n: 'Gewitterhorn', ic: 'b', tr: { stun: 1 } } },
+  { th: 'z', it: { n: 'Windläuferstiefel', ic: 'cwing', tr: { haste: 0.25 } } },
+  { th: 'y', it: { n: 'Lebensquelle', ic: 'KL', tr: { rg: 4 } } },
+  { th: 'y', it: { n: 'Wurzelharnisch', ic: 'ctree', st: { arm: 3, hp: 15 } } },
+  { th: 'x', it: { n: 'Aschensense', ic: 'LI', tr: { hunt: 4 } } },
+  { th: 'x', it: { n: 'Seelenkrug', ic: 'cserpent', tr: { sap: 1 } } },
+  { th: 'x', it: { n: 'Totenkrone', ic: 'r', tr: { deathB: 8 } } },
+  { th: 'g', it: { n: 'Geistermantel', ic: 'ccloud', tr: { mist: 1 } } },
+  { th: 'g', it: { n: 'Spukmaske', ic: 'd', tr: { dread: 1 } } },
+  { th: 't', it: { n: 'Ankerkette', ic: 'cgolem', tr: { gravity: 1 } } },
+  { th: 't', it: { n: 'Mahlstromhorn', ic: 'i', tr: { pull: 1 } } },
+  { th: 'v', it: { n: 'Leerenamulett', ic: 'KL', tr: { imm: 1 } } },
+  { th: 'v', it: { n: 'Bannkreis', ic: 'MA', tr: { dispel: 1 } } },
+  { th: 'c', it: { n: 'Zeitglas', ic: 'cwisp', tr: { echo: 0.3 } } },
+  { th: 'c', it: { n: 'Uhrwerk', ic: 'cgolem', st: { ini: 3, spd: 1 } } },
+  { th: 'a', it: { n: 'Blutklinge', ic: 'LI', tr: { ls: 1 } } },
+  { th: 'a', it: { n: 'Berserkerhalsband', ic: 'cserpent', tr: { berserk: 1 } } },
+  ...[
+    ['l', 'aLB'],
+    ['z', 'aSR'],
+    ['y', 'aDR'],
+    ['x', 'aTB'],
+    ['g', 'aGS'],
+    ['t', 'aTW'],
+    ['v', 'aLW'],
+    ['c', 'aCH'],
+    ['a', 'aBF']
+  ].map(([th, ch]) => ({ th, ch }))
+];
+/* Elementar-Charaktere: für jedes Volk, nur über die Alchemie zu bekommen */
+Object.assign(CHR, {
+  aLB: { fac: '*', n: 'Lichtbringerin', rk: 2, need: [], ic: 'ic-KL', fx: { heal: 3 } },
+  aSR: { fac: '*', n: 'Sturmrufer', rk: 2, need: [], ic: 'ic-MA', fx: { bolt: 3 } },
+  aDR: { fac: '*', n: 'Druidin', rk: 2, need: [], ic: 'ic-KL', fx: { hpP: 15, tr: { rg: 1 } } },
+  aTB: { fac: '*', n: 'Totenbeschwörer', rk: 2, need: [], ic: 'ic-MA', fx: { atk: 1, tr: { fear: 1 } } },
+  aGS: { fac: '*', n: 'Geisterseher', rk: 2, need: [], ic: 'u-star', fx: { vis: 2, rward: 1 } },
+  aTW: { fac: '*', n: 'Tiefenwächter', rk: 2, need: [], ic: 'ic-SI', fx: { arm: 2, tr: { steady: 1 } } },
+  aLW: { fac: '*', n: 'Leerenwandler', rk: 2, need: [], ic: 'ic-MA', fx: { tr: { imm: 1 } } },
+  aCH: { fac: '*', n: 'Chronist', rk: 2, need: [], ic: 'u-star', fx: { ini: 2, tr: { haste: 0.15 } } },
+  aBF: { fac: '*', n: 'Blutfürst', rk: 2, need: [], ic: 'ic-HE', fx: { atk: 2, ls: true } }
+});
+/* Gegenstände der Rezepte und alle Talismane als RELI/RS-Einträge anlegen */
+const talName = k => 'Talisman: ' + [...k].map(e => EL[e].n).join(' · ');
+const sumStones = k => {
+  const st = {};
+  for (const e of k) for (const s in STONE[e]) st[s] = +((st[s] || 0) + STONE[e][s]).toFixed(1);
+  return st;
 };
-
-/* Schlüssel vereinheitlichen (Reihenfolge nach ELS), damit „lxy“ und „lyx“ dasselbe sind */
-for (const k of Object.keys(ESSH)) {
-  const n = essKey(k);
-  if (n !== k) {
-    ESSH[n] = ESSH[k];
-    delete ESSH[k];
-  }
-}
-/* ── Generator für alle übrigen Essenzen ─────────────────────────────────────────────────────── */
-/* Merkmal-Vorrat je Element: [Merkmal, Wert] – mehrfach genannte Steine ziehen öfter aus ihrem Vorrat */
-const EPOOL = {
-  f: [['burn', 1], ['blaze', 1], ['splash', 1], ['charge', 1], ['deathB', 4], ['berserk', 1]],
-  i: [['freeze', 1], ['rg', 2], ['push', 1], ['root', 1], ['rhalf', 1], ['mend', 1]],
-  b: [['jump', 1], ['haste', 0.15], ['push', 1], ['blink', 1], ['windB', 1], ['shade', 1]],
-  r: [['steady', 1], ['dig', 1], ['quake', 1], ['shield', 1], ['th', 2], ['ward', 1]],
-  d: [['shade', 1], ['fear', 1], ['dread', 1], ['warcry', 1], ['drain', 1], ['ls', 1]],
-  l: [['mend', 1], ['glare', 1], ['banner', 1], ['shield', 1], ['unbr', 1], ['aura', 1]],
-  z: [['chain', 1], ['stun', 1], ['impact', 1], ['haste', 0.2], ['jump', 1], ['splash', 1]],
-  y: [['rg', 2], ['mend', 1], ['th', 2], ['rebirth', 1], ['hunt', 2]],
-  x: [['hunt', 3], ['deathB', 5], ['drain', 1], ['sap', 1], ['fear', 1], ['melt', 1]],
-  g: [['dodge', 0.25], ['mist', 1], ['blink', 1], ['fear', 1], ['unbr', 1], ['banner', 1]],
-  t: [['pull', 1], ['gravity', 1], ['root', 1], ['steady', 1], ['quake', 1], ['dcap', 9]],
-  v: [['dispel', 1], ['imm', 1], ['drain', 1], ['mist', 1], ['melt', 1]],
-  c: [['haste', 0.2], ['echo', 0.25], ['stun', 1], ['freeze', 1], ['blink', 1]],
-  a: [['ls', 1], ['berserk', 1], ['hunt', 2], ['aura', 1], ['charge', 1], ['pierceM', 1]]
-};
-/* Werte-Neigung je Element */
-const ESTAT = {
-  f: ['atk'],
-  i: ['hp', 'arm'],
-  b: ['ini', 'spd'],
-  r: ['arm', 'hp'],
-  d: ['atk', 'ini'],
-  l: ['ld', 'vis'],
-  z: ['ini', 'atk'],
-  y: ['hp'],
-  x: ['atk'],
-  g: ['ld', 'ini'],
-  t: ['arm', 'hp'],
-  v: ['arm'],
-  c: ['ini', 'spd'],
-  a: ['atk', 'hp']
-};
-const STEP = { atk: 1, arm: 1, hp: 8, ini: 1, spd: 0.5, ld: 1, vis: 6 };
-/* Namen: Eigenschaftswort + Hauptwort, beides aus den beteiligten Elementen */
-const EADJ = {
-  f: ['Glühende', 'Brennende', 'Lodernde'],
-  i: ['Fließende', 'Eisige', 'Tosende'],
-  b: ['Heulende', 'Wehende', 'Flüchtige'],
-  r: ['Steinerne', 'Uralte', 'Schwere'],
-  d: ['Finstere', 'Verborgene', 'Schwarze'],
-  l: ['Strahlende', 'Heilige', 'Gleißende'],
-  z: ['Zuckende', 'Grelle', 'Knisternde'],
-  y: ['Blühende', 'Wilde', 'Grüne'],
-  x: ['Welke', 'Bleiche', 'Sterbende'],
-  g: ['Geisterhafte', 'Flüsternde', 'Verlorene'],
-  t: ['Bodenlose', 'Dunkle', 'Versunkene'],
-  v: ['Leere', 'Stumme', 'Hohle'],
-  c: ['Ewige', 'Rastlose', 'Vergessene'],
-  a: ['Blutige', 'Rasende', 'Hungrige']
-};
-const ENOUN = {
-  f: ['Glut', 'Flamme', 'Esse'],
-  i: ['Flut', 'Quelle', 'Woge'],
-  b: ['Böe', 'Wolke', 'Feder'],
-  r: ['Feste', 'Wurzel', 'Klippe'],
-  d: ['Nacht', 'Maske', 'Schattenhand'],
-  l: ['Krone', 'Sonne', 'Fackel'],
-  z: ['Entladung', 'Funkenkrone', 'Gewitterhand'],
-  y: ['Saat', 'Ranke', 'Blüte'],
-  x: ['Sense', 'Gruft', 'Asche'],
-  g: ['Erscheinung', 'Seele', 'Stimme'],
-  t: ['Tiefe', 'Strömung', 'Kluft'],
-  v: ['Leere', 'Lücke', 'Stille'],
-  c: ['Stunde', 'Sanduhr', 'Wiederkehr'],
-  a: ['Ader', 'Fehde', 'Klinge']
-};
-const ehash = s => {
-  let h = 2166136261;
-  for (const ch of s) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
-  return h >>> 0;
-};
-function erng(seed) {
-  let a = seed || 1;
-  return () => {
-    a = (a + 0x6d2b79f5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-function essGen(k) {
-  const R = erng(ehash('ess:' + k)),
-    pool = [];
-  for (const e of k) EPOOL[e].forEach(p => pool.push(p));
-  const tr = {},
-    n = k.length === 2 ? 2 : 3;
-  for (let g = 0; g < 40 && Object.keys(tr).length < n; g++) {
-    const [t, v] = pool[Math.floor(R() * pool.length)];
-    if (tr[t] == null) tr[t] = v;
-    else if (typeof v === 'number' && v !== 1 && !['dodge', 'haste', 'echo'].includes(t)) tr[t] += 1;
-  }
-  const st = {},
-    pts = k.length === 2 ? 2 : 4;
-  for (let p = 0; p < pts; p++) {
-    const e = k[Math.floor(R() * k.length)],
-      s = ESTAT[e][Math.floor(R() * ESTAT[e].length)];
-    st[s] = +((st[s] || 0) + STEP[s]).toFixed(1);
-  }
-  const ea = k[Math.floor(R() * k.length)],
-    en = k[(k.indexOf(ea) + 1 + Math.floor(R() * (k.length - 1))) % k.length],
-    n0 = EADJ[ea][Math.floor(R() * 3)] + ' ' + ENOUN[en][Math.floor(R() * 3)];
-  return { n: n0, st, tr };
-}
-/* alle möglichen Essenzen (1–3 Steine, Wiederholung erlaubt) */
-function essAll() {
+const stTxt = st =>
+  Object.entries(st || {})
+    .filter(([, v]) => v)
+    .map(([k, v]) => `+${String(v).replace('.', ',')} ${STN[k]}`)
+    .join(', ');
+const itemTxt = (st, tr) =>
+  [stTxt(st), ...Object.entries(tr || {}).map(([t, v]) => TRC[t](v))].filter(Boolean).join('; ');
+function alcAll() {
   const out = [];
   for (let i = 0; i < ELS.length; i++) {
     out.push(ELS[i]);
@@ -8624,91 +8579,54 @@ function essAll() {
   }
   return out;
 }
-/* Wirkung einer Essenz (Schlüssel aus 1–3 Elementen); immer dieselbe. Beim Laden einmal alle berechnen,
-   damit jeder Name nur einmal vorkommt (erzeugte Namen weichen auf andere Wortpaare ihrer Elemente aus). */
-const ESSC = {};
-function essOf(key) {
-  const k = essKey(key);
-  return (k && ESSC[k]) || null;
-}
+/* Verteilung der Ergebnisse auf Mischungen (feste Saat – für alle Spieler und den Server gleich) */
+const ALC = {};
 (function () {
-  const keys = essAll(),
-    used = new Set();
-  keys.forEach(k => {
-    const E = k.length === 1 ? ESS1[k] : ESSH[k];
-    if (E) used.add(E.n);
-  });
-  keys.forEach(k => {
-    let E = k.length === 1 ? ESS1[k] : ESSH[k];
-    if (!E) {
-      E = essGen(k);
-      if (used.has(E.n)) {
-        const U2 = [...new Set(k)],
-          alt = [];
-        U2.forEach(a => U2.forEach(b => EADJ[a].forEach(x => ENOUN[b].forEach(y => alt.push(x + ' ' + y)))));
-        const R = erng(ehash('name:' + k)),
-          free = alt.filter(n => !used.has(n));
-        E.n = free.length ? free[Math.floor(R() * free.length)] : E.n + ' ' + k.toUpperCase();
-      }
-      used.add(E.n);
-    }
-    ESSC[k] = { k, n: E.n, st: E.st || {}, tr: E.tr || {} };
-  });
-})();
-/* Kanal des Volkes: Banner der Orks strahlen die Kraft zusätzlich als Aura aus,
-   Munition der Hochelfen trifft im Fernkampf besonders (+2 Angriff aus der Ferne) */
-function essFx(key, ch) {
-  const E = essOf(key);
-  if (!E) return null;
-  const st = { ...E.st },
-    tr = { ...E.tr };
-  if (ch === 'ban') {
-    /* Banner aus einem Grundstein: die alten Bannerwirkungen */
-    if (BAN1[E.k]) Object.assign(tr, BAN1[E.k]);
-    if ((st.atk || 0) > 0 && !tr.aura) tr.aura = 1;
-    if ((st.arm || 0) > 0 && !tr.ward) tr.ward = 1;
-    if (!tr.banner) tr.banner = 1;
+  let seed = 20261127;
+  const RNG = () => (seed = (Math.imul(seed, 1103515245) + 12345) >>> 0) / 4294967296,
+    rare = e => !'fibrd'.includes(e),
+    keys = alcAll().filter(k => k.length >= 2 && [...k].filter(rare).length <= 1),
+    used = new Set(),
+    order = ALCR.map(r => ({ r, o: RNG() }))
+      .sort((x, y) => x.o - y.o)
+      .map(x => x.r);
+  for (const R of order) {
+    const th = [...R.th],
+      rt = th.find(rare),
+      fit = k => !used.has(k) && (rt ? k.includes(rt) : th.some(e => k.includes(e))),
+      base = keys.filter(k => fit(k) && ![...k].some(rare)),
+      withR = keys.filter(k => fit(k) && [...k].some(rare)),
+      pool = rt ? withR : RNG() < 0.75 && base.length ? base : withR.length ? withR : base;
+    if (!pool.length) continue;
+    const k = pool[Math.floor(RNG() * pool.length)];
+    used.add(k);
+    ALC[k] = R.u ? { u: R.u } : R.ch ? { ch: R.ch } : { it: R.it };
   }
-  if (ch === 'ammo') st.atkR = (st.atkR || 0) + 2;
-  return { k: E.k, n: E.n, st, tr };
+})();
+(function () {
+  for (const k of alcAll()) {
+    const R = ALC[k];
+    if (R && R.it) {
+      const id = 'al' + k;
+      RELI[id] = { n: R.it.n, ic: R.it.ic, c: EL[k[0]].c, d: itemTxt(R.it.st, R.it.tr), tr: R.it.tr || {}, alc: 1 };
+      RS[id] = { ...(R.it.st || {}) };
+    } else if (!R) {
+      const id = 'tl' + k,
+        st = sumStones(k);
+      RELI[id] = { n: talName(k), ic: k[0], c: EL[k[0]].c, d: stTxt(st), tr: {}, alc: 1, tal: 1 };
+      RS[id] = st;
+    }
+  }
+})();
+/* Ergebnis einer Kombination (Schlüssel aus 1–3 Elementen) */
+function alcResult(key) {
+  const k = essKey(key);
+  if (!k || k.length > ALCMAX) return null;
+  const R = ALC[k];
+  if (R && R.u) return { type: 'u', t: CREC[R.u], k };
+  if (R && R.ch) return { type: 'ch', c: R.ch, k };
+  return { type: 'rel', r: (R && R.it ? 'al' : 'tl') + k, k };
 }
-const BAN1 = { f: { aura: 1 }, i: { mend: 1 }, b: { windB: 1 }, r: { ward: 1 } };
-/* Alle Essenzen eines Regiments zusammen (Rune/Munition/Mahl u.ench oder en, Banner u.ban) */
-function unitFx(u, en) {
-  const T = U[u.t],
-    L = [];
-  if (en) L.push(essFx(en, T.fac === 'he' && (T.rng || T.line) ? 'ammo' : 'rune'));
-  if (u.ban) L.push(essFx(u.ban, 'ban'));
-  const F = L.filter(Boolean);
-  if (!F.length) return null;
-  if (F.length === 1) return F[0];
-  const st = {},
-    tr = {};
-  F.forEach(f => {
-    for (const k in f.st) st[k] = (st[k] || 0) + f.st[k];
-    for (const k in f.tr) tr[k] = typeof f.tr[k] === 'number' ? Math.max(tr[k] || 0, f.tr[k]) : f.tr[k];
-  });
-  return { k: F.map(f => f.k).join('+'), n: F.map(f => f.n).join(' · '), st, tr };
-}
-/* Text der Wirkung (erst sichtbar, wenn die Essenz auf einem Regiment liegt) */
-function essLines(fx) {
-  if (!fx) return [];
-  const r = [];
-  const s = Object.entries(fx.st)
-    .filter(([, v]) => v)
-    .map(([k, v]) => (k === 'atkR' ? `+${v} Angriff im Fernkampf` : `${v > 0 ? '+' : ''}${String(v).replace('.', ',')} ${STN[k]}`));
-  if (s.length) r.push(s.join(', '));
-  for (const [t, v] of Object.entries(fx.tr)) if (TRC[t]) r.push(TRC[t].d(v));
-  return r;
-}
-const essName = key => {
-  const E = essOf(key);
-  return E ? E.n : '';
-};
-/* Steine der Essenz als Elementnamen */
-const essStones = key => [...essKey(key)].map(e => (EL[e] ? EL[e].n : e));
-/* Stein hinzufügen (höchstens drei); liefert den neuen Schlüssel oder null */
-const essAdd = (key, e) => (essKey(key).length >= ESSMAX ? null : essKey((key || '') + e));
 
 /* Autobattler · Welt: Karten, Gelände, Wetter, Wegfindung */
 const mkMap = i => ({ i, n: MAPS[i].n, mods: [] });
@@ -10678,16 +10596,13 @@ function bu(u, side, bn) {
     st.hp *= 2;
     st.arm += 2;
   }
-  /* Essenz (Alchemie): Werte und Merkmale – die Merkmale wirken im Kampf wie angeborene Fähigkeiten (o.B) */
-  const fx = unitFx(u, en),
-    B = fx ? Object.assign({}, B0, fx.tr) : B0,
-    fs = (fx && fx.st) || {};
-  st.atk += fs.atk || 0;
-  st.arm += fs.arm || 0;
-  st.ini += fs.ini || 0;
-  if (fs.hp) st.hp = Math.round(st.hp * (1 + fs.hp / 100));
-  if (sp) sp += fs.spd || 0;
-  const amR = fs.atkR || 0,
+  /* Fähigkeiten aus Gegenstand (Alchemie), Charakter und Einzelstein-Verzauberung wirken im Kampf wie angeborene (o.B) */
+  const RR = RS[u.rel] || {},
+    tr = Object.assign({}, en && ESS1[en[0]], (RELI[u.rel] && RELI[u.rel].tr) || {}, C.tr || {}),
+    B = Object.keys(tr).length ? Object.assign({}, B0, tr) : B0,
+    fs = { ld: (RR.ld || 0) + (C.ld || 0), vis: (RR.vis || 0) * 10 };
+  if (sp) sp += RR.spd || 0;
+  const amR = 0,
     dk = !!(u.b && u.b.dark);
   if (sp) sp += C.spd || 0;
   const ic = i => (u.ins || []).filter(x => x === i).length;
@@ -10709,7 +10624,7 @@ function bu(u, side, bn) {
     ld:
       B.cre || B.king || B.unbr || B.berserk
         ? 0
-        : 7 +
+        : 8 +
           (B.tier || 1) +
           (u.ch ? CHR[u.ch.c].rk : 0) +
           (u.s > 1 ? 1 : 0) +
@@ -10729,7 +10644,6 @@ function bu(u, side, bn) {
     amR,
     ban: u.ban || '',
     B: B === B0 ? undefined : B,
-    ess: fx ? fx.n : '',
     shade: !!(B.shade || dk),
     fear: !!(B.fear || dk),
     rls: u.rel === 'va' || !!C.ls,
@@ -10779,7 +10693,7 @@ function mkForm(t, n, hp, side) {
 /* Zusammenhalt: Regimenter ohne Verbündete in 15 Schritt sind allein (Einzelkämpfer, Wesen, Kolosse, Plänkler ausgenommen) */
 const isLone = (o, us) =>
   !(o.sg || UB(o).cre || UB(o).cls === 'giant' || UB(o).skir) &&
-  !us.some(a => a !== o && a.side === o.side && a.hp > 0 && !UB(a).king && !a.flee && gapAB(a, o) <= 15);
+  !us.some(a => a !== o && a.side === o.side && a.hp > 0 && !UB(a).king && !a.flee && gapAB(a, o) <= 25);
 /* Moral: Würfeltest 2W6 gegen Standhaftigkeit (ld), stark vom Kampfgeschehen verändert */
 const d6 = () => 1 + rnd(6);
 function morTest(o, us, why) {
@@ -11298,11 +11212,14 @@ function act(u, us, ev) {
   }
   if (u.ld && t >= (u.mT || 0)) {
     u.mT = t + 2;
-    if (!u.flee && (u.dmgW || 0) > 0.2 * u.max) morTest(u, us, 'loss');
+    /* Paniktest wie im Tabletop: erst bei schweren Verlusten (25 % in 2 s). Allein stehen kostet nur bei
+       angeschlagenen Regimentern einen Test – frische Truppen, vor allem Reiterei vor der Linie, laufen nicht davon. */
+    if (!u.flee && (u.dmgW || 0) > 0.25 * u.max) morTest(u, us, 'loss');
     else if (
       !u.flee &&
+      u.hp < u.max * 0.5 &&
       isLone(u, us) &&
-      us.some(o => o.hp > 0 && o.side !== u.side && !UB(o).king && gapAB(o, u) <= 12)
+      us.some(o => o.hp > 0 && o.side !== u.side && !UB(o).king && !isRanged(o.t) && gapAB(o, u) <= 8)
     )
       morTest(u, us, 'alone');
     u.dmgW = 0;
@@ -12751,12 +12668,9 @@ const taskName = o =>
 let S, timer;
 /* Ein Stein für ein Pack: alle Rohstoffe gleich häufig; Element-Steine ab der ersten Runde, dort seltener */
 function roll(r) {
-  if (Math.random() < (r >= 2 ? 0.15 : 0.06)) {
-    /* Grundsteine häufig, seltene Steine als Joker */
-    let x = Math.random() * ESA.reduce((a, k) => a + ESW[k], 0);
-    for (const k of ESA) if ((x -= ESW[k]) < 0) return { type: 'st', k };
-    return { type: 'st', k: 'F' };
-  }
+  /* seltene Steine: im Schnitt etwa einer je Draft am ganzen Tisch */
+  if (Math.random() < 1 / (DRP * (S && S.ai ? SEATS() : 5) * DRS)) return { type: 'st', k: ESR[rnd(ESR.length)] };
+  if (Math.random() < (r >= 2 ? 0.15 : 0.06)) return { type: 'st', k: ESK[rnd(ESK.length)] };
   const k = RK[rnd(RK.length)];
   const y = Math.random(),
     p3 = 0.12 + Math.min(0.12, r * 0.01),
@@ -12881,11 +12795,9 @@ function stats(u) {
 function feed(u, st) {
   for (const p in FEED[st.k]) u.b[p] = (u.b[p] || 0) + FEED[st.k][p];
   u.f++;
-  /* gegessene Element-Steine werden Teil der Essenz (Barbaren: Kombinationen werden gegessen) */
-  if (RES[st.k].el) u.ench = essAdd(u.ench, RES[st.k].el) || u.ench;
 }
 const canFeed = u => u.f < 3 * u.s,
-  canEat = (st, f) => !RES[st.k].el || facOf(f) === 'ba',
+  canEat = st => !RES[st.k].el,
   fdesc = st =>
     Object.entries(FEED[st.k])
       .map(([p, v]) => (p === 'dark' ? FN[p] : `+${v} ${FN[p]}`))
@@ -12903,7 +12815,6 @@ function merge(a, b, pool) {
   a.s++;
   for (const p in b.b) a.b[p] = (a.b[p] || 0) + b.b[p];
   a.ench = a.ench || b.ench;
-  a.ban = a.ban || b.ban;
   a.f += b.f;
   if (!a.pos) a.pos = b.pos;
 }
@@ -12915,7 +12826,6 @@ function combine(a, b, pool) {
   a.s = Math.min(a.s, b.s);
   for (const p in b.b) a.b[p] = (a.b[p] || 0) + b.b[p];
   a.ench = a.ench || b.ench;
-  a.ban = a.ban || b.ban;
   a.f += b.f;
   if (!a.pos) a.pos = b.pos;
 }
@@ -13036,7 +12946,6 @@ function setFac(f) {
     )
       .map(t => U[t].n)
       .join(' und ')}. ` + S.msg0;
-  buildBook();
   if (typeof rulesHTML === 'function') $('rules').innerHTML = rulesHTML();
 }
 function startRound() {
@@ -13294,16 +13203,6 @@ function craftA() {
   S.stash.push({ type: 'rel', r, q: rq });
   S.selS = [];
   S.msg = `Hergestellt: ${RELI[r].n} (Güte ${rq - 1}/5) – wähle es mit einer Einheit zum Ausrüsten.`;
-}
-function enchA() {
-  const u = gu(S.selU[0]),
-    st = S.stash[S.selS[0]];
-  if (!canEnch(u, st)) return;
-  applyEl(u, RES[st.k].el);
-  S.stash.splice(S.selS[0], 1);
-  S.selS = [];
-  S.selU = [];
-  S.msg = `${U[u.t].n}: ${elTxt(u)}.`;
 }
 function goStep(st) {
   if (S.phase !== 'build') return;
@@ -13709,34 +13608,42 @@ function prev() {
   S.selE = null;
 }
 
-/* Alchemie: Element-Steine wählen (höchstens drei) und auf ein Regiment geben */
+/* Alchemie: 1–3 Element-Steine wählen und kombinieren – heraus kommt ein Wesen, ein Charakter oder ein Gegenstand */
 function alcPick(v) {
   const i = +v,
     st = S.stash[i];
   if (!st || st.type !== 'st' || !RES[st.k].el) return;
   S.alc = (S.alc || []).filter(x => S.stash[x]);
   if (S.alc.includes(i)) S.alc = S.alc.filter(x => x !== i);
-  else if (S.alc.length < ESSMAX) S.alc.push(i);
+  else if (S.alc.length < ALCMAX) S.alc.push(i);
   S.msg = '';
 }
-function alcApply(v) {
-  const u = gu(+v),
-    idx = (S.alc || []).filter(i => S.stash[i]),
-    n = idx.length;
-  if (!u || !n || idx.some(i => !canEnch(u, S.stash[i], S.fac, n))) return;
-  const ban = elUse() === 'ban',
-    before = ban ? u.ban : u.ench;
-  idx.forEach(i => {
-    const st = S.stash[i];
-    if (elUse() === 'eat') feed(u, st);
-    else applyEl(u, RES[st.k].el);
-  });
+/* Ergebnis anwenden (auch für die KI): legt Wesen ins Heer, Charakter in den Stab, Gegenstand ins Lager */
+function alcMake(key, units, chr, stash, q) {
+  const R = alcResult(key);
+  if (!R) return null;
+  if (R.type === 'u') {
+    const u = mk(R.t, U[R.t].el || '', q || 1);
+    units.push(u);
+    return { R, n: U[R.t].n, d: 'Elementarwesen – steht jetzt in deinem Heer.', u };
+  }
+  if (R.type === 'ch') {
+    const ch = { id: S.uid++, c: R.c, lv: 1, q: q || 1 };
+    chr.push(ch);
+    return { R, n: CHR[R.c].n, d: 'Charakter – schließt sich einem Regiment an (Fenster „Charaktere“).', ch };
+  }
+  stash.push({ type: 'rel', r: R.r, q: 3 });
+  return { R, n: RELI[R.r].n, d: RELI[R.r].d };
+}
+function alcCombine() {
+  const idx = (S.alc || []).filter(i => S.stash[i] && RES[S.stash[i].k].el);
+  if (!idx.length || S.phase !== 'build') return;
+  const key = idx.map(i => RES[S.stash[i].k].el).join('');
   idx.sort((a, b) => b - a).forEach(i => S.stash.splice(i, 1));
   S.alc = [];
   S.selS = [];
-  const key = ban ? u.ban : u.ench,
-    fx = essFx(key, ban ? 'ban' : U[u.t].fac === 'he' && (U[u.t].rng || U[u.t].line) ? 'ammo' : 'rune');
-  S.msg = `${U[u.t].n}: <b>${essName(key)}</b>${before ? ` (vorher ${essName(before)})` : ''} – ${essLines(fx).join('; ')}`;
+  const o = alcMake(key, S.units, S.chr, S.stash);
+  if (o) S.msg = `Alchemie: <b>${o.n}</b> – ${o.d}`;
 }
 /* Barbaren: Element-Stein direkt an ein Regiment verfüttern */
 function feedApply(v) {
@@ -13879,18 +13786,25 @@ function aiBuild(ai, r) {
         }
       }
   }
-  ai.stash = ai.stash.filter(st => {
-    if (!RES[st.k].el || elUse(ai.fac) === 'eat') return true;
-    /* stärkste passende Einheit zuerst – so wachsen Essenzen auf wenigen Regimentern zu Kombinationen */
-    const u = us
-      .filter(x => canEnch(x, st, ai.fac))
-      .sort((a, b) => U[b.t].val * b.s - U[a.t].val * a.s)[0];
-    if (u) {
-      applyEl(u, RES[st.k].el, ai.fac);
-      return false;
+  /* Alchemie: Element-Steine in Dreier- (sonst Zweier-)Gruppen kombinieren; Gegenstände bekommt die stärkste Einheit ohne */
+  {
+    const el = ai.stash.filter(st => RES[st.k].el);
+    ai.stash = ai.stash.filter(st => !RES[st.k].el);
+    ai.chr = ai.chr || [];
+    while (el.length) {
+      const g = el.splice(0, el.length >= 3 && el.length !== 4 ? 3 : Math.min(2, el.length));
+      const loot = [],
+        o = alcMake(g.map(st => RES[st.k].el).join(''), us, ai.chr, loot, Math.min(3, 1 + (r >> 2)));
+      loot.forEach(it => {
+        const u = us.filter(x => !isK(x) && !x.rel).sort((a, b) => U[b.t].val * b.s - U[a.t].val * a.s)[0];
+        if (u) {
+          u.rel = it.r;
+          u.relq = it.q;
+        }
+      });
+      if (!o) break;
     }
-    return true;
-  });
+  }
   const pass = (test, fn) => {
     for (let again = true; again; ) {
       again = false;
@@ -13915,14 +13829,6 @@ function aiBuild(ai, r) {
       (a, b) => a.s === b.s && comboOf(a, b) && U[a.t].tier === 2 && Math.random() < Math.min(0.6, 0.07 * r),
       combine
     );
-  if (ai.fac === 'ba')
-    ai.stash = ai.stash.filter(st => {
-      if (!RES[st.k].el) return true;
-      const f = us.filter(u => !isK(u) && canFeed(u)).sort((a, b) => U[b.t].val * b.s - U[a.t].val * a.s);
-      if (!f.length) return true;
-      feed(f[0], st);
-      return false;
-    });
   for (let i = ai.stash.length - 1; i >= 0 && ai.stash.length > 2; i--) {
     if (!canEat(ai.stash[i], ai.fac)) continue;
     const f = us.filter(canFeed);
@@ -13950,7 +13856,7 @@ function aiBuild(ai, r) {
       fill = us.filter(u => !sel.includes(u));
     us.splice(0, us.length, ...sel, ...fill);
   }
-  if (!us.length) us.push(mk(UBASE.find(x => x[0] === ai.fac && x[3])[1], ''));
+  if (!us.length) us.push(mk(UBASE.find(x => x[0] === ai.fac && x[3] && U[x[1]])[1], ''));
   us.forEach(u => {
     if (!u.ord) {
       const x = Math.random();
@@ -14016,7 +13922,7 @@ const flipP = p => ({ ...p, x: +(GW - p.x).toFixed(2), y: +(GH - p.y).toFixed(2)
 /* Söldner dieser Runde: einmal ausgelost, damit er schon beim Aufstellen angekündigt werden kann */
 function mercType() {
   if (!S.mercR || S.mercR.r !== S.round) {
-    const L = UBASE.filter(r => r[0] !== S.fac);
+    const L = UBASE.filter(r => r[0] !== S.fac && U[r[1]]);
     S.mercR = { r: S.round, t: L[rnd(L.length)][1] };
   }
   return S.mercR.t;
@@ -14088,7 +13994,7 @@ function aiSide(ai) {
     sv = lvl(ai.col, 's'),
     extra = [];
   if (sv >= 2) {
-    const L = UBASE.filter(r => r[0] !== ai.fac),
+    const L = UBASE.filter(r => r[0] !== ai.fac && U[r[1]]),
       m = mk(L[rnd(L.length)][1], '');
     place([m], 1, S.map);
     extra.push(m);
@@ -16826,19 +16732,12 @@ const auraRings = list =>
     )
     .join('');
 
-/* Autobattler · Oberfläche: Karten, Hinweise, Hauptansicht, Rezeptbuch */
+/* Autobattler · Oberfläche: Karten, Hinweise, Hauptansicht */
 let ABS = false;
 /* Fähigkeiten einer Einheit: Detail = fett + Erklärung je Zeile, Kurz = nur die fetten Namen */
 const BION = { gras: 'Grasland', winter: 'Winter', wueste: 'Wüste', herbst: 'Herbst', heide: 'Heide', asche: 'Aschland' };
 function abilH(T, u) {
   const L = abilList(T);
-  if (u && (u.ench || u.ban))
-    elTxt(u)
-      .split(' · ')
-      .forEach(x => {
-        const i = x.indexOf(':');
-        L.push(i > 0 ? [x.slice(0, i), x.slice(i + 1).trim()] : [x, '']);
-      });
   if (u && u.rel) L.push([RELI[u.rel].n, RELI[u.rel].d]);
   (T.meta || []).forEach(k => L.push(['Feldlager · ' + META[k].n, META[k].d]));
   const desc = [T.dx, T.d].filter(Boolean).join(' ');
@@ -17150,18 +17049,16 @@ function hint(it) {
       `<span class="rc${ok ? ' ok' : ''}${cls ? ' ' + cls : ''}"><b>${name}</b> <i>${how}${ok ? ' ✓' : ''}</i></span>`,
     rows = [];
   if (R.el) {
-    const e = R.el,
-      rare = ESR.includes(k),
-      w = { eat: 'Essen', rune: 'Rune', ban: 'Banner', ammo: 'Munition', sum: 'Wesensglut' }[elUse()];
-    rows.push(chip(true, w, rare ? 'seltener Stein – Wirkung unbekannt, bis du es ausprobierst' : 'Wirkung zeigt sich erst auf dem Regiment', 'it'));
-    if (S.fac === 'de' && !rare) {
-      rows.push(chip(have('t') > 0, U[CREC[e + 1]].n, '+ Stein'));
-      rows.push(chip(have('k') > 0, U[CREC[e + 2]].n, '+ Kristall'));
-      rows.push(chip(have(k) >= 2, U[CREC[e + 3]].n, '2× ' + EL[e].n));
-      ESK.filter(o => o !== k).forEach(o =>
-        rows.push(chip(have(o) > 0, U[CREC[mix(e, RES[o].el)]].n, '+ ' + RES[o].n))
-      );
-    }
+    rows.push(
+      chip(
+        true,
+        'Alchemie',
+        ESR.includes(k)
+          ? 'seltener Stein – mit anderen kombinieren; was entsteht, zeigt erst der Versuch'
+          : 'mit anderen Element-Steinen kombinieren; was entsteht, zeigt erst der Versuch',
+        'it'
+      )
+    );
   } else {
     if (k === FST[S.fac])
       rows.push(
@@ -17341,7 +17238,7 @@ function render0() {
               S.finf !== f
                 ? ''
                 : `<small><b>Volksstein:</b> ${RES[FST[f]].n} (Einheiten daraus +${FSTB.hp * 100} % LP, +${FSTB.atk} Angriff)</small><small><b>Element-Steine:</b> ${FAC[f].el}</small><small><b>Einheiten:</b> ${UBASE.filter(
-                    r => r[0] === f && r[3]
+                    r => r[0] === f && r[3] && U[r[1]]
                   )
                     .map(r => r[2])
                     .join(', ')}</small>`
@@ -17388,8 +17285,7 @@ function render0() {
       const st0 = S.stash[S.selS[0]];
       if (st0.type === 'rel') {
         if (!isK(u)) b.push(btn('equipA', `${u.rel ? 'Ersetzen' : 'Ausrüsten'}: ${RELI[st0.r].n}`));
-      } else if (canEnch(u, st0)) b.push(btn('enchA', `${ELV[elUse()]}: ${RES[st0.k].n}`));
-      else if (!isK(u) && canEat(st0))
+      } else if (!isK(u) && canEat(st0))
         b.push(
           btn(
             'feedA',
@@ -17534,23 +17430,8 @@ function render0() {
   }
   $('dsb').innerHTML = S.fac ? sbStrip() : '';
   /* Lesezeichen aus dem Einheitenbaum: was fehlt noch? Passende Steine im Pack werden markiert */
-  const mN = markNeeds(),
-    want = new Set(mN.flatMap(x => Object.keys(x.miss)));
-  $('marks').innerHTML = mN.length
-    ? mN
-        .map(
-          x =>
-            `<span class="mk${Object.keys(x.miss).length ? '' : ' ok'}"><b>🔖 ${U[x.t].n}</b> ${
-              Object.keys(x.miss).length
-                ? 'fehlt: ' +
-                  Object.entries(x.miss)
-                    .map(([k, n]) => `<i style="--c:${RES[k].c}"></i>${n > 1 ? n + '× ' : ''}${RES[k].n}`)
-                    .join(', ')
-                : 'alles da ✓'
-            }</span>`
-        )
-        .join('')
-    : '<span class="note">Im Einheitenbaum mit 🔖 Einheiten merken – hier steht dann, welche Steine fehlen.</span>';
+  const want = new Set(markNeeds().flatMap(x => Object.keys(x.miss)));
+  $('marks').innerHTML = marksHTML();
   $('booster').className = 'pack';
   $('booster').innerHTML =
     (S.booster.length && S.picks > 0
@@ -17588,7 +17469,7 @@ function render0() {
   $('ahint').textContent =
     S.step === 'deploy'
       ? 'Einheit antippen, dann Stelle im hellen Streifen antippen – oder hineinziehen. ▌ = steht auf dem Feld'
-      : 'Zwei Einheiten antippen: verschmelzen oder kombinieren. Einheit + Stein: füttern, verzaubern, ausrüsten.';
+      : 'Zwei Einheiten antippen: verschmelzen oder kombinieren. Einheit + Stein: füttern · Einheit + Gegenstand: ausrüsten.';
   const prs = [],
     seen = new Set(),
     us = S.units;
@@ -17614,6 +17495,8 @@ function render0() {
         .join('')
     : '<p class="note">Noch keine Einheiten. Wähle zwei Lagersteine und baue eine.</p>';
   let op = [];
+  /* Lesezeichen: Bauschritte auf dem Weg zu gemerkten Einheiten werden markiert */
+  const MP = markPath();
   if (B) {
     const bs = new Set(),
       bq = new Map(),
@@ -17635,28 +17518,14 @@ function render0() {
           );
         }
       }
-    /* Wesen der Dunkelelfen stehen nur im Reiter „Beschwörung“, Element-Steine nur im Magie-Reiter */
-    if (elUse() === 'sum') for (const t of [...bq.keys()]) if (U[t].cre) bq.delete(t);
     op = [
       ...[...bq].map(
         ([t, [q, i, j, ex]]) =>
-          `<button class="opt" data-a="pkb" data-v="${i},${j}">${oiT(t)}<span>${U[t].cre ? 'Beschwören' : 'Bauen'}: ${U[t].n} <em>${sn(S.stash[i])} + ${sn(S.stash[j])}${ex >= 0 ? ' + ' + sn(S.stash[ex]) : ''}</em><em class="pv">→ ${prevBuild(t, q)}</em></span></button>`
+          `<button class="opt${MP.has(t) ? ' bm' : ''}" data-a="pkb" data-v="${i},${j}">${oiT(t)}<span>${MP.has(t) ? '🔖 ' : ''}${U[t].cre ? 'Beschwören' : 'Bauen'}: ${U[t].n} <em>${sn(S.stash[i])} + ${sn(S.stash[j])}${ex >= 0 ? ' + ' + sn(S.stash[ex]) : ''}</em><em class="pv">→ ${prevBuild(t, q)}</em></span></button>`
       ),
       ...op
     ];
     S.stash.forEach((st, i) => {
-      if (false && st.type === 'st' && RES[st.k].el && !bs.has(st.k) && S.units.some(u => canEnch(u, st))) {
-        bs.add(st.k);
-        op.push(
-          `<button class="opt" data-a="pk" data-v="e${i}">${oiB(elUse() === 'ban' ? 'b-flag' : 'b-spark')}<span>${ELV[elUse()]}: ${EL[RES[st.k].el].n} <em>${elUse() === 'ammo' ? 'Stein antippen, dann Fernkämpfer' : 'Stein antippen, dann Einheit'}</em></span></button>`
-        );
-      }
-      if (false && S.fac === 'ba' && st.type === 'st' && RES[st.k].el && !bs.has(st.k)) {
-        bs.add(st.k);
-        op.push(
-          `<button class="opt" data-a="pk" data-v="e${i}">${oiB('b-meat')}<span>Essen: ${RES[st.k].n}-Stein <em>${fdesc(st)} · dann Einheit wählen</em></span></button>`
-        );
-      }
       if (st.type === 'rel' && !bs.has('r' + st.r)) {
         bs.add('r' + st.r);
         op.push(
@@ -17669,7 +17538,7 @@ function render0() {
       if (seen.has(key)) return;
       seen.add(key);
       op.push(
-        `<button class="opt" data-a="pku" data-v="${p.k}${p.a.uid},${p.c.uid}">${oiT(p.res)}<span>${p.k === 'm' ? 'Verschmelzen' : 'Kombinieren'}: ${U[p.res].n} ${'★'.repeat(p.s)}${p.k === 'c' ? ` <em>${U[p.res].cre ? 'Mischwesen' : 'Stufe ' + U[p.res].tier} · ${U[p.a.t].n} + ${U[p.c.t].n}</em>` : ''}<em class="pv">→ ${p.k === 'm' ? prevMerge(p.a) : prevComb(p.a, p.c, p.res)}</em></span></button>`
+        `<button class="opt${p.k === 'c' && MP.has(p.res) ? ' bm' : ''}" data-a="pku" data-v="${p.k}${p.a.uid},${p.c.uid}">${oiT(p.res)}<span>${p.k === 'c' && MP.has(p.res) ? '🔖 ' : ''}${p.k === 'm' ? 'Verschmelzen' : 'Kombinieren'}: ${U[p.res].n} ${'★'.repeat(p.s)}${p.k === 'c' ? ` <em>${U[p.res].cre ? 'Mischwesen' : 'Stufe ' + U[p.res].tier} · ${U[p.a.t].n} + ${U[p.c.t].n}</em>` : ''}<em class="pv">→ ${p.k === 'm' ? prevMerge(p.a) : prevComb(p.a, p.c, p.res)}</em></span></button>`
       );
     });
   }
@@ -17683,7 +17552,7 @@ function render0() {
       ? [
           ['units', 'Truppen'],
           ['off', 'Charaktere'],
-          ['ench', elTab()]
+          ['ench', 'Alchemie']
         ]
           .map(
             ([k, n]) =>
@@ -17729,86 +17598,6 @@ const brow = (t, extra) => {
   const B = U[t];
   return `<div class="brow"><span class="ti">${tokSVG(t, 0, 1, '')}</span><div><strong>${B.n}</strong> <span class="tag">${'Stufe ' + B.tier}</span><p>LP ${B.hp} · Angr. ${B.atk} · Rüst. ${B.arm} · Init. ${B.ini} · Sicht ${B.vis || 2}${B.val ? ' · Wert ' + String(B.val).replace('.', ',') : ''}</p><p>${propTxt(t)}</p>${abilH(B)}${extra}</div></div>`;
 };
-function buildBook() {
-  const F = S && S.fac;
-  if (!F) {
-    $('book').innerHTML = '<p class="note">Erst ein Volk wählen.</p>';
-    return;
-  }
-  const ofTier = n =>
-    Object.keys(U).filter(t => U[t].tier === n && U[t].fac === F && !U[t].cre && !U[t].king);
-  $('book').innerHTML =
-    `<div class="abtw">${abT()}</div><details open><summary>Stufe 1 · aus Steinen (${ofTier(1).length})</summary><div class="book">` +
-    ofTier(1)
-      .map(t =>
-        brow(
-          t,
-          `<div class="pairs">${Object.entries(RECF[F])
-            .filter(([, v]) => v === t)
-            .map(
-              ([k]) =>
-                `<span>${[...k].map(c => `<span class="dot" style="--c:${RES[c].c}"></span> ${RES[c].n}`).join(' + ')}</span>`
-            )
-            .join('')}</div>`
-        )
-      )
-      .join('') +
-    '</div></details>' +
-    [2, 3]
-      .map(
-        n =>
-          `<details><summary>Stufe ${n} · Kombinationen (${ofTier(n).length})</summary><p class="note">${n === 2 ? 'Zwei verschiedene Stufe-1-Einheiten.' : 'Zwei verschiedene Stufe-2-Einheiten.'} Bewegung beider Eltern und ihre Fähigkeiten werden vererbt, dazu eine eigene.</p><div class="book">` +
-          ofTier(n)
-            .map(t =>
-              brow(t, `<div class="pairs"><span>${U[U[t].par[0]].n} + ${U[U[t].par[1]].n}</span></div>`)
-            )
-            .join('') +
-          '</div></details>'
-      )
-      .join('');
-  const CLS = [
-    '',
-    'klein · Element-Stein + Stein',
-    'mittel · Element-Stein + Kristall',
-    'groß · zwei gleiche Element-Steine'
-  ];
-  $('book').innerHTML =
-    `<div class="abtw">${abT()}</div><details open><summary>Armeelager</summary><div class="book">${brow(
-      'KNG',
-      '<div class="pairs"><span>Jede Armee hat genau eins. LP 20 + 5 je Runde. Ausbauten: ' +
-        Object.values(INSI)
-          .map(i => i.n + ' (' + i.d + ')')
-          .join(', ') +
-        '</span></div>'
-    )}</div></details><details><summary>Gelände &amp; Wetter</summary><div class="book">${Object.entries(TER)
-      .map(
-        ([k, t]) =>
-          `<div class="brow"><span class="tsw t${k}"></span><div><strong>${t.n}</strong><p>${t.d}</p></div></div>`
-      )
-      .join('')}${Object.values(WX)
-      .map(w => `<div class="brow"><div><strong>Wetter: ${w.n}</strong><p>${w.d}</p></div></div>`)
-      .join('')}</div></details>` +
-    $('book').innerHTML +
-    `<details open><summary>Element-Steine: ${FAC[F].n}</summary><p class="note">${FAC[F].el}</p></details>` +
-    (F !== 'de'
-      ? ''
-      : `<details><summary>Elementarwesen (${Object.keys(CRE).length})</summary><p class="note">Element-Steine beschwören eigene Wesen statt normaler Einheiten. Der Rohstoff neben dem Element-Stein bestimmt die Größe. Zwei Element-Steine verschiedener Elemente – oder zwei Wesen verschiedener Elemente kombiniert – ergeben ein Mischwesen.</p>` +
-        EK.map(
-          e =>
-            `<details><summary style="color:${EL[e].c}">${EL[e].n}</summary><div class="book">${[1, 2, 3].map(c => brow(CREC[e + c], `<div class="pairs"><span>${CLS[c]}</span></div>`)).join('')}</div></details>`
-        ).join('') +
-        `<details><summary>Mischwesen</summary><div class="book">${MK.map(k => brow(CREC[k], `<div class="pairs"><span style="color:${EL[k].c}">${EL[k[0]].n}</span> + <span style="color:${EL[k].c2}">${EL[k[1]].n}</span> = ${EL[k].n}</div>`)).join('')}</div></details></details>`);
-  $('book').innerHTML +=
-    `<details><summary>Werkstätten &amp; Gegenstände</summary><p class="note">Schmiede, Gerberei und Alchemie stehen von Anfang an im Lager. Sie stellen aus zwei Rohstoffen Gegenstände her. Je höher die Güte der Rohstoffe (z. B. Stahl statt Bronze), desto stärker der Gegenstand: Güte 1 wirkt zu 75 %, jede weitere Stufe +25 %.</p><div class="book">${Object.entries(
-      F === 'zw' ? { ...CRAFT, ...CRAFTZ } : CRAFT
-    )
-      .map(
-        ([p, [w, r]]) =>
-          `<div class="brow"><span class="ti">${relSVG(RELI[r].ic, RELI[r].c)}</span><div><strong>${RELI[r].n}</strong> <span class="tag">${INSI[w].n}</span><p>${[...p].map(c => RES[c].n).join(' + ')} → ${RELI[r].d}</p></div></div>`
-      )
-      .join('')}</div></details>`;
-}
-buildBook();
 
 /* Gegner im Draft: alle Heere mit Volk, Bilanz, Schwerpunkt, Sammelboni – ab dem zweiten Pack eine Einschätzung,
    was sie aus ihren bisher gezogenen Steinen bauen könnten (nur aus dem, was sie gezogen haben, nicht aus ihrem Lager) */
@@ -17937,69 +17726,32 @@ const elBg = e =>
       ? `linear-gradient(90deg,${[...e].map((c, i) => `${(EL[c] || EL.f).c} ${(i * 100) / e.length}% ${((i + 1) * 100) / e.length}%`).join(',')})`
       : (EL[e] || EL.f).c;
 const tagsHTML = tags => tags.map(x => `<span class="mtag" style="--eb:${elBg(x.e)}">${x.t}</span>`).join('');
-/* Reiter „Alchemie“: 1–3 Element-Steine wählen und auf ein Regiment geben – was daraus wird, zeigt sich erst danach.
-   Dunkelelfen beschwören zusätzlich Wesen aus Grundsteinen. */
-const ALCN = {
-  eat: ['Festmahl', 'Wähle bis zu drei Element-Steine und lass ein Regiment sie verspeisen.'],
-  rune: ['Runenschmiede', 'Wähle bis zu drei Element-Steine und schlage sie als Rune in ein Regiment.'],
-  ban: ['Bannerweihe', 'Wähle bis zu drei Element-Steine und weihe damit das Banner eines Regiments – seine Kraft strahlt auf Verbündete aus.'],
-  ammo: ['Munitionskammer', 'Wähle bis zu drei Element-Steine und lade sie als Munition in einen Fernkämpfer.'],
-  sum: ['Wesensglut', 'Wähle bis zu drei Element-Steine und nähre damit ein Wesen.']
-};
+/* Reiter „Alchemie“ (für alle Völker gleich): 1–3 Element-Steine wählen und kombinieren.
+   Was entsteht – Wesen, Charakter oder Gegenstand –, zeigt sich erst danach. */
 function enchPanel() {
-  const m = elUse(),
-    el = S.stash.map((s, i) => ({ s, i })).filter(x => x.s.type === 'st' && RES[x.s.k].el);
+  const el = S.stash.map((s, i) => ({ s, i })).filter(x => x.s.type === 'st' && RES[x.s.k].el);
   S.alc = (S.alc || []).filter(i => S.stash[i] && S.stash[i].type === 'st' && RES[S.stash[i].k].el);
-  const pick = S.alc,
-    n = pick.length,
-    tg = n ? S.units.filter(u => pick.every(i => canEnch(u, S.stash[i], S.fac, n))) : [],
+  const n = S.alc.length,
     chips = el
       .map(
         x =>
-          `<button class="echip${pick.includes(x.i) ? ' on' : ''}" data-a="alcPick" data-v="${x.i}" style="--eb:${RES[x.s.k].c}"><span class="mdot"></span>${RES[x.s.k].n}</button>`
+          `<button class="echip${S.alc.includes(x.i) ? ' on' : ''}${ESR.includes(x.s.k) ? ' rare' : ''}" data-a="alcPick" data-v="${x.i}" style="--eb:${RES[x.s.k].c}"><span class="mdot"></span>${RES[x.s.k].n}</button>`
       )
-      .join(''),
-    [title, how] = ALCN[m];
-  let body =
-    `<h3>${title}</h3><p class="note">${how} Was die Steine bewirken – allein oder zusammen –, zeigt sich erst auf dem Regiment. Jede Zusammenstellung wirkt anders, auch doppelte Steine. Ein Regiment fasst höchstens drei Steine; solange Platz ist, lässt es sich ergänzen – dann verwandelt sich die ganze Essenz.</p>` +
-    (el.length ? `<div class="echips">${chips}</div>` : '<p class="note">Keine Element-Steine im Lager – sie kommen im Draft, die seltenen nur ab und zu.</p>') +
-    (n
-      ? tg.length
-        ? `<div class="cbt"><small>${n} Stein${n > 1 ? 'e' : ''} auf:</small> ${tg
-            .map(
-              u =>
-                `<button class="btn sm pri" data-a="alcApply" data-v="${u.uid}">${U[u.t].n} ${'★'.repeat(u.s)}${essOn(u) ? ` <small>(${essKey(essOn(u)).length}/3)</small>` : ''}</button>`
-            )
-            .join('')}</div>`
-        : `<p class="note">Kein Regiment hat Platz für ${n} Stein${n > 1 ? 'e' : ''}${m === 'ammo' ? ' (nur Fernkämpfer)' : m === 'sum' ? ' (nur Wesen)' : m === 'eat' ? ' (Fütterplatz)' : ''}.</p>`
-      : '');
-  if (m === 'sum') {
-    const seen = new Set(),
-      opts = [];
-    for (const a of el)
-      for (let j = 0; j < S.stash.length; j++) {
-        if (j === a.i || S.stash[j].type !== 'st') continue;
-        const r = fromStones(a.s, S.stash[j]),
-          ex = r.t ? sumExtra(S.stash, a.i, j) : -1;
-        if (r.t && U[r.t].cre && ex !== -2 && !seen.has(r.t)) {
-          seen.add(r.t);
-          opts.push(
-            `<div class="offc ready"><div class="offh"><span class="mdot" style="--eb:${elBg(U[r.t].el)}"></span><div><strong>${U[r.t].n}</strong><p>${U[r.t].d}</p></div></div><div class="cbt"><button class="btn sm pri" data-a="pkb" data-v="${Math.min(a.i, j)},${Math.max(a.i, j)}">Beschwören: ${stName(S.stash[a.i])} + ${stName(S.stash[j])}${ex >= 0 ? ' + ' + stName(S.stash[ex]) : ''}</button></div></div>`
-          );
-        }
-      }
-    body +=
-      '<h3>Beschwören</h3><p class="note">Grundstein (Feuer, Wasser, Luft, Erde, Dunkelheit) + 2× Stein oder 2× Kristall = Wesen; 3× dasselbe Element = großes Wesen. Zwei Wesen verschiedener Elemente lassen sich zu Mischwesen kombinieren.</p>' +
-      (opts.join('') || '<p class="note">Gerade nichts zu beschwören.</p>');
-  }
-  const act = S.units
-    .filter(u => u.ench || u.ban)
-    .map(u => `<div class="offc"><div class="offh"><span class="mdot" style="--eb:${elBg(essKey(u.ban || u.ench))}"></span><div><strong>${U[u.t].n} ${'★'.repeat(u.s)}</strong><p>${elTxt(u)}</p></div></div></div>`)
+      .join('');
+  const its = S.units
+    .filter(u => u.rel && RELI[u.rel] && RELI[u.rel].alc)
+    .map(
+      u =>
+        `<div class="offc"><div class="offh"><span class="mdot" style="--eb:${RELI[u.rel].c}"></span><div><strong>${U[u.t].n} ${'★'.repeat(u.s)}</strong><p>${elTxt(u)}</p></div></div></div>`
+    )
     .join('');
   return (
-    body +
-    `<h3>Entdeckte Essenzen in deinem Heer</h3>` +
-    (act || '<p class="note">Noch keine.</p>')
+    `<h3>Alchemie</h3><p class="note">Wähle ein bis drei Element-Steine und kombiniere sie. Je nach Mischung entsteht ein Elementarwesen, ein Charakter oder ein Gegenstand mit einer besonderen Fähigkeit – ohne bekanntes Rezept ein Talisman, der die kleinen Kräfte der Steine bündelt. Aufgeschrieben ist nichts: Probieren geht über Studieren. Gegenstände legst du beim Bauen oder Aufstellen einem Regiment an.</p>` +
+    (el.length
+      ? `<div class="echips">${chips}</div>${n ? `<div class="cbt"><button class="btn pri" data-a="alcCombine">${n === 1 ? '1 Stein' : n + ' Steine'} kombinieren</button></div>` : ''}`
+      : '<p class="note">Keine Element-Steine im Lager – sie kommen im Draft, die seltenen nur ganz selten.</p>') +
+    `<h3>Ausgerüstet</h3>` +
+    (its || '<p class="note">Noch kein Regiment trägt einen Gegenstand aus der Alchemie.</p>')
   );
 }
 
@@ -18102,7 +17854,11 @@ function rulesHTML() {
         `Zwischen den Schlachten zeigt die Rangliste alle Heere: Sieg 3 Punkte, Niederlage 0.`,
         `Wetter: ${Object.values(WX)
           .map(w => `${w.n} (${w.d})`)
-          .join(', ')}.`
+          .join(', ')}.`,
+        `<b>Gelände:</b> ${Object.values(TER)
+          .map(t => `<b>${t.n}</b> – ${t.d}`)
+          .join(' ')}`,
+        `<b>Armeelager:</b> Jede Armee hat genau eins, LP 20 + 5 je Runde.`
       ])
     ) +
     sec(
@@ -18153,7 +17909,7 @@ function rulesHTML() {
       'bauen',
       'Bauen, Verschmelzen, Kombinieren',
       ul([
-        `<b>Bauen:</b> Jede Einheit hat genau ein Rezept aus zwei Rohstoffen (Rezeptbuch). Die Mannzahl steht auf der Karte; nach jeder Schlacht ist das Regiment wieder voll. Die Lebenspunkte hängen an der Mannzahl: LP = Mann × LP je Mann (schwere Truppen und Monster haben mehr LP je Mann).`,
+        `<b>Bauen:</b> Jede Einheit hat ein Rezept aus zwei Rohstoffen (Einheitenbaum: Steine unter jeder Einheit). Die Mannzahl steht auf der Karte; nach jeder Schlacht ist das Regiment wieder voll. Die Lebenspunkte hängen an der Mannzahl: LP = Mann × LP je Mann (schwere Truppen und Monster haben mehr LP je Mann).`,
         `<b>Verschmelzen</b> (2 gleiche Einheiten mit gleich vielen Sternen → ein Stern mehr, bis ★★★): ★ → ★★: ${starFx(1)}; ★★ → ★★★: ${starFx(2)}. Das Regiment belegt nur noch einen Platz auf dem Feld. Gefütterte Boni beider werden addiert, die bessere Güte bleibt.`,
         `<b>Kombinieren</b> (2 verschiedene Einheiten mit Rezept → neue Einheit, Stufe 1 + 1 → 2, 2 + 2 → 3): Die neue Einheit hat eigene Werte, eine eigene Fähigkeit und den Kombi-Bonus: Stufe 2 +${CMBB[2] * 100} % LP, Stufe 3 +${CMBB[3] * 100} % LP, je +1 Angriff. Sie erbt nur Grundarten (Fernkampf, Heilung, Flug, Sicht, Lanzenwall), keine weiteren Fähigkeiten. Sterne: die wenigeren der Eltern.`,
         `<b>Füttern:</b> Einheit + Stein → kleiner Dauerbonus (höchstens 3 je Stern).`,
@@ -19285,13 +19041,14 @@ const STARTA = {
 };
 regAct(STARTA);
 
-/* Autobattler · Einheitenbaum: Stufe 1 → 2 → 3 je Volk, im Menü aufrufbar.
+/* Autobattler · Einheitenbaum: Stufe 1 → 2 → 3 je Volk, im Menü und aus Draft/Bauen aufrufbar.
+   Knoten: Name, eigene Fähigkeiten, nötige Steine; Lesezeichen markieren den Bauweg (zu bauen / baubar / im Heer).
    Rein lesend aus U (Einheiten), RECF (Rezepte) und dem Lager; eigener Zustand TREE, eigener Klick-Handler.
    Jeder Knoten zeigt die nötigen Steine: gefüllt = im Lager, hohl = fehlt, gold umrandet = steckt in einem Regiment des Heeres. */
 const TREE = { f: '', sel: '', w: 0, lv: 1 };
 /* Lesezeichen (Einheitentypen) – je Feldzug in S.marks; ohne Spiel nur für diese Sitzung */
 const marks = () => (S ? (S.marks = S.marks || []) : (TREE.mk = TREE.mk || []));
-const TRH = 58; /* Zeilenhöhe eines Knotens */
+const TRH = 80; /* Zeilenhöhe eines Knotens */
 /* Nötige Steine einer Einheit als Liste von Rohstoff-Kürzeln (Kombinationen: alle Steine beider Eltern) */
 function treeNeed(t) {
   const T = U[t];
@@ -19307,20 +19064,80 @@ function treeNeed(t) {
   const k = Object.keys(RECF[T.fac] || {}).find(r => RECF[T.fac][r] === t);
   return k ? [...k] : [];
 }
-/* Was davon da ist: Regimenter im Heer decken ihren Teilbaum ab, der Rest wird aus dem Lager genommen.
-   Liefert [{k, s}] mit s = 'army' | 'have' | 'miss'. Nur für das eigene Volk, sonst ohne Lagerabgleich. */
+/* Bestand des eigenen Volkes: Regimenter je Typ und Steine je Rohstoff (Zähler, werden beim Planen verbraucht) */
+function treeStock(f) {
+  const A = {},
+    L = {},
+    mine = S && S.fac === f;
+  if (mine) {
+    (S.units || []).forEach(u => (A[u.t] = (A[u.t] || 0) + 1));
+    (S.stash || []).forEach(st => st.type === 'st' && (L[st.k] = (L[st.k] || 0) + 1));
+  }
+  return { A, L, mine };
+}
+/* Bauplan einer Einheit, Eltern zuerst: [{t, s, miss}] mit s = 'army' (steht im Heer) | 'ready' (jetzt baubar) | 'todo'.
+   Ein Regiment im Heer deckt seinen ganzen Teilbaum; Steine werden nur einmal vergeben. */
+function treePlan(t, A, L) {
+  if (A[t] > 0) return A[t]--, [{ t, s: 'army' }];
+  if (U[t].par) {
+    const ch = U[t].par.map(p => treePlan(p, A, L));
+    return [...ch.flat(), { t, s: ch.every(c => c[c.length - 1].s === 'army') ? 'ready' : 'todo' }];
+  }
+  const miss = {};
+  treeNeed(t).forEach(k => (L[k] > 0 ? L[k]-- : (miss[k] = (miss[k] || 0) + 1)));
+  return [{ t, s: Object.keys(miss).length ? 'todo' : 'ready', miss }];
+}
+/* Steine eines Knotens: [{k, s}] mit s = 'army' | 'have' | 'miss' (nur eigenes Volk, sonst ohne Abgleich) */
 function treeStones(t) {
-  const mine = S && S.fac === U[t].fac,
-    army = new Set(mine ? (S.units || []).map(u => u.t) : []),
-    left = {};
-  if (mine) (S.stash || []).forEach(st => st.type === 'st' && (left[st.k] = (left[st.k] || 0) + 1));
+  const { A, L, mine } = treeStock(U[t].fac);
   const walk = x =>
-    army.has(x)
-      ? treeNeed(x).map(k => ({ k, s: 'army' }))
+    A[x] > 0
+      ? (A[x]--, treeNeed(x).map(k => ({ k, s: 'army' })))
       : U[x].par
         ? U[x].par.flatMap(walk)
-        : treeNeed(x).map(k => ({ k, s: mine && left[k] > 0 && left[k]-- ? 'have' : mine ? 'miss' : '' }));
+        : treeNeed(x).map(k => ({ k, s: mine && L[k] > 0 && L[k]-- ? 'have' : mine ? 'miss' : '' }));
   return walk(t);
+}
+/* Eigene Fähigkeiten einer Einheit (ohne Grundarten wie Fernkampf, Reiterei, Disziplin, Volksstein, Kombi-Bonus) */
+const TRSKIP = /^(Volksstein|Kombi-Bonus|Fernkampf|Schuss|Disziplin|Plänkler|Reiterei)/;
+const treeAb = t =>
+  abilList(U[t])
+    .map(([n]) => n)
+    .filter(n => !TRSKIP.test(n));
+/* Lesezeichen des eigenen Volkes → Bauplan je Lesezeichen und Status je Einheitentyp im Baum */
+function treeMarks(f) {
+  const { A, L, mine } = treeStock(f);
+  if (!mine) return { plans: [], st: {} };
+  const plans = marks()
+      .filter(t => U[t] && U[t].fac === f)
+      .map(t => ({ t, steps: treePlan(t, { ...A }, { ...L }) })),
+    rank = { ready: 3, todo: 2, army: 1 },
+    st = {};
+  plans.forEach(p => p.steps.forEach(x => (!st[x.t] || rank[x.s] > rank[st[x.t]]) && (st[x.t] = x.s)));
+  Object.keys(A).forEach(t => st[t] || (st[t] = 'army'));
+  return { plans, st };
+}
+/* Kurzüberblick der Lesezeichen (Draft und Bauen): Fortschritt, fehlende Steine, nächster Schritt */
+function marksHTML() {
+  if (!S || !S.fac) return '';
+  const { plans } = treeMarks(S.fac);
+  if (!plans.length)
+    return '<span class="note">Im Einheitenbaum mit 🔖 Einheiten merken – hier steht dann, was noch fehlt und was als Nächstes zu bauen ist.</span>';
+  return plans
+    .map(({ t, steps }) => {
+      const miss = {};
+      steps.forEach(x => Object.entries(x.miss || {}).forEach(([k, n]) => (miss[k] = (miss[k] || 0) + n)));
+      const done = steps.filter(x => x.s === 'army').length,
+        top = steps[steps.length - 1],
+        nx = steps.find(x => x.s === 'ready'),
+        ms = Object.entries(miss);
+      return `<span class="mk${top.s === 'army' ? ' ok' : ''}"><b>🔖 ${U[t].n}</b> ${
+        top.s === 'army'
+          ? 'steht im Heer ✓'
+          : `${done}/${steps.length}${ms.length ? ' · fehlt: ' + ms.map(([k, n]) => `<i style="--c:${RES[k].c}"></i>${n > 1 ? n + '× ' : ''}${RES[k].n}`).join(', ') : ''}${nx ? ` · als Nächstes: <u>${U[nx.t].n}</u> ${U[nx.t].par ? 'kombinieren' : 'bauen'}` : ''}`
+      }</span>`;
+    })
+    .join('');
 }
 const treeDots = t =>
   `<span class="tdots">${treeStones(t)
@@ -19380,29 +19197,37 @@ function treeLine(t) {
   down(t);
   return on;
 }
-const treeNode = (t, x, y, w, on) =>
-  `<button class="tnode${TREE.sel === t ? ' sel' : on && !on.has(t) ? ' dim' : ''}${marks().includes(t) ? ' mk' : ''}" data-tu="${t}" style="left:${x}px;top:${y}px;width:${w}px"><span class="ti">${tokSVG(t, 0, 1, '')}</span><span class="tt"><span class="tn">${marks().includes(t) ? '🔖 ' : ''}${U[t].n}</span>${treeDots(t)}</span></button>`;
+const TRBADGE = { army: '✓ im Heer', ready: 'baubar' };
+const treeNode = (t, x, y, w, on, st, inl) => {
+  const mk = marks().includes(t),
+    ab = treeAb(t),
+    cls = `tnode${inl ? ' inl' : ''}${TREE.sel === t ? ' sel' : on && !on.has(t) ? ' dim' : ''}${mk ? ' mk' : ''}${st[t] ? ' s-' + st[t] : ''}`;
+  return `<button class="${cls}" data-tu="${t}"${inl ? '' : ` style="left:${x}px;top:${y}px;width:${w}px"`}><span class="ti">${tokSVG(t, 0, 1, '')}</span><span class="tt"><span class="tn">${mk ? '🔖 ' : ''}${U[t].n}</span>${ab.length ? `<span class="tab">${ab.join(' · ')}</span>` : ''}${treeDots(t)}</span>${TRBADGE[st[t]] ? `<span class="tbg">${TRBADGE[st[t]]}</span>` : ''}</button>`;
+};
 function treeMain(f, W) {
   const { cols, used, y } = treeLayout(f),
     gap = W < 420 ? 18 : 34,
     w = Math.floor((W - 2 * gap) / 3),
     X = [0, w + gap, 2 * (w + gap)],
     on = TREE.sel && U[TREE.sel] && !U[TREE.sel].cre ? treeLine(TREE.sel) : null,
+    { plans, st } = treeMarks(f),
+    path = new Set(plans.flatMap(p => p.steps.map(x => x.t))),
     H = Math.max(...Object.values(y)) + TRH;
   let lines = '',
     nodes = '';
   cols.forEach((col, c) =>
     col.forEach(t => {
-      nodes += treeNode(t, X[c], y[t], w, on);
+      nodes += treeNode(t, X[c], y[t], w, on, st);
       if (!c) return;
       for (const p of U[t].par) {
         const x0 = X[c - 1] + w,
-          y0 = y[p] + TRH / 2 - 3,
+          y0 = y[p] + 36,
           x1 = X[c],
-          y1 = y[t] + TRH / 2 - 3,
+          y1 = y[t] + 36,
           m = (x0 + x1) / 2,
-          hi = on && on.has(p) && on.has(t);
-        lines += `<path d="M${x0} ${y0}C${m} ${y0} ${m} ${y1} ${x1} ${y1}" class="${hi ? 'hi' : on ? 'lo' : ''}"/>`;
+          hi = on && on.has(p) && on.has(t),
+          pm = !on && path.has(p) && path.has(t);
+        lines += `<path d="M${x0} ${y0}C${m} ${y0} ${m} ${y1} ${x1} ${y1}" class="${hi ? 'hi' : on ? 'lo' : pm ? 'pm' : ''}"/>`;
       }
     })
   );
@@ -19411,23 +19236,6 @@ function treeMain(f, W) {
       ? `<div class="tsep" style="top:${used * TRH}px;width:${w}px">ohne Kombination</div>`
       : '';
   return `<div class="thead"><span style="width:${w}px">Stufe 1 · Steine</span><span style="width:${w}px">Stufe 2</span><span style="width:${w}px">Stufe 3</span></div><div class="tmap" style="height:${H}px"><svg width="${W}" height="${H}">${lines}</svg>${nodes}${sep}</div>`;
-}
-/* Elementarwesen der Dunkelelfen: je Element klein/mittel/groß, dazu Mischwesen aus zwei Elementen */
-function treeCre() {
-  const els = ESK.map(k => k.toLowerCase()),
-    en = e => RES[e.toUpperCase()].n,
-    btn = t =>
-      t
-        ? `<button class="tnode inl${TREE.sel === t ? ' sel' : ''}" data-tu="${t}"><span class="ti">${tokSVG(t, 0, 1, '')}</span><span class="tt"><span class="tn">${U[t].n}</span>${treeDots(t)}</span></button>`
-        : '<span></span>';
-  const pure = els
-    .map(e => `<span class="tel">${en(e)}</span>${[1, 2, 3].map(c => btn(CREC[e + c])).join('')}`)
-    .join('');
-  const mix = Object.keys(CREC)
-    .filter(k => k.length === 2 && /^[a-z]{2}$/.test(k))
-    .map(k => `<span class="tel">${en(k[0])} + ${en(k[1])}</span>${btn(CREC[k])}`)
-    .join('');
-  return `<h3>Elementarwesen</h3><div class="tcre"><span></span><span class="tel">+ ${RES.t.n}</span><span class="tel">+ ${RES.k.n}</span><span class="tel">2× Element</span>${pure}</div><p class="note">Zwei verschiedene Element-Steine ergeben ein Mischwesen (Stufe 2):</p><div class="tmix">${mix}</div>`;
 }
 /* Werte einer Einheit für den Baum: Stufe 1 = Grundwerte + Fähigkeiten (Namen), Stufe 2 = Grundwerte + Fähigkeiten ausführlich */
 function treeStats(t, lv) {
@@ -19477,16 +19285,21 @@ function treeInfo(f) {
     lv = TREE.lv;
   return `<div class="tinf"><div class="tinh"><span class="ti">${tokSVG(t, 0, 1, '')}</span><div><strong>${T.n}</strong> <span class="tag">Stufe ${T.tier}</span><p>${from}${to}</p><p>${treeStoneTxt(t)}</p></div><button class="btn sm${mk ? ' on' : ''}" data-tb="${t}">${mk ? '🔖 gemerkt' : '🔖 merken'}</button></div><div class="tlv"><button class="btn sm${lv === 1 ? ' on' : ''}" data-tl="1">Kurz</button><button class="btn sm${lv === 2 ? ' on' : ''}" data-tl="2">Ausführlich</button><button class="btn sm${lv === 0 ? ' on' : ''}" data-tl="0">Zu</button></div>${lv ? treeStats(t, lv) : ''}</div>`;
 }
-/* Fehlende Steine aller gemerkten Einheiten des eigenen Volkes: [{t, miss: {k: n}}] */
+/* Einheitentypen, die auf dem Weg zu einem Lesezeichen noch gebaut werden müssen (für die Bau-Optionen) */
+const markPath = () =>
+  new Set(
+    S && S.fac
+      ? treeMarks(S.fac).plans.flatMap(p => p.steps.filter(x => x.s !== 'army').map(x => x.t))
+      : []
+  );
+/* Fehlende Steine aller gemerkten Einheiten des eigenen Volkes: [{t, miss: {k: n}}] (markiert passende Steine im Pack) */
 function markNeeds() {
   if (!S || !S.fac) return [];
-  return marks()
-    .filter(t => U[t] && U[t].fac === S.fac)
-    .map(t => {
-      const miss = {};
-      treeStones(t).forEach(o => o.s === 'miss' && (miss[o.k] = (miss[o.k] || 0) + 1));
-      return { t, miss };
-    });
+  return treeMarks(S.fac).plans.map(({ t, steps }) => {
+    const miss = {};
+    steps.forEach(x => Object.entries(x.miss || {}).forEach(([k, n]) => (miss[k] = (miss[k] || 0) + n)));
+    return { t, miss };
+  });
 }
 function treeRender() {
   const box = $('tree');
@@ -19499,15 +19312,14 @@ function treeRender() {
     `<div class="ttabs">${FK.map(k => `<button class="btn${k === f ? ' on' : ''}" data-tf="${k}">${FAC[k].n}</button>`).join('')}</div>` +
     `<p class="note">Zwei verschiedene Einheiten einer Stufe ergeben eine der nächsten Stufe. Antippen hebt die Linie hervor.</p>` +
     (S && S.fac === f
-      ? `<p class="tleg"><span class="dot have" style="--c:var(--ink)"></span> im Lager <span class="dot miss" style="--c:var(--ink)"></span> fehlt <span class="dot army" style="--c:var(--ink)"></span> steckt in einem Regiment</p>`
+      ? `<p class="tleg"><span class="dot have" style="--c:var(--ink)"></span> im Lager <span class="dot miss" style="--c:var(--ink)"></span> fehlt <span class="dot army" style="--c:var(--ink)"></span> steckt in einem Regiment · <span class="tlg s-todo">zu bauen</span> <span class="tlg s-ready">baubar</span> <span class="tlg s-army">im Heer</span></p><div class="marks tmarks">${marksHTML()}</div>`
       : '') +
     `<div id="tinfo">${treeInfo(f)}</div>` +
-    treeMain(f, W) +
-    (f === 'de' ? treeCre() : '');
+    treeMain(f, W);
 }
 if (typeof document !== 'undefined' && typeof SERVER === 'undefined') {
   $('treeD').addEventListener('toggle', treeRender);
-  /* Einheitenbaum direkt aus dem Draft öffnen */
+  /* Einheitenbaum direkt aus Draft und Bauen öffnen */
   regAct({
     treeOpen: () => {
       document.body.classList.add('menuOn');
@@ -19518,6 +19330,14 @@ if (typeof document !== 'undefined' && typeof SERVER === 'undefined') {
     }
   });
   hookOn('menu', treeRender);
+  /* Lesezeichen-Überblick auch beim Bauen (nach dem Draft) */
+  hookOn('render', () => {
+    const m = $('marks2');
+    if (!m || !m.parentNode) return;
+    const off = !S || !S.fac || S.step === 'draft'; /* im Draft steht beides schon oben */
+    m.parentNode.style.display = off ? 'none' : '';
+    if (!off) m.innerHTML = marksHTML();
+  });
   $('tree').addEventListener('click', e => {
     const b = e.target.closest('[data-tf],[data-tu],[data-tb],[data-tl]');
     if (!b) return;
@@ -19675,7 +19495,7 @@ document.addEventListener('click', e => {
     },
     selB: () => (S.selB = S.selB === +v ? null : +v),
     alcPick: () => alcPick(v),
-    alcApply: () => alcApply(v),
+    alcCombine,
     feedApply: () => feedApply(v),
     btab: () => {
       S.btab = v;
@@ -19704,10 +19524,8 @@ document.addEventListener('click', e => {
     allRes,
     abt: () => {
       ABS = !ABS;
-      buildBook();
     },
     craftA,
-    enchA,
     back: () => {
       S.step = 'build';
       S.msg = '';
