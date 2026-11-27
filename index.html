@@ -3565,6 +3565,12 @@ body.startOn {
 .startP .stbox:has(.menuh) {
   justify-content: flex-start;
 }
+/* Handy-Tastatur offen: klebende Leisten weg, damit das Eingabefeld frei bleibt */
+body.typing .navb,
+body.typing #acts,
+body.typing .tabs {
+  position: static;
+}
 
 </style>
   </head>
@@ -4729,6 +4735,30 @@ body.startOn {
 /* Autobattler · Hilfsfunktionen */
 const $ = id => document.getElementById(id),
   rnd = n => Math.floor(Math.random() * n);
+/* Tippt jemand gerade in ein Textfeld? (Handy-Tastatur offen) */
+const typing = () => {
+  const a = typeof document !== 'undefined' && document.activeElement;
+  return !!a && a.tagName === 'INPUT' && a.type !== 'checkbox' && !!a.id;
+};
+/* Neu zeichnen, ohne dem Textfeld Fokus, Text und Cursor zu nehmen */
+function keepFocus(fn) {
+  if (!typing()) return fn();
+  const a = document.activeElement,
+    id = a.id,
+    v = a.value,
+    s0 = a.selectionStart,
+    s1 = a.selectionEnd;
+  fn();
+  const b = $(id);
+  if (!b || b === a) return;
+  b.value = v;
+  b.focus({ preventScroll: true });
+  try {
+    b.setSelectionRange(s0, s1);
+  } catch (e) {
+    /* Feldtyp ohne Auswahl */
+  }
+}
 const rkey = (a, b) => [a, b].sort().join('');
 const hsh = (x, y) => {
   let h = (x * 374761393 + y * 668265263) | 0;
@@ -4756,8 +4786,14 @@ const fbm = (x, y) =>
 const FBAL = { ba: 1, de: 1, zw: 1, or: 1, he: 1 };
 
 /* Version und Änderungsliste (neueste zuerst) – bei jedem Release oben ergänzen */
-const VERSION = '0.9.0';
+const VERSION = '0.9.1';
 const CHANGES = [
+  {
+    v: '0.9.1',
+    t: [
+      'Bestenliste: Die Handy-Tastatur bleibt beim Eintragen des Namens offen und verdeckt das Feld nicht mehr'
+    ]
+  },
   {
     v: '0.9.0',
     t: [
@@ -14441,6 +14477,9 @@ function scrollView() {
   });
 }
 function render() {
+  keepFocus(render0);
+}
+function render0() {
   const B = S.phase === 'build',
     ST = B ? S.step : S.phase;
   if (document.body && document.body.dataset) document.body.dataset.st = ST;
@@ -15513,7 +15552,7 @@ function lbOver() {
   return `<h3 class="sbh">Bestenliste</h3><p>Dein Ergebnis: <b>${runPts(r)} Punkte</b> (${r.w} Siege, ${r.d} Unentschieden, ${r.l} Niederlagen${r.won ? ', Feldzug gewonnen' : ''}).</p>${
     LB.sent
       ? '<p class="note">Eingetragen.</p>'
-      : `<div class="lbf"><input id="lbn" maxlength="${NAMEMAX}" placeholder="Dein Name" value="${esc(lbName())}" autocomplete="nickname"><button class="btn pri" data-a="lbSend">Eintragen</button></div>`
+      : `<div class="lbf"><input id="lbn" maxlength="${NAMEMAX}" placeholder="Dein Name" value="${esc(LB.draft ?? lbName())}" autocomplete="nickname" enterkeyhint="send"><button class="btn pri" data-a="lbSend">Eintragen</button></div>`
   }${lbTable()}<p class="note">${lbRule()}</p>`;
 }
 /* Seitenleiste: Bestenliste zum Aufklappen */
@@ -16180,7 +16219,7 @@ function lobbyRender() {
   if (!el) return;
   /* Eingaben behalten */
   const keep = ['mpGn', 'mpPn', 'mpNh', 'mpJn'].map(id => [id, val(id)]);
-  el.innerHTML = LOB.open ? lobbyHTML() : '';
+  keepFocus(() => (el.innerHTML = LOB.open ? lobbyHTML() : ''));
   keep.forEach(([id, x]) => x && $(id) && ($(id).value = x));
 }
 /* Spieltafel oben im Spiel: wer ist wo, Links */
@@ -16719,6 +16758,15 @@ document.addEventListener('click', e => {
     render();
   }
 });
+document.addEventListener('input', e => {
+  if (e.target && e.target.id === 'lbn') LB.draft = e.target.value;
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target && e.target.id === 'lbn') {
+    e.target.blur();
+    lbSend().then(render);
+  }
+});
 $('lbD').addEventListener('toggle', () => {
   if (!$('lbD').open) return;
   LB.list = null;
@@ -16726,10 +16774,28 @@ $('lbD').addEventListener('toggle', () => {
   lbLoad();
 });
 /* zurück in den Tab oder Drehen des Handys: Gelände sicherheitshalber neu zeichnen */
+/* Öffnet die Handy-Tastatur, meldet der Browser ein „resize“ – dann nicht neu zeichnen, sonst schließt sie sich wieder */
+let repaintLater = false;
 const repaint = () => {
+  if (typing()) {
+    repaintLater = true;
+    return;
+  }
   paintKey = '';
   render();
 };
+document.addEventListener('focusin', () => {
+  if (!typing()) return;
+  document.body.classList.add('typing');
+  const a = document.activeElement;
+  setTimeout(() => a.scrollIntoView && a.scrollIntoView({ block: 'center' }), 300);
+});
+document.addEventListener('focusout', () => {
+  document.body.classList.remove('typing');
+  if (!repaintLater) return;
+  repaintLater = false;
+  setTimeout(repaint, 50);
+});
 document.addEventListener('visibilitychange', () => document.visibilityState === 'visible' && repaint());
 if (typeof window !== 'undefined' && window.addEventListener) window.addEventListener('resize', repaint);
 newRun();
