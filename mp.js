@@ -47,9 +47,7 @@ function E(G, map, f) {
     round: G.round,
     uid: G.uid,
     map: map || { i: 0, n: '', mods: [] },
-    orders: [],
-    units: [],
-    aiOrd: []
+    units: []
   };
   X.setS(S);
   const r = f(X.MPX);
@@ -121,10 +119,9 @@ const flipMod = o => ({ ...o, x: +(X.GW - o.x).toFixed(1), y: +(X.GH - o.y).toFi
 function rec(G, s, out) {
   const t = (G.tab[s] = G.tab[s] || { w: 0, d: 0, l: 0 });
   if (out === 'win') t.w++;
-  else if (out === 'loss') t.l++;
-  else t.d++;
+  else t.l++;
 }
-const inv = o => ({ win: 'loss', loss: 'win' })[o] || 'draw';
+const inv = o => (o === 'win' ? 'loss' : 'win');
 
 /* ---------- Lobby ---------- */
 function create(name, player, nh, o = {}) {
@@ -295,11 +292,8 @@ function newRound(G) {
       ...p,
       map: { i: mi, n: maps[mi], mods: [] },
       wx: E(G, null, M => M.rollWx()),
-      ord: [],
       done: false
     };
-    /* KI-Gegner eines Menschen: Befehle (Schanzen landen auf der Karte) */
-    if (isH(G, p.a) && !isH(G, p.b)) P.ord = E(G, P.map, M => plain(M.aiOrd(G.ai[p.b])));
     return P;
   });
   G.next = {};
@@ -409,7 +403,7 @@ function fightIfReady(G, p, s) {
   if (!isH(G, o)) {
     /* gegen KI sofort */
     const m = { i: p.map.i, n: p.map.n, mods: G.sub[s].mods };
-    const r = E(G, m, M => plain(M.slim(M.vsAI(side, G.ai[o], p.ord, m, p.wx))));
+    const r = E(G, m, M => plain(M.slim(M.vsAI(side, G.ai[o], m, p.wx))));
     finish(G, p, s, o, r, null);
   } else if (G.sub[o]) {
     const A = G.sub[p.a],
@@ -531,8 +525,7 @@ function view(G, s) {
         army: a.army || [],
         col: a.col,
         chr: a.chr,
-        form: a.form || '',
-        ord: p.ord
+        form: a.form || ''
       };
     }
   }

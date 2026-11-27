@@ -30,7 +30,11 @@ const SCORE = { win: 3, draw: 1, loss: 0, camp: 10 }; /* gleich wie im Spiel (js
 const FACS = ['ba', 'de', 'zw', 'or', 'he'];
 const KEEP = 200,
   SHOW = 20,
-  MAXB = 8; /* Schlachten pro Feldzug */
+  NBS = [4, 6, 8, 10, 12] /* mögliche Feldzuglängen (Schlachten) – je Länge eine eigene Liste */,
+  nbOf = e => e.nb || 8 /* alte Einträge stammen aus Feldzügen mit 8 Schlachten */,
+  /* Score: rechnet das Spiel je Schlacht (js/44-scores.js); alte Einträge ohne Score bekommen eine Schätzung aus Siegen */
+  scOf = e => (Number.isInteger(e.sc) ? e.sc : Math.round((e.w * 150 + e.l * 12) * (e.won ? 1.15 : 1))),
+  SCMAX = 460; /* höchster denkbarer Score je Schlacht samt Feldzugbonus */
 let scores = [];
 try {
   scores = JSON.parse(fs.readFileSync(FILE, 'utf8'));
@@ -42,26 +46,32 @@ const save = () => {
   fs.writeFileSync(FILE + '.tmp', JSON.stringify(scores));
   fs.renameSync(FILE + '.tmp', FILE);
 };
-const ranked = () =>
-  [...scores]
-    .sort((a, b) => b.pts - a.pts || b.w - a.w || a.t - b.t)
+const ranked = nb =>
+  scores
+    .filter(x => nbOf(x) === nb)
+    .sort((a, b) => scOf(b) - scOf(a) || b.w - a.w || a.t - b.t)
     .slice(0, SHOW)
-    .map(({ ip, ...x }) => x);
+    .map(({ ip, ...x }) => ({ ...x, sc: scOf(x) }));
 /* Eingaben prüfen, Punkte selbst berechnen */
 function entry(b) {
-  const int = v => Number.isInteger(v) && v >= 0 && v <= MAXB;
+  const nb = NBS.includes(b.nb) ? b.nb : 8,
+    int = v => Number.isInteger(v) && v >= 0 && v <= nb;
   const name = String(b.name || '')
     .replace(/[\u0000-\u001f\u007f<>]/g, '')
     .trim()
     .slice(0, 20);
   if (!name || !FACS.includes(b.fac) || ![b.w, b.d, b.l].every(int)) return null;
-  if (b.w + b.d + b.l > MAXB) return null;
+  if (b.w + b.d + b.l > nb) return null;
+  if (!Number.isInteger(b.sc) || b.sc < 0 || b.sc > SCMAX * nb) return null;
   const won =
     b.won === true && b.w >= 2; /* Plausibilität: Platz 1 ganz ohne Siege ist praktisch ausgeschlossen */
   return {
     id: crypto.randomUUID(),
     name,
     fac: b.fac,
+    nb,
+    n: [2, 3, 4, 5].includes(b.n) ? b.n : 5,
+    sc: b.sc,
     w: b.w,
     d: b.d,
     l: b.l,
@@ -88,7 +98,9 @@ function json(res, code, data) {
   res.end(JSON.stringify(data));
 }
 function api(req, res) {
-  if (req.method === 'GET') return json(res, 200, ranked());
+  const q = +new URL(req.url, 'http://x').searchParams.get('nb'),
+    nb = NBS.includes(q) ? q : 8;
+  if (req.method === 'GET') return json(res, 200, ranked(nb));
   if (req.method !== 'POST') return json(res, 405, { error: 'Methode nicht erlaubt' });
   const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')
     .split(',')[0]
@@ -109,13 +121,15 @@ function api(req, res) {
     if (!e) return json(res, 400, { error: 'Ungültiger Eintrag' });
     last.set(ip, Date.now());
     scores.push(e);
-    scores = scores.sort((a, b) => b.pts - a.pts || a.t - b.t).slice(0, KEEP);
+    /* je Feldzuglänge höchstens KEEP Einträge behalten */
+    const mine = scores.filter(x => nbOf(x) === e.nb).sort((a, b) => scOf(b) - scOf(a) || a.t - b.t);
+    scores = [...scores.filter(x => nbOf(x) !== e.nb), ...mine.slice(0, KEEP)];
     try {
       save();
     } catch (err) {
       console.error('Speichern fehlgeschlagen:', err.message);
     }
-    json(res, 200, { id: e.id, list: ranked() });
+    json(res, 200, { id: e.id, list: ranked(e.nb) });
   });
 }
 
