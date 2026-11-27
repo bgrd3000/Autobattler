@@ -3571,6 +3571,148 @@ body.typing #acts,
 body.typing .tabs {
   position: static;
 }
+/* Eroberung (Test) */
+#realmP {
+  display: none;
+}
+body.realmOn #realmP {
+  display: block;
+}
+body.realmOn .flow > :not(#realmP),
+body.realmOn #steps {
+  display: none !important;
+}
+.rltop .rlsc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+.rlsc span {
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 1px 6px;
+  font-size: 12px;
+}
+.rlmap {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 6px 0;
+  touch-action: manipulation;
+}
+.rlh {
+  cursor: pointer;
+}
+.rlh.reach polygon {
+  filter: brightness(1.15);
+}
+.rlh.sel polygon {
+  stroke: #fff !important;
+  stroke-width: 1.3 !important;
+  stroke-dasharray: 2 1;
+}
+.rlt {
+  text-anchor: middle;
+  fill: #fff;
+  font-size: 4.2px;
+  paint-order: stroke;
+  stroke: #1a0c0e;
+  stroke-width: 0.8px;
+  pointer-events: none;
+}
+.rlt.b {
+  font-size: 3.4px;
+}
+.rlt.cap {
+  font-size: 4.4px;
+  fill: #ffe08a;
+}
+.rlt.a {
+  font-size: 3.4px;
+  font-weight: 700;
+  stroke-width: 0;
+  fill: #1a0c0e;
+}
+.rlmv {
+  stroke: #fff;
+  stroke-width: 0.9;
+  stroke-dasharray: 2 1;
+  pointer-events: none;
+}
+.rlinfo {
+  margin: 6px 0;
+}
+.rlact,
+.rlplans {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+.rlact .btn,
+.rlplan {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+.rlact small,
+.rlplan small {
+  font-weight: 400;
+  opacity: 0.85;
+  font-size: 12px;
+}
+.rlplan.rare {
+  border-color: #4a86d4;
+}
+.rlact .btn.on {
+  outline: 2px solid var(--br);
+}
+.rlmsg {
+  color: var(--br);
+}
+.rlrep ul {
+  margin: 4px 0;
+  padding-left: 18px;
+}
+.rlend {
+  width: 100%;
+  margin-top: 8px;
+}
+body.realmOn #stats {
+  display: none;
+}
+.rleg2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  font-size: 11px;
+  color: var(--mut);
+  margin-top: 6px;
+}
+.rleg2 i {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  margin-right: 3px;
+  vertical-align: -1px;
+}
+.rlfog {
+  fill: #140a0c;
+  fill-opacity: 0.4;
+  pointer-events: none;
+}
+.rlt.sg {
+  font-size: 4px;
+}
+.rlmv.slow {
+  stroke-dasharray: 0.8 1.2;
+}
+.rlact .btn[disabled] {
+  opacity: 0.5;
+}
 
 </style>
   </head>
@@ -4647,6 +4789,16 @@ body.typing .tabs {
       <section class="flow">
         <div id="mpB"></div>
         <div id="status" class="status" aria-live="polite"></div>
+        <div id="lbBox" class="lbf" hidden>
+          <input id="lbn" placeholder="Dein Name" autocomplete="nickname" enterkeyhint="send" /><button
+            class="btn pri"
+            data-a="lbSend"
+          >
+            Eintragen
+          </button>
+        </div>
+        <div id="lbList"></div>
+        <div class="panel" id="realmP"></div>
         <div class="panel" id="facP"></div>
         <div class="panel" id="draftP">
           <h2>Draft <span id="picks"></span></h2>
@@ -4786,8 +4938,14 @@ const fbm = (x, y) =>
 const FBAL = { ba: 1, de: 1, zw: 1, or: 1, he: 1 };
 
 /* Version und Änderungsliste (neueste zuerst) – bei jedem Release oben ergänzen */
-const VERSION = '0.9.1';
+const VERSION = '0.9.2';
 const CHANGES = [
+  {
+    v: '0.9.2',
+    t: [
+      'Bestenliste: Das Namensfeld wird beim Neuzeichnen nicht mehr ersetzt – die Handy-Tastatur bleibt offen'
+    ]
+  },
   {
     v: '0.9.1',
     t: [
@@ -7503,6 +7661,7 @@ const fieldMeta = () => actMeta(S.units.filter(u => u.pos)),
     !!fieldMeta().spy ||
     (!COUNCIL_ON && lvl(S.col, 's') >= 1),
   hasRecon = () =>
+    !!(S.realm && S.rlScout) ||
     S.orders.includes('scout') ||
     S.orders.includes('gspy') ||
     !!fieldMeta().recon ||
@@ -7624,6 +7783,96 @@ function chExplain(c, lvNow) {
       : ''
   }</div>`;
 }
+
+/* Kampagnenmodus „Eroberung“ (Test) · Daten: Gelände, Güte der Steine je Gelände, Gebäude */
+const PTER = {
+  ebene: { n: 'Ebene', c: '#8fae5a', maps: ['Kornfelder am Fluss', 'Heckenland'] },
+  steppe: { n: 'Steppe', c: '#c4b26a', maps: ['Steppe'] },
+  wald: { n: 'Wald', c: '#3f7a46', maps: ['Waldpass'] },
+  huegel: { n: 'Hügel', c: '#a08f62', maps: ['Hochland', 'Geröllhang'] },
+  berge: { n: 'Berge', c: '#8a8580', maps: ['Bergfeste'] },
+  sumpf: { n: 'Sumpf', c: '#5b7a66', maps: ['Sumpfebene', 'Furt am Weißen Fluss'] },
+  ruinen: { n: 'Ruinen', c: '#6b625a', maps: ['Alte Ruinen', 'Trümmerfeste'] },
+  dorf: { n: 'Stadt', c: '#b8915e', maps: ['Dorf am Kreuzweg'] }
+};
+/* Gelände, das zufällig vorkommt (Städte nur als Hauptstadt) */
+const PTERK = Object.keys(PTER).filter(k => k !== 'dorf');
+/* Güte der Steine je Gelände: [ideal → Güte 3, passend → Güte 2], sonst Güte 1.
+   Element-Steine kennen keine Güte: im idealen Gelände kommen sie jede Runde, sonst jede zweite. */
+const TQ = {
+  e: [['berge'], ['huegel']],
+  h: [['wald'], ['huegel', 'sumpf']],
+  l: [['steppe'], ['ebene', 'dorf']],
+  o: [['steppe'], ['ebene']],
+  n: [['ebene'], ['dorf', 'sumpf']],
+  t: [['berge'], ['huegel', 'ruinen']],
+  p: [['dorf'], ['ruinen', 'berge']],
+  k: [['berge'], ['ruinen']],
+  a: [['ruinen'], ['sumpf']],
+  u: [['sumpf'], ['wald']],
+  c: [['ruinen'], ['sumpf', 'steppe']],
+  s: [['berge'], ['huegel', 'dorf']],
+  F: [['steppe'], []],
+  I: [['sumpf'], []],
+  B: [['huegel'], []],
+  R: [['berge'], []],
+  D: [['ruinen'], []]
+};
+const terQ = (ter, k) => (TQ[k][0].includes(ter) ? 3 : TQ[k][1].includes(ter) ? 2 : 1);
+/* Gebäude: je Stein ein Produktionsgebäude, dazu die Festung. Seltenheit im Draft nach Wert des Steins. */
+const BLD = {};
+{
+  const N = {
+    e: 'Eisenmine',
+    h: 'Holzfäller',
+    l: 'Gerberei',
+    o: 'Gestüt',
+    n: 'Hanffeld',
+    t: 'Steinbruch',
+    p: 'Pulvermühle',
+    k: 'Kristallgrube',
+    a: 'Arkanschrein',
+    u: 'Kräutergarten',
+    c: 'Beinhaus',
+    s: 'Silbermine'
+  };
+  RK.forEach(k => (BLD[k] = { n: N[k], k, rare: RES[k].v >= 2 }));
+  ESK.forEach(k => (BLD[k] = { n: 'Schrein ' + RES[k].n, k, rare: true, el: true }));
+  BLD.fort = { n: 'Festung', rare: true, d: 'Besatzung verteidigt; du verteidigst hier mit drei Schanzen.' };
+  BLD.tower = { n: 'Wachturm', d: 'Sicht 2 Felder weit; Kundschafter für Schlachten hier und nebenan.' };
+  BLD.decoy = {
+    n: 'Lager-Attrappe',
+    d: 'Sieht aus wie ein Heer – schreckt Angreifer ab, bis jemand hineinzieht.'
+  };
+  BLD.intrigue = {
+    n: 'Ränke',
+    rare: true,
+    act: true,
+    d: 'Kein Gebäude: zettelt in einer fremden Provinz ohne Heer einen Aufstand an – sie wird neutral.'
+  };
+}
+/* Jahreszeiten (Runde 1 = Frühling) */
+const SEASON = [
+  { n: 'Frühling', d: 'Hauptstädte liefern einen Stein mehr.' },
+  { n: 'Sommer', d: 'Keine Besonderheit.' },
+  { n: 'Herbst', d: 'Ernte: Gebäude im passenden Gelände liefern einen Stein mehr.' },
+  { n: 'Winter', d: 'Berge und Sumpf unpassierbar, kein Gewaltmarsch, oft Frost in Schlachten.' }
+];
+const RLC = {
+  plans: 3 /* Pläne je Pack */,
+  picks: 2 /* Züge je Runde */,
+  cost: 2 /* einfache Steine je Bau */,
+  capInc: 2 /* Grundeinkommen der Hauptstadt (Steine wie aus dem Draft) */,
+  start: 8 /* Startvorrat */,
+  buy: 3 /* Silber-Steine für den Anschluss einer neutralen Provinz */,
+  siege: 2 /* Runden eingekesselt, bis eine Provinz sich ergibt */,
+  surr: 2 /* so viel stärker, und die Miliz ergibt sich kampflos */,
+  upFree: 6 /* Regimenter ohne Unterhalt (Kriegsmüdigkeit ab Rundenmitte) */,
+  lead: 4 /* Vorsprung, ab dem sich die anderen gegen den Führenden verbünden */
+};
+const HEAVY = ['berge', 'sumpf'] /* kosten zwei Runden Marsch */,
+  HIGH = ['huegel', 'berge']; /* Verteidiger bekommt die Anhöhe */
+const SCOL = ['#e0b13a', '#d0504a', '#4a86d4', '#a46fd8', '#5fb36a'];
 
 /* Autobattler · Welt: Karten, Gelände, Wetter, Wegfindung */
 const mkMap = i => ({ i, n: MAPS[i].n, mods: [] });
@@ -11177,6 +11426,7 @@ function setFac(f) {
   aiOrders();
   buildBook();
   if (typeof rulesHTML === 'function') $('rules').innerHTML = rulesHTML();
+  if (REALM.on && !S.mp) realmStart();
 }
 function aiOrders() {
   if (!COUNCIL_ON) {
@@ -12334,7 +12584,8 @@ function mySide() {
     form: maxOrd() ? (STRAT[S.form] ? S.form : 'linie') : '',
     gen: freeGen(S.chr),
     know: hasSpy() ? 1 : 0,
-    merc
+    merc,
+    rlm: S.realm ? S.rlm0 || 0 : 0
   };
 }
 function aiSide(ai, ord) {
@@ -12364,7 +12615,8 @@ function aiSide(ai, ord) {
     form: STRAT[ai.form] ? ai.form : '',
     gen: freeGen(ai.chr),
     know: 0,
-    merc: ''
+    merc: '',
+    rlm: S.realm ? ai.rlm || 0 : 0
   };
 }
 /* Rechnet die Schlacht A (unten) gegen B (oben) auf Karte m. Verändert m.mods (Belagerung, Brand, Hain). */
@@ -12430,7 +12682,8 @@ function battle(A, B, m, wx) {
         (O.includes('supply') ? 25 : 0) -
         (O.includes('march') && !M.escort ? 25 : 0) +
         (M.morale ? 10 : 0) +
-        (O.includes('raid') ? 10 : 0)
+        (O.includes('raid') ? 10 : 0) +
+        (S2[s].rlm || 0) /* Eroberung: Reichsmoral, Versorgung, Gewaltmarsch, Todesmut */
       );
     },
     hide = s =>
@@ -12600,6 +12853,7 @@ function next() {
     if (M.hunt) add('l');
   }
   if (GOLD_ON) S.gold += LOOT[o] || 0;
+  if (S.realm) return realmAfter(o);
   if (S.mp) return mpNext();
   if (S.round >= NB()) {
     /* nach der letzten Schlacht entscheidet die Rangliste: Platz 1 gewinnt den Feldzug */
@@ -12645,6 +12899,7 @@ function aiDuel() {
     pr = oth.filter(a => a !== rest);
   S.duel = null;
   S.duels = [];
+  if (S.realm) return; /* Eroberung: KI-Gefechte laufen über die Karte */
   const cp = (a, side) => {
     const L = a.army.map(u => ({ ...u, pos: null, lost: 0 }));
     place(L, side, S.map);
@@ -12877,6 +13132,845 @@ const MPX = {
   facs: () => FK.slice(),
   maps: () => MAPS.map(m => m.n)
 };
+
+/* Kampagnenmodus „Eroberung“ (Test) · Regeln: Karte, Produktion, Gebäude-Draft, Bewegung, Eroberung,
+   dazu die Kriegskunst nach Sun Tzu: Nebel und Aufklärung, Einkesseln, Kapitulation, Anschluss, Gelände,
+   Versorgung und Plündern, Gewaltmarsch, Kriegsmüdigkeit, Todesmut, Jahreszeiten, Reichsmoral, Bündnisse, Ränke.
+   Plätze wie im Draft: 0 = du, 1… = S.ai[i-1]. Die Schlacht selbst läuft unverändert über fight()/battle(). */
+const REALM = { on: false };
+/* Eroberung ist noch Test: auf der Live-Seite ausgeblendet, im Test-Build sichtbar */
+const REALM_TEST =
+  typeof location !== 'undefined' && !/die-kampagne\.up\.railway\.app$/.test(location.hostname || '');
+const RL = () => S.realm,
+  rlAlive = s => RL().pv.some(p => p.own === s),
+  rlName = s => (s ? S.ai[s - 1].n : 'Du'),
+  rlStash = s => (s ? S.ai[s - 1].stash : S.stash),
+  rlUnits = s => (s ? S.ai[s - 1].units : S.units.filter(u => !isK(u))),
+  rlGive = (s, st) => (s ? aiTake(S.ai[s - 1], st) : take(st)),
+  season = (r = S.round) => (r - 1) % 4,
+  isWinter = () => season() === 3;
+
+/* ---------- Sprache der Berichte ---------- */
+const rlPl = s => s > 0 && /^Die /.test(rlName(s)),
+  rlV = (s, er, du, sie) => (!s ? du : rlPl(s) ? sie : er) /* „er erobert“ / „du eroberst“ / „sie erobern“ */,
+  rlVon = s => (!s ? 'dir' : rlPl(s) ? 'den ' + rlName(s).slice(4) : rlName(s)),
+  rlAcc = s => (s ? rlName(s) : 'dich'),
+  guardN = p => (p.own < 0 ? 'Miliz' : p.cap >= 0 ? 'Stadtwache' : 'Burgbesatzung'),
+  rlEv = t => RL().ev.push(t);
+
+/* ---------- Karte: Hexfelder (versetzte Reihen) ---------- */
+function hexNb(c, r, C, R) {
+  const d =
+    r & 1
+      ? [
+          [1, 0],
+          [-1, 0],
+          [0, -1],
+          [1, -1],
+          [0, 1],
+          [1, 1]
+        ]
+      : [
+          [1, 0],
+          [-1, 0],
+          [-1, -1],
+          [0, -1],
+          [-1, 1],
+          [0, 1]
+        ];
+  return d.map(([a, b]) => [c + a, r + b]).filter(([x, y]) => x >= 0 && y >= 0 && x < C && y < R);
+}
+function hexDist(a, b) {
+  const cx = p => p.c - (p.r - (p.r & 1)) / 2,
+    x1 = cx(a),
+    x2 = cx(b);
+  return Math.max(Math.abs(x1 - x2), Math.abs(a.r - b.r), Math.abs(x1 + a.r - x2 - b.r));
+}
+function genRealm(n) {
+  const C = n <= 2 ? 4 : n === 3 ? 5 : 6,
+    R = n <= 3 ? 4 : 5,
+    pv = [];
+  for (let r = 0; r < R; r++)
+    for (let c = 0; c < C; c++)
+      pv.push({ id: pv.length, c, r, ter: '', own: -1, cap: -1, bs: [], slots: 1, sg: 0 });
+  pv.forEach(p => (p.nb = hexNb(p.c, p.r, C, R).map(([c, r]) => r * C + c)));
+  /* Gelände in Flecken: jedes Feld nimmt das Gelände des nächsten Keims */
+  const seeds = pv
+    .slice()
+    .sort(() => Math.random() - 0.5)
+    .slice(0, Math.ceil(pv.length / 3))
+    .map(p => ({ p, t: PTERK[rnd(PTERK.length)] }));
+  pv.forEach(p => {
+    let bd = 1e9;
+    seeds.forEach(s => {
+      const d = hexDist(p, s.p) + Math.random() * 0.7;
+      if (d < bd) {
+        bd = d;
+        p.ter = s.t;
+      }
+    });
+  });
+  /* Hauptstädte möglichst weit auseinander */
+  const caps = [pv[rnd(pv.length)]];
+  while (caps.length < n) {
+    let best = null,
+      bv = -1;
+    pv.forEach(p => {
+      if (caps.includes(p)) return;
+      const v = Math.min(...caps.map(q => hexDist(p, q))) + Math.random() * 0.5;
+      if (v > bv) {
+        bv = v;
+        best = p;
+      }
+    });
+    caps.push(best);
+  }
+  caps.forEach((p, i) => Object.assign(p, { cap: i, own: i, ter: 'dorf', slots: 3 }));
+  caps.forEach((p, i) =>
+    p.nb
+      .map(j => pv[j])
+      .filter(q => q.own < 0)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 2)
+      .forEach(q => (q.own = i))
+  );
+  /* manche neutralen Provinzen haben schon ein Gebäude – das lohnt die Eroberung */
+  pv.forEach(p => {
+    if (p.own < 0 && Math.random() < 0.3) p.bs.push({ k: RK[rnd(RK.length)], lv: 1 });
+  });
+  const per = () => caps.map(() => 0);
+  return {
+    C,
+    R,
+    pv,
+    at: caps.map(p => p.id),
+    mv: [],
+    from: [],
+    mode: [] /* je Platz: '' | 'march' (Gewaltmarsch) | 'raid' (Plündern) */,
+    trav: [] /* Marsch über zwei Runden (Berge, Sumpf): Ziel */,
+    hand: caps.map(() => []),
+    wins: per(),
+    mor: per() /* Reichsmoral −3…3 */,
+    bund: [] /* verbündet gegen den Führenden */,
+    lead: -1,
+    dr: null,
+    ev: [],
+    last: [],
+    inc: [],
+    upk: 0,
+    sel: caps[0].id,
+    pend: null
+  };
+}
+const rlMapIdx = p => {
+  const ns = PTER[p.ter].maps,
+    i = MAPS.findIndex(m => m.n === ns[rnd(ns.length)]);
+  return i >= 0 ? i : rnd(MAPS.length);
+};
+
+/* ---------- Nebel des Krieges ---------- */
+/* Was ein Platz sieht: eigene Provinzen und ihre Nachbarn, das Feld des Heeres und Nachbarn, Wachtürme 2 Felder weit */
+function rlVis(s) {
+  const L = RL(),
+    V = new Set(),
+    add = (p, d) => {
+      V.add(p.id);
+      if (d > 0) p.nb.forEach(j => add(L.pv[j], d - 1));
+    };
+  L.pv.forEach(p => p.own === s && add(p, p.bs.some(b => b.k === 'tower') ? 2 : 1));
+  if (rlAlive(s)) add(L.pv[L.at[s]], 1);
+  return V;
+}
+const rlArmyAt = (pid, not) => {
+  const L = RL();
+  for (let s = 0; s < SEATS(); s++) if (s !== not && rlAlive(s) && L.at[s] === pid) return s;
+  return -1;
+};
+/* Lager-Attrappe: sieht aus wie ein Heer, solange das echte Heer woanders steht */
+const rlDecoy = p => p.own >= 0 && p.bs.some(b => b.k === 'decoy') && RL().at[p.own] !== p.id;
+/* Aufklärung: eigener Wachturm in der Provinz oder nebenan */
+const rlScout = pid => {
+  const L = RL(),
+    p = L.pv[pid];
+  return [p, ...p.nb.map(j => L.pv[j])].some(q => q.own === 0 && q.bs.some(b => b.k === 'tower'));
+};
+
+/* ---------- Gebäude ---------- */
+/* Was ein Gebäude in dieser Provinz liefert: Stein, Güte, Menge (Herbst: Ernte +1 im passenden Gelände) */
+function bProd(b, p) {
+  const B = BLD[b.k];
+  if (!B.k) return null;
+  if (B.el) return { k: B.k, n: terQ(p.ter, B.k) === 3 || S.round % 2 === 0 ? b.lv : 0 };
+  const q = terQ(p.ter, B.k);
+  return { k: B.k, q, n: b.lv + (season() === 2 && q >= 2 ? 1 : 0) };
+}
+const canBuild = (p, k) =>
+  !BLD[k].act &&
+  (p.bs.some(b => b.k === k && b.lv < 2 && BLD[k].k) ||
+    (p.bs.length < p.slots && !p.bs.some(b => b.k === k)));
+/* Bezahlen mit den einfachsten Steinen (keine Element-Steine); k = nur diese Sorte */
+function rlPay(s, n = RLC.cost, k = '') {
+  const st = rlStash(s),
+    ix = st
+      .map((x, i) => [x, i])
+      .filter(([x]) => x.type === 'st' && !RES[x.k].el && (!k || x.k === k))
+      .sort((a, b) => RES[a[0].k].v * 3 + stQ(a[0]) - (RES[b[0].k].v * 3 + stQ(b[0])))
+      .slice(0, n)
+      .map(([, i]) => i);
+  if (ix.length < n) return false;
+  ix.sort((a, b) => b - a).forEach(i => st.splice(i, 1));
+  return true;
+}
+const rlHas = (s, k, n) => rlStash(s).filter(x => x.type === 'st' && x.k === k).length >= n;
+function doBuild(p, k) {
+  const b = p.bs.find(x => x.k === k);
+  if (b) b.lv = 2;
+  else p.bs.push({ k, lv: 1 });
+}
+/* Wert eines Plans für einen Platz */
+function planVal(s, k) {
+  const L = RL(),
+    B = BLD[k];
+  if (k === 'intrigue') return L.lead >= 0 && L.lead !== s ? 3 : 1;
+  let v = 0.2;
+  L.pv.forEach(p => {
+    if (p.own !== s || !canBuild(p, k)) return;
+    const border = p.nb.some(j => L.pv[j].own !== s);
+    if (k === 'fort') v = Math.max(v, p.cap === s ? 3 : border ? 2 : 0.5);
+    else if (k === 'tower') v = Math.max(v, border ? 2 : 0.5);
+    else if (k === 'decoy') v = Math.max(v, border && p.cap !== s ? 1.5 : 0.3);
+    else
+      v = Math.max(
+        v,
+        (B.el ? (terQ(p.ter, B.k) === 3 ? 4 : 2) : terQ(p.ter, B.k) * RES[B.k].v) +
+          (p.bs.some(b => b.k === k) ? 1 : 0)
+      );
+  });
+  return v;
+}
+function mkPlans(sz) {
+  const ks = Object.keys(BLD),
+    w = k => (BLD[k].rare ? 1 : 2.5),
+    out = [];
+  for (let g = 0; out.length < sz && g < 99; g++) {
+    let r = Math.random() * ks.reduce((a, k) => a + w(k), 0);
+    const k = ks.find(x => (r -= w(x)) < 0) || ks[0];
+    if (!out.includes(k)) out.push(k);
+  }
+  return out;
+}
+const aiPlanPick = (s, pk) => {
+  let bi = 0,
+    bv = -1;
+  pk.forEach((k, i) => {
+    const v = planVal(s, k) + Math.random() * 0.5;
+    if (v > bv) {
+      bv = v;
+      bi = i;
+    }
+  });
+  return pk.splice(bi, 1)[0];
+};
+/* KI: Pläne aus der Hand in die beste Provinz bauen, solange Steine reichen */
+function aiBuildPlans(s) {
+  const L = RL(),
+    H = L.hand[s];
+  H.sort((a, b) => planVal(s, b) - planVal(s, a));
+  for (let i = 0; i < H.length; i++) {
+    const k = H[i];
+    if (BLD[k].act) continue;
+    let best = null,
+      bv = -1;
+    L.pv.forEach(p => {
+      if (p.own !== s || !canBuild(p, k)) return;
+      const v = BLD[k].k ? terQ(p.ter, BLD[k].k) : p.nb.some(j => L.pv[j].own !== s) ? 2 : 1;
+      if (v > bv) {
+        bv = v;
+        best = p;
+      }
+    });
+    if (!best || !rlPay(s)) continue;
+    doBuild(best, k);
+    H.splice(i--, 1);
+  }
+}
+
+/* ---------- Ablauf einer Runde ---------- */
+function realmStart() {
+  S.realm = genRealm(SEATS());
+  for (let i = 0; i < RLC.start; i++) {
+    take(roll(1));
+    S.ai.forEach(a => aiTake(a, roll(1)));
+  }
+  realmRound();
+}
+function realmRound() {
+  const L = RL(),
+    spring = season() === 0;
+  S.phase = 'build';
+  S.step = 'realm';
+  L.mv = [];
+  L.mode = [];
+  L.pend = null;
+  L.inc = [];
+  S.ai.forEach(a => (a.rp = []));
+  /* Marsch über zwei Runden: kommt jetzt an */
+  L.trav.forEach((t, s) => t != null && (L.mv[s] = t));
+  /* Produktion: Gebäude nach Gelände, Hauptstadt Grundeinkommen (im Frühling +1) */
+  L.pv.forEach(p => {
+    if (p.own < 0) return;
+    const give = st => {
+      rlGive(p.own, st);
+      if (!p.own) L.inc.push(st);
+    };
+    p.bs.forEach(b => {
+      const pr = bProd(b, p);
+      if (pr) for (let i = 0; i < pr.n; i++) give({ type: 'st', k: pr.k, q: pr.q || 1 });
+    });
+    if (p.cap === p.own) for (let i = 0; i < RLC.capInc + (spring ? 1 : 0); i++) give(roll(rEq(S.round)));
+  });
+  rlUpkeep();
+  rlBund();
+  /* die KI baut ihr Heer aus dem Vorrat, wie nach dem Draft */
+  S.ai.forEach((a, i) => rlAlive(i + 1) && aiBuild(a, rEq(S.round)));
+  L.dr = { packs: Array.from({ length: SEATS() }, () => mkPlans(RLC.plans)), pick: 0, done: false };
+  S.msg = '';
+}
+/* Kriegsmüdigkeit: ab der Rundenmitte kosten Regimenter über der Grenze Unterhalt, sonst laufen sie davon */
+function rlUpkeep() {
+  const L = RL();
+  L.upk = 0;
+  if (S.round <= NB() / 2) return;
+  for (let s = 0; s < SEATS(); s++) {
+    if (!rlAlive(s)) continue;
+    const due = Math.ceil(Math.max(0, rlUnits(s).length - RLC.upFree) / 2);
+    if (!s) L.upk = due;
+    for (let i = 0; i < due; i++) {
+      if (rlPay(s, 1)) continue;
+      const u = rlUnits(s)
+        .slice()
+        .sort((a, b) => upow(a) - upow(b))[0];
+      if (!u) break;
+      if (s) S.ai[s - 1].units = S.ai[s - 1].units.filter(x => x !== u);
+      else S.units = S.units.filter(x => x !== u);
+      rlEv(
+        `Kriegsmüdigkeit: ${U[u.t].n} ${s ? 'verlässt ' + rlName(s) : 'verlässt dein Heer'} – kein Unterhalt.`
+      );
+    }
+  }
+}
+/* Bündnisse: liegt einer deutlich vorn, verbünden sich die anderen gegen ihn */
+function rlBund() {
+  const L = RL(),
+    r = rlRank().filter(rlAlive);
+  L.lead = r.length > 2 && rlScore(r[0]) >= rlScore(r[1]) + RLC.lead ? r[0] : -1;
+  const was = L.bund.length;
+  L.bund = L.lead >= 0 ? r.filter(s => s !== L.lead) : [];
+  if (L.bund.length && !was)
+    rlEv(
+      `${rlName(L.lead)} ${rlV(L.lead, 'liegt', 'liegst', 'liegen')} weit vorn – die anderen verbünden sich dagegen.`
+    );
+}
+const rlFriends = (a, b) => a !== b && a > 0 && RL().bund.includes(a) && RL().bund.includes(b);
+/* Gebäude-Draft: du nimmst einen Plan, die KI nimmt gleichzeitig, dann wandern die Packs weiter */
+function realmPick(i) {
+  const L = RL(),
+    D = L.dr;
+  if (!D || D.done || !D.packs[0][i]) return;
+  L.hand[0].push(D.packs[0].splice(i, 1)[0]);
+  for (let s = 1; s < SEATS(); s++)
+    if (rlAlive(s) && D.packs[s].length) L.hand[s].push(aiPlanPick(s, D.packs[s]));
+  if (++D.pick >= RLC.picks) {
+    D.done = true;
+    D.packs = [];
+    return;
+  }
+  const n = SEATS(),
+    Q = [];
+  D.packs.forEach((pk, s) => (Q[(s + 1) % n] = pk));
+  D.packs = Q;
+}
+function realmAutoPick() {
+  const D = RL().dr;
+  while (D && !D.done) {
+    let bi = 0,
+      bv = -1;
+    D.packs[0].forEach((k, i) => {
+      const v = planVal(0, k);
+      if (v > bv) {
+        bv = v;
+        bi = i;
+      }
+    });
+    realmPick(bi);
+  }
+}
+function realmBuild(pid, hi) {
+  const L = RL(),
+    p = L.pv[pid],
+    k = L.hand[0][hi];
+  if (!p || p.own !== 0 || !k || !canBuild(p, k)) return;
+  if (!rlPay(0)) {
+    S.msg = `Zum Errichten brauchst du ${RLC.cost} einfache Steine im Vorrat.`;
+    return;
+  }
+  doBuild(p, k);
+  L.hand[0].splice(hi, 1);
+  S.msg = `${BLD[k].n} errichtet.`;
+}
+const rlMor = (s, d) => s >= 0 && (RL().mor[s] = Math.max(-3, Math.min(3, RL().mor[s] + d)));
+/* Anschluss: eine neutrale Nachbarprovinz mit Silber kaufen – Sieg ohne Kampf */
+const rlCanBuy = (s, p) =>
+  p.own < 0 && p.nb.some(j => RL().pv[j].own === s) && rlArmyAt(p.id, s) < 0 && rlHas(s, 's', RLC.buy);
+function rlBuy(s, p) {
+  if (!rlCanBuy(s, p) || !rlPay(s, RLC.buy, 's')) return false;
+  p.own = s;
+  rlEv(`${rlName(s)} ${rlV(s, 'kauft', 'kaufst', 'kaufen')} ${PTER[p.ter].n} mit Silber – ohne Kampf.`);
+  return true;
+}
+/* Ränke: Aufstand in einer fremden Provinz ohne Heer (keine Hauptstadt) */
+const rlCanPlot = (s, p) =>
+  p.own >= 0 && p.own !== s && p.cap < 0 && rlArmyAt(p.id, -1) < 0 && RL().hand[s].includes('intrigue');
+function rlPlot(s, p) {
+  if (!rlCanPlot(s, p)) return false;
+  const H = RL().hand[s];
+  H.splice(H.indexOf('intrigue'), 1);
+  rlEv(
+    `Aufstand in ${PTER[p.ter].n}: ${rlName(p.own)} ${rlV(p.own, 'verliert', 'verlierst', 'verlieren')} die Provinz (Ränke von ${s ? rlName(s) : 'dir'}).`
+  );
+  rlMor(p.own, -1);
+  p.own = -1;
+  p.sg = 0;
+  return true;
+}
+
+/* ---------- Bewegung ---------- */
+const rlEnterable = p => !(isWinter() && HEAVY.includes(p.ter));
+const rlHasGen = s =>
+  s ? genLv(S.ai[s - 1].army || [], S.ai[s - 1].chr || []) > 0 : genLv(S.units, S.chr || []) > 0;
+/* Ziele: Nachbarfeld; mit General (und nicht im Winter) auch zwei Felder weit über ein freies Feld (Gewaltmarsch) */
+function rlTargets(s) {
+  const L = RL(),
+    a = L.pv[L.at[s]];
+  if (L.trav[s] != null) return new Map([[L.trav[s], '']]);
+  const T = new Map([[a.id, '']]);
+  a.nb.forEach(j => rlEnterable(L.pv[j]) && T.set(j, ''));
+  if (rlHasGen(s) && !isWinter())
+    a.nb.forEach(j => {
+      const m = L.pv[j];
+      if (HEAVY.includes(m.ter) || rlArmyAt(j, s) >= 0 || (m.own !== s && m.own >= 0)) return;
+      m.nb.forEach(k => !T.has(k) && !HEAVY.includes(L.pv[k].ter) && T.set(k, 'march'));
+    });
+  return T;
+}
+const rlReach = pid => rlTargets(0).has(pid);
+function realmMove(pid, raid) {
+  const L = RL(),
+    T = rlTargets(0);
+  if (!T.has(pid)) return;
+  L.mv[0] = pid;
+  L.mode[0] = raid ? 'raid' : T.get(pid);
+}
+/* Versorgung: ein Heer außerhalb und ohne Anschluss an eigene Provinzen hungert */
+const rlSupplied = (s, pid = RL().at[s]) => {
+  const p = RL().pv[pid];
+  return p.own === s || p.nb.some(j => RL().pv[j].own === s);
+};
+/* Todesmut: kein eigenes Nachbarfeld als Rückzugsweg */
+const rlCornered = (s, p) => !p.nb.some(j => RL().pv[j].own === s);
+/* Moral zu Schlachtbeginn: Reichsmoral, Hunger, Gewaltmarsch, Todesmut */
+function rlMorale(s, p) {
+  const L = RL(),
+    parts = [];
+  let m = 8 * L.mor[s];
+  if (L.mor[s]) parts.push(`Reichsmoral ${L.mor[s] > 0 ? '+' : ''}${8 * L.mor[s]}`);
+  if (!rlSupplied(s, p.id)) {
+    m -= 20;
+    parts.push('ohne Versorgung −20');
+  }
+  if (L.mode[s] === 'march') {
+    m -= 15;
+    parts.push('Gewaltmarsch −15');
+  }
+  if (rlCornered(s, p)) {
+    m += 30;
+    parts.push('Todesmut +30 (kein Rückzug)');
+  }
+  return { m, t: parts.join(', ') };
+}
+/* Stärke eines Heeres grob schätzen (für die KI) */
+const upow = u => 1 + ((U[u.t] && U[u.t].tier) || 1) + (u.q || 0) * 0.15,
+  rlPow = s =>
+    s
+      ? (S.ai[s - 1].army || []).filter(u => !isK(u)).reduce((a, u) => a + upow(u), 0)
+      : S.units.filter(u => !isK(u)).reduce((a, u) => a + upow(u), 0) + S.stash.length * 0.8,
+  milPow = p => (3 + 2.2 * S.round) * (p && p.own >= 0 ? 1.3 : 1);
+/* Muss ein Heer, das allein nach p zieht, erst die Besatzung schlagen? Neutrale Provinzen, fremde Hauptstädte, Festungen */
+const rlGuard = (p, s) =>
+  p.own !== s && !p.clear && (p.own < 0 || p.cap === p.own || p.bs.some(b => b.k === 'fort'));
+function aiMove(s) {
+  const L = RL(),
+    cur = L.pv[L.at[s]],
+    my = rlPow(s),
+    foeArmy = j => {
+      const f = rlArmyAt(j, s);
+      return f >= 0 && !rlFriends(s, f) ? f : rlDecoy(L.pv[j]) && L.pv[j].own !== s ? L.pv[j].own : -1;
+    },
+    foeNear = p => p.nb.some(j => foeArmy(j) >= 0);
+  if (L.trav[s] != null) return L.trav[s];
+  let best = cur.id,
+    bv = 0.6 + (cur.cap === s && foeNear(cur) ? 2 : 0);
+  cur.nb.forEach(j => {
+    const q = L.pv[j],
+      f = foeArmy(j),
+      fa = rlArmyAt(j, s);
+    if (!rlEnterable(q) || (q.own >= 0 && rlFriends(s, q.own)) || (fa >= 0 && rlFriends(s, fa))) return;
+    let v;
+    if (q.own === s) v = f >= 0 ? 0 : q.cap === s && foeNear(q) ? 2.5 : 0.2;
+    else {
+      const opp = f >= 0 ? rlPow(f) : rlGuard(q, s) ? milPow(q) : 0,
+        gain =
+          2 +
+          q.bs.reduce((a, b) => a + b.lv, 0) +
+          (q.cap >= 0 ? 3 : 0) +
+          (q.own >= 0 ? 1 : 0) +
+          (q.own >= 0 && q.own === L.lead ? 2 : 0);
+      v = opp > my * 0.9 ? -1 : gain * (opp ? 0.8 : 1);
+      if (HEAVY.includes(q.ter)) v *= 0.6;
+    }
+    v += Math.random() * 0.5;
+    if (v > bv) {
+      bv = v;
+      best = j;
+    }
+  });
+  return best;
+}
+/* KI: Silber für Anschluss, Ränke gegen den Führenden */
+function aiPolitics(s) {
+  const L = RL(),
+    buy = L.pv.filter(p => rlCanBuy(s, p)).sort((a, b) => b.bs.length - a.bs.length)[0];
+  if (buy && Math.random() < 0.6) rlBuy(s, buy);
+  if (L.hand[s].includes('intrigue')) {
+    const t = L.pv
+      .filter(p => rlCanPlot(s, p) && !rlFriends(s, p.own))
+      .sort((a, b) => (b.own === L.lead) - (a.own === L.lead) || b.bs.length - a.bs.length)[0];
+    if (t) rlPlot(s, t);
+  }
+}
+
+/* ---------- Gefechte ---------- */
+const rlWx = () => (isWinter() && Math.random() < 0.5 ? 'frost' : rollWx());
+/* KI-Gefecht sofort durchrechnen (wie die Nebenschlachten im Feldzug) */
+function rlSim(p, A, B, mA, mB) {
+  const m = mkMap(rlMapIdx(p)),
+    cp = (a, side) => {
+      const L = a.army.map(u => ({ ...u, pos: null, lost: 0 }));
+      place(L, side, m);
+      return L;
+    };
+  return simulate(cp(A, 0), cp(B, 1), true, bonus(A.col), bonus(B.col), {
+    map: m,
+    w: rlWx(),
+    mor: [100 + mA, 100 + mB]
+  }).out;
+}
+function mkMilitia(p) {
+  const f = p.own > 0 ? S.ai[p.own - 1].fac : p.own === 0 ? S.fac : FK[rnd(FK.length)],
+    m = {
+      n: guardN(p) + (p.own < 0 ? ' (' + PTER[p.ter].n + ')' : ' von ' + rlVon(p.own)),
+      mil: 1,
+      fac: f,
+      chr: [],
+      rek: 1000,
+      stash: [],
+      units: [],
+      col: {},
+      rels: [],
+      rp: [],
+      plan: '',
+      king: { uid: S.uid++, t: 'KNG', s: 1, b: zero(), f: 0, pos: null, el: '', kr: 1, ins: [...WSH] }
+    };
+  [RECF[f].el, RECF[f].hn].filter(Boolean).forEach(t => m.units.push(mk(t, '')));
+  for (let i = 0; i < Math.round((2 + 2 * S.round) * (p.own >= 0 ? 1.3 : 1)); i++)
+    aiTake(m, roll(rEq(S.round)));
+  aiBuild(m, rEq(S.round));
+  return m;
+}
+/* Verlierer zieht sich zurück: eigene Nachbarprovinz ohne Feind, sonst Hauptstadt, sonst irgendeine eigene */
+function rlRetreat(s, p) {
+  const L = RL(),
+    own = L.pv.filter(q => q.own === s && q.id !== p.id),
+    nb = own.filter(q => p.nb.includes(q.id) && rlArmyAt(q.id, s) < 0),
+    cap = own.find(q => q.cap === s),
+    t = nb[0] || cap || own[0];
+  if (t) L.at[s] = t.id;
+}
+/* Ausgang einer Schlacht in Provinz p; a = Angreifer, d = Verteidiger (−1 = Besatzung) */
+function rlOutcome(p, a, d, aWins) {
+  const L = RL(),
+    where = ` (${PTER[p.ter].n})`;
+  if (aWins) {
+    L.wins[a]++;
+    rlMor(a, 1);
+    if (d < 0) p.clear = true;
+    else {
+      rlMor(d, -1);
+      rlRetreat(d, p);
+    }
+    rlEv(
+      `${rlName(a)} ${rlV(a, 'schlägt', 'schlägst', 'schlagen')} ${d < 0 ? 'die ' + guardN(p) : rlAcc(d)}${where}.`
+    );
+  } else {
+    if (d >= 0) {
+      L.wins[d]++;
+      rlMor(d, 1);
+    }
+    rlMor(a, -1);
+    L.at[a] = L.from[a];
+    rlEv(
+      `${rlName(a)} ${rlV(a, 'scheitert', 'scheiterst', 'scheitern')} an ${d < 0 ? 'der ' + guardN(p) : rlVon(d)}${where}.`
+    );
+  }
+}
+function rlFight(p, a, d) {
+  if (a === 0 || d === 0) {
+    RL().pend = { p: p.id, a, d };
+    return;
+  }
+  const A = S.ai[a - 1],
+    B = d < 0 ? mkMilitia(p) : S.ai[d - 1];
+  rlOutcome(p, a, d, rlSim(p, A, B, rlMorale(a, p).m, d < 0 ? 0 : rlMorale(d, p).m) === 'win');
+}
+function realmEnd() {
+  const L = RL(),
+    n = SEATS();
+  realmAutoPick();
+  for (let s = 1; s < n; s++)
+    if (rlAlive(s)) {
+      aiBuildPlans(s);
+      aiPolitics(s);
+      L.mv[s] = aiMove(s);
+      L.mode[s] = rlTargets(s).get(L.mv[s]) || '';
+    }
+  if (L.mv[0] == null) L.mv[0] = L.at[0];
+  L.from = L.at.slice();
+  /* Berge und Sumpf: zwei Runden Marsch – diese Runde bleibt das Heer stehen (Gewaltmarsch umgeht das nicht) */
+  for (let s = 0; s < n; s++) {
+    if (!rlAlive(s)) continue;
+    const t = L.mv[s];
+    if (L.trav[s] != null) L.trav[s] = null;
+    else if (t !== L.at[s] && HEAVY.includes(L.pv[t].ter)) {
+      L.trav[s] = t;
+      L.mv[s] = L.at[s];
+      rlEv(
+        `${rlName(s)} ${rlV(s, 'marschiert', 'marschierst', 'marschieren')} ${L.pv[t].ter === 'berge' ? 'ins Gebirge' : 'in den Sumpf'} – Ankunft nächste Runde.`
+      );
+    }
+  }
+  for (let s = 0; s < n; s++) if (rlAlive(s)) L.at[s] = L.mv[s] ?? L.at[s];
+  /* Begegnungen: zwei Heere in einer Provinz oder ein Heer gegen die Besatzung */
+  L.pv.forEach(p => {
+    const here = [];
+    for (let s = 0; s < n; s++) if (rlAlive(s) && L.at[s] === p.id) here.push(s);
+    if (here.length >= 2) {
+      here.sort((a, b) => (b === p.own) - (a === p.own) || (L.from[b] === p.id) - (L.from[a] === p.id));
+      const d = here[0],
+        a = here[1];
+      here.slice(2).forEach(x => (L.at[x] = L.from[x]));
+      if (rlFriends(a, d)) L.at[a] = L.from[a];
+      else rlFight(p, a, d);
+    } else if (here.length === 1 && rlGuard(p, here[0])) {
+      const s = here[0];
+      /* Kapitulation: gegen große Übermacht ergibt sich die Besatzung */
+      if (rlPow(s) > RLC.surr * milPow(p)) {
+        p.clear = true;
+        rlEv(`Die ${guardN(p)} in ${PTER[p.ter].n} ergibt sich ${s ? rlName(s) : 'dir'} kampflos.`);
+      } else rlFight(p, s, -1);
+    }
+    /* eine Attrappe fliegt auf, sobald ein Fremder hineinzieht */
+    if (p.bs.some(b => b.k === 'decoy') && here.some(s => s !== p.own)) {
+      p.bs = p.bs.filter(b => b.k !== 'decoy');
+      rlEv(`Die Lager-Attrappe in ${PTER[p.ter].n} fliegt auf.`);
+    }
+  });
+  if (!L.pend) realmFinish();
+  else realmBattle();
+}
+/* Schanzen der Festung, Anhöhe im Hügelland – jeweils im Streifen des Verteidigers */
+function rlFortify(m, side) {
+  for (let i = 0; i < 3; i++) {
+    const x = 25 + i * 35 + Math.random() * 6,
+      y = side ? GH - ZY - 4 : ZY + 4;
+    m.mods.push({ k: 'X', x: +x.toFixed(1), y: +y.toFixed(1), r: 4.5 });
+  }
+}
+function rlHeights(m, side) {
+  for (let i = 0; i < 2; i++)
+    m.mods.push({ k: 'H', x: 30 + i * 60 + Math.random() * 10, y: side ? GH - ZY - 8 : ZY + 8, r: 13 });
+}
+/* deine Schlacht: wie eine normale Runde, nur ohne Stein-Draft */
+function realmBattle() {
+  const L = RL(),
+    E = L.pend,
+    p = L.pv[E.p],
+    fs = E.a === 0 ? E.d : E.a,
+    foe = fs >= 0 ? S.ai[fs - 1] : mkMilitia(p),
+    dSide = E.d === 0 ? 0 : 1;
+  E.foe = foe;
+  S.map = mkMap(rlMapIdx(p));
+  if (p.bs.some(b => b.k === 'fort') && (E.d < 0 || p.own === E.d)) rlFortify(S.map, dSide);
+  if (HIGH.includes(p.ter)) rlHeights(S.map, dSide);
+  S.wx = rlWx();
+  S.wxUsed = false;
+  S.orders = [];
+  S.forts = 0;
+  S.fort1 = 0;
+  S.picks = 0;
+  S.extra = 0;
+  S.dr = { p: 0, packs: [], pk: 0, bon: false };
+  S.booster = [];
+  S.pend = -1;
+  S.units.forEach(u => {
+    u.pos = null;
+    u.lost = 0;
+    if (isK(u)) u.kr = S.round;
+  });
+  place(S.units.filter(isK), 0, S.map);
+  S.opp = foe;
+  S.ename = foe.n + (foe.fac ? ' · ' + FAC[foe.fac].n : '');
+  S.prev = false;
+  S.selE = null;
+  S.aiOrd = [];
+  aiBuild(foe, rEq(S.round));
+  syncPieces(true);
+  /* Moral beider Seiten, Aufklärung durch Wachtürme */
+  const mm = rlMorale(0, p),
+    fm = fs >= 0 ? rlMorale(fs, p) : { m: 0, t: '' };
+  S.rlm0 = mm.m;
+  foe.rlm = fm.m;
+  S.rlScout = rlScout(p.id);
+  S.enemy = foe.army;
+  S.phase = 'build';
+  S.step = 'build';
+  S.msg = `Schlacht um ${PTER[p.ter].n} (${S.map.n}): ${E.a === 0 ? 'Du greifst an' : 'Du verteidigst'} gegen ${S.ename}. Wetter: ${WX[S.wx].n}.${
+    HIGH.includes(p.ter) ? ' Der Verteidiger hält die Anhöhe.' : ''
+  }${mm.t ? ' Deine Moral: ' + mm.t + '.' : ''}${fm.t ? ' Gegner: ' + fm.t + '.' : ''} ${
+    S.rlScout
+      ? 'Dein Wachturm späht den Gegner aus.'
+      : 'Ohne Aufklärung kämpfst du blind (Wachturm oder Silber).'
+  }`;
+}
+/* nach deiner Schlacht (aus next()) */
+function realmAfter(o) {
+  const L = RL(),
+    E = L.pend,
+    p = L.pv[E.p];
+  rlOutcome(p, E.a, E.d, (E.a === 0) === (o === 'win'));
+  if (E.foe && E.foe.mil) delete S.tab[E.foe.n];
+  S.rlm0 = 0;
+  S.rlScout = false;
+  L.pend = null;
+  realmFinish();
+}
+/* Eroberung oder Plünderung, Einkesseln, Punkte, nächste Runde */
+function realmFinish() {
+  const L = RL();
+  for (let s = 0; s < SEATS(); s++) {
+    if (!rlAlive(s)) continue;
+    const p = L.pv[L.at[s]];
+    if (p.own === s || rlGuard(p, s)) continue;
+    /* Plündern: Steine mitnehmen, Gebäude verlieren eine Stufe, das Heer kehrt zurück */
+    if (L.mode[s] === 'raid' && p.own >= 0) {
+      let n = 0;
+      p.bs.forEach(b => {
+        const pr = bProd(b, p);
+        if (pr)
+          for (let i = 0; i < 2 * Math.max(1, pr.n); i++, n++)
+            rlGive(s, { type: 'st', k: pr.k, q: pr.q || 1 });
+        b.lv--;
+      });
+      p.bs = p.bs.filter(b => b.lv > 0);
+      p.clear = false;
+      rlMor(p.own, -1);
+      rlEv(
+        `${rlName(s)} ${rlV(s, 'plündert', 'plünderst', 'plündern')} ${PTER[p.ter].n} von ${rlVon(p.own)}: ${n} Steine Beute.`
+      );
+      L.at[s] = L.from[s];
+      continue;
+    }
+    const old = p.own;
+    p.own = s;
+    p.clear = false;
+    p.sg = 0;
+    if (p.bs.some(b => b.k === 'fort')) p.bs = p.bs.filter(b => b.k !== 'fort');
+    if (old >= 0) rlMor(old, -1);
+    const what =
+      p.cap === s
+        ? rlV(s, 'seine', 'deine', 'ihre') + ' Hauptstadt zurück'
+        : p.cap >= 0
+          ? p.cap
+            ? 'die Hauptstadt von ' + rlVon(p.cap)
+            : 'deine Hauptstadt'
+          : PTER[p.ter].n + (old >= 0 ? ' von ' + rlVon(old) : '');
+    rlEv(`${rlName(s)} ${rlV(s, 'erobert', 'eroberst', 'erobern')} ${what}.`);
+  }
+  rlSiege();
+  for (let s = 1; s < SEATS(); s++)
+    if (!rlAlive(s) && !(L.out || []).includes(s)) {
+      (L.out = L.out || []).push(s);
+      rlEv(
+        `${rlName(s)} ${rlV(s, 'hat', 'hast', 'haben')} keine Provinz mehr und ${rlV(s, 'scheidet', 'scheidest', 'scheiden')} aus.`
+      );
+    }
+  /* Reichsmoral kehrt langsam zur Mitte zurück */
+  if (S.round % 2 === 0) L.mor = L.mor.map(m => m - Math.sign(m));
+  L.last = L.ev;
+  L.ev = [];
+  S.round++;
+  if (S.round > NB() || !rlAlive(0) || !S.ai.some((_, i) => rlAlive(i + 1))) return realmOver();
+  realmRound();
+}
+/* Einkesseln: eine Provinz ohne eigenes Heer, deren Nachbarn alle fremd sind, ergibt sich nach RLC.siege Runden */
+function rlSiege() {
+  const L = RL();
+  L.pv.forEach(p => {
+    if (p.own < 0 || L.at[p.own] === p.id || p.nb.some(j => L.pv[j].own === p.own || L.pv[j].own < 0)) {
+      p.sg = 0;
+      return;
+    }
+    if (++p.sg < RLC.siege) {
+      rlEv(`${PTER[p.ter].n} von ${rlVon(p.own)} ist eingekesselt.`);
+      return;
+    }
+    const cnt = {};
+    p.nb.forEach(j => (cnt[L.pv[j].own] = (cnt[L.pv[j].own] || 0) + 1));
+    const t = +Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])[0],
+      old = p.own;
+    p.own = t;
+    p.sg = 0;
+    rlMor(old, -1);
+    rlEv(`${PTER[p.ter].n} ergibt sich nach der Einkesselung ${t ? rlName(t) : 'dir'} – ohne Kampf.`);
+  });
+}
+const rlScore = s => {
+  const L = RL();
+  return (
+    L.pv.filter(p => p.own === s).length + 2 * L.pv.filter(p => p.own === s && p.cap >= 0).length + L.wins[s]
+  );
+};
+const rlRank = () => Array.from({ length: SEATS() }, (_, s) => s).sort((a, b) => rlScore(b) - rlScore(a));
+function realmOver() {
+  S.phase = 'over';
+  S.step = 'realm';
+  const r = rlRank();
+  S.won = r[0] === 0;
+  S.msg = !rlAlive(0)
+    ? '<b>Dein Reich ist gefallen.</b>'
+    : S.won
+      ? `<b>Sieg!</b> Dein Reich steht nach ${NB()} Runden an der Spitze.`
+      : `<b>Feldzug beendet.</b> Platz ${r.indexOf(0) + 1}.`;
+}
 
 /* Autobattler · Grafiken: Plaketten, Steine, Symbole */
 const RIM = ['', '#b07a3a', '#d3d9e1', '#f2c64c'];
@@ -14477,7 +15571,11 @@ function scrollView() {
   });
 }
 function render() {
-  keepFocus(render0);
+  keepFocus(() => {
+    render0();
+    realmRender();
+    lbSync();
+  });
 }
 function render0() {
   const B = S.phase === 'build',
@@ -15548,12 +16646,25 @@ const lbRule = () =>
   `Punkte: Sieg ${SCORE.win}, Unentschieden ${SCORE.draw}, Niederlage ${SCORE.loss}, Feldzug gewonnen (Platz 1 der Rangliste) +${SCORE.camp}.`;
 /* am Ende des Feldzugs: Ergebnis, Eintragen, Liste */
 function lbOver() {
+  if (S.realm) return '';
   const r = runRes();
-  return `<h3 class="sbh">Bestenliste</h3><p>Dein Ergebnis: <b>${runPts(r)} Punkte</b> (${r.w} Siege, ${r.d} Unentschieden, ${r.l} Niederlagen${r.won ? ', Feldzug gewonnen' : ''}).</p>${
-    LB.sent
-      ? '<p class="note">Eingetragen.</p>'
-      : `<div class="lbf"><input id="lbn" maxlength="${NAMEMAX}" placeholder="Dein Name" value="${esc(LB.draft ?? lbName())}" autocomplete="nickname" enterkeyhint="send"><button class="btn pri" data-a="lbSend">Eintragen</button></div>`
-  }${lbTable()}<p class="note">${lbRule()}</p>`;
+  return `<h3 class="sbh">Bestenliste</h3><p>Dein Ergebnis: <b>${runPts(r)} Punkte</b> (${r.w} Siege, ${r.d} Unentschieden, ${r.l} Niederlagen${r.won ? ', Feldzug gewonnen' : ''}).</p>`;
+}
+/* Eingabefeld und Liste stehen außerhalb des neu gezeichneten Bereichs: Das Feld wird nie ersetzt,
+   so bleibt die Handy-Tastatur offen, egal was gerade neu gezeichnet wird. */
+function lbSync() {
+  const box = $('lbBox'),
+    list = $('lbList'),
+    inp = $('lbn');
+  if (!box || !list || !inp) return;
+  const on = S.phase === 'over' && !S.realm;
+  box.hidden = !on || LB.sent;
+  if (on && !LB.sent && document.activeElement !== inp && !inp.value) inp.value = LB.draft ?? lbName();
+  inp.maxLength = NAMEMAX;
+  const html = on
+    ? `${LB.sent ? '<p class="note">Eingetragen.</p>' : ''}${lbTable()}<p class="note">${lbRule()}</p>`
+    : '';
+  if (list.innerHTML !== html) list.innerHTML = html;
 }
 /* Seitenleiste: Bestenliste zum Aufklappen */
 const lbSide = () =>
@@ -16380,6 +17491,7 @@ const startTitle = () => `<div class="stt" data-a="stGo">
 const startMode = () => `<div class="stbox"><h1>Die Kampagne</h1>
     <button class="btn main stbig" data-a="stSP">⚔ Einzelspiel<small>Gegen KI-Heere, Feldzug selbst einrichten</small></button>
     <button class="btn stbig" data-a="stMP">👥 Mehrspieler<small>Mit Freunden, jeder spielt, wann er Zeit hat</small></button>
+    ${REALM_TEST ? '<button class="btn stbig" data-a="stRealm">🗺 Eroberung <small>Test: Karte, Provinzen, Gebäude-Draft</small></button>' : ''}
     <button class="btn stbig" data-a="stLB">🏆 Bestenliste</button>
     <div class="stfoot in"><button class="btn sm" data-a="stLog">Was ist neu?</button><span class="ver">Version ${VERSION}</span></div></div>`;
 const startLog = () =>
@@ -16421,7 +17533,16 @@ const STARTA = {
   },
   stBack: () => startShow(START.from && START.from !== 'log' && START.from !== 'lb' ? START.from : 'mode'),
   stSP: () => {
-    if (S.mp || S.fac) newRun();
+    REALM.on = false;
+    newRun();
+    START.v = '';
+    startRender();
+  },
+  stRealm: () => {
+    REALM.on = true;
+    newRun();
+    S.msg =
+      'Eroberung (Test): Wähle dein Volk. Auf der Karte ziehst du mit deinem Heer, eroberst Provinzen und baust Gebäude, die dir Steine liefern – das Gelände bestimmt ihre Güte.';
     START.v = '';
     startRender();
   },
@@ -16456,6 +17577,248 @@ const STARTA = {
       mpForget(MP.id);
       mpLeave();
     } else newRun();
+    startShow('mode');
+  }
+};
+
+/* Kampagnenmodus „Eroberung“ (Test) · Oberfläche: Karte mit Nebel, Gebäude-Draft, Bauen, Ziehen, Politik */
+const rlOn = () => !!(S && S.realm && S.step === 'realm');
+const stoneTxt = st => (RES[st.k].el ? RES[st.k].n + '-Stein' : GRN[st.k][stQ(st) - 1]);
+/* Was ein Plan bringt, kurz */
+function planTxt(k, p) {
+  const B = BLD[k];
+  if (!B.k) return B.d;
+  if (B.el)
+    return `${RES[B.k].n}-Steine${p ? (terQ(p.ter, B.k) === 3 ? ' jede Runde' : ' jede 2. Runde') : ''}`;
+  return p
+    ? `1× ${GRN[B.k][terQ(p.ter, B.k) - 1]} je Runde (Güte ${terQ(p.ter, B.k)})`
+    : `${FAMN[B.k]} – Güte nach Gelände`;
+}
+/* Heeresgröße, wie ein Späher sie meldet */
+const sizeTxt = s => {
+  const v = rlPow(s);
+  return v < 10 ? 'klein' : v < 20 ? 'mittel' : 'groß';
+};
+function rlMapSVG() {
+  const L = RL(),
+    V = rlVis(0),
+    s = 10,
+    w = Math.sqrt(3) * s,
+    W = (L.C + 0.5) * w + 2,
+    H = (L.R - 1) * 1.5 * s + 2 * s + 2,
+    cx = p => 1 + w / 2 + p.c * w + (p.r & 1 ? w / 2 : 0),
+    cy = p => 1 + s + p.r * 1.5 * s,
+    hex = (p, f = 0.97) =>
+      Array.from({ length: 6 }, (_, i) => {
+        const a = (Math.PI / 180) * (60 * i - 30);
+        return `${(cx(p) + s * f * Math.cos(a)).toFixed(2)},${(cy(p) + s * f * Math.sin(a)).toFixed(2)}`;
+      }).join(' '),
+    tgt = L.trav[0] != null ? L.pv[L.trav[0]] : L.mv[0] != null && L.mv[0] !== L.at[0] ? L.pv[L.mv[0]] : null,
+    a0 = L.pv[L.at[0]],
+    T = S.phase === 'build' ? rlTargets(0) : new Map(),
+    bIc = b => ({ fort: '♜', tower: '◬', decoy: '' })[b.k] ?? '⚒' + (b.lv > 1 ? '²' : '');
+  let g = '';
+  L.pv.forEach(p => {
+    const own = p.own >= 0,
+      seen = V.has(p.id),
+      reach = T.has(p.id) && p.id !== L.at[0];
+    g += `<g data-a="rSel" data-v="${p.id}" class="rlh${p.id === L.sel ? ' sel' : ''}${reach ? ' reach' : ''}">
+      <polygon points="${hex(p)}" fill="${PTER[p.ter].c}" stroke="${own ? SCOL[p.own] : '#1a0c0e'}" stroke-width="${own ? 1.6 : 0.6}"/>
+      ${seen ? '' : `<polygon points="${hex(p, 0.9)}" class="rlfog"/>`}
+      ${p.cap >= 0 ? `<text x="${cx(p)}" y="${cy(p) - 4.6}" class="rlt cap">★</text>` : ''}
+      ${seen && p.bs.length ? `<text x="${cx(p)}" y="${cy(p) + 8.4}" class="rlt b">${p.bs.map(bIc).join('')}</text>` : ''}
+      ${p.sg ? `<text x="${cx(p) + 5.5}" y="${cy(p) - 3}" class="rlt sg">⌛</text>` : ''}
+      ${reach && T.get(p.id) === 'march' ? `<text x="${cx(p) - 5.5}" y="${cy(p) - 3}" class="rlt sg">»</text>` : ''}
+    </g>`;
+  });
+  if (tgt)
+    g += `<line x1="${cx(a0)}" y1="${cy(a0)}" x2="${cx(tgt)}" y2="${cy(tgt)}" class="rlmv${L.trav[0] != null ? ' slow' : ''}" marker-end="url(#rlar)"/>`;
+  /* Heere: eigene immer, fremde nur im Sichtfeld; Attrappen sehen für andere aus wie Heere */
+  const mark = (p, i, dx, fake) =>
+    `<circle cx="${cx(p) + dx}" cy="${cy(p) + 1}" r="3.3" fill="${SCOL[i]}" stroke="${fake && !i ? '#fff' : '#1a0c0e'}" stroke-width="0.7"${fake && !i ? ' stroke-dasharray="1 0.7"' : ''} pointer-events="none"/><text x="${cx(p) + dx}" y="${cy(p) + 2.4}" class="rlt a" pointer-events="none">${i ? rlName(i)[0] : 'Du'}</text>`;
+  for (let i = 0; i < SEATS(); i++) {
+    if (!rlAlive(i)) continue;
+    const p = L.pv[L.at[i]];
+    if (i && !V.has(p.id)) continue;
+    g += mark(p, i, rlArmyAt(p.id, i) >= 0 && i ? 3 : 0);
+  }
+  L.pv.forEach(p => rlDecoy(p) && (p.own === 0 || V.has(p.id)) && (g += mark(p, p.own, 0, 1)));
+  return `<div class="rleg2">${Object.keys(PTER)
+    .map(k => `<span><i style="background:${PTER[k].c}"></i>${PTER[k].n}</span>`)
+    .join(
+      ''
+    )}<span>★ Hauptstadt · ⚒ Gebäude · ♜ Festung · ◬ Wachturm · ⌛ eingekesselt · » Gewaltmarsch · dunkel = Nebel</span></div><svg class="rlmap" viewBox="0 0 ${W.toFixed(1)} ${H.toFixed(1)}"><defs><marker id="rlar" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0,0L6,3L0,6z" fill="#fff"/></marker></defs>${g}</svg>`;
+}
+const rlBtn = (a, v, t, on, off) =>
+  `<button class="btn${on ? ' on' : ''}" data-a="${a}" data-v="${v}"${off ? ' disabled' : ''}>${t}</button>`;
+/* Aktionen für die gewählte Provinz */
+function rlActs(p) {
+  const L = RL(),
+    T = S.phase === 'build' ? rlTargets(0) : new Map(),
+    act = [];
+  if (T.has(p.id)) {
+    const on = (L.mv[0] ?? L.at[0]) === p.id;
+    if (L.trav[0] != null)
+      act.push(rlBtn('x', p.id, `Heer ist unterwegs – kommt diese Runde in ${PTER[p.ter].n} an`, true, true));
+    else if (p.id === L.at[0]) act.push(rlBtn('rMove', p.id, 'Heer bleibt hier', on));
+    else {
+      const m = T.get(p.id) === 'march',
+        note = [
+          HEAVY.includes(p.ter) ? 'dauert 2 Runden' : '',
+          m ? '2 Felder, Moral −15' : '',
+          !rlSupplied(0, p.id) ? 'ohne Versorgung: Moral −20' : ''
+        ].filter(Boolean);
+      act.push(
+        rlBtn(
+          'rMove',
+          p.id,
+          `${m ? '» Gewaltmarsch' : '⚔ Heer hierhin ziehen'}${note.length ? ` <small>${note.join(' · ')}</small>` : ''}`,
+          on && L.mode[0] !== 'raid'
+        )
+      );
+      if (p.own > 0 && p.bs.length && !m && !HEAVY.includes(p.ter))
+        act.push(
+          rlBtn(
+            'rRaid',
+            p.id,
+            '⚑ Plündern <small>Steine erbeuten, Gebäude −1 Stufe, Heer kehrt zurück</small>',
+            on && L.mode[0] === 'raid'
+          )
+        );
+    }
+  }
+  if (S.phase !== 'build') return act;
+  if (rlCanBuy(0, p))
+    act.push(
+      rlBtn('rBuy', p.id, `Mit Silber anschließen <small>${RLC.buy} Silber-Steine, ohne Kampf</small>`)
+    );
+  else if (p.own < 0 && p.nb.some(j => L.pv[j].own === 0) && rlArmyAt(p.id, 0) < 0)
+    act.push(
+      rlBtn('x', p.id, `Anschluss mit Silber <small>braucht ${RLC.buy} Silber-Steine</small>`, false, true)
+    );
+  if (rlVis(0).has(p.id) && rlCanPlot(0, p))
+    act.push(rlBtn('rPlot', p.id, 'Ränke: Aufstand anzetteln <small>Provinz wird neutral</small>'));
+  if (p.own === 0)
+    L.hand[0].forEach((k, i) => {
+      if (canBuild(p, k))
+        act.push(
+          rlBtn(
+            'rBuild',
+            `${p.id}:${i}`,
+            `${p.bs.some(b => b.k === k) ? 'Ausbauen' : 'Bauen'}: ${BLD[k].n} <small>${planTxt(k, p)}</small>`
+          )
+        );
+    });
+  return act;
+}
+function rlInfo() {
+  const L = RL(),
+    p = L.pv[L.sel];
+  if (!p) return '';
+  const seen = rlVis(0).has(p.id),
+    f = seen ? rlArmyAt(p.id, -1) : -1,
+    fake = seen && rlDecoy(p) && p.own !== 0,
+    good = Object.keys(TQ).filter(k => terQ(p.ter, k) === 3),
+    who =
+      f >= 0
+        ? f
+          ? `${rlName(f)} (${sizeTxt(f)})`
+          : 'dein Heer'
+        : fake
+          ? `${rlName(p.own)} (${sizeTxt(p.own)})`
+          : '';
+  return `<div class="rlinfo"><b>${PTER[p.ter].n}</b>${p.cap >= 0 ? ` · Hauptstadt von ${rlName(p.cap)}` : ''} · ${
+    p.own >= 0
+      ? `<span style="color:${SCOL[p.own]}">${p.own ? rlName(p.own) : 'dein Land'}</span>`
+      : 'neutral (Miliz)'
+  }${who ? ' · Heer: ' + who : ''}${p.sg ? ` · eingekesselt (${p.sg}/${RLC.siege})` : ''}
+  <p class="note">${
+    seen
+      ? `Bauplätze ${p.bs.length}/${p.slots}${p.bs.length ? ': ' + p.bs.map(b => `${BLD[b.k].n}${b.lv > 1 ? ' St. 2' : ''}${bProd(b, p) ? ' → ' + planTxt(b.k, p).replace('1×', b.lv + '×') : ''}`).join(', ') : ''}. `
+      : 'Im Nebel – Gebäude und Heere unbekannt. '
+  }Beste Güte hier: ${good.map(k => (RES[k].el ? RES[k].n : GRN[k][2])).join(', ') || '–'}.${
+    HEAVY.includes(p.ter)
+      ? ' Marsch hierher dauert 2 Runden' + (isWinter() ? ', im Winter unpassierbar' : '') + '.'
+      : ''
+  }${HIGH.includes(p.ter) ? ' Verteidiger hält die Anhöhe.' : ''}</p>
+  <div class="rlact">${rlActs(p).join('')}</div></div>`;
+}
+function rlDraft() {
+  const L = RL(),
+    D = L.dr,
+    hand = L.hand[0].length
+      ? `<p class="note">Deine Pläne: ${L.hand[0].map(k => `<b>${BLD[k].n}</b>`).join(', ')} – Provinz antippen, um zu bauen (${RLC.cost} einfache Steine)${L.hand[0].includes('intrigue') ? '; Ränke wirkst du auf eine fremde Provinz ohne Heer' : ''}.</p>`
+      : '';
+  if (!D || D.done)
+    return `<h3 class="sbh">Baupläne</h3>${hand || '<p class="note">Keine Pläne auf der Hand.</p>'}`;
+  return `<h3 class="sbh">Bauplan wählen <span class="note">Zug ${D.pick + 1}/${RLC.picks} · der Rest geht an ${rlName(1 % SEATS())}</span></h3><div class="rlplans">${D.packs[0]
+    .map(
+      (k, i) =>
+        `<button class="btn rlplan${BLD[k].rare ? ' rare' : ''}" data-a="rPick" data-v="${i}"><b>${BLD[k].n}</b><small>${planTxt(k)}${BLD[k].rare ? ' · selten' : ''}</small></button>`
+    )
+    .join('')}</div>${hand}`;
+}
+function rlTop() {
+  const L = RL(),
+    se = SEASON[season(Math.min(S.round, NB()))];
+  return `<div class="rltop"><b>Eroberung (Test)</b> · Runde ${Math.min(S.round, NB())}/${NB()} · <b>${se.n}</b> <span class="note">${se.d}</span><div class="rlsc">${rlRank()
+    .map(
+      s =>
+        `<span style="border-color:${SCOL[s]}">${s ? esc(rlName(s)) : 'Du'} <b>${rlScore(s)}</b>${L.mor[s] ? ` <small>Moral ${L.mor[s] > 0 ? '+' : ''}${L.mor[s]}</small>` : ''}</span>`
+    )
+    .join('')}</div><p class="note">Punkte: Provinz 1, Hauptstadt +2, Schlachtsieg 1.${
+    L.lead >= 0 ? ` <b>Bündnis</b> gegen ${rlName(L.lead)}: ${L.bund.map(rlName).join(', ')}.` : ''
+  }</p></div>`;
+}
+function realmHTML() {
+  const L = RL();
+  if (S.phase === 'over')
+    return `${rlTop()}<p>${S.msg}</p>${rlMapSVG()}<button class="btn main" data-a="rQuit">Zum Hauptmenü</button>`;
+  const st = S.stash.filter(x => x.type === 'st'),
+    warn = [];
+  if (!rlSupplied(0)) warn.push('Dein Heer steht ohne Versorgung (Moral −20).');
+  if (L.upk) warn.push(`Kriegsmüdigkeit: ${L.upk} Stein(e) Unterhalt für dein großes Heer.`);
+  const endT =
+    L.trav[0] != null
+      ? 'Runde beenden – Heer kommt an'
+      : L.mv[0] != null && L.mv[0] !== L.at[0]
+        ? L.mode[0] === 'raid'
+          ? 'Runde beenden – Heer plündert'
+          : 'Runde beenden – Heer zieht'
+        : 'Runde beenden';
+  return `${rlTop()}${S.msg ? `<p class="rlmsg">${S.msg}</p>` : ''}${warn.length ? `<p class="rlmsg">${warn.join(' ')}</p>` : ''}${
+    L.last.length
+      ? `<details class="rlrep"${S.round > 1 ? ' open' : ''}><summary>Letzte Runde</summary><ul>${L.last.map(t => `<li>${t}</li>`).join('')}</ul></details>`
+      : ''
+  }${rlMapSVG()}${rlInfo()}${rlDraft()}
+  <p class="note">Ertrag dieser Runde: ${L.inc.map(stoneTxt).join(', ') || '–'}. Vorrat: ${st.length} Steine, davon ${st.filter(x => x.k === 's').length} Silber – Truppen baust du vor deiner nächsten Schlacht.</p>
+  <button class="btn main rlend" data-a="rEnd">${endT}</button>`;
+}
+function realmRender() {
+  if (typeof document === 'undefined' || !document.body) return;
+  const on = rlOn();
+  document.body.classList.toggle('realmOn', on);
+  const el = $('realmP');
+  if (el) el.innerHTML = on ? realmHTML() : '';
+}
+const RLA = {
+  rSel: v => (RL().sel = +v),
+  rPick: v => realmPick(+v),
+  rMove: v => realmMove(+v),
+  rRaid: v => realmMove(+v, true),
+  rBuy: v => rlBuy(0, RL().pv[+v]),
+  rPlot: v => rlPlot(0, RL().pv[+v]),
+  rBuild: v => {
+    const [p, i] = v.split(':').map(Number);
+    realmBuild(p, i);
+  },
+  rEnd: () => {
+    S.msg = '';
+    realmEnd();
+  },
+  rQuit: () => {
+    REALM.on = false;
+    newRun();
     startShow('mode');
   }
 };
@@ -16577,6 +17940,11 @@ document.addEventListener('click', e => {
   const a = el.dataset.a,
     v = el.dataset.v;
   if (Date.now() < SUPP) return;
+  if (RLA[a]) {
+    RLA[a](v, el);
+    render();
+    return;
+  }
   if (STARTA[a]) {
     STARTA[a](v, el);
     return;
